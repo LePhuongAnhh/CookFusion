@@ -15,15 +15,16 @@
 }
 
 .home_container {
-    padding: 0 40px 0 2px;
-    flex: 1 1;
+    padding: 0 25px 0 20px;
+    /* overflow: hidden; */
 }
 
 .home_gird {
     max-width: 1920px;
     width: 100%;
-    padding: 0;
+    /* padding: 0; */
     margin-left: 58px;
+    overflow-x: hidden;
 }
 
 .home_slideshow {
@@ -85,15 +86,14 @@ button:hover {
 
 .home_article {
     max-width: 1400px;
-    width: 97.5%;
-    padding: 0 24px;
+    width: 100%;
+    padding: 45px 30px;
     box-sizing: border-box;
-    margin: 55px 2px;
 }
 
 .feature_article {
     display: flex;
-    margin-left: 28px;
+    /* margin-left: 28px; */
     align-items: center;
     margin-bottom: 10px;
     /* background-color: aliceblue; */

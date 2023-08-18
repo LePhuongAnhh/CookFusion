@@ -41,8 +41,6 @@
     }
 }
 
-
-
 /* Animated heading border */
 @keyframes primary-short {
     0% {
@@ -73,6 +71,7 @@
     height: 215px;
     position: relative;
     display: flex;
+    box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.2);
 }
 
 .footer_left {
@@ -260,25 +259,23 @@
     cursor: pointer;
 }
 
-
 .copyright {
-    padding: 15px 0;
+    padding: 5px 0;
     margin-top: 5px;
-    background-color: #202020;
+    /* background-color: #202020; */
 }
 
-.row{
+.row {
     display: flex;
     width: 100%;
 }
-.row_left{
+.row_left {
     width: 50%;
     margin-left: 40px;
     cursor: pointer;
-
 }
 
-.row_right{
+.row_right {
     width: 50%;
     float: right;
     margin-left: 480px;
@@ -297,5 +294,4 @@
 .copyright_menu li {
     display: inline-block;
     padding-left: 20px;
-    
 }

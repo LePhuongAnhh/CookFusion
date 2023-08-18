@@ -8,9 +8,9 @@
     background: #fff;
     height: 75px;
     align-items: center;
-    /* background-color: #a59797; */
     border-bottom: 1px solid #e8ebed;
     display: flex;
+    width: 100%;
     font-size: 1.2rem;
     left: 0;
     padding: 0 35px;
@@ -22,7 +22,8 @@
 }
 
 .nav_left {
-    flex: 1 1;
+    /* flex: 1 1; */
+    width: 33.3%;
     align-items: center;
     display: flex;
 }
@@ -79,7 +80,7 @@ a:visited {
 }
 
 .nav_action {
-    flex: 1 1;
+    width: 33.3%;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -141,11 +142,30 @@ input {
 }
 
 .nav_right {
-    flex: 1 1;
+    width: 33.3%;
     align-items: center;
     display: flex;
     justify-content: flex-end;
+    /* margin: 0 10px; */
+    padding: 0 8px
 }
+
+
+.nav_right .pulse {
+    /* padding-left:10px ; */
+    margin-left: 8px;
+}
+
+
+
+ .right_login
+
+
+
+
+
+
+
 
 /* responsive */
 .nav_left_res {
