@@ -68,6 +68,7 @@ const HomepageForm = () => {
                                                 </div>
                                             </Link>
                                         </div>
+
                                         <Link to="#" className={style.article_hidden_description}>
                                             <div className={style.img_wrapper}>
                                                 <img className={style.feature_article_image} width="1300" src={img_article} />
@@ -89,15 +90,59 @@ const HomepageForm = () => {
                                             <p className={style.article_description}>If your kids have some basic kitchen skills, why not let them make dinner?</p>
                                         </div>
                                     </Link> */}
+
+                                    {/* <div className={style.gallery}>
+                                        <ul className={style.cards}>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                            <li><img src={img_article} /></li>
+                                        </ul>
+                                    </div> */}
+
                                     <div>
                                     </div>
                                 </div>
                                 <div className={style.recipe_gird}></div>
                             </div>
+
+                            <div className={style.content_show}>
+                                <div className={style.box}>
+                                    <img src={img_article} />
+                                    <div className={style.title_box}></div>
+                                    <div className={style.name}>Name</div>
+                                </div>
+                                <div className={style.box}>
+                                    <img src={img_article} />
+                                    <div className={style.title_box}></div>
+                                    <div className={style.name}>Name</div>
+                                </div>
+                                <div className={style.box}>
+                                    <img src={img_article} />
+                                    <div className={style.title_box}></div>
+                                    <div className={style.name}>Name</div>
+                                </div>
+                                <div className={style.box}>
+                                    <img src={img_article} />
+                                    <div className={style.title_box}></div>
+                                    <div className={style.name}>Name</div>
+                                </div>
+                            </div>
+
+                            <div className={style.content_article}>
+                                <div className={style.recipe_card}>
+
+                                </div>
+
+                            </div>
                         </section>
                     </div>
                 </div>
-                <FooterForm />
+                {/* <FooterForm /> */}
             </div>
         </body>
     )
