@@ -4,14 +4,9 @@
     box-sizing: inherit;
 }
 
-/* ::selection {
-    color: white;
-    background: var(--main-color);
-} */
 
 .sidebar_wrap {
     flex-shrink: 0;
-    background-color: #edeaea;
 }
 
 .sidebar_wrapper {
@@ -19,22 +14,22 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 110px;
+    width: 160px;
     z-index: 1;
     overflow: hidden;
-    padding-top: 10px;
+    /* padding-top: 10px; */
     transition: 0.6s ease;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     /* margin: 91px 0px; */
-    margin: 76px 0px;
-    /* background-color: #e39c9c; */
+    margin: 60px 0px;
+    background-color: #ede9e9;
 }
 
-.sidebar_wrapper:hover {
+/* .sidebar_wrapper:hover {
     width: 150px;
     background: white;
-}
+} */
 
 .sidebar_wrapper ul {
     padding-bottom: 30px;
@@ -45,42 +40,43 @@
     padding-left: 10px;
     transition: 0.5s all ease-in-out;
 }
-.sidebar_wrapper:hover ul li {
+/* .sidebar_wrapper:hover ul li {
     padding-left: 0px;
-}
+} */
 .sidebar_wrapper ul li a {
     padding: 8px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    /* gap: 10px; */
     border-radius: 5px;
     transition: 0.3s all ease-in-out;
     font-size: 16px;
-    width: 300px;
+    /* width: 300px; */
     color: #000000;
     font-weight: 500;
     text-decoration: none;
-    margin-top: 23.5px;
+    margin-top: 20px;
 }
 .sidebar_wrapper:hover a {
-    width: 100%;
+    width: 90%;
 }
 .sidebar_wrapper ul li a:hover {
-    background-color: #ebf0fe;
+    /* background-color: #4464ba; */
     color: #03020a;
-    background: #cfcfcf;
+    background: #ffffff;
 }
 .sidebar_wrapper ul li svg {
-    margin-left: 17px;
+    margin-left: 7px;
     margin-top: 5px;
 }
 
 .sidebar_wrapper ul li a p {
-    visibility: hidden;
-    opacity: 0;
+    /* visibility: hidden; */
+    /* opacity: 0; */
     transition: 0.5s all ease-in-out;
+    margin: 10px 0 0 10px;
 }
-.sidebar_wrapper:hover ul li a p {
+/* .sidebar_wrapper:hover ul li a p {
     visibility: visible;
     opacity: 1;
-}
+} */

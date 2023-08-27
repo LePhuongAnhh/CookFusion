@@ -3,6 +3,7 @@ import style from './Recipe.module.css'
 const Recipe = () => {
     return(
         <>
+        
         </>
     )
 }
