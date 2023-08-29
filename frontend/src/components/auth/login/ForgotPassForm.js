@@ -28,7 +28,7 @@ const ForgotPassForm = () => {
                                 <span></span>
                                 Conform
                             </div>
-                            <div className={style.lb_register}>
+                            <div className={style.lb_forgot_password}>
                                 <label> Back to </label>
                                 <Link to='/'> &nbsp;  Sign in </Link> 
                                 <p> &nbsp; or</p>

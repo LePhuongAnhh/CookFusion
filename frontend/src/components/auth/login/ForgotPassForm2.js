@@ -8,7 +8,6 @@ const ForgotPassForm2 = () => {
             <div className={style.login_background}>
                 <div className={style.overlay}>
                     <div className={style.forgotpass_box}>
-
                         <h2>Forgot Password</h2>
                         <div className={style.send_email}>
                             <img src={email} />
@@ -26,7 +25,7 @@ const ForgotPassForm2 = () => {
                                 />
                                 <label for="text">Enter PIN code</label>
                             </div>
-                            <div className={style.login_btn}>
+                            <div className={style.login_btn1}>
                                 <span></span>
                                 <span></span>
                                 <span></span>

@@ -8,14 +8,13 @@ const ForgotPassForm3 = () => {
         <>
             <div className={style.login_background}>
                 <div className={style.overlay}>
-                    <div className={style.forgotpass_box}>
+                    <div className={style.forgotpass_box3}>
                         <h2>Forgot Password</h2>
                         <div className={style.inform}>
                             <div className={style.correct_inform}>
                                 <img src={step1} />&nbsp;
                                 <p> Account Information </p>
-                                {/* <div className={style.step1}>Account Information</div> */}
-                            </div>  
+                            </div>
                             <div className={style.correct_inform}>
                                 <img src={step2} />&nbsp;
                                 <p> Confirm PIN code </p>
@@ -47,7 +46,7 @@ const ForgotPassForm3 = () => {
                                 />
                                 <label for="text">Confirm password</label>
                             </div>
-                            <div className={style.login_btn}>
+                            <div className={style.login_btn1}>
                                 <span></span>
                                 <span></span>
                                 <span></span>

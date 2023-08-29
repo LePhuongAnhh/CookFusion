@@ -56,7 +56,7 @@ const RegisterForm = () => {
                                     // onChange={handleAgreeChange}
                                     />
                                     &nbsp; Agree to
-                                    <Link to="" className={style.term}> Term and Condition</Link>
+                                    <Link to="#" className={style.term}>  </Link>
                                 </label>
                             </div>
                             <div className={style.login_btn}>

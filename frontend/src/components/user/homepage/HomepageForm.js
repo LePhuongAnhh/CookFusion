@@ -2,7 +2,6 @@ import style from './HomepageForm.module.css'
 import { Link } from 'react-router-dom'
 import Navigation from '../header/Navigation'
 import Sidebar from '../header/Sidebar'
-import IndexForm from './index'
 import FooterForm from '../footer/FooterForm'
 import Button_save from '../header/Button_save'
 import img_article from "../../../image/background.jpg"

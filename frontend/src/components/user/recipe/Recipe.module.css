@@ -1,0 +1,286 @@
+.content_wrapper {
+    /* padding: 0 80px ; */
+    overflow: hidden;
+    background-color: rgb(208, 230, 249);
+    overflow: hidden;
+}
+/* slide  */
+/* .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 90px;
+    margin-left: 170px;
+    width: 85%;
+    
+} */
+/* 
+.contain{
+     position: relative;
+    width: 1070px;
+    height: 370px;
+    overflow: hidden;
+    background-color: #adadad;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #ffffff;
+}
+ */
+
+.browse_nav {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: 100px;
+    width: 80%;
+    padding: 0;
+    margin-left: 200px;
+    overflow-x: hidden;
+}
+.header_text_scroll {
+    overflow-y: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.cate_recipe1 {
+    font-family: europa-boldregular, sans-serif;
+    font-weight: 700;
+    transition: all 200ms ease;
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #57aa6a;
+    line-height: 1.857142857142857;
+    margin-bottom: 2.5em;
+    margin-right: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.cate_recipe {
+    list-style: none;
+    text-decoration: none;
+    font-family: europa-boldregular, sans-serif;
+    font-weight: 700;
+    transition: all 200ms ease;
+
+    display: inline-block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #4a4a4a;
+    line-height: 1.857142857142857;
+    margin-bottom: 2.5em;
+    margin-right: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.cate_recipe::before,
+.cate_recipe::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    /* right: 0; */
+    width: 100%;
+    height: 2px;
+    background-color: #0561ee;
+    transform: scaleY(0);
+    transition: transform 0.25s;
+}
+
+.cate_recipe::before {
+    top: -3px;
+    transform-origin: left;
+}
+
+.cate_recipe::after {
+    bottom: -3px;
+    transform-origin: right;
+}
+
+.cate_recipe:hover::before,
+.cate_recipe:hover::after,
+.active::before,
+.active::after {
+    transform: scaleX(1);
+}
+
+.cate_recipe:focus {
+    color: #3a9691;
+}
+
+/* introduction */
+.intro {
+    margin-left: 400px;
+    margin-top: 50px;
+    width: 28ch;
+    animation: typing 6s steps(28) forwards, blink 0.3s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    /* font-family: monospace; */
+    font-size: 2em;
+}
+
+.intro h3 {
+    background: linear-gradient(140deg, #05fb53, #bc05c9, #e1e107);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 550;
+}
+
+@keyframes typing {
+    0%,
+    100% {
+        width: 0;
+    }
+    50% {
+        width: 28ch;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+/* 
+.logo{
+    margin-left: 200px;
+    width: 28ch;    
+    color: #4a4a4a;    
+    position: relative;
+    text-decoration: none;
+
+}
+
+.logo::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    animation: toRight 1s linear forwards;
+}
+
+.logo h3{
+    background: linear-gradient(140deg, #05fb53, #bc05c9, #e1e107);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 550;
+} */
+
+.gird {
+    margin-top: 50px;
+    width: 85%;
+    display: flex;
+    height: 400px;
+    margin-left: 170px;
+}
+
+.gallery_left,
+.gallery_right {
+    width: 50%;
+    display: grid;
+}
+
+.g_card {
+    position: relative;
+    left: 0;
+    border-radius: 5px;
+    transition: 1000ms all;
+    transform-origin: center left;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+    margin-left: 190px;
+    width: 320px;
+    margin-bottom: 10px;
+}
+
+.figure {
+    display: inline-block;
+    position: relative;
+}
+
+.figure img {
+    display: block;
+    width: 320px;
+    height: 185px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+
+.figcaption h3 {
+    position: absolute;
+    /* justify-content: center;
+    align-items: center; */
+    /* top: 0; */
+    left: 0;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    color: white;
+    padding: 5px;
+    z-index: 1;
+}
+
+/* right  */
+
+.g_card_right {
+    position: relative;
+    left: 0;
+    border-radius: 4px;
+    transition: 1000ms all;
+    transform-origin: center left;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+    width: 320px;
+}
+
+.figure_right img {
+    width: 320px;
+    height: 370px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.figcaption h3 {
+    margin-top: 20px;
+}
+
+.g_card:hover,
+.g_card_right:hover {
+    cursor: pointer;
+    transform: scale(0.99);
+}
+
+.g_card:hover .figcaption,
+.g_card_right:hover .figcaption {
+    font-size: 0.6rem;
+    position: absolute;
+    width: 320px;
+    height: 150px;
+    display: flex;
+    border-radius: 5px;
+    align-items: end;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+    /* color: white; */
+    left: 0px;
+    bottom: 0px;
+}
+
+/* .g_card:hover .g_card{
+    font-weight:bold ;
+    cursor: pointer;
+    transform: translateX(22px);
+} */
