@@ -1,0 +1,151 @@
+
+.img_carousel {
+    display: flex;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.img_carousel_item {
+    width: 20%;
+    list-style: none;
+    margin-left: 25px;
+    margin-right: 20px;
+}
+
+.img_carousel_item > div {
+    height: 100%;
+}
+
+.card_box_in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    height: 200px;
+}
+
+.recipe_card_img {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.recipe_card_img:hover img {
+    transform: scale(1.15);
+}
+
+.recipe_card_img img {
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s ease;
+    object-fit: cover;
+}
+
+.title_box {
+    content: '';
+    height: 140px;
+    position: absolute;
+    transform: translateY(50px);
+    transition: .5s ease;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), black);
+    width: 100%;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.card_ingredients {
+    z-index: 10;
+    position: absolute;
+    color: #fff;
+    position: absolute;
+    bottom: -4px;
+    transform: translateY(50px);
+    padding: 2px 5px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.recipe_card_img:hover .title_box,
+.recipe_card_img:hover .card_ingredients {
+    transform: translateY(0);
+}
+
+
+.card_info_wrapper {
+    margin: 12px 0px;
+    width: 100%;
+    display: flex;
+}
+
+.card_name {
+    color: rgb(36, 36, 36);
+    display: inline-block;
+    width: 80%;
+}
+.card_title {
+    width: 80%;
+    word-break: break-word;
+    height: 80px;
+}
+
+.card_source {
+    display: inline-block;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 0.5em 0.5em 0.5em 0px;
+    overflow: hidden;
+    transition: all 400ms ease 0s;
+}
+
+.card_source_link:hover {
+    color: rgb(47, 183, 138);
+}
+
+.icon_stars {
+    position: relative;
+    display: inline-block;
+}
+
+.review_stars {
+    cursor: pointer;
+}
+
+.icon_stars img {
+    width: 27px;
+    height: 27px;
+}
+
+.btn_save {
+    border: none;
+    background: none;
+}
+
+.card_save {
+    width: 20%;
+}
+.card_box {
+    position: relative;
+    float: right;
+}
+
+.save_recipe {
+    transform: rotateZ(0turn);
+    color: rgb(212, 24, 24);
+    transition: all 400ms ease 0s, transform 800ms ease 0s;
+}
+
+.save_recipe svg {
+    color: rgb(36, 36, 36);
+}
+
+.count_recipe {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-top: 15px;
+}
+
+

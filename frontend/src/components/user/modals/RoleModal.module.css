@@ -1,0 +1,161 @@
+.modalChooseRole {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    background-color: rgba(35, 35, 35, 0.5);
+    z-index: 1;
+}
+
+.modalBodyRole {
+    width: 300px;
+    height: 220px;
+    background-color: white;
+    margin: auto;
+    position: relative;
+    /* z-index: 1; */
+    border-radius: 10px;
+}
+
+.roleHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.role {
+    font-size: 145%;
+    position: absolute;
+    font-weight: bold;
+}
+
+.cancel {
+    float: right;
+    margin: -25px 5px 5px 5px;
+}
+
+.cancel:hover {
+    width: 20px;
+    height: 20px;
+    background-color: aliceblue;
+    border-radius: 50%;
+    color: red;
+}
+
+hr {
+    margin: 17px 10px 5px 10px;
+    padding: 0.2px;
+    background-color: gray;
+}
+
+.inform p {
+    margin: 11px 1px 0 36px;
+}
+
+.roleContent,
+.inform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    margin: -15px 0 -12px 0;
+}
+
+.choose {
+    padding: 15px;
+    display: inline-block;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.user_normal {
+    margin: 0 25px;
+}
+
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #fcf6bd; */
+}
+
+.accept_role {
+
+    position: relative;
+    width: 70px;
+    height: 35px;
+    line-height: 60px;
+    font-size: 15px;
+    z-index: 100;
+    border-radius: 12px;
+    background: #fcf6bd;
+    cursor: pointer;
+}
+
+.accept {
+    /* border-radius: 5px; */
+    /* padding: 4px 20px;
+    background-color: #fcf6bd;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid #fcbf49; */
+
+    color: white;
+    position: relative;
+}
+
+.accept_role svg, .accept_role rect{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+}
+
+.accept_role svg rect{
+    stroke:  #00e2ff;
+    stroke-width: 4;
+    transition: 2s;
+    stroke-dasharray: 60 200;
+    stroke-dashoffset: 300;
+}
+
+.accept_role:hover svg rect{
+    stroke: #ff0;
+    stroke-dasharray: 200 60;
+    stroke-dashoffset: 0;
+}
+/* 
+.accept::before,
+.accept::after {
+    content: '';
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    border: inherit;
+    transition: all 0.5s;
+}
+
+.accept::before {
+    top: -8px;
+    left: -8px;
+    border-width: 2px 0 0 2px;
+}
+.accept::after {
+    bottom: -8px;
+    right: -8px;
+    border-width: 0 2px 2px 0;
+}
+
+.accept:hover::before,
+.accept:hover::after {
+    width: calc(100% + 15px);
+    height: calc(100% + 15px);
+} */

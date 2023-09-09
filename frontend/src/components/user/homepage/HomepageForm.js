@@ -2,19 +2,61 @@ import style from './HomepageForm.module.css'
 import { Link } from 'react-router-dom'
 import Navigation from '../header/Navigation'
 import Sidebar from '../header/Sidebar'
+import RecipeForm from '../header/RecipeForm'
 import FooterForm from '../footer/FooterForm'
 import Button_save from '../header/Button_save'
 import img_article from "../../../image/background.jpg"
 import stars from "../../../image/star1.png"
+import anh from "../../../image/anho.webp"
+import Anh2 from "../../../image/anh2.webp"
+import Anh3 from "../../../image/anh3.webp"
+import TopRecipe from "../../../image/toprecipe.webp"
+import Meal from "../../../image/mal.webp"
 
 
 const HomepageForm = () => {
+    var data = [
+        {
+            img: "img_article",
+            country: "Vietnam",
+            place: "Ha Noi",
+            describe: "Hello, my name is Phuong, I'm nineteen years old",
+        },
+        {
+            img: "img_article",
+            country: "Vietnam",
+            place: "Ha Noi",
+            describe: "Hello, my name is Phuong, I'm nineteen years old",
+        },
+        {
+            img: "img_article",
+            country: "Vietnam",
+            place: "Ha Noi",
+            describe: "Hello, my name is Phuong, I'm nineteen years old",
+        },
+        {
+            img: "img_article",
+            country: "Vietnam",
+            place: "Ha Noi",
+            describe: "Hello, my name is Phuong, I'm nineteen years old",
+        },
+        {
+            img: "img_article",
+            country: "Vietnam",
+            place: "Ha Noi",
+            describe: "Hello, my name is Phuong, I'm nineteen years old",
+        },
+    ];
+
     return (
         <body>
             <div>
                 <Navigation />
                 <div className={style.home_body}>
-                    <Sidebar />
+                    {/* <div className={style.home_left}>
+                        <Sidebar />
+                    </div> */}
+
                     <Button_save />
                     <div className={style.home_container}>
                         <section className={style.home_gird}>
@@ -27,15 +69,11 @@ const HomepageForm = () => {
                                             <div className={style.wrapper}></div>
                                         </div>
                                     </div>
-                                    <div className={style.slide_navigation}>
-                                        <button className={style.slide_next_button}></button>
-                                        <span className={style.slide_line}></span>
-                                        <span className={style.slide_ordinal_number}></span>
-                                    </div>
                                 </div>
                             </div>
 
-                            {/* top trending blog  */}
+                            {/* WHAT'S NEW */}
+
                             <div className={style.home_wrapper}>
                                 <div className={style.home_article}>
                                     <div className={style.feature_article}>
@@ -80,192 +118,238 @@ const HomepageForm = () => {
                                                 <p></p>
                                             </div>
                                         </Link>
+
                                     </div>
                                     <div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* list recipe  */}
-                            <div className={style.content_show}>
-                                <div className={style.box}>
-                                    <div className={style.recipe_card}>
-                                        <ul className={style.img_carousel}>
-                                            <li className={style.img_carousel_item}>
-                                                <div className={style.recipe_card_info}>
-                                                    <div className={style.card_in}>
-                                                        {/* Tren */}
-                                                        <Link className={style.card_} to="#">
-                                                            <div className={style.card_box_in}>
-                                                                <div className={style.recipe_card_img}>
-                                                                    <img src={img_article} />
-                                                                    <div className={style.title_box}></div>
-                                                                    <Link to="#">
-                                                                        <div className={style.card_ingredients}>Dday laf cho dder nguyen lieu cho thuwcs anw nghovn, vsjbvj</div>
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        {/* Duoi */}
-                                                        <div className={style.card_info_wrapper}>
-                                                            <div className={style.card_name}>
-                                                                <Link className={style.card_title} to="#">Asian Recipe cog hoa xa hoi chur ngh</Link>
-                                                                <span className={style.card_source}>
-                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={style.review_stars}>
-                                                                    <span className={style.icon_stars}>
-                                                                        <img src={stars}/>
-                                                                        <img src={stars}/>
-                                                                        <img src={stars}/>
-                                                                    </span>
-                                                                </Link>
-                                                            </div>
-                                                            <div className={style.card_save}>
-                                                                <div className={style.card_box}>
-                                     
-                                                                    <div className={style.save_recipe}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                                                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z" />
-                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className={style.img_carousel_item}>
-                                                <div className={style.recipe_card_info}>
-                                                    <div className={style.card_in}>
-                                                        {/* Tren */}
-                                                        <Link className={style.card_} to="#">
-                                                            <div className={style.card_box_in}>
-                                                                <div className={style.recipe_card_img}>
-                                                                    <img src={img_article} />
-                                                                    <div className={style.title_box}></div>
-                                                                    <Link to="#">
-                                                                        <div className={style.card_ingredients}>Dday laf cho dder nguyen lieu cho thuwcs anw nghovn, vsjbvj</div>
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        {/* Duoi */}
-                                                        <div className={style.card_info_wrapper}>
-                                                            <div className={style.card_name}>
-                                                                <Link className={style.card_title} to="#">Asian Recipe cog hoa xa hoi chur ngh</Link>
-                                                                <span className={style.card_source}>
-                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={style.review_stars}>
-                                                                    <span className={style.icon_stars}>
-                                                                    </span>
-                                                                </Link>
-                                                            </div>
-                                                            <div className={style.card_save}>
-                                                                <div className={style.card_box}>
+                            {/* WHAT WE'RE CRAVING */}
+                            <div className={style.news_container} >
+                                <div className={style.news_name}>
+                                    <h2>WHAT WE'RE CRAVING</h2>
 
-                                                                    <div className={style.save_recipe}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                                                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z" />
-                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className={style.img_carousel_item}>
-                                                <div className={style.recipe_card_info}>
-                                                    <div className={style.card_in}>
-                                                        {/* Tren */}
-                                                        <Link className={style.card_} to="#">
-                                                            <div className={style.card_box_in}>
-                                                                <div className={style.recipe_card_img}>
-                                                                    <img src={img_article} />
-                                                                    <div className={style.title_box}></div>
-                                                                    <Link to="#">
-                                                                        <div className={style.card_ingredients}>Dday laf cho dder nguyen lieu cho thuwcs anw nghovn, vsjbvj</div>
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        {/* Duoi */}
-                                                        <div className={style.card_info_wrapper}>
-                                                            <div className={style.card_name}>
-                                                                <Link className={style.card_title} to="#">Asian Recipe cog hoa xa hoi chur ngh</Link>
-                                                                <span className={style.card_source}>
-                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={style.review_stars}>
-                                                                    <span className={style.icon_stars}>
-                                                                    </span>
-                                                                </Link>
-                                                            </div>
-                                                            <div className={style.card_save}>
-                                                                <div className={style.card_box}>
+                                    <div className={style.news_gird}>
+                                        <Link to="#" className={style.news_element}>
+                                            <div>
+                                                <div className={style.news_card_img}>
+                                                    <figure className={style.news_img_background}>
+                                                        <img src={anh} />
+                                                    </figure>
 
-                                                                    <div className={style.save_recipe}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                                                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z" />
-                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </li>
-                                            <li className={style.img_carousel_item}>
-                                                <div className={style.recipe_card_info}>
-                                                    <div className={style.card_in}>
-                                                        {/* Tren */}
-                                                        <Link className={style.card_} to="#">
-                                                            <div className={style.card_box_in}>
-                                                                <div className={style.recipe_card_img}>
-                                                                    <img src={img_article} />
-                                                                    <div className={style.title_box}></div>
-                                                                    <Link to="#">
-                                                                        <div className={style.card_ingredients}>Dday laf cho dder nguyen lieu cho thuwcs anw nghovn, vsjbvj</div>
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        {/* Duoi */}
-                                                        <div className={style.card_info_wrapper}>
-                                                            <div className={style.card_name}>
-                                                                <Link className={style.card_title} to="#">Asian Recipe cog hoa xa hoi chur ngh</Link>
-                                                                <span className={style.card_source}>
-                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={style.review_stars}>
-                                                                    <span className={style.icon_stars}>
-                                                                    </span>
-                                                                </Link>
-                                                            </div>
-                                                            <div className={style.card_save}>
-                                                                <div className={style.card_box}>
+                                                <div className={style.news_card_bottom}>
+                                                    <span className={style.news_cate}>Fresh everyday</span>
+                                                    <h3 className={style.news_title}>Best Bread</h3>
+                                                </div>
+                                                <div className={style.news_view}>
+                                                    <Link to="#" className={style.news_detail}>Detail</Link>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.news_gird}>
+                                        <Link to="#" className={style.news_element1}>
+                                            <div>
+                                                <div className={style.news_card_img}>
+                                                    <figure className={style.news_img_background}>
+                                                        <img src={Anh2} />
+                                                    </figure>
 
-                                                                    <div className={style.save_recipe}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                                                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z" />
-                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </li>
-                                        </ul>
+                                                <div className={style.news_card_bottom}>
+                                                    <span className={style.news_cate}>Fresh everyday</span>
+                                                    <h3 className={style.news_title}>Best Bread</h3>
+                                                </div>
+                                                <div className={style.news_view}>
+                                                    <Link to="#" className={style.news_detail}>Detail</Link>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.news_gird}>
+                                        <Link to="#" className={style.news_element2}>
+                                            <div>
+                                                <div className={style.news_card_img}>
+                                                    <figure className={style.news_img_background}>
+                                                        <img src={Anh3} />
+                                                    </figure>
+
+                                                </div>
+                                                <div className={style.news_card_bottom}>
+                                                    <span className={style.news_cate}>Fresh everyday</span>
+                                                    <h3 className={style.news_title}>Best Bread</h3>
+                                                </div>
+                                                <div className={style.news_view}>
+                                                    <Link to="#" className={style.news_detail}>Detail</Link>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            {/* EXPLORE MORE */}
+                            <div className={style.cate_contain}>
+                                <div className={style.cate_gird}>
+                                    <h2>Explore more</h2>
+                                    <div className={style.cate_img_block}>
+                                        <Link to="#" className={style.cate_img}>
+                                            <img src={img_article} />
+                                        </Link>
+                                        <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                                    </div>
+                                    <div className={style.cate_img_block}>
+                                        <Link to="#" className={style.cate_img}>
+                                            <img src={img_article} />
+                                        </Link>
+                                        <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                                    </div>
+                                    <div className={style.cate_img_block}>
+                                        <Link to="#" className={style.cate_img}>
+                                            <img src={img_article} />
+                                        </Link>
+                                        <Link to="#" className={style.cate_title}>Vegetable</Link>
+                                    </div>
+                                    <div className={style.cate_img_block}>
+                                        <Link to="#" className={style.cate_img}>
+                                            <img src={img_article} />
+                                        </Link>
+                                        <Link to="#" className={style.cate_title}>Vegetable</Link>
                                     </div>
                                 </div>
                             </div>
+                            <div className={style.line}></div>
+                            {/* TOP RECIPE  */}
+                            <div className={style.contain_fullwidth}>
+                                <div className={style.contain_fullwidth_card}>
+                                    <div className={style.text_image}>
+                                        <img src={TopRecipe} />
+                                    </div>
+                                    <div className={style.text_bottom}>
+                                        <h2> Top recipe</h2>
+                                        <Link to="#" className={style.btn_view}>
+                                            Detail
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            {/* NGUYEN LIEU  */}
+                            <div className={style.ingredients}>
+                                <div className={style.ingredients_gird}>
+                                    <h2>ingredients</h2>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal vwgfjshv$ veghrtable</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className={style.ingredients_card}>
+                                        <Link to="#" className={style.ingredients_img}>
+                                            <img src={Meal} />
+                                            <div className={style.ingredients_img_card}>
+                                                <Link to="#" className={style.ingredients_link}>Fresh Meal</Link>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            {/* TRENDING NOW */}
+                            <div className={style.content_show}>
+                                <div className={style.box}>
+                                    <div className={style.recipe_card}>
+                                        <h2>trending now</h2>
+                                        <RecipeForm />
+                                    </div>
+                                </div>
+                            </div>
+                            {/* DON'T MISS  */}
+                            <div className={style.news_container} >
+                                <div className={style.news_name}>
+                                    <h2>Don't miss</h2>
+                                    <div className={style.news_content}>
+                                        <Link to="#" className={style.news_gird}>
+                                            <img src={img_article} />
+                                            <div className={style.news_overlay}>
+                                                <div className={style.news_cate}>Collection</div>
+                                                <div className={style.news_title}>50 lunch ideas for kids</div>
+                                            </div>
+                                        </Link>
+                                        <Link className={style.news_gird}>
+                                            <img src={img_article} />
+                                            <div className={style.news_overlay}>
+                                                <div className={style.news_cate}>Collection</div>
+                                                <div className={style.news_title}>50 lunch ideas for kids</div>
+                                            </div>
+                                        </Link>
+                                        <Link className={style.news_gird}>
+                                            <img src={img_article} />
+                                            <div className={style.news_overlay}>
+                                                <div className={style.news_cate}>Collection</div>
+                                                <div className={style.news_title}>50 lunch ideas for kids</div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* MORE IDEAS */}
+                            <div className={style.content_show}>
+                                <div className={style.box}>
+                                    <div className={style.recipe_card}>
+                                        <h2>MORE IDEAS</h2>
+                                        <RecipeForm />
+                                        <RecipeForm />
+                                        <RecipeForm />
+                                        <RecipeForm />
+                                    </div>
+                                </div>
+                            </div>
+
                         </section>
                     </div>
                 </div>

@@ -62,18 +62,83 @@ a:visited {
 }
 
 .letter {
-    transition: 0.4s;
+    /* transition: 0.4s;
     transform: translateX(0);
     cursor: grab;
-    color: #444;
+    color: #444; */
+
+    display: inline;
+    animation: pre-load 3s linear infinite;
+    letter-spacing: 5px;
 }
 
-.letter:hover {
+/* .letter:hover {
     transform: translateY(-1rem);
     background: -webkit-repeating-linear-gradient(120deg, hsl(19, 90%, 52%), hsl(56, 100%, 50%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+} */
+
+@keyframes pre-load {
+    0% {
+        color: #101010;
+        text-shadow: none;
+    }
+    20% {
+        color:  #101010;
+        text-shadow: none;
+    }
+    40% {
+        color: #fca311;
+        text-shadow: 0 0 7px #fca311, 0 0 50px #ff6c00;
+    }
+    60% {
+        color:  #101010;
+        text-shadow: none;
+    }
+    80% {
+        color:  #101010;
+        text-shadow: none;
+    }
+    100% {
+        color:  #101010;
+        text-shadow: none;
+    }
 }
+.letter:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.letter:nth-child(2) {
+    animation-delay: 0.4s;
+}
+.letter:nth-child(3) {
+    animation-delay: 0.6s;
+}
+.letter:nth-child(4) {
+    animation-delay: 0.8s;
+}
+.letter:nth-child(5){
+    animation-delay: 1s;
+ }
+ .letter:nth-child(6) {
+    animation-delay: 1.2s;
+}
+
+.letter:nth-child(7) {
+    animation-delay: 1.4s;
+}
+.letter:nth-child(8) {
+    animation-delay: 1.6s;
+}
+.letter:nth-child(9) {
+    animation-delay: 1.8s;
+}
+.letter:nth-child(10){
+    animation-delay: 2s;
+ }
+
+
 
 .nav_action {
     width: 33.3%;
@@ -138,7 +203,6 @@ input {
     align-items: center;
     display: flex;
     justify-content: flex-end;
-   
 }
 
 .nav_right .pulse {
@@ -153,16 +217,15 @@ input {
     place-items: center;
     font-size: 50px;
     color: #ffffff;
- }
+}
 
-.right_login{
+.right_login {
     cursor: pointer;
 }
 
-
 .pulse::before,
-.pulse::after{
-    content: "";
+.pulse::after {
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -172,21 +235,19 @@ input {
     opacity: 0.7;
 }
 
-.pulse::before{
+.pulse::before {
     animation: pulse 2s ease-out infinite;
 }
-.pulse::before{
+.pulse::before {
     animation: pulse 2s 1s ease-out infinite;
 }
 
-@keyframes pulse{
-    100%{
+@keyframes pulse {
+    100% {
         transform: scale(2.5);
         opacity: 0;
     }
 }
-
-
 
 .nav_right .right_login,
 p {

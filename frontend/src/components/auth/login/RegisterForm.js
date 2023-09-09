@@ -1,7 +1,19 @@
 import style from './LoginForm.module.css'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import RoleModal from '~/components/user/modals/RoleModal';
+
 
 const RegisterForm = () => {
+    // const [isModalOpenChooSeRole, setIsModalOpenChooSeRole] = useState(false);
+
+    // const openModalChooSeRole = () => {
+    //     setIsModalOpenChooSeRole(true);
+    // };
+
+    // const closeModalChooSeRole = () => {
+    //     setIsModalOpenChooSeRole(false);
+    // };
     return (
         <>
             <div className={style.login_background}>
@@ -59,13 +71,14 @@ const RegisterForm = () => {
                                     <Link to="#" className={style.term}>  </Link>
                                 </label>
                             </div>
-                            <div className={style.login_btn}>
+                            <div className={style.login_btn} >
                                 <span></span>
                                 <span></span>
                                 <span></span>
                                 <span></span>
                                 Create
                             </div>
+                            {/* <RoleModal /> */}
                             <div className={style.lb_register}>
                                 <label> Already register? </label>
                                 <Link to='/'> &nbsp;  Sign in </Link>

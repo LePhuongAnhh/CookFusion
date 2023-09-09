@@ -14,7 +14,9 @@ const LoginForm = () => {
             <div className={style.login_background}>
                 <div className={style.overlay}>
                     <div className={style.login_box}>
-                        <h2>Login</h2>
+                        <h2>
+                            Login
+                        </h2>
                         <form>
                             <div className={style.user_box}>
                                 <input

@@ -8,6 +8,7 @@ import ForgotPassForm3 from "./components/auth/login/ForgotPassForm3"
 import HomepageForm from "./components/user/homepage/HomepageForm"
 import FooterForm from "./components/user/footer/FooterForm"
 import Recipe from "./components/user/recipe/Recipe"
+import RoleModal from "./components/user/modals/RoleModal"
 
 function App() {
   return (
@@ -15,11 +16,13 @@ function App() {
       <Routes>
         <Route path="/" element={< LoginForm />} />
         <Route path="/register" element={< RegisterForm />} />
+        <Route path="/chooserole" element={< RoleModal />} />
         <Route path="/forgotpassword" element={< ForgotPassForm />} />
         <Route path="/forgotpassword2" element={< ForgotPassForm2 />} />
         <Route path="/forgotpassword3" element={< ForgotPassForm3 />} />
         <Route path="/homepage" element={< HomepageForm />} />
         <Route path="/recipe" element={< Recipe />} />
+
       </Routes>
     </Router>
   );
