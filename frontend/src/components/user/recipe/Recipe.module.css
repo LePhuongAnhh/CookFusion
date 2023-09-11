@@ -37,25 +37,11 @@
     scroll-behavior: smooth;
 }
 
-.cate_recipe1 {
-    font-family: europa-boldregular, sans-serif;
-    font-weight: 700;
-    transition: all 200ms ease;
-    display: inline-block;
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: #57aa6a;
-    line-height: 1.857142857142857;
-    margin-bottom: 2.5em;
-    margin-right: 12px;
-    cursor: pointer;
-    text-transform: uppercase;
-}
 
 .cate_recipe {
     list-style: none;
     text-decoration: none;
-    font-family: europa-boldregular, sans-serif;
+    /* font-family: europa-boldregular, sans-serif; */
     font-weight: 700;
     transition: all 200ms ease;
 

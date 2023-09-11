@@ -24,7 +24,6 @@ const Recipe = () => {
                 <div className={style.right}>
                     <div className={style.content_wrapper}>
                         {/* nav  */}
-
                         <div className={style.browse_nav}>
                             <div className={style.header_text_scroll}>
                                 <Link to="#" className={style.cate_recipe}>trang mieng</Link>

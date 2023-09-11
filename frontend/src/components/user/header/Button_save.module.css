@@ -7,7 +7,7 @@
     position: absolute;
     z-index: 2;
     right: 0;
-    margin-right: 92px;
+    margin-right: 99px;
     position: fixed;
 }
 .save_button {
@@ -37,5 +37,6 @@
 }
 
 .button_save_recipe:hover{
-border: 1px solid wheat;
+    transform: scale(1.1);
+    transition: 200ms ease;
 }
