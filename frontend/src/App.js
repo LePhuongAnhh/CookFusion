@@ -9,6 +9,7 @@ import HomepageForm from "./components/user/homepage/HomepageForm"
 import FooterForm from "./components/user/footer/FooterForm"
 import Recipe from "./components/user/recipe/Recipe"
 import RoleModal from "./components/user/modals/RoleModal"
+import DetailRecipe from "./components/user/recipe/DetailRecipe"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/forgotpassword3" element={< ForgotPassForm3 />} />
         <Route path="/homepage" element={< HomepageForm />} />
         <Route path="/recipe" element={< Recipe />} />
+        <Route path="/detail" element={< DetailRecipe />} />
 
       </Routes>
     </Router>

@@ -1,13 +1,27 @@
 import style from './Navigation.module.css'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
+import Tippy from '@tippyjs/react/headless';
+// import Tippy from 'react-tippy';
+import 'tippy.js/dist/tippy.css';
+// import 'tippy.js/dist/tippy.css'; // optional
+
+import { Wrapper as PopperWrapper } from '~/components/Popper';
 import logo from "../../../image/logofooter1.png"
 import account from "../../../image/icons8-user-32.png"
 import fb from "../../../image/facebook.png"
 
 
-const Navigation = () => {
+function Navigation() {
 
+    const [searchResult, setSearchResult] = useState([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSearchResult([1, 2, 3]);
+        }, 3000)
+
+    }, [])
     return (
         <>
             <header>
@@ -31,18 +45,13 @@ const Navigation = () => {
                         </div>
 
                         <div className={style.header_box_right}>
-                            <div className={style.try_them}>Try them</div>
-                            {/* <div className={style.pulse}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
-                                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
-                                </svg>
-                            </div> */}
+                            <div className={style.try_them}>Try them</div>                         
                         </div>
                     </div>
                 </div>
                 <div className={style.space}></div>
                 {/* TOP  */}
-                <div className={style.nav_top}>
+                {/* <div className={style.nav_top}>
                     <div className={style.nav_top_container}>
                         <ul>
                             <li>
@@ -67,7 +76,7 @@ const Navigation = () => {
                     <div className={style.nav_top_center}>
 
                     </div>
-                </div>
+                </div> */}
 
                 {/* CENTER  */}
                 <div className={style.nav_wrap}>
@@ -80,19 +89,33 @@ const Navigation = () => {
                     </div>
                     <div className={style.nav_action}>
                         <div>
-                            <div className={style.search_wrapper}>
-                                <div className={style.search_icon}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg>
+                            <Tippy
+                                interactive
+                                render={attrs => (
+                                    <div className={style.search_result} tabIndex="-1" {...attrs}>
+                                        <PopperWrapper>
+                                            <h4 className={style.search_title}>
+
+                                            </h4>
+                                        </PopperWrapper>
+                                    </div>
+                                )}
+                            >
+                                <div className={style.search_wrapper}>
+
+                                    <button className={style.search_icon}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </button>
+                                    <input className={style.search_input} placeholder='Search for...' />
+                                    <button className={style.search_cancel}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                        </svg>
+                                    </button>
                                 </div>
-                                <input className={style.search_input} placeholder='Search for...' />
-                                <div className={style.nav_search_cancel}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                </div>
-                            </div>
+                            </Tippy>
                         </div>
                     </div>
                     <div className={style.nav_right}>

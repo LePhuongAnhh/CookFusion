@@ -2,8 +2,12 @@
     --background-color: var(--background-color);
 }
 
+*{
+    font-family: "DM Sans", sans-serif;
+}
+
 .login_background {
-    font-family: 'Roboto', sans-serif;
+    
     position: absolute;
     top: 0px;
     right: 0px;
@@ -46,8 +50,8 @@
 }
 
 .register_box {
-    width: 400px;
-    height: 480px;
+    width: 500px;
+    height: 500px;
 }
 
 .login_box h2 {
@@ -104,6 +108,10 @@
     font-size: 16px;
 }
 
+.lb_forgot_password{
+    display: inline;
+}
+
 .forgot_password,
 .lb_register a,
 .lb_forgot_password a {
@@ -123,8 +131,8 @@
 
 } */
 .forgotpass_box {
-    width: 400px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
 }
 
 form .login_btn,
@@ -303,6 +311,7 @@ form a,
 
 .forgotpass_box p {
     margin: 31px 0px;
+    text-align: justify;
 }
 .send_email {
     margin: 10px 0 -5px 0;

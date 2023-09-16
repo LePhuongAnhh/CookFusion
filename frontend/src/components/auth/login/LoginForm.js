@@ -55,13 +55,13 @@ const LoginForm = () => {
                                 <span></span>
                                 Login
                             </div>
-                            <h3>Using social networking accounts </h3>
+                            <h3>Or </h3>
                             <div className={style.login_other}>
                                 <img src={google} />
                                 <img src={facebook} />
                             </div>
                             <div className={style.lb_register}>
-                                <label> Do you haven't an account? </label>
+                                {/* <label> Do you haven't an account? </label> */}
                                 <Link to='/register'> &nbsp;  Register</Link>
                             </div>
                         </form>
