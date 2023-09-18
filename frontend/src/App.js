@@ -6,6 +6,7 @@ import ForgotPassForm from "./components/auth/login/ForgotPassForm"
 import ForgotPassForm2 from "./components/auth/login/ForgotPassForm2"
 import ForgotPassForm3 from "./components/auth/login/ForgotPassForm3"
 import HomepageForm from "./components/user/homepage/HomepageForm"
+import AboutUs from "./components/user/aboutUs/AboutUs" 
 import FooterForm from "./components/user/footer/FooterForm"
 import Recipe from "./components/user/recipe/Recipe"
 import RoleModal from "./components/user/modals/RoleModal"
@@ -23,6 +24,7 @@ function App() {
         <Route path="/forgotpassword3" element={< ForgotPassForm3 />} />
         <Route path="/homepage" element={< HomepageForm />} />
         <Route path="/recipe" element={< Recipe />} />
+        <Route path="/aboutus" element={< AboutUs />} />
         <Route path="/detail" element={< DetailRecipe />} />
 
       </Routes>
