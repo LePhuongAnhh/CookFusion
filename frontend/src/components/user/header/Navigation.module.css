@@ -380,6 +380,7 @@ li {
     /* padding: 20px; */
     /* margin: 0 15px; */
     width: 100%;
+    border-bottom: 1px solid #e8ebed;
     /* max-width: 1360px; */
     /* padding-inline-end: 40px; */
 }
@@ -402,9 +403,7 @@ li {
 .site_nav nav > ul > li {
     flex-shrink: 0;
 }
-.link_list .menu_cate {
-    /* margin-right: 30px; */
-}
+
 
 .link_list li {
     margin: 0 20px;
@@ -478,9 +477,6 @@ li {
 .active::after {
     transform: scaleX(1);
 }
-
-
-
 
 .header_right {
     width: 30%;

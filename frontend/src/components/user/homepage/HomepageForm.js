@@ -31,6 +31,7 @@ import t4 from "../../../image/4.webp"
 import TopRecipe from "../../../image/toprecipe.webp"
 import Meal from "../../../image/mal.webp"
 import Avt from "../../../image/avt.jpg"
+import Main from "../../../image/main_img.png"
 
 
 const HomepageForm = () => {
@@ -223,8 +224,8 @@ const HomepageForm = () => {
 
                             {/* WHAT WE'RE CRAVING - top 3 recipe có lượt view/tìm kiếm cao nhất */}
                             <div className={style.news_container} >
+                                <h2>WHAT WE'RE CRAVING</h2>
                                 <div className={style.news_name}>
-                                    <h2>WHAT WE'RE CRAVING</h2>
                                     <div className={style.news_gird}>
                                         <Link to="#" className={style.news_element}>
                                             <div>
@@ -282,8 +283,6 @@ const HomepageForm = () => {
                                             </div>
                                         </Link>
                                     </div>
-
-
                                 </div>
                             </div>
 
@@ -319,8 +318,6 @@ const HomepageForm = () => {
                             </div>
                             <div className={style.line}></div>
 
-
-
                             {/* TOP RECIPE  */}
                             <div className={style.contain_fullwidth}>
                                 <div className={style.contain_fullwidth_card}>
@@ -335,7 +332,6 @@ const HomepageForm = () => {
                                     </div>
                                 </div>
                             </div>
-
 
                             {/* NGUYEN LIEU  */}
                             <div className={style.ingredients}>
@@ -412,243 +408,168 @@ const HomepageForm = () => {
                                         <div className={style.advertisement_box}>
                                             <span>Introduction</span>
                                             <h3 className={style.name_h1}> Quang cao </h3>
-                                            <div className={style.show_more}>
-                                                <Link to="#" className={style.btn_show_more}> Show more</Link>
-                                            </div>
+                                            <span>
+                                                <Link to="#" className={style.show_more}> Show more</Link>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className={style.gallary} id="Gallary">
-                                <h1>Our<span>Gallary</span></h1>
-
-                                <div className={style.gallary_image_box}>
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <Link to="#" className={style.gallary_btn}>Order Now</Link>
-                                    </div>
-
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <Link to="#" className={style.gallary_btn}>Order Now</Link>
-                                    </div>
-
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <Link to="#" className={style.gallary_btn}>Order Now</Link>
-                                    </div>
-
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <Link to="#" className={style.gallary_btn}>Order Now</Link>
-                                    </div>
-
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <Link to="#" className={style.gallary_btn}>Order Now</Link>
-                                    </div>
-
-                                    <div className={style.gallary_image}>
-                                        <img src={Top2} />
-
-                                        <h3>Food</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi sint eveniet laboriosam
-                                        </p>
-                                        <a href="#" className={style.gallary_btn}>Order Now</a>
-                                    </div>
-
-                                </div>
-
                             </div>
 
                             {/* CUSTOMER REVIEW  */}
-
-                            <div className={style.review} id="Review">
+                            <div className={style.review}>
                                 <h1>Customer<span>Review</span></h1>
-
                                 <div className={style.review_box}>
                                     <div className={style.review_card}>
-
                                         <div className={style.review_profile}>
                                             <img src={Avt} />
-                                        </div>
-
-                                        <div className={style.review_tex}>
                                             <h2 className={style.name}>John Deo</h2>
                                             <div className={style.review_icon}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                                                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                                 </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                                                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                                 </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                                                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                                 </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                                                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                                                 </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512">
-                                                    <path d="M320 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L320.1 86.9l-.1 .3V376.4zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L320.1 439.8 191.8 508.3C181 514 167.9 513.1 158 506s-14.9-19.3-12.9-31.3L169.8 329 65.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L227 150.3 291.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L470.5 329l24.6 145.7z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+                                                    <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
                                                 </svg>
                                             </div>
-
                                             <div className={style.review_social}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
                                                     <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
                                                 </svg>
-                                            
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                                    <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+                                                </svg>
                                             </div>
-
-                                            <p>
-                                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus quam facere
-                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci. </p>                                         </div>
-
-                                    </div>
-
-                                    <div className={style.review_card}>
-
-                                        <div className={style.review_profile}>
-                                            {/* <img src="image/review_1.png"/> */}
                                         </div>
-
                                         <div className={style.review_tex}>
-                                            <h2 className={style.name}>John Deo</h2>
-
-                                            <div className={style.review_icon}>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star-half-stroke"></i>
-                                            </div>
-
-                                            <div className={style.review_social}>
-                                                <i className="fa-brands fa-facebook-f"></i>
-                                                <i className="fa-brands fa-instagram"></i>
-                                                <i className="fa-brands fa-twitter"></i>
-                                                <i className="fa-brands fa-linkedin-in"></i>
-                                            </div>
-
                                             <p>
                                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus quam facere
-                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci, rem corrupti
-                                                asperiores distinctio delectus quae quia tenetur totam laboriosam quam. Lorem ipsum,
-                                                dolor sit amet consectetur adipisicing elit. Dolores soluta ullam ipsa voluptates
-                                                repudiandae dignissimos deleniti mollitia eum. Laudantium placeat velit nemo illo
-                                                pariatur. Fuga aperiam impedit illo atque repellendus!
+                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci.
                                             </p>
-
                                         </div>
-
                                     </div>
                                     <div className={style.review_card}>
-
                                         <div className={style.review_profile}>
-                                            {/* <img src="image/review_1.png"/> */}
-                                        </div>
-
-                                        <div className={style.review_tex}>
+                                            <img src={Avt} />
                                             <h2 className={style.name}>John Deo</h2>
-
                                             <div className={style.review_icon}>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star-half-stroke"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+                                                    <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+                                                </svg>
                                             </div>
-
                                             <div className={style.review_social}>
-                                                <i className="fa-brands fa-facebook-f"></i>
-                                                <i className="fa-brands fa-instagram"></i>
-                                                <i className="fa-brands fa-twitter"></i>
-                                                <i className="fa-brands fa-linkedin-in"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                                                </svg>
                                             </div>
-
+                                        </div>
+                                        <div className={style.review_tex}>
                                             <p>
                                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus quam facere
-                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci, rem corrupti
-                                                asperiores distinctio delectus quae quia tenetur totam laboriosam quam. Lorem ipsum,
-                                                dolor sit amet consectetur adipisicing elit. Dolores soluta ullam ipsa voluptates
-                                                repudiandae dignissimos deleniti mollitia eum. Laudantium placeat velit nemo illo
-                                                pariatur. Fuga aperiam impedit illo atque repellendus!
+                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci.
                                             </p>
-
                                         </div>
-
                                     </div>
                                     <div className={style.review_card}>
-
                                         <div className={style.review_profile}>
-                                            {/* <img src="image/review_1.png"/> */}
-                                        </div>
-
-                                        <div className={style.review_tex}>
+                                            <img src={Avt} />
                                             <h2 className={style.name}>John Deo</h2>
-
                                             <div className={style.review_icon}>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star-half-stroke"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+                                                    <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+                                                </svg>
                                             </div>
-
                                             <div className={style.review_social}>
-                                                <i className="fa-brands fa-facebook-f"></i>
-                                                <i className="fa-brands fa-instagram"></i>
-                                                <i className="fa-brands fa-twitter"></i>
-                                                <i className="fa-brands fa-linkedin-in"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                                                </svg>
                                             </div>
-
+                                        </div>
+                                        <div className={style.review_tex}>
                                             <p>
                                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus quam facere
-                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci, rem corrupti
-                                                asperiores distinctio delectus quae quia tenetur totam laboriosam quam. Lorem ipsum,
-                                                dolor sit amet consectetur adipisicing elit. Dolores soluta ullam ipsa voluptates
-                                                repudiandae dignissimos deleniti mollitia eum. Laudantium placeat velit nemo illo
-                                                pariatur. Fuga aperiam impedit illo atque repellendus!
+                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci.
                                             </p>
-
                                         </div>
-
                                     </div>
-
+                                    <div className={style.review_card}>
+                                        <div className={style.review_profile}>
+                                            <img src={Avt} />
+                                            <h2 className={style.name}>John Deo</h2>
+                                            <div className={style.review_icon}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewBox="0 0 16 16">
+                                                    <path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z" />
+                                                </svg>
+                                            </div>
+                                            <div className={style.review_social}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                                                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div className={style.review_tex}>
+                                            <p>
+                                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus quam facere
+                                                blanditiis in fugiat tempore necessitatibus aliquid. Id adipisci.
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
-
-                        </section>
-                    </div>
-                </div>
+                        </section >
+                    </div >
+                </div >
                 {/* <FooterForm />   */}
-            </div>
-        </body>
+            </div >
+        </body >
     )
 }
 

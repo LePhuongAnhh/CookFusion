@@ -45,7 +45,7 @@ function Navigation() {
                         </div>
 
                         <div className={style.header_box_right}>
-                            <div className={style.try_them}>Try them</div>                         
+                            <div className={style.try_them}>Try them</div>
                         </div>
                     </div>
                 </div>
@@ -81,11 +81,11 @@ function Navigation() {
                 {/* CENTER  */}
                 <div className={style.nav_wrap}>
                     <div className={style.nav_left}>
-                        <h4 className={style.nav_nameweb}>
+                        <Link to="/homepage" className={style.nav_nameweb}>
                             <div className={style.letter}>c</div>
                             <div className={style.letter}>&</div>
                             <div className={style.letter}>F</div>
-                        </h4>
+                        </Link>
                     </div>
                     <div className={style.nav_action}>
                         <div>
@@ -156,14 +156,14 @@ function Navigation() {
                                                 <ul></ul>
                                             </li>
                                             <li className={style.menu_item}>
-                                                <Link to="#" className={style.menu_link}>
+                                                <Link to="/aboutus" className={style.menu_link}>
                                                     <span>
                                                         <span className={style.text_cate}>About us</span>
                                                     </span>
                                                 </Link>
                                             </li>
                                             <li className={style.menu_item}>
-                                                <Link to="#" className={style.menu_link}>
+                                                <Link to="/recipe" className={style.menu_link}>
                                                     <span>
                                                         <span className={style.text_cate}>Recipe</span>
                                                     </span>
