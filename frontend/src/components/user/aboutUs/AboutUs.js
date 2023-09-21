@@ -61,20 +61,20 @@ function AboutUs() {
                                 <div className={style.about_services}>
                                     <div className={style.s_1}>
                                         <i class="fa-solid fa-truck-fast"></i>
-                                        <a href="#">Fast Delivery</a>
+                                        <Link to="#">Fast Delivery</Link>
                                     </div>
                                     <div className={style.s_1}>
                                         <i class="fa-brands fa-amazon-pay"></i>
-                                        <a href="#">Easy Payment</a>
+                                        <Link to="#">Easy Payment</Link>
                                     </div>
                                     <div className={style.s_1}>
                                         <i class="fa-solid fa-headset"></i>
-                                        <a href="#">24 x 7 Services</a>
+                                        <Link to="#">24 x 7 Services</Link>
                                     </div>
                                 </div>
-                                <a href="#" className={style.about_btn}>
+                                <Link to="#" className={style.about_btn}>
                                     <i class="{fa-solid fa-burger"></i>Order Now
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

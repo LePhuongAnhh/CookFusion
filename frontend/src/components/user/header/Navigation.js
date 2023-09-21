@@ -170,7 +170,7 @@ function Navigation() {
                                                 </Link>
                                             </li>
                                             <li className={style.menu_item}>
-                                                <Link to="#" className={style.menu_link}>
+                                                <Link to="/article" className={style.menu_link}>
                                                     <span>
                                                         <span className={style.text_cate}>Article</span>
                                                     </span>

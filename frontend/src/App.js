@@ -9,6 +9,7 @@ import HomepageForm from "./components/user/homepage/HomepageForm"
 import AboutUs from "./components/user/aboutUs/AboutUs" 
 import FooterForm from "./components/user/footer/FooterForm"
 import Recipe from "./components/user/recipe/Recipe"
+import Article from "./components/user/blog/Article"
 import RoleModal from "./components/user/modals/RoleModal"
 import DetailRecipe from "./components/user/recipe/DetailRecipe"
 
@@ -26,7 +27,7 @@ function App() {
         <Route path="/recipe" element={< Recipe />} />
         <Route path="/aboutus" element={< AboutUs />} />
         <Route path="/detail" element={< DetailRecipe />} />
-
+        <Route path="/article" element={< Article />} />
       </Routes>
     </Router>
   );

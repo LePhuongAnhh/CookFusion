@@ -2,17 +2,16 @@
     overflow: hidden;
 }
 
-.home_home {
+.home_home,
+.about {
     width: 100%;
     /* height: 100vh; */
 }
 
-.home_home .main {
-    width: 100%;
+.home_home .main,
+.about .about_main {
     display: flex;
     align-items: center;
-    /* justify-content: space-around; */
-    position: relative;
 }
 
 .home_home .main .main_text h1 {
@@ -78,24 +77,14 @@
 }
 
 /* About  */
-
-.about{
-    width: 100%;
-    height: 100vh;
-    padding: 10px 0 0 0;
-    /* background-image: url(../../../image/about.png); */
-    background-size: cover;
-    background-position: center;
-}
-
-.about .about_main{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
 .about .about_main .about_image img{
-    width: 750px;
+    width: 590px;
+    margin-left: 25px;
+}
+
+.about_text{
+    /* width: 500px; */
+    margin-left: 2px;
 }
 
 .about .about_main .about_text h1{
@@ -106,6 +95,7 @@
 
 .about .about_main .about_text h1 span{
     color: #facc22;
+    font-family: polo;
     margin-right: 15px;
 }
 
@@ -116,7 +106,7 @@
 }
 
 .about .about_main .about_text p{
-    width: 650px;
+    width: 580px;
     text-align: justify;
     line-height: 23px;
     margin-top: 20px;
