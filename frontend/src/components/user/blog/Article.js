@@ -4,7 +4,7 @@ import Avt from "../../../image/avt.jpg"
 import { Link } from 'react-router-dom'
 import article2 from "../../../image/article2.webp"
 
-function Article() {
+const Article = () => {
     return (
         <body>
             <div className={style.article_form}>
@@ -21,8 +21,9 @@ function Article() {
                         <div className={style.article_gird}>
                             {/* CENTER */}
                             <div className={style.article_gird_center}>
+
+                                {/* ceate post  */}
                                 <div className={style.post_status}>
-                                    {/* POST  */}
                                     <div className={style.post_hearer}>
                                         <div className={style.header_item}>
                                             <div className={style.header_avatar}>
@@ -33,20 +34,11 @@ function Article() {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* BODY  */}
+
                                     <div className={style.post_body}>
                                         <form >
                                             <textarea rows="4" placeholder='What do you want to talk about?' className={style.textarea_post}>
                                             </textarea>
-                                            <div className={style.post_hashtag}>
-                                                <label className={style.post_add}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-                                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                                    </svg>
-                                                    <span className={style.post_span}>Add hashtag</span>
-                                                </label>
-                                                {/* <input className={style.input_add_hashtag}> </input> */}
-                                            </div>
                                             <div className={style.post_image}>
                                                 <div className={style.post_img_left}>
                                                     <button className={style.btn_img}>
@@ -79,7 +71,7 @@ function Article() {
                                                             </svg>
                                                         </button>
                                                     </div>
-                                                    <button className={style.post_share}>Share</button>
+                                                    <button className={style.btn_post_share}>Share</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -93,15 +85,15 @@ function Article() {
                                             <div className={style.post_img_left}>
                                                 <div className={style.d_flex}>
                                                     <Link to="#" className={style.d_flex}>
-                                                        <div className={style.avt}>
-                                                            <img className={style.circle_avt} src={Avt} />
+                                                        <div className={style.header_avatar}>
+                                                            <img className={style.circle_avt1} src={Avt} />
                                                         </div>
                                                     </Link>
                                                     <div className={style.name_account}>
                                                         <p className={style.name_user}>
                                                             <Link to="#" className={style.post_name_account}>John &nbsp;</Link>
                                                             <span className={style.share_album}>
-                                                                share an  &nbsp;
+                                                                share an
                                                                 <Link to="#"> album</Link>
                                                             </span>
                                                         </p>
@@ -123,8 +115,8 @@ function Article() {
                                                     </button>
                                                 </div>
                                             </div>
-                                        </div>
 
+                                        </div>
                                     </div>
                                     <div className={style.posts_body}>
                                         <p>
@@ -153,15 +145,14 @@ function Article() {
                                     <div className={style.posts_footer}>
                                         <div className={style.total_like}>
                                             <Link to="/homepage" className={style.count_like}>
-                                                "342"
-                                                "like"
-                                                "s"
+                                                342
+                                                likes
                                             </Link>
                                         </div>
                                         <div className={style.emotion}>
                                             <div className={style.emotion_item}>
                                                 <div className={style.emotion_gird}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                     </svg>
                                                     <span className={style.like_icon}>Like</span>
@@ -184,11 +175,28 @@ function Article() {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <form>
-                                            <div ></div>
-                                        </form> */}
+                                        <form>
+                                            <div className={style.write_comment}>
+                                                <div className={style.cmt_avt}>
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </div>
+                                                <input placeholder="Write a comment ..." type='text' className={style.input_cmt}></input>
+                                            </div>
+                                        </form>
+                                        <div>
+                                            <div className={style.read_comment}>
+                                                <Link to=""></Link>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className={style.read_comment}></div>
+                                        </div>
                                     </div>
                                 </div>
+
+
                                 {/* RIGHT  */}
                                 {/* <div className={style.article_gird_right}>
                                 </div> */}
