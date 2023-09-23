@@ -3,6 +3,11 @@ import Navigation from '../header/Navigation'
 import Avt from "../../../image/avt.jpg"
 import { Link } from 'react-router-dom'
 import article2 from "../../../image/article2.webp"
+import addfile from "../../../image/image.png"
+import img from "../../../image/anh123.jpg"
+import checkin from "../../../image/check-in.png"
+import event from "../../../image/calendar-date.png"
+
 
 const Article = () => {
     return (
@@ -42,24 +47,27 @@ const Article = () => {
                                             <div className={style.post_image}>
                                                 <div className={style.post_img_left}>
                                                     <button className={style.btn_img}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg>
+                                                        </svg> */}
+                                                        <img src={addfile} />
                                                         <span className={style.post_img}>Image</span>
                                                     </button>
                                                     <button className={style.btn_img}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg>
+                                                        </svg> */}
+                                                        <img src={event} />
                                                         <span className={style.post_img}>Event</span>
                                                     </button>
                                                     <button className={style.btn_img}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                                                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg>
+                                                        </svg> */}
+                                                        <img src={checkin} />
                                                         <span className={style.post_img}>Check in</span>
                                                     </button>
                                                 </div>
@@ -99,7 +107,7 @@ const Article = () => {
                                                         </p>
                                                         <p className={style.date_time}>
                                                             11 hrs
-                                                            .
+                                                            •
                                                             Hanoi, VietNam
                                                             .
                                                         </p>
@@ -115,7 +123,6 @@ const Article = () => {
                                                     </button>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div className={style.posts_body}>
@@ -131,13 +138,13 @@ const Article = () => {
                                                     <img className={style.img_img} src={article2} />
                                                 </div>
                                                 <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={article2} />
+                                                    <img className={style.img_img} src={img} />
                                                 </div>
                                                 <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={article2} />
+                                                    <img className={style.img_img} src={img} />
                                                 </div>
                                                 <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={article2} />
+                                                    <img className={style.img_img} src={img} />
                                                 </div>
                                             </div>
                                         </div>
@@ -187,11 +194,50 @@ const Article = () => {
                                         </form>
                                         <div>
                                             <div className={style.read_comment}>
-                                                <Link to=""></Link>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={style.read_comment}>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            Jessalyn Sarah Gilsig is a Canadian-American actress known for her roles in television series, e.g., as Lauren Davis in Boston Public, Gina Russo in Nip/Tuck, Terri Schuester in Glee, and as Siggy Haraldson on the History Channel series Vikings. 🏆
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
-                                            <div className={style.read_comment}></div>
+
                                         </div>
                                     </div>
                                 </div>
