@@ -15,18 +15,18 @@ const Article = () => {
             <div className={style.article_form}>
                 <Navigation />
                 <div className={style.article_container}>
-                    {/* nav  */}
+                    {/* nav  - left */}
                     <nav className={style.article_navbar}>
                         <div className={style.navbar_collapse}>
                             <div className={style.navbar_vertical}></div>
                         </div>
                     </nav>
+
                     {/* content  */}
                     <div className={style.article_content}>
                         <div className={style.article_gird}>
                             {/* CENTER */}
                             <div className={style.article_gird_center}>
-
                                 {/* ceate post  */}
                                 <div className={style.post_status}>
                                     <div className={style.post_hearer}>
@@ -47,26 +47,14 @@ const Article = () => {
                                             <div className={style.post_image}>
                                                 <div className={style.post_img_left}>
                                                     <button className={style.btn_img}>
-                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg> */}
                                                         <img src={addfile} />
                                                         <span className={style.post_img}>Image</span>
                                                     </button>
                                                     <button className={style.btn_img}>
-                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg> */}
                                                         <img src={event} />
                                                         <span className={style.post_img}>Event</span>
                                                     </button>
                                                     <button className={style.btn_img}>
-                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                                                        </svg> */}
                                                         <img src={checkin} />
                                                         <span className={style.post_img}>Check in</span>
                                                     </button>
@@ -85,7 +73,6 @@ const Article = () => {
                                         </form>
                                     </div>
                                 </div>
-
                                 {/* Bai dang  */}
                                 <div className={style.post_status}>
                                     <div className={style.post_hearer}>
@@ -241,11 +228,461 @@ const Article = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <div className={style.post_status}>
+                                    <div className={style.post_hearer}>
+                                        <div className={style.post_hearer_between}>
+                                            <div className={style.post_img_left}>
+                                                <div className={style.d_flex}>
+                                                    <Link to="#" className={style.d_flex}>
+                                                        <div className={style.header_avatar}>
+                                                            <img className={style.circle_avt1} src={Avt} />
+                                                        </div>
+                                                    </Link>
+                                                    <div className={style.name_account}>
+                                                        <p className={style.name_user}>
+                                                            <Link to="#" className={style.post_name_account}>John &nbsp;</Link>
+                                                            <span className={style.share_album}>
+                                                                share an
+                                                                <Link to="#"> album</Link>
+                                                            </span>
+                                                        </p>
+                                                        <p className={style.date_time}>
+                                                            11 hrs
+                                                            •
+                                                            Hanoi, VietNam
+                                                            .
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={style.post_share}>
+                                                <div className={style.post_setting}>
+                                                    <button className={style.btn_setting}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={style.posts_body}>
+                                        <p>
+                                            Rowan Sebastian Atkinson CBE is an English actor, comedian and screenwriter best known for his work on the sitcoms Blackadder and Mr. Bean
+                                        </p>
+                                        <div>
+                                            <div className={style.body_img}>
+                                                <div className={style.show_img_6}>
+                                                    <img className={style.img_img} src={article2} />
+                                                </div>
+                                                <div className={style.show_img_6}>
+                                                    <img className={style.img_img} src={article2} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={style.posts_footer}>
+                                        <div className={style.total_like}>
+                                            <Link to="/homepage" className={style.count_like}>
+                                                342
+                                                likes
+                                            </Link>
+                                        </div>
+                                        <div className={style.emotion}>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Like</span>
+                                                </div>
+                                            </div>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                        <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Comment</span>
+                                                </div>
+                                            </div>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Share</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form>
+                                            <div className={style.write_comment}>
+                                                <div className={style.cmt_avt}>
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </div>
+                                                <input placeholder="Write a comment ..." type='text' className={style.input_cmt}></input>
+                                            </div>
+                                        </form>
+                                        <div>
+                                            <div className={style.read_comment}>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={style.read_comment}>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            Jessalyn Sarah Gilsig is a Canadian-American actress known for her roles in television series, e.g., as Lauren Davis in Boston Public, Gina Russo in Nip/Tuck, Terri Schuester in Glee, and as Siggy Haraldson on the History Channel series Vikings. 🏆
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={style.post_status}>
+                                    <div className={style.post_hearer}>
+                                        <div className={style.post_hearer_between}>
+                                            <div className={style.post_img_left}>
+                                                <div className={style.d_flex}>
+                                                    <Link to="#" className={style.d_flex}>
+                                                        <div className={style.header_avatar}>
+                                                            <img className={style.circle_avt1} src={Avt} />
+                                                        </div>
+                                                    </Link>
+                                                    <div className={style.name_account}>
+                                                        <p className={style.name_user}>
+                                                            <Link to="#" className={style.post_name_account}>John &nbsp;</Link>
+                                                            <span className={style.share_album}>
+                                                                share an
+                                                                <Link to="#"> album</Link>
+                                                            </span>
+                                                        </p>
+                                                        <p className={style.date_time}>
+                                                            11 hrs
+                                                            •
+                                                            Hanoi, VietNam
+                                                            .
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={style.post_share}>
+                                                <div className={style.post_setting}>
+                                                    <button className={style.btn_setting}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={style.posts_body}>
+                                        <p>
+                                            Rowan Sebastian Atkinson CBE is an English actor, comedian and screenwriter best known for his work on the sitcoms Blackadder and Mr. Bean
+                                        </p>
+                                        <div>
+                                            <div className={style.body_img}>
+                                                <div className={style.show_img_6}>
+                                                    <img className={style.img_img} src={article2} />
+                                                </div>
+                                                <div className={style.show_img_6}>
+                                                    <img className={style.img_img} src={article2} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                                <div className={style.show_img_4}>
+                                                    <img className={style.img_img} src={img} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={style.posts_footer}>
+                                        <div className={style.total_like}>
+                                            <Link to="/homepage" className={style.count_like}>
+                                                342
+                                                likes
+                                            </Link>
+                                        </div>
+                                        <div className={style.emotion}>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Like</span>
+                                                </div>
+                                            </div>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                        <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Comment</span>
+                                                </div>
+                                            </div>
+                                            <div className={style.emotion_item}>
+                                                <div className={style.emotion_gird}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                                                    </svg>
+                                                    <span className={style.like_icon}>Share</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <form>
+                                            <div className={style.write_comment}>
+                                                <div className={style.cmt_avt}>
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </div>
+                                                <input placeholder="Write a comment ..." type='text' className={style.input_cmt}></input>
+                                            </div>
+                                        </form>
+                                        <div>
+                                            <div className={style.read_comment}>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={style.read_comment}>
+                                                <Link to="#">
+                                                    <div className={style.avatar_comment}>
+                                                        <img className={style.circle_avt} src={Avt} />
+                                                    </div>
+                                                </Link>
+                                                <div className={style.read_cmt}>
+                                                    <p className={style.content_cmt}>
+                                                        <Link className={style.name_account_cmt}>
+                                                            John
+                                                        </Link>
+                                                        <span className={style.view_cmt}>
+                                                            Jessalyn Sarah Gilsig is a Canadian-American actress known for her roles in television series, e.g., as Lauren Davis in Boston Public, Gina Russo in Nip/Tuck, Terri Schuester in Glee, and as Siggy Haraldson on the History Channel series Vikings. 🏆
+                                                        </span>
+                                                    </p>
+                                                    <div className={style.reply_comment}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                {/* RIGHT  */}
-                                {/* <div className={style.article_gird_right}>
-                                </div> */}
+                            {/* RIGHT */}
+                            <div className={style.gird_right}>
+                                <div className={style.right_info}>
+                                    <div className={style.right_info_card}>
+                                        <div className={style.show_info}>
+                                            <img src={Avt} />
+                                            <div className={style.show_name}>
+                                                <Link to="#" className={style.name_account_cmt}> Alice </Link>
+                                                has followed you
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={style.right_info}>
+                                    <div className={style.header_add_follow} >
+                                        <h5 className={style.header_add_fl}>Add to you feed</h5>
+                                    </div>
+                                    <div className={style.right_follow}>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                        <div className={style.show_info}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Helen</Link>
+                                                </h6>
+                                                <button className={style.btn_follow}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                                    </svg>
+                                                    <span className={style.follow}>Follow</span>
+                                                </button>
+                                                <div className={style.border_line}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={style.right_bottom}>
+                                    <div className={style.top_advertisement}>
+                                        <h5 className={style.header_add_fl}>You may interested</h5>
+                                    </div>
+                                    <div></div>
+                                </div>
                             </div>
                         </div>
                     </div>
