@@ -6,7 +6,7 @@ import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 // import 'tippy.js/dist/tippy.css'; // optional
 
-import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { Wrapper as PopperWrapper } from '~/components/popper';
 import logo from "../../../image/logofooter1.png"
 import account from "../../../image/icons8-user-32.png"
 import fb from "../../../image/facebook.png"
@@ -15,6 +15,13 @@ import fb from "../../../image/facebook.png"
 function Navigation() {
 
     const [searchResult, setSearchResult] = useState([]);
+    const body = document.body;
+    const switch_mode = document.querySelector('#switchmode svg');
+    switch_mode.addEventListener('click', () =>{
+        body.classList.toggle('dark');
+        switch_mode.classList.toggle('bi-moon-stars-fill');
+        switch_mode.classList.toggle('bi-brightness-high-fill');
+    })
 
     useEffect(() => {
         setTimeout(() => {
@@ -23,8 +30,8 @@ function Navigation() {
 
     }, [])
     return (
-        <>
-            <header>
+        <body className={style.dark}>
+            {/* <header> */}
                 <div className={style.header_wrap}>
                     <div className={style.header_contain}>
                         <div className={style.header_box}>
@@ -38,8 +45,11 @@ function Navigation() {
                         <div className={style.header_box}>
                             <span className={style.theme}>Theme styles</span>
                             <div className={style.dropdown}>
-                                <button className={style.dropdown_toggle}>
-                                    <div className={style.color_theme}> </div>
+                                <button id="switch-mode" className={style.dropdown_toggle}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars-fill" viewBox="0 0 16 16">
+                                        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+                                        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -79,7 +89,7 @@ function Navigation() {
                 </div> */}
 
                 {/* CENTER  */}
-                <div className={style.nav_wrap}>
+                {/* <div className={style.nav_wrap}>
                     <div className={style.nav_left}>
                         <Link to="/homepage" className={style.nav_nameweb}>
                             <div className={style.letter}>c</div>
@@ -132,10 +142,10 @@ function Navigation() {
                             </svg>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* BOTTOM  */}
-                <div className={style.nav_bottom}>
+                {/* <div className={style.nav_bottom}>
                     <div className={style.header_contain}>
                         <div className={style.header_link}>
                             <div className={style.site_nav}>
@@ -202,9 +212,9 @@ function Navigation() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </header >
-        </>
+                </div> */}
+            {/* </header > */}
+        </body>
     )
 }
 

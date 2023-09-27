@@ -54,6 +54,8 @@ button{
     border-width: 1px;
 }
 
+
+
 .header_box_right {
     width: 33.3%;
     display: flex;
@@ -512,6 +514,26 @@ li {
     margin-top: 0.3125rem;
     font-weight: calc(550);
 }
+
+
+/* Css cho dark mode owr che do toi  */
+body .dark {
+    background: #000;
+    color: #fff;
+} 
+
+/* Css cho dark mode owr che do toi  */
+body .dark .header_wrap{
+    background: #3f3f3f;
+}
+body .dark .header_wrap .header_contain .header_box .home{
+    color: #fff;
+}
+body .dark .header_wrap .header_contain .header_box .dropdown_toggle{
+    color: #fff;
+}
+
+
 
 /* Responsive for tablet */
 @media (min-width: 740px) and (max-width: 1023px) {
