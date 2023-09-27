@@ -5,13 +5,13 @@
     bottom: 0;
     left: 0;
     display: flex;
-    background-color: rgba(134, 81, 81, 0.4);
+    background-color: rgba(175, 167, 167, 0.4);
     z-index: 20;
 }
 
 .modalContentDeleteIdea {
-    width: 350px;
-    height: 370px;
+    width: 320px;
+    height: 330px;
     background-color: rgb(253, 235, 235);
     margin: auto;
     position: relative;
@@ -22,13 +22,40 @@
 
 .imgResponsive {
     max-width: 20%;
-    margin: 10% 5% 4% 4%;
+    margin: 25px;
 }
 
 .containerDelete {
-    padding: 20px;
+    padding: 0 15px 5px;
 }
 
 .contextDeleteIdea {
-    margin: 0% 5% 10% 5%;
+    margin: 8px 12px 28px;
+    /* padding:5px 5px 35px ; */
 }
+
+.btn_delete,.btn_cancle {
+    padding: 9px 20px;
+    border-radius: 4px;
+    margin: 0px 8px;
+    text-align: center;
+}
+
+.btn_delete{
+    background-color: #dc4f45;
+    color: #fff;
+}
+
+.btn_cancle{
+    background-color: #ccc;
+    text-align: center;
+}
+
+.btn_delete:hover{
+    background-color: #f44336;
+}
+
+.btn_cancle:hover{
+    background-color: #c3bcbc;
+}
+

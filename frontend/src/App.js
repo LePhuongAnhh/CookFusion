@@ -6,11 +6,11 @@ import ForgotPassForm from "./components/auth/login/ForgotPassForm"
 import ForgotPassForm2 from "./components/auth/login/ForgotPassForm2"
 import ForgotPassForm3 from "./components/auth/login/ForgotPassForm3"
 import HomepageForm from "./components/user/homepage/HomepageForm"
-import AboutUs from "./components/user/aboutUs/AboutUs" 
+import AboutUs from "./components/user/aboutUs/AboutUs"
 import FooterForm from "./components/user/footer/FooterForm"
 import Recipe from "./components/user/recipe/Recipe"
 import Article from "./components/user/blog/Article"
-import RoleModal from "./components/user/modals/RoleModal"
+import RoleModal from "./components/user/modal/RoleModal"
 import DetailRecipe from "./components/user/recipe/DetailRecipe"
 
 function App() {

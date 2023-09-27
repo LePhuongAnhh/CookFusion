@@ -15,11 +15,16 @@ import img from "../../../image/anh123.jpg"
 import checkin from "../../../image/check-in.png"
 import event from "../../../image/calendar-date.png"
 import DeleteBlog from "../modal/DeleteBlog"
+import CommentBlog from "../modal/CommentBlog"
+import CreateBlog from "../modal/CreateBlog"
+import BlogForm from "../modal/BlogForm"
 
 
 const Article = () => {
+    const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
     const [showUpdateModal, setShowUpdateModal] = useState(false) // trạng thái của modal hiển thị form comment
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     return (
         <body>
             <div className={style.article_form}>
@@ -77,12 +82,10 @@ const Article = () => {
                                         </div>
                                     </li>
                                     {/* <DarkMode /> */}
-
                                 </ul>
                             </div>
                         </div>
                     </nav>
-
 
                     {/* content  */}
                     <div className={style.article_content}>
@@ -102,13 +105,13 @@ const Article = () => {
                                         </div>
                                     </div>
 
-                                    <div className={style.post_body}>
+                                    <div className={style.post_body} >
                                         <form >
-                                            <textarea rows="4" placeholder='What do you want to talk about?' className={style.textarea_post}>
+                                            <textarea rows="3" placeholder='What do you want to talk about?' className={style.textarea_post} onClick={() => setShowDeleteModal(true)} >
                                             </textarea>
-                                            <div className={style.post_image}>
-                                                <div className={style.post_img_left}>
-                                                    <button className={style.btn_img}>
+                                            <div className={style.post_image} onClick={() => setShowCreateBlogModal(true)}>
+                                                <div className={style.post_img_left} >
+                                                    <button className={style.btn_img}  >
                                                         <img src={addfile} />
                                                         <span className={style.post_img}>Image</span>
                                                     </button>
@@ -137,80 +140,7 @@ const Article = () => {
                                 </div>
                                 {/* Bai dang  */}
                                 <div className={style.post_status}>
-                                    <div className={style.post_hearer}>
-                                        <div className={style.post_hearer_between}>
-                                            <div className={style.post_img_left}>
-                                                <div className={style.d_flex}>
-                                                    <Link to="#" className={style.d_flex}>
-                                                        <div className={style.header_avatar}>
-                                                            <img className={style.circle_avt1} src={Avt} />
-                                                        </div>
-                                                    </Link>
-                                                    <div className={style.name_account}>
-                                                        <p className={style.name_user}>
-                                                            <Link to="#" className={style.post_name_account}>John &nbsp;</Link>
-                                                            <span className={style.share_album}>
-                                                                share an
-                                                                <Link to="#"> album</Link>
-                                                            </span>
-                                                        </p>
-                                                        <p className={style.date_time}>
-                                                            11 hrs
-                                                            •
-                                                            Hanoi, VietNam
-                                                            .
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className={style.post_share}>
-                                                <div className={style.post_setting}>
-                                                    <button className={style.btn_setting}>
-                                                        <div className={style.dropdown}>
-                                                            <button className={style.dropdown_toggle}>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                                                                </svg>
-                                                            </button>
-                                                            <div className={style.dropdown_content}>
-                                                                <Link to="#" onClick={() => setShowUpdateModal(true)}>Update</Link>
-                                                                <Link to="#" onClick={() => setShowDeleteModal(true)}>Delete</Link>
-                                                                <Link to="#">Accuse</Link>
-                                                            </div>
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-
-                                    <div className={style.posts_body}>
-                                        <p>
-                                            Rowan Sebastian Atkinson CBE is an English actor, comedian and screenwriter best known for his work on the sitcoms Blackadder and Mr. Bean
-                                        </p>
-                                        <div>
-                                            <div className={style.body_img}>
-                                                <div className={style.show_img_6}>
-                                                    <img className={style.img_img} src={article2} />
-                                                </div>
-                                                <div className={style.show_img_6}>
-                                                    <img className={style.img_img} src={article2} />
-                                                </div>
-                                                <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={img} />
-                                                </div>
-                                                <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={img} />
-                                                </div>
-                                                <div className={style.show_img_4}>
-                                                    <img className={style.img_img} src={img} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <BlogForm />
                                     <div className={style.posts_footer}>
                                         <div className={style.total_like}>
                                             <Link to="/homepage" className={style.count_like}>
@@ -228,11 +158,11 @@ const Article = () => {
                                                 </div>
                                             </div>
                                             <div className={style.emotion_item}>
-                                                <div className={style.emotion_gird}>
+                                                <div className={style.emotion_gird} onClick={() => setShowCommentBlogModal(true)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
                                                         <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
                                                     </svg>
-                                                    <span className={style.like_icon}>Comment</span>
+                                                    <span className={style.like_icon}  >Comment</span>
                                                 </div>
                                             </div>
                                             <div className={style.emotion_item}>
@@ -244,16 +174,7 @@ const Article = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <form>
-                                            <div className={style.write_comment}>
-                                                <div className={style.cmt_avt}>
-                                                    <div className={style.avatar_comment}>
-                                                        <img className={style.circle_avt} src={Avt} />
-                                                    </div>
-                                                </div>
-                                                <input placeholder="Write a comment ..." type='text' className={style.input_cmt}></input>
-                                            </div>
-                                        </form>
+
                                         <div>
                                             <div className={style.read_comment}>
                                                 <Link to="#">
@@ -297,9 +218,6 @@ const Article = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -517,6 +435,8 @@ const Article = () => {
             </div>
 
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
+            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
+            {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
 
         </body>
     )

@@ -4,6 +4,11 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
 .article_container {
     width: 100%;
     display: flex;
@@ -333,61 +338,6 @@ link {
     color: gray;
     padding-right: 1.1rem;
     white-space: nowrap;
-}
-
-/* post body  */
-.posts_body {
-    flex: 1 1 auto;
-    padding: 0.25rem 1.25rem;
-    color: var(--falcon-card-color);
-}
-
-.posts_body p {
-    font-size: 16px;
-    text-align: justify;
-}
-
-.body_img {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(-1 * 0.5rem);
-    margin-right: calc(-0.5 * 0.5rem);
-    margin-left: calc(-0.5 * 0.5rem);
-}
-.show_img_6 {
-    flex: 0 0 auto;
-    width: 50%;
-    padding: 0 5px 9px;
-}
-
-.show_img_6 img {
-    width: 370px;
-    height: 200px;
-    border-radius: 3px;
-    vertical-align: middle;
-}
-
-.img_img {
-    max-width: 100%;
-    /* height: auto; */
-}
-
-.show_img_4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
-    padding: 0 5px;
-}
-
-.show_img_4 img {
-    width: 245px;
-    height: 275px;
-    border-radius: 3px;
-    vertical-align: middle;
-}
-
-.img_img {
-    max-width: 100%;
-    height: auto;
 }
 
 /* footer  */
@@ -752,44 +702,4 @@ link {
     box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
 }
 
-/* modal setting  */
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown_content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    align-items: center;
-}
-
-.dropdown:hover .dropdown_content {
-    padding: 10px;
-    display: inline-block;
-    color: #333;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.dropdown_content a {
-    display: block;
-    color: #333;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.dropdown_content a:hover {
-    background-color: #f2f2f2;
-}
-
-.dropdown:hover .dropdown_content {
-    display: block;
-}

@@ -1,7 +1,7 @@
 import style from './LoginForm.module.css'
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import RoleModal from '~/components/user/modals/RoleModal';
+import RoleModal from '~/components/user/modal/RoleModal';
 
 
 const RegisterForm = () => {
