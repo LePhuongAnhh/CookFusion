@@ -29,6 +29,19 @@ const Article = () => {
         <body>
             <div className={style.article_form}>
                 <Navigation />
+                <div className={style.top}>
+                    <div className={style.breadcrumb_container}>
+                        <nav className={style.breadcrumb}>
+                            <span className={style.breadcrumb_link}>
+                                <Link to="/homepage">Home</Link>
+                            </span>
+                            <span className={style.breadcrumb_separator}>/</span>
+                            <span className={style.breadcrumb_link}>
+                                <Link to="#" title>Recipe</Link>
+                            </span>
+                        </nav>
+                    </div>
+                </div>
                 <div className={style.article_container}>
                     {/* nav  - left */}
                     <nav className={style.article_navbar}>
@@ -106,10 +119,10 @@ const Article = () => {
                                     </div>
 
                                     <div className={style.post_body} >
-                                        <form >
-                                            <textarea rows="3" placeholder='What do you want to talk about?' className={style.textarea_post} onClick={() => setShowDeleteModal(true)} >
+                                        <form onClick={() => setShowCreateBlogModal(true)}>
+                                            <textarea rows="2" placeholder='What do you want to talk about?' className={style.textarea_post} >
                                             </textarea>
-                                            <div className={style.post_image} onClick={() => setShowCreateBlogModal(true)}>
+                                            <div className={style.post_image}>
                                                 <div className={style.post_img_left} >
                                                     <button className={style.btn_img}  >
                                                         <img src={addfile} />
@@ -127,7 +140,7 @@ const Article = () => {
                                                 <div className={style.post_share}>
                                                     <div className={style.post_public}>
                                                         <button className={style.drop_public}>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-globe-americas" viewBox="0 0 16 16">
                                                                 <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM2.04 4.326c.325 1.329 2.532 2.54 3.717 3.19.48.263.793.434.743.484-.08.08-.162.158-.242.234-.416.396-.787.749-.758 1.266.035.634.618.824 1.214 1.017.577.188 1.168.38 1.286.983.082.417-.075.988-.22 1.52-.215.782-.406 1.48.22 1.48 1.5-.5 3.798-3.186 4-5 .138-1.243-2-2-3.5-2.5-.478-.16-.755.081-.99.284-.172.15-.322.279-.51.216-.445-.148-2.5-2-1.5-2.5.78-.39.952-.171 1.227.182.078.099.163.208.273.318.609.304.662-.132.723-.633.039-.322.081-.671.277-.867.434-.434 1.265-.791 2.028-1.12.712-.306 1.365-.587 1.579-.88A7 7 0 1 1 2.04 4.327Z" />
                                                             </svg>
                                                         </button>
@@ -189,27 +202,6 @@ const Article = () => {
                                                         </Link>
                                                         <span className={style.view_cmt}>
                                                             She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
-                                                        </span>
-                                                    </p>
-                                                    <div className={style.reply_comment}>
-                                                        <Link to="#"> Like  </Link> •
-                                                        <Link to="#"> Reply  </Link>• 3hs
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className={style.read_comment}>
-                                                <Link to="#">
-                                                    <div className={style.avatar_comment}>
-                                                        <img className={style.circle_avt} src={Avt} />
-                                                    </div>
-                                                </Link>
-                                                <div className={style.read_cmt}>
-                                                    <p className={style.content_cmt}>
-                                                        <Link className={style.name_account_cmt}>
-                                                            John
-                                                        </Link>
-                                                        <span className={style.view_cmt}>
-                                                            Jessalyn Sarah Gilsig is a Canadian-American actress known for her roles in television series, e.g., as Lauren Davis in Boston Public, Gina Russo in Nip/Tuck, Terri Schuester in Glee, and as Siggy Haraldson on the History Channel series Vikings. 🏆
                                                         </span>
                                                     </p>
                                                     <div className={style.reply_comment}>

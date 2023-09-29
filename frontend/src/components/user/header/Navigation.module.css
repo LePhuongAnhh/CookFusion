@@ -15,7 +15,7 @@ button {
 .header_wrap {
     width: 100%;
     display: flex;
-    height: 60px;
+    height: 70px;
     background-color: white;
     position: fixed;
     z-index: 20;
@@ -87,7 +87,7 @@ button {
 }
 
 .nav_top ul {
-    margin-left: 30px;
+    /* margin-left: 30px; */
 }
 
 .nav_top a {
@@ -105,7 +105,7 @@ button {
 /* CENTER  */
 .nav_wrap {
     background: #fff;
-    height: 110px;
+    height: 80px;
     align-items: center;
     border-bottom: 1px solid #e8ebed;
     display: flex;
@@ -142,9 +142,8 @@ a:visited {
 }
 
 .nav_left img {
-    width: 55px; /* Đặt chiều rộng của ảnh */
-    height: 55px; /* Đặt chiều cao của ảnh (nếu cần) */
-    border-radius: 50%; /* Bo góc để tạo hình tròn */
+    width: 75px; /* Đặt chiều rộng của ảnh */
+    height: 75px; /* Đặt chiều cao của ảnh (nếu cần) */
     object-fit: cover;
 }
 
@@ -345,6 +344,8 @@ input {
 }
  */
 
+
+
 /* HEADER_BOTTOM */
 ul,
 li {
@@ -378,6 +379,7 @@ li {
 
 .header_link {
     width: 70%;
+    display: inline-block;
     /* flex: 1; */
 }
 
@@ -503,7 +505,6 @@ li {
 }
 
 /* Css cho dark mode owr che do toi  */
-
 
 /* Css cho dark mode owr che do toi  */
 

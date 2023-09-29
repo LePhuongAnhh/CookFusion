@@ -11,20 +11,21 @@ import { Wrapper as PopperWrapper } from '~/components/popper';
 import logo from "../../../image/logofooter1.png"
 import account from "../../../image/icons8-user-32.png"
 import fb from "../../../image/facebook.png"
+import Logo from "../../../image/f2.png"
 
 function Navigation() {
 
     const [searchResult, setSearchResult] = useState([]);
 
-    useEffect(() => {
-        const body = document.body;
-        const switch_mode = document.querySelector("#switch-mode i");
-        switch_mode.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            switch_mode.classList.toggle('bi-moon-stars-fill');
-            switch_mode.classList.toggle('bi-brightness-high-fill');
-        })
-    });
+    // useEffect(() => {
+    //     const body = document.body;
+    //     const switch_mode = document.querySelector("#switch-mode i");
+    //     switch_mode.addEventListener('click', () => {
+    //         body.classList.toggle('dark');
+    //         switch_mode.classList.toggle('bi-moon-stars-fill');
+    //         switch_mode.classList.toggle('bi-brightness-high-fill');
+    //     })
+    // });
 
     useEffect(() => {
         setTimeout(() => {
@@ -35,68 +36,20 @@ function Navigation() {
     return (
         <body className={style.dark}>
             <header>
-                <div id="wrapper" className={style.header_wrap}>
+                {/* <div id="wrapper" className={style.header_wrap}>
                     <div id="header" className={style.header_contain}>
                         <div id="container">
-                            <div className={style.header_box}>
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                                    </svg>
-                                </span>
-                                <span className={style.home}>Back</span>
-                            </div>
-                            <div className={style.header_box}>
-                                <span className={style.theme}>Theme styles</span>
-                                <div className={style.dropdown}>
-                                    <button id="switch-mode" className={style.dropdown_toggle}>
-                                        <i className="bi bi-moon-stars-fill"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className={style.header_box_right}>
-                            <div className={style.try_them}>Try them</div>
                         </div>
                     </div>
                 </div>
-                <div className={style.space}></div>
-                {/* TOP  */}
-                {/* <div className={style.nav_top}>
-                    <div className={style.nav_top_container}>
-                        <ul>
-                            <li>
-                                <Link to="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                                    </svg>
-                                </Link>
-                                <Link to="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                                    </svg>
-                                </Link>
-                                <Link to="#">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                                    </svg>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={style.nav_top_center}>
-
-                    </div>
-                </div> */}
+                <div className={style.space}></div> */}
 
                 {/* CENTER  */}
                 <div className={style.nav_wrap}>
                     <div className={style.nav_left}>
                         <Link to="/homepage" className={style.nav_nameweb}>
-                            <div className={style.letter}>c</div>
-                            <div className={style.letter}>&</div>
-                            <div className={style.letter}>F</div>
+                            <img src={Logo} />
                         </Link>
                     </div>
                     <div className={style.nav_action}>
@@ -150,23 +103,16 @@ function Navigation() {
                 <div className={style.nav_bottom}>
                     <div className={style.header_contain}>
                         <div className={style.header_link}>
+
                             <div className={style.site_nav}>
+                                <div className={style.nav_left}>
+                                    <Link to="/homepage" className={style.nav_nameweb}>
+                                        <img src={Logo} />
+                                    </Link>
+                                </div>
                                 <div className={style.site_nav_container}>
                                     <nav>
                                         <ul className={style.link_list}>
-                                            <li className={style.menu_cate}>
-                                                <Link to="#" className={style.menu_link}>
-                                                    <span>
-                                                        <span className={style.text_cate}>Category</span>
-                                                    </span>
-                                                    <span className={style.icon}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                                                        </svg>
-                                                    </span>
-                                                </Link>
-                                                <ul></ul>
-                                            </li>
                                             <li className={style.menu_item}>
                                                 <Link to="/aboutus" className={style.menu_link}>
                                                     <span>
