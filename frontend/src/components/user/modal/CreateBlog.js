@@ -72,12 +72,12 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
                             </div>
                             <div className={style.condition}>
                                 <label>
-                                    <input type="checkbox" checked={isChecked} /> I agree to 
+                                    <input type="checkbox" checked={isChecked} /> I agree to
                                 </label>
                                 <span className={style.linkCondition}>
-                                Term and Condition
+                                    Term and Condition
                                 </span>
-                                 
+
                             </div>
                         </form>
                     </div>

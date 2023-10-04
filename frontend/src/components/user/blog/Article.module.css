@@ -8,6 +8,9 @@ textarea:focus,
 input:focus {
     outline: none;
 }
+.article_form {
+    margin-top: 80px;
+}
 
 .article_container {
     width: 100%;
@@ -18,10 +21,7 @@ input:focus {
 /* /NAV  */
 .article_navbar {
     position: fixed;
-    /* display: inline-block; */
-    /* z-index: 1019; */
     width: 100%;
-    /* background-image: none; */
 }
 .navbar_collapse {
     width: 21%;

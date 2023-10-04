@@ -29,19 +29,6 @@ const Article = () => {
         <body>
             <div className={style.article_form}>
                 <Navigation />
-                <div className={style.top}>
-                    <div className={style.breadcrumb_container}>
-                        <nav className={style.breadcrumb}>
-                            <span className={style.breadcrumb_link}>
-                                <Link to="/homepage">Home</Link>
-                            </span>
-                            <span className={style.breadcrumb_separator}>/</span>
-                            <span className={style.breadcrumb_link}>
-                                <Link to="#" title>Recipe</Link>
-                            </span>
-                        </nav>
-                    </div>
-                </div>
                 <div className={style.article_container}>
                     {/* nav  - left */}
                     <nav className={style.article_navbar}>

@@ -1,128 +1,12 @@
 .browse {
     display: flex;
     width: 100%;
+    margin-top: 70px;
 }
 
 .right {
     overflow: hidden;
 }
-
-/* .content_wrapper {
-    overflow: hidden;
-    background-color: rgb(208, 230, 249);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-/* 
-.browse_nav {
-    position: relative;
-    flex-direction: column-reverse;
-    margin-top: 100px;
-    width: 80%;
-    padding: 0;
-    overflow-x: hidden;
-}
-.header_text_scroll {
-    overflow-y: hidden;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    height: 40px;
-    width: 100%;
-    white-space: nowrap;
-    scroll-behavior: smooth;
-} */
-
-/* .cate_recipe {
-    list-style: none;
-    text-decoration: none;
-    
-    font-weight: 700;
-    transition: all 200ms ease;
-    display: inline-block;
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: #4a4a4a;
-    line-height: 1.857142857142857;
-    margin-bottom: 2.5em;
-    margin-right: 12px;
-    cursor: pointer;
-    text-transform: uppercase;
-    position: relative;
-} */
-/* 
-.cate_recipe::before,
-.cate_recipe::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    
-    width: 100%;
-    height: 2px;
-    background-color: #0561ee;
-    transform: scaleY(0);
-    transition: transform 0.25s;
-}
-
-.cate_recipe::before {
-    top: -3px;
-    transform-origin: left;
-}
-
-.cate_recipe::after {
-    bottom: -3px;
-    transform-origin: right;
-}
-
-.cate_recipe:hover::before,
-.cate_recipe:hover::after,
-.active::before,
-.active::after {
-    transform: scaleX(1);
-}
-
-.cate_recipe:focus {
-    color: #3a9691;
-} */
-
-/* introduction */
-/* .intro {
-    margin-left: 200px;
-    margin-top: 50px;
-    width: 28ch;
-    animation: typing 6s steps(28) forwards, blink 0.3s step-end infinite alternate;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid;
-   
-    font-size: 2em;
-}
-
-.intro h3 {
-    background: linear-gradient(140deg, #05fb53, #bc05c9, #e1e107);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #fff;
-    font-size: 25px;
-    font-weight: 550;
-}
-
-@keyframes typing {
-    0%,
-    100% {
-        width: 0;
-    }
-    50% {
-        width: 28ch;
-    }
-}
-
-@keyframes blink {
-    50% {
-        border-color: transparent;
-    }
-} */
 
 /* TOP  */
 .top {
@@ -136,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    overflow-x: auto;
+    /* overflow-x: auto; */
     height: 100%;
     width: 100%;
     max-width: 1360px;
@@ -179,9 +63,130 @@
     text-align: center;
 }
 
-/* .gallery_left {
-    margin-left:10px;
-} */
+/* OUR BLOG  */
+.blog {
+    width: 100%;
+    height: auto;
+    padding: 30px 0;
+}
+.blog h1 {
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+}
+
+.blog h1 span,
+.team h1 span {
+    color: #fac031;
+    font-family: mv boli;
+    margin-left: 15px;
+}
+
+.blog h1 span::after,
+.team h1 span::after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #fac031;
+    display: block;
+    position: relative;
+    bottom: 15px;
+}
+.blog .blog_box {
+    width: 95%;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.blog .blog_box .blog_card {
+    margin: 0 auto;
+    width: 355px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.blog .blog_box .blog_card .blog_img {
+    width: 355px;
+    height: 300px;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.blog .blog_box .blog_card .blog_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.blog .blog_box .blog_card .blog_tag .blog_date {
+    width: 100%;
+    color: #facc22;
+    padding: 15px 0 0 20px;
+    font-size: 14px;
+}
+
+.blog .blog_box .blog_card .blog_tag .blog_date i {
+    margin-left: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.blog .blog_box .blog_card .blog_tag .blog_heading {
+    padding: 0px 20px 5px;
+    font-size: 20px;
+}
+
+.blog .blog_box .blog_card .blog_tag .blog_text {
+    padding: 0 20px 10px 20px;
+    text-align: justify;
+    line-height: 21px;
+}
+
+.blog .blog_box .blog_card .blog_tag hr {
+    width: 95%;
+    margin: 0 auto;
+    height: 1px;
+    border: 0;
+    background: #facc22;
+    border-radius: 5px;
+}
+
+.blog .blog_box .blog_card .blog_tag .view_and_like {
+    padding: 15px 20px 5px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blog .blog_box .blog_card .blog_tag .view_and_like .view {
+    display: flex;
+    align-items: center;
+}
+
+.blog .blog_box .blog_card .blog_tag .view_and_like .view p {
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.blog .blog_box .blog_card .blog_tag .view_and_like .like {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.blog .blog_box .blog_card .blog_tag .view_and_like .like i {
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: -14px;
+}
+/* HET  */
 
 .g_card {
     display: inline-block;
@@ -275,42 +280,6 @@
     /* background-color: #0561ee; */
 }
 
-/* anh tron  */
-/* .swiper_slide {
-    background-position: center;
-    background-size: cover;
-}
-.swiper_slide::after {
-    position: absolute;
-    content: '';
-    inset: 0;
-    width: 100%;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: linear-gradient(to border-right, #b8b8b88f, #ffffff5e);
-}
-
-.swiper_slide_active::after {
-    background: none;
-}
-
-.swiper_slide > div {
-    text-align: center;
-    display: none;
-    opacity: 0;
-}
-.swiper_slide_active div {
-    display: block;
-    opacity: 1;
-}
-
-.swiper_slide img {
-    object-fit: cover;
-    box-shadow: 0pxx 3px 17p rgb(0, 0, 0 / 25%);
-    border-radius: 50%;
-    aspect-ratio: 1/1;
-} */
-
 /* NEW RECIPE  */
 .recipe_card h2 {
     margin-left: 35px;
@@ -321,9 +290,8 @@
 .team {
     width: 100%;
     height: 90vh;
-     background-size: cover;
+    background-size: cover;
     background-position: center;
-   
 }
 
 .team h1 {
@@ -332,22 +300,6 @@
     justify-content: center;
     font-size: 55px;
     margin-bottom: 30px;
-}
-
-.team h1 span {
-    color: #fac031;
-    margin-left: 15px;
-    font-family: mv boli;
-}
-
-.team h1 span::after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background: #fac031;
-    display: block;
-    position: relative;
-    bottom: 15px;
 }
 
 .name {
@@ -361,7 +313,6 @@
     justify-content: center;
     position: relative;
     top: 13%;
-
 }
 
 .team .team_box .profile {
@@ -374,7 +325,7 @@
     justify-content: center;
     position: relative;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    transition: 0.4s;  
+    transition: 0.4s;
 }
 
 .team .team_box .profile:hover {
