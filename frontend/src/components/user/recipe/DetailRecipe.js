@@ -2,9 +2,17 @@ import style from "./DetailRecipe.module.css"
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import Navigation from "../header/Navigation";
+import { Helmet } from "react-helmet"
 
-import img_article from "../../../image/background.jpg"
+import img_article from "../../../image/thit-kho-tau-mien-nam.jpg"
 import Avt from "../../../image/avt.jpg"
+import pig_meal from "../../../image/pig_meal.jpg"
+import thitlonnau from "../../../image/thit-kho-tau-2-e1591983890543.jpg"
+import ketqua from "../../../image/ketquatht.jpg"
+import time from "../../../image/time.png"
+import ingredient from "../../../image/nutrients.png"
+import burning from "../../../image/burning.png"
+import serving from "../../../image/food.jpg"
 
 function DetailRecipe() {
 
@@ -34,6 +42,9 @@ function DetailRecipe() {
     return (
         <>
             <div className={style.detail_recipe}>
+                <Helmet>
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                </Helmet>
                 <div className={style.header}>
                     <Navigation />
                 </div>
@@ -55,6 +66,7 @@ function DetailRecipe() {
                     </div>
                     {/* BODY  */}
                     <div className={style.detail_content}>
+                        {/* phan ben tren  */}
                         <div className={style.detail_container}>
                             <div className={style.detail_right}>
                                 <div className={style.header_right}>
@@ -76,25 +88,33 @@ function DetailRecipe() {
                                     </div>
                                     <div className={style.description}>
                                         <div className={style.review_content}>
-                                            <span className={style.description_sp}>Description</span>: "It tasted great and was easy to make"
+                                            <span className={style.description_sp}>Description</span>: "Considered the first choice for those who want to enjoy this ingredient. Because when grilled, pork breast will be both crispy and delicious with a delicious flavor from the accompanying spices and is quite suitable to become a hybrid dish at parties."
                                         </div>
                                     </div>
                                     <div className={style.count_material}>
                                         <div className={style.ingredient}>
+                                            <img src={ingredient} />
                                             <span className={style.value}>13</span>
                                             <span className={style.name_value}>Ingredients</span>
                                         </div>
-                                        <div className={style.minutes}>
+                                        <div className={style.ingredient}>
+                                            <img src={time} />
                                             <span className={style.value}>45</span>
                                             <span className={style.name_value}>Minutes</span>
                                         </div>
-                                        <div className={style.calories}>
+                                        <div className={style.ingredient}>
+                                            <img src={burning} />
                                             <span className={style.value}>100</span>
                                             <span className={style.name_value}>Calories</span>
                                         </div>
+                                        <div className={style.ingredient}>
+                                            <img src={serving} />
+                                            <span className={style.value}>4</span>
+                                            <span className={style.name_value}>Serving</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className={style.line_right}><hr /></div>
+                                {/* <div className={style.line_right}><hr /></div> */}
                             </div>
                             <div className={style.detail_left}>
                                 <div className={style.detail_left_gird}>
@@ -102,16 +122,13 @@ function DetailRecipe() {
                                 </div>
                             </div>
                         </div>
+                        <div className={style.line_right}><hr /></div>
+                        {/* cac nguyen lieu  */}
                         <div className={style.bottom_recipe}>
                             <div className={style.recipe_ingredient_wrapper}>
                                 <div className={style.ingredient_header}>
                                     <h3 className={style.ingrs_header_title}>Ingredients</h3>
                                     <div className={style.flex_expand}></div>
-                                    <div className={style.unit_serving}>
-                                        <div className={style.serving}>
-                                            <span className={style.count_serving}>4 SERVING</span>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div className={style.shopping_list_ingrs}>
                                     <ul className={style.list_ingrs}>
@@ -181,15 +198,17 @@ function DetailRecipe() {
                                                 <span className={style.name_ingrs}>black pepper</span>
                                             </li>
                                         </li>
+                                    </ul>
+                                    <ul className={style.list_ingrs}>
                                         <li className={style.show_ingrs}>
                                             <div className={style.type_add}>
                                                 <i class="bi bi-plus-circle"></i>
                                             </div>
                                             <li className={style.ingredient_line}>
                                                 <span className={style.amount_ingrs}>
-                                                    <span>1 Tbsp. </span> &nbsp;
+                                                    <span>4 </span> &nbsp;
                                                 </span>
-                                                <span className={style.name_ingrs}>olive oil</span>
+                                                <span className={style.name_ingrs}>Chicken breasts</span>
                                             </li>
                                         </li>
                                         <li className={style.show_ingrs}>
@@ -198,9 +217,9 @@ function DetailRecipe() {
                                             </div>
                                             <li className={style.ingredient_line}>
                                                 <span className={style.amount_ingrs}>
-                                                    <span> 2 cups </span> &nbsp;
+                                                    <span>1 tsp. </span> &nbsp;
                                                 </span>
-                                                <span className={style.name_ingrs}>broccoli florets</span>
+                                                <span className={style.name_ingrs}>Italian seasoning</span>
                                             </li>
                                         </li>
                                         <li className={style.show_ingrs}>
@@ -209,9 +228,42 @@ function DetailRecipe() {
                                             </div>
                                             <li className={style.ingredient_line}>
                                                 <span className={style.amount_ingrs}>
-                                                    <span>1/4 cup  </span> &nbsp;
+                                                    <span>1 tsp.  </span> &nbsp;
                                                 </span>
-                                                <span className={style.name_ingrs}>bell pepper</span>
+                                                <span className={style.name_ingrs}>paprika</span>
+                                            </li>
+                                        </li>
+                                        <li className={style.show_ingrs}>
+                                            <div className={style.type_add}>
+                                                <i class="bi bi-plus-circle"></i>
+                                            </div>
+                                            <li className={style.ingredient_line}>
+                                                <span className={style.amount_ingrs}>
+                                                    <span>1/2 tsp. </span> &nbsp;
+                                                </span>
+                                                <span className={style.name_ingrs}>garlic powder</span>
+                                            </li>
+                                        </li>
+                                        <li className={style.show_ingrs}>
+                                            <div className={style.type_add}>
+                                                <i class="bi bi-plus-circle"></i>
+                                            </div>
+                                            <li className={style.ingredient_line}>
+                                                <span className={style.amount_ingrs}>
+                                                    <span>1 tsp. </span> &nbsp;
+                                                </span>
+                                                <span className={style.name_ingrs}>salt</span>
+                                            </li>
+                                        </li>
+                                        <li className={style.show_ingrs}>
+                                            <div className={style.type_add}>
+                                                <i class="bi bi-plus-circle"></i>
+                                            </div>
+                                            <li className={style.ingredient_line}>
+                                                <span className={style.amount_ingrs}>
+                                                    <span>1/2 tsp. </span> &nbsp;
+                                                </span>
+                                                <span className={style.name_ingrs}>black pepper</span>
                                             </li>
                                         </li>
                                     </ul>
@@ -282,63 +334,11 @@ function DetailRecipe() {
                                                 <span className={style.name_ingrs}>black pepper</span>
                                             </li>
                                         </li>
-                                        <li className={style.show_ingrs}>
-                                            <div className={style.type_add}>
-                                                <i class="bi bi-plus-circle"></i>
-                                            </div>
-                                            <li className={style.ingredient_line}>
-                                                <span className={style.amount_ingrs}>
-                                                    <span>1 Tbsp. </span> &nbsp;
-                                                </span>
-                                                <span className={style.name_ingrs}>olive oil</span>
-                                            </li>
-                                        </li>
-                                        <li className={style.show_ingrs}>
-                                            <div className={style.type_add}>
-                                                <i class="bi bi-plus-circle"></i>
-                                            </div>
-                                            <li className={style.ingredient_line}>
-                                                <span className={style.amount_ingrs}>
-                                                    <span> 2 cups </span> &nbsp;
-                                                </span>
-                                                <span className={style.name_ingrs}>broccoli florets</span>
-                                            </li>
-                                        </li>
-                                        <li className={style.show_ingrs}>
-                                            <div className={style.type_add}>
-                                                <i class="bi bi-plus-circle"></i>
-                                            </div>
-                                            <li className={style.ingredient_line}>
-                                                <span className={style.amount_ingrs}>
-                                                    <span>1/4 cup  </span> &nbsp;
-                                                </span>
-                                                <span className={style.name_ingrs}>bell pepper</span>
-                                            </li>
-                                        </li>
                                     </ul>
-
                                 </div>
                             </div>
                         </div>
-                        <div className={style.save_collection}>
-                            <div className={style.save_btn}>
-                                <span className={style.icon_save}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                    </svg>
-                                </span>
-                                <span className={style.save}>Save this recipe</span>
-                            </div>
-                            <div className={style.add_planmeal}>
-                                <span className={style.icon_save}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-flower2" viewBox="0 0 16 16">
-                                        <path d="M8 16a4 4 0 0 0 4-4 4 4 0 0 0 0-8 4 4 0 0 0-8 0 4 4 0 1 0 0 8 4 4 0 0 0 4 4zm3-12c0 .073-.01.155-.03.247-.544.241-1.091.638-1.598 1.084A2.987 2.987 0 0 0 8 5c-.494 0-.96.12-1.372.331-.507-.446-1.054-.843-1.597-1.084A1.117 1.117 0 0 1 5 4a3 3 0 0 1 6 0zm-.812 6.052A2.99 2.99 0 0 0 11 8a2.99 2.99 0 0 0-.812-2.052c.215-.18.432-.346.647-.487C11.34 5.131 11.732 5 12 5a3 3 0 1 1 0 6c-.268 0-.66-.13-1.165-.461a6.833 6.833 0 0 1-.647-.487zm-3.56.617a3.001 3.001 0 0 0 2.744 0c.507.446 1.054.842 1.598 1.084.02.091.03.174.03.247a3 3 0 1 1-6 0c0-.073.01-.155.03-.247.544-.242 1.091-.638 1.598-1.084zm-.816-4.721A2.99 2.99 0 0 0 5 8c0 .794.308 1.516.812 2.052a6.83 6.83 0 0 1-.647.487C4.66 10.869 4.268 11 4 11a3 3 0 0 1 0-6c.268 0 .66.13 1.165.461.215.141.432.306.647.487zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-                                    </svg>
-                                </span>
-                                <span className={style.save}>Add to Meal Plan</span>
-                            </div>
-                        </div>
+
                         <div className={style.nutrition_wrapper}>
                             <h3 className={style.nutrition_title}>Nutrition</h3>
                             <p className={style.nutrition_info}>Full nutritional details of the dish</p>
@@ -372,6 +372,101 @@ function DetailRecipe() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* STEP  */}
+                        <div className={style.step_recipe_wrapper}>
+                            <div className={style.step_header}>
+                                <h3 className={style.title_step}> Step</h3>
+                            </div>
+                            <div className={style.step_wrapper}>
+                                <div className={style.step_1}>
+                                    <div className={style.step_header1}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-feather" viewBox="0 0 16 16">
+                                            <path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.765 3.765 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1c-1.95 1.686-3.168 3.724-3.758 5.423-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88.017.04.035.082.056.122A68.362 68.362 0 0 0 .08 15.198a.528.528 0 0 0 .157.72.504.504 0 0 0 .705-.16 67.606 67.606 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.528.528 0 0 0 0-.739l-.729-.744 1.311.209a.504.504 0 0 0 .443-.15c.222-.23.444-.46.663-.684.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.524.524 0 0 0-.112-.172ZM3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196a.526.526 0 0 0-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.282 1.282 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a6.85 6.85 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524-1.581-.25Zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a7.97 7.97 0 0 1 1.564-.173Z" />
+                                        </svg>
+                                        <h3 className={style.title_header}>
+                                            Process Materials
+                                        </h3>
+                                        <span> 30 minutes</span>
+                                    </div>
+                                    <div>
+                                        <p>Chop the baby back ribs into 4×3 cm pieces, and cut the baby jackfruit into triangles of the same size.</p>
+                                        <p>Marinate ribs with 2 ml minced onion and garlic, 1 ml salt, 1 ml sugar, 1 ml AJI-NO-MOTO® MSG, 1.5 ml Aji-ngon® PORK seasoning, 1/2 ml curry powder, 1 ml cashew oil for about 30 minutes. Jackfruit lightly fried in oil until browned.</p>
+                                        <p>Cut the lemongrass into pieces and crush it, cut the onion into segments.</p>
+                                        <p>
+                                            <img src={pig_meal} />
+                                        </p>
+                                        <p>Regarding colored water, depending on the consistency and lightness, please flexibly increase or decrease it. In this recipe, I use homemade colored water, which has the color of cockroach wings and is not bitter. Please refer to how to make colored water for stewing meat and fish below. Note that you should not add too much colored water, because when the meat is braised for a long time, the colored water will also become darker.</p>
+                                    </div>
+                                </div>
+                                <div className={style.space}></div>
+                                <div className={style.step_1}>
+                                    <div className={style.step_header1}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cookie" viewBox="0 0 16 16">
+                                            <path d="M6 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm4.5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm-.5 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                            <path d="M8 0a7.963 7.963 0 0 0-4.075 1.114c-.162.067-.31.162-.437.28A8 8 0 1 0 8 0Zm3.25 14.201a1.5 1.5 0 0 0-2.13.71A7.014 7.014 0 0 1 8 15a6.967 6.967 0 0 1-3.845-1.15 1.5 1.5 0 1 0-2.005-2.005A6.967 6.967 0 0 1 1 8c0-1.953.8-3.719 2.09-4.989a1.5 1.5 0 1 0 2.469-1.574A6.985 6.985 0 0 1 8 1c1.42 0 2.742.423 3.845 1.15a1.5 1.5 0 1 0 2.005 2.005A6.967 6.967 0 0 1 15 8c0 .596-.074 1.174-.214 1.727a1.5 1.5 0 1 0-1.025 2.25 7.033 7.033 0 0 1-2.51 2.224Z" />
+                                        </svg>
+                                        <h3 className={style.title_header}>
+                                            Cooking
+                                        </h3>
+                                        <span> 30 minutes</span>
+                                    </div>
+                                    <div>
+                                        <p>Put a non-stick pan on the stove, wait for the pan to be hot, then add 1 tablespoon of cooking oil. Then you add the meat. When the meat is firm, turn it over and sauté until all sides are firm, then braise.</p>
+                                        <p>
+                                            <img src={thitlonnau} />
+                                        </p>
+                                        <p>Heat the pan with lemongrass and curry leaves, stir-fry the ribs, then add coconut water to cover the ribs and cover. When the ribs are tender, add the jackfruit and continue to braise until cooked, a total of 30 minutes. Add chili pepper and onion. Add a cup of coconut milk and cook for 1 more minute then turn off the heat.
+                                            You prepare a spice mixture of 1.3 liters of water, 1 tablespoon of sugar, 1 teaspoon of salt, 2 tablespoons of fish sauce and 2/3-1 tablespoon of water color.
+                                        </p>
+                                        <p>Put the meat in another pot with high sides and pour in the spice mixture. With the spices you just marinated the meat, pour it into the pan where the meat was fried, bring to a boil and then add it to the pot of meat. Doing so will help rinse off the melted meat fat on the pan and will also make it easier to clean the pan.
+                                            After adding all the water and marinating spices, the water will cover the meat.
+                                            Cook over high heat until the meat boils. When the meat boils, lower the heat to medium and skim off the foam to make the meat juice clearer.</p>
+                                    </div>
+                                </div>
+                                <div className={style.space}></div>
+                                <div className={style.step_1}>
+                                    <div className={style.step_header1}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-feather" viewBox="0 0 16 16">
+                                            <path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.765 3.765 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1c-1.95 1.686-3.168 3.724-3.758 5.423-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88.017.04.035.082.056.122A68.362 68.362 0 0 0 .08 15.198a.528.528 0 0 0 .157.72.504.504 0 0 0 .705-.16 67.606 67.606 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.528.528 0 0 0 0-.739l-.729-.744 1.311.209a.504.504 0 0 0 .443-.15c.222-.23.444-.46.663-.684.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.524.524 0 0 0-.112-.172ZM3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196a.526.526 0 0 0-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.282 1.282 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a6.85 6.85 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524-1.581-.25Zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a7.97 7.97 0 0 1 1.564-.173Z" />
+                                        </svg>
+                                        <h3 className={style.title_header}>
+                                            Product
+                                        </h3>
+                                        <span> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-feather" viewBox="0 0 16 16">
+                                            <path d="M15.807.531c-.174-.177-.41-.289-.64-.363a3.765 3.765 0 0 0-.833-.15c-.62-.049-1.394 0-2.252.175C10.365.545 8.264 1.415 6.315 3.1c-1.95 1.686-3.168 3.724-3.758 5.423-.294.847-.44 1.634-.429 2.268.005.316.05.62.154.88.017.04.035.082.056.122A68.362 68.362 0 0 0 .08 15.198a.528.528 0 0 0 .157.72.504.504 0 0 0 .705-.16 67.606 67.606 0 0 1 2.158-3.26c.285.141.616.195.958.182.513-.02 1.098-.188 1.723-.49 1.25-.605 2.744-1.787 4.303-3.642l1.518-1.55a.528.528 0 0 0 0-.739l-.729-.744 1.311.209a.504.504 0 0 0 .443-.15c.222-.23.444-.46.663-.684.663-.68 1.292-1.325 1.763-1.892.314-.378.585-.752.754-1.107.163-.345.278-.773.112-1.188a.524.524 0 0 0-.112-.172ZM3.733 11.62C5.385 9.374 7.24 7.215 9.309 5.394l1.21 1.234-1.171 1.196a.526.526 0 0 0-.027.03c-1.5 1.789-2.891 2.867-3.977 3.393-.544.263-.99.378-1.324.39a1.282 1.282 0 0 1-.287-.018Zm6.769-7.22c1.31-1.028 2.7-1.914 4.172-2.6a6.85 6.85 0 0 1-.4.523c-.442.533-1.028 1.134-1.681 1.804l-.51.524-1.581-.25Zm3.346-3.357C9.594 3.147 6.045 6.8 3.149 10.678c.007-.464.121-1.086.37-1.806.533-1.535 1.65-3.415 3.455-4.976 1.807-1.561 3.746-2.36 5.31-2.68a7.97 7.97 0 0 1 1.564-.173Z" />
+                                        </svg></span>
+                                    </div>
+                                    <div>
+                                        <p>Chop the baby back ribs into 4×3 cm pieces, and cut the baby jackfruit into triangles of the same size. Cut the lemongrass into pieces and crush it, cut the onion into segments.</p>
+                                        <p>
+                                            <img src={ketqua} />
+                                        </p>
+                                        <p>Once the braised pork has cooled completely, it can be stored in the refrigerator for about 2-3 days. When eating, just boil for a few more minutes or microwave it.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={style.save_collection}>
+                            <div className={style.save_btn}>
+                                <span className={style.icon_save}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                    </svg>
+                                </span>
+                                <span className={style.save}>Save this recipe</span>
+                            </div>
+                            <div className={style.add_planmeal}>
+                                <span className={style.icon_save}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-flower2" viewBox="0 0 16 16">
+                                        <path d="M8 16a4 4 0 0 0 4-4 4 4 0 0 0 0-8 4 4 0 0 0-8 0 4 4 0 1 0 0 8 4 4 0 0 0 4 4zm3-12c0 .073-.01.155-.03.247-.544.241-1.091.638-1.598 1.084A2.987 2.987 0 0 0 8 5c-.494 0-.96.12-1.372.331-.507-.446-1.054-.843-1.597-1.084A1.117 1.117 0 0 1 5 4a3 3 0 0 1 6 0zm-.812 6.052A2.99 2.99 0 0 0 11 8a2.99 2.99 0 0 0-.812-2.052c.215-.18.432-.346.647-.487C11.34 5.131 11.732 5 12 5a3 3 0 1 1 0 6c-.268 0-.66-.13-1.165-.461a6.833 6.833 0 0 1-.647-.487zm-3.56.617a3.001 3.001 0 0 0 2.744 0c.507.446 1.054.842 1.598 1.084.02.091.03.174.03.247a3 3 0 1 1-6 0c0-.073.01-.155.03-.247.544-.242 1.091-.638 1.598-1.084zm-.816-4.721A2.99 2.99 0 0 0 5 8c0 .794.308 1.516.812 2.052a6.83 6.83 0 0 1-.647.487C4.66 10.869 4.268 11 4 11a3 3 0 0 1 0-6c.268 0 .66.13 1.165.461.215.141.432.306.647.487zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                                    </svg>
+                                </span>
+                                <span className={style.save}>Add to Meal Plan</span>
+                            </div>
+                        </div>
+
                         <div className={style.review_wrapper}>
                             <h3 className={style.review_h3}>Reviews
                                 <span className={style.count_review}>(85)</span>
@@ -386,9 +481,9 @@ function DetailRecipe() {
                             <div className={style.write_reviews}>
                                 <img src={Avt} />
                                 <div className={style.write_content}>
-                                    <div className={style.name_account}>DiamondDogFaith</div>
+                                    {/* <div className={style.name_account}>DiamondDogFaith</div> */}
                                     {/* rating  */}
-                                    <div className={style.rating}>
+                                    {/* <div className={style.rating}>
                                         <input type="radio" name="rate" id="rate-5" />
                                         <label className="bi bi-star-fill" for="rate-5"></label>
                                         <input type="radio" name="rate" id="rate-4" />
@@ -410,7 +505,7 @@ function DetailRecipe() {
                                             </div>
 
                                         </form>
-                                    </div>
+                                    </div> */}
                                     <textarea row="6" className={style.review_text} placeholder="Write your comment or review here..." aria-label="Write your comment or review here"></textarea>
                                 </div>
                             </div>

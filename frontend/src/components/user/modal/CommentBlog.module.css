@@ -6,7 +6,7 @@
     left: 0;
     display: flex;
     background-color: rgba(175, 167, 167, 0.4);
-    z-index: 20;
+    z-index: 20000000;
 }
 
 .modalContentDeleteIdea {

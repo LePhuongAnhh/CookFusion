@@ -6,12 +6,14 @@ import style from './HomepageForm.module.css'
 import { Link } from 'react-router-dom'
 import Navigation from '../header/Navigation'
 import Sidebar from '../header/Sidebar'
-import RecipeForm from '../header/RecipeForm'
+import RecipeForm from '../recipe/RecipeForm'
 import FooterForm from '../footer/FooterForm'
 import Button_save from '../header/Button_save'
 
 import Background_slide from "../../../image/background_slide.webp"
 import Background_slide1 from "../../../image/background_slide2.webp"
+import Recipe from "../../../image/recipe.webp"
+import stars from "../../../image/star1.png"
 import Background from '../../../image/background1.webp'
 import img_article from "../../../image/background.jpg"
 import article from "../../../image/article.webp"
@@ -35,7 +37,6 @@ import Main from "../../../image/main_img.png"
 
 
 const HomepageForm = () => {
-
     return (
         <body>
             <div>
@@ -78,7 +79,7 @@ const HomepageForm = () => {
                                 <div className={style.recipe_contain_box}>
                                     <div className={style.recipe_card}>
                                         <ul className={style.img_carousel}>
-                                            <li className={style.img_carousel_item}>
+                                            <li className={style.img_carousel_item_first}>
                                                 <div className={style.recipe_card_info}>
                                                     <div className={style.card_in}>
                                                         <Link className={style.card_} to="#">
@@ -99,7 +100,7 @@ const HomepageForm = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className={style.img_carousel_item}>
+                                            <li className={style.img_carousel_item_first}>
                                                 <div className={style.recipe_card_info}>
                                                     <div className={style.card_in}>
                                                         <Link className={style.card_} to="#">
@@ -120,7 +121,7 @@ const HomepageForm = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className={style.img_carousel_item}>
+                                            <li className={style.img_carousel_item_first}>
                                                 <div className={style.recipe_card_info}>
                                                     <div className={style.card_in}>
                                                         <Link className={style.card_} to="#">
@@ -141,7 +142,7 @@ const HomepageForm = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className={style.img_carousel_item}>
+                                            <li className={style.img_carousel_item_first}>
                                                 <div className={style.recipe_card_info}>
                                                     <div className={style.card_in}>
                                                         <Link className={style.card_} to="#">
@@ -393,7 +394,164 @@ const HomepageForm = () => {
                                 <div className={style.box}>
                                     <div className={style.recipe_card}>
                                         <h2>trending now</h2>
-                                        <RecipeForm />
+                                        <ul className={style.img_carousel}>
+                                            <li className={style.img_carousel_item}>
+                                                <div className={style.recipe_card_info}>
+                                                    <div className={style.card_in}>
+                                                        <Link className={style.card_} to="#">
+                                                            <div className={style.card_box_in}>
+                                                                <div className={style.recipe_card_img}>
+                                                                    <img src={Recipe} />
+                                                                    <div className={style.btn_save}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                                                            <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                        <div className={style.card_info_wrapper}>
+                                                            <div className={style.card_name}>
+                                                                <Link className={style.card_title} to="#">Asian Recipe</Link>
+                                                                <span className={style.card_source}>
+                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
+                                                                </span>
+                                                                <Link to="#" className={style.review_stars}>
+                                                                    <span className={style.icon_stars}>
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                    </span>
+                                                                    <span className={style.count_rate}> (134)</span>
+                                                                </Link>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className={style.cook}>
+                                                            <button> Cook now
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className={style.img_carousel_item}>
+                                                <div className={style.recipe_card_info}>
+                                                    <div className={style.card_in}>
+                                                        <Link className={style.card_} to="#">
+                                                            <div className={style.card_box_in}>
+                                                                <div className={style.recipe_card_img}>
+                                                                    <img src={Recipe} />
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                        <div className={style.card_info_wrapper}>
+                                                            <div className={style.card_name}>
+                                                                <Link className={style.card_title} to="#">Asian Recipe</Link>
+                                                                <span className={style.card_source}>
+                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
+                                                                </span>
+                                                                <Link to="#" className={style.review_stars}>
+                                                                    <span className={style.icon_stars}>
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                    </span>
+                                                                    <span className={style.count_rate}> (134)</span>
+                                                                </Link>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className={style.cook}>
+                                                            <button> Cook now
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className={style.img_carousel_item}>
+                                                <div className={style.recipe_card_info}>
+                                                    <div className={style.card_in}>
+                                                        <Link className={style.card_} to="#">
+                                                            <div className={style.card_box_in}>
+                                                                <div className={style.recipe_card_img}>
+                                                                    <img src={Recipe} />
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                        <div className={style.card_info_wrapper}>
+                                                            <div className={style.card_name}>
+                                                                <Link className={style.card_title} to="#">Asian Recipe</Link>
+                                                                <span className={style.card_source}>
+                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
+                                                                </span>
+                                                                <Link to="#" className={style.review_stars}>
+                                                                    <span className={style.icon_stars}>
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                    </span>
+                                                                    <span className={style.count_rate}> (134)</span>
+                                                                </Link>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className={style.cook}>
+                                                            <button> Cook now
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className={style.img_carousel_item}>
+                                                <div className={style.recipe_card_info}>
+                                                    <div className={style.card_in}>
+                                                        <Link className={style.card_} to="#">
+                                                            <div className={style.card_box_in}>
+                                                                <div className={style.recipe_card_img}>
+                                                                    <img src={Recipe} />
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                        <div className={style.card_info_wrapper}>
+                                                            <div className={style.card_name}>
+                                                                <Link className={style.card_title} to="#">Asian Recipe</Link>
+                                                                <span className={style.card_source}>
+                                                                    <Link className={style.card_source_link} to="#">VietNam</Link>
+                                                                </span>
+                                                                <Link to="#" className={style.review_stars}>
+                                                                    <span className={style.icon_stars}>
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                        <img src={stars} />
+                                                                    </span>
+                                                                    <span className={style.count_rate}> (134)</span>
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                        <div className={style.cook}>
+                                                            <button> Cook now
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -567,7 +725,7 @@ const HomepageForm = () => {
                         </section >
                     </div >
                 </div >
-                {/* <FooterForm />   */}
+                {/* <FooterForm /> */}
             </div >
         </body >
     )

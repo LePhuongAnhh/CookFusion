@@ -53,7 +53,7 @@ input:focus {
 }
 
 .nav_home {
-    color: #5e6e82;
+    color: #344;
     padding: 0.5rem 0;
     position: relative;
     cursor: pointer;
@@ -177,6 +177,17 @@ input:focus {
 .create_post {
     font-size: 1rem;
     margin-bottom: 0;
+}
+
+/* left  */
+.follower h2{
+font-size: 18px;
+margin: 8px 0 24px;
+color: #344050;
+}
+
+.show_info1{
+    margin: 20px 0;
 }
 
 /* //form create post  */
@@ -542,7 +553,8 @@ link {
     /* color: var(--falcon-card-color); */
 }
 
-.show_info {
+.show_info, 
+.show_info1 {
     display: flex;
 }
 .show_info img {
@@ -623,6 +635,8 @@ link {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;
 }
+
+
 
 .btn_follow svg {
     margin-top: -4px;

@@ -8,10 +8,13 @@ import 'tippy.js/dist/tippy.css';
 // import 'tippy.js/dist/tippy.css'; // optional
 
 import { Wrapper as PopperWrapper } from '~/components/popper';
-import logo from "../../../image/logofooter1.png"
+// import logo from "../../../image/logofooter1.png"
 import account from "../../../image/icons8-user-32.png"
 import fb from "../../../image/facebook.png"
 import Logo from "../../../image/1.png"
+import Logo_nav from '../../../image/restauran1.png'
+import Title_web from "../../../image/name_page.png"
+
 
 function Navigation() {
 
@@ -27,12 +30,12 @@ function Navigation() {
     //     })
     // });
 
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3]);
-        }, 3000)
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setSearchResult([1, 2, 3]);
+    //     }, 3000)
 
-    }, [])
+    // }, [])
     return (
         <>
             <header className={style.site_navbar}>
@@ -41,8 +44,10 @@ function Navigation() {
                         <div class={style.header_item_left}>
                             <div className={style.gird_left}>
                                 <Link to="/homepage" className={style.text_black}>
-                                    <img className={style.text_primary} src={Logo} />
-                                    {/* <span>Gourmet Food </span> */}
+                                    <img className={style.text_primary} src={Logo_nav} />
+                                    <span>
+                                        <img className={style.avt_title_name} src={Title_web} />
+                                    </span>
                                 </Link>
                             </div>
                         </div>
@@ -72,7 +77,7 @@ function Navigation() {
                                     </li>
                                     <li>
                                         <div className={style.text_item1}>
-                                            <Link to="#" className={style.nav_link}>
+                                            <Link to="/planmeal" className={style.nav_link}>
                                                 {/* <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                                 <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
                                             </svg> */}

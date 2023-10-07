@@ -1,4 +1,4 @@
- import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 import LoginForm from "./components/auth/login/LoginForm"
 import RegisterForm from "./components/auth/login/RegisterForm"
@@ -12,6 +12,7 @@ import Recipe from "./components/user/recipe/Recipe"
 import Article from "./components/user/blog/Article"
 import RoleModal from "./components/user/modal/RoleModal"
 import DetailRecipe from "./components/user/recipe/DetailRecipe"
+import PlanMeal from "./components/user/planmeal/PlanMeal"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/aboutus" element={< AboutUs />} />
         <Route path="/detail" element={< DetailRecipe />} />
         <Route path="/article" element={< Article />} />
+        <Route path="/planmeal" element={< PlanMeal />} />
       </Routes>
     </Router>
   );

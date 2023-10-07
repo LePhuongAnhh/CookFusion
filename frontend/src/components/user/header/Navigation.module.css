@@ -47,14 +47,18 @@ li {
 }
 
 /* TRAI  */
-.gird_left{
+.gird_left {
     margin-left: 33px;
 }
 
-.header_item_left img {
-    width: 55px;
-    height: 55px;
+.text_primary {
+    width: 40px;
+    height: 40px;
     /* margin-top: -10px; */
+}
+.avt_title_name {
+    width: 132px;
+    height: 40px;
 }
 
 /* GIUA  */
@@ -80,7 +84,7 @@ li {
 }
 
 .site_navigation .site_menu li:hover {
-    color: blue;
+    color: #e16120;
 }
 
 /* PHAI  */
@@ -101,6 +105,10 @@ li {
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
+}
+
+.nav_link_right svg:hover {
+    color: #e16120;
 }
 
 .nav_link_right:hover {

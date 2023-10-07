@@ -17,6 +17,10 @@ import event from "../../../image/calendar-date.png"
 import DeleteBlog from "../modal/DeleteBlog"
 import CommentBlog from "../modal/CommentBlog"
 import CreateBlog from "../modal/CreateBlog"
+import a1 from "../../../image/a1.jpg"
+import a2 from "../../../image/a2.jpg"
+import a3 from "../../../image/a3.jpg"
+import a4 from "../../../image/a4.jpg"
 
 const BlogForm = () => {
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
@@ -46,9 +50,6 @@ const BlogForm = () => {
                                     </p>
                                     <p className={style.date_time}>
                                         11 hrs
-                                        •
-                                        Hanoi, VietNam
-                                        .
                                     </p>
                                 </div>
                             </div>
@@ -80,19 +81,19 @@ const BlogForm = () => {
                     <div>
                         <div className={style.body_img}>
                             <div className={style.show_img_6}>
-                                <img className={style.img_img} src={article2} />
+                                <img className={style.img_img} src={a3} />
                             </div>
                             <div className={style.show_img_6}>
-                                <img className={style.img_img} src={article2} />
+                                <img className={style.img_img} src={a4} />
                             </div>
                             <div className={style.show_img_4}>
                                 <img className={style.img_img} src={img} />
                             </div>
                             <div className={style.show_img_4}>
-                                <img className={style.img_img} src={img} />
+                                <img className={style.img_img} src={a1} />
                             </div>
                             <div className={style.show_img_4}>
-                                <img className={style.img_img} src={img} />
+                                <img className={style.img_img} src={a2} />
                             </div>
                         </div>
                     </div>

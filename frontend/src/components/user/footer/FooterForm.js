@@ -1,6 +1,6 @@
 import style from "./FooterForm.module.css"
 import { Link } from 'react-router-dom'
-import logofooter from '../../../image/logofooter1.png'
+// import logofooter from '../../../image/logofooter1.png'
 
 const FooterForm = () => {
     return (
@@ -10,7 +10,7 @@ const FooterForm = () => {
                     <div className={style.footer_left}>
                         <div className={style.dk_footer_box_info}>
                             <Link to="/homepage" className={style.footer_logo}>
-                                <img src={logofooter} alt="footer_logo" className={style.img_fluid} />
+                                {/* <img src={logofooter} alt="footer_logo" className={style.img_fluid} /> */}
                             </Link>
                             <p className={style.footer_info_text}>
                                 Reference site about Lorem Ipsum,
@@ -89,7 +89,7 @@ const FooterForm = () => {
                                             <Link to="#">Our Team</Link>
                                         </li>
                                     </ul>
-                                   
+
                                 </div>
                             </div>
                         </div>

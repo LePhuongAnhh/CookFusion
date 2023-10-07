@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import Navigation from '../header/Navigation'
 import FooterForm from '../footer/FooterForm'
 import Button_save from '../header/Button_save'
-import RecipeForm from '../header/RecipeForm'
+import RecipeForm from './RecipeForm'
 import img_article from "../../../image/background.jpg"
+import thikhtao from "../../../image/thit-kho-tau-mien-nam.jpg"
+import breakfast from "../../../image/brafast.png"
 import meal from "../../../image/meal.jpg"
 // import anh1 from "../../../image/anh1.jpg"
 import vegetable from "../../../image/vegetable.jpg"
@@ -13,12 +15,17 @@ import Avt from "../../../image/avt.jpg"
 import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
+import Top from "../../../image/topraucu.webp"
+import Top2 from "../../../image/top2.webp"
+import Top3 from "../../../image/top3.webp"
+import Top4 from "../../../image/top4.webp"
 
 
 const Recipe = () => {
     return (
         <div>
-            <Navigation />
+            <div><Navigation /></div>
+
             <div className={style.browse}>
                 <Button_save />
                 <div className={style.right}>
@@ -41,23 +48,51 @@ const Recipe = () => {
 
                     {/* ben duwoi  */}
                     <div className={style.gird}>
-                        <div className={style.gallery_left}>
-                            <div className={style.g_card}>
-                                <Link to="#" className={style.figure}>
-                                    <img src={img_article} />
+                        <div className={style.gallery}>
+                            <div className={style.card_top}>
+                                <Link to="/detail" className={style.figure}>
+                                    <img src={breakfast} />
                                     <div className={style.figcaption}>
-                                        <h3>Hello</h3>
+                                        <div className={style.content_in}>
+                                            <p>Hello</p>
+                                            <h2>Title recipe</h2>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={style.gallery1}>
+                            <div className={style.g_card}>
+                                <Link to="/detail" className={style.figure}>
+                                    <img src={thikhtao} />
+                                    <div className={style.figcaption}>
+                                        <div className={style.content_in}>
+                                            <p>Hello</p>
+                                            <h2>Title recipe</h2>
+                                        </div>
                                     </div>
                                 </Link>
                             </div>
                             <div className={style.g_card}>
-                                <Link to="#" className={style.figure}>
-                                    <img src={img_article} />
+                                <Link to="/detail" className={style.figure}>
+                                    <img src={thikhtao} />
                                     <div className={style.figcaption}>
-                                        <h3>Hello</h3>
+                                        <div className={style.content_in}>
+                                            <p>Hello</p>
+                                            <h2>Title recipe</h2>
+                                        </div>
                                     </div>
                                 </Link>
                             </div>
+                        </div>
+                        <div className={style.gallery_text}>
+                            <div className={style.text}>
+                                <h2> Breakfast on the go</h2>
+
+                            </div>
+                            <p>
+                                Check out one of my absolute favorite recipes right now! Full recipe on the blog.
+                            </p>
                         </div>
                     </div>
 
@@ -77,100 +112,61 @@ const Recipe = () => {
                         </div>
                     </div>
 
+                    {/* INGRS  */}
+                    <div className={style.cate_contain}>
+                        <div className={style.cate_gird}>
+                            <h2>Explore more</h2>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top2} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top3} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>Vegetable</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top4} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>Vegetable</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top2} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top2} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                            </div>
+                            <div className={style.cate_img_block}>
+                                <Link to="#" className={style.cate_img}>
+                                    <img src={Top2} />
+                                </Link>
+                                <Link to="#" className={style.cate_title}>INTERNATIONAL EATS</Link>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className={style.blog}>
                         <h1>Our<span>Blog</span></h1>
                         <div className={style.blog_box}>
-                            <div className={style.blog_card}>
-                                <div className={style.blog_img}>
-                                    <img src={vegetable} />
-                                </div>
-                                <div className={style.blog_tag}>
-                                    <div className={style.blog_date}>
-                                        <p>18 May 2022   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-heart-fill" viewBox="0 0 16 16">
-                                            <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5ZM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2ZM8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
-                                        </svg></p>
-                                    </div>
-                                    <h3 className={style.blog_heading}>
-                                        Do Not Leave toko before Eating this remen
-                                    </h3>
-                                    <p className={style.blog_text}>
-                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
-                                        totam doloribus.
-                                    </p>
-                                    <hr />
-                                    <div className={style.view_and_like}>
-                                        <div className={style.view}>
-                                            <p>15.3K Views</p>
-                                            <p className={style.b_comm}>786 comments</p>
-                                        </div>
-                                        <div className={style.like}>
-                                            <p>3K</p>
-                                            <i class="bi bi-heart"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={style.blog_card}>
-                                <div className={style.blog_img}>
-                                    <img src={vegetable} />
-                                </div>
-                                <div className={style.blog_tag}>
-                                    <div className={style.blog_date}>
-                                        <p>18 May 2022<i className="fa-solid fa-calendar-days"></i></p>
-                                    </div>
-                                    <h3 className={style.blog_heading}>
-                                        Do Not Leave toko before Eating this remen
-                                    </h3>
-                                    <p className={style.blog_text}>
-                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
-                                        totam doloribus.
-                                    </p>
-                                    <hr />
-                                    <div className={style.view_and_like}>
-                                        <div className={style.view}>
-                                            <p>15.3K Views</p>
-                                            <p className={style.b_comm}>786 comments</p>
-                                        </div>
-                                        <div className={style.like}>
-                                            <p>3K</p>
-                                            <i class="bi bi-heart"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={style.blog_card}>
-                                <div className={style.blog_img}>
-                                    <img src={vegetable} />
-                                </div>
-                                <div className={style.blog_tag}>
-                                    <div className={style.blog_date}>
-                                        <p>18 May 2022<i className="fa-solid fa-calendar-days"></i></p>
-                                    </div>
-                                    <h3 className={style.blog_heading}>
-                                        Do Not Leave toko before Eating this remen
-                                    </h3>
-                                    <p className={style.blog_text}>
-                                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                        Eos rerum commodi fugiat eum assumenda vel cumque eaque
-                                        totam doloribus.
-
-                                    </p>
-                                    <hr />
-                                    <div className={style.view_and_like}>
-                                        <div className={style.view}>
-                                            <p>15.3K Views</p>
-                                            <p className={style.b_comm}>786 comments</p>
-                                        </div>
-                                        <div className={style.like}>
-                                            <p>3K</p>
-                                            <i class="bi bi-heart"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <RecipeForm />
+                            <RecipeForm />
+                            <RecipeForm />
                         </div>
                     </div>
                     {/* TOP ACCOUNT  */}

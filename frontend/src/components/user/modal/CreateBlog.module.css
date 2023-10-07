@@ -6,7 +6,7 @@
     left: 0;
     display: flex;
     background-color: rgba(175, 167, 167, 0.4);
-    z-index: 20;
+    z-index: 2000000;
 }
 
 .modalContentDeleteIdea {
@@ -186,7 +186,6 @@ h5 {
     position: relative;
 }
 
-
 .drop_public svg {
     color: #363636;
 }
@@ -231,6 +230,6 @@ h5 {
     /* margin-top: 10px; */
 }
 
-.btn_post_share:hover{
+.btn_post_share:hover {
     background-color: #195eb8;
 }

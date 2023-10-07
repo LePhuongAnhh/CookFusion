@@ -8,7 +8,7 @@
 .home_container {
     width: 100%;
     padding: 0 5px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 /* slide */
@@ -49,7 +49,7 @@
     text-align: center;
 }
 
-.img_carousel_item {
+.img_carousel_item_first {
     position: relative;
     width: 390px;
     height: 370px;
@@ -59,7 +59,7 @@
     display: flex;
 }
 
-.img_carousel_item > div {
+.img_carousel_item_first > div {
     height: 100%;
 }
 
@@ -147,7 +147,7 @@
 
 .home_home .main .main_text h1 span {
     color: #facc22;
-    font-family: polo;   
+    font-family: polo;
 }
 
 .home_home .main .main_text p {
@@ -161,7 +161,6 @@
     text-align: justify;
 }
 
-
 .home_home .main .main_text .btn {
     color: #000;
     text-decoration: none;
@@ -173,11 +172,11 @@
     transition: 0.3s;
 }
 
- .main .main_text .btn:hover {
+.main .main_text .btn:hover {
     color: #fff;
 }
 
- .main .main_text .btn::before {
+.main .main_text .btn::before {
     content: '';
     position: absolute;
     top: 0;
@@ -611,6 +610,179 @@ a {
 .content_show .box {
     width: 100%;
     position: relative;
+}
+
+.img_carousel {
+    display: flex;
+    width: 97%;
+    margin-bottom: 40px;
+    margin: 0;
+}
+
+.img_carousel_item {
+    position: relative;
+    /* width: 340px; */
+    height: 550px;
+    list-style: none;
+    margin-left: 7px;
+    border-radius: 10px;
+    border: solid 1px #e1e1e1;
+}
+
+.img_carousel_item > div {
+    height: 100%;
+}
+
+.card_box_in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.recipe_card_img {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.btn_save {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    display: flex;
+    float: right;
+    margin: 10px 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.btn_save svg {
+    color: #fac031;
+}
+
+.recipe_card_img:hover img {
+    transform: scale(1.1);
+}
+
+.recipe_card_img img {
+    border-radius: 4px;
+    width: 100%;
+    margin: 10px 0 7px 0;
+    transition: 0.5s ease;
+    object-fit: cover;
+}
+
+.title_box {
+    content: '';
+    height: 140px;
+    position: absolute;
+    transform: translateY(50px);
+    transition: 0.5s ease;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), black);
+    width: 100%;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.card_ingredients {
+    z-index: 10;
+    position: absolute;
+    color: #fff;
+    bottom: -4px;
+    transform: translateY(50px);
+    padding: 2px 5px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.recipe_card_img:hover .title_box,
+.recipe_card_img:hover .card_ingredients {
+    transform: translateY(0);
+}
+
+.card_info_wrapper {
+    margin: 12px 0px;
+    width: 100%;
+    display: flex;
+}
+
+.card_name {
+    display: inline-block;
+    margin: 10px 25px;
+}
+.card_title {
+    line-height: 1.1;
+    font-size: 25.5px;
+    text-align: justify;
+    color: #1d1d1d;
+    vertical-align: baseline;
+}
+
+.card_source {
+    display: inline-block;
+    width: 100%;
+    padding: 1em 0px;
+}
+
+.card_source_link {
+    margin: 20px 0;
+    color: #646464;
+}
+
+.card_source_link:hover {
+    color: rgb(47, 183, 138);
+}
+
+.icon_stars {
+    position: relative;
+    display: inline-block;
+    margin-left: -5px;
+}
+
+.review_stars {
+    cursor: pointer;
+    color: #646464;
+}
+
+.icon_stars img {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+}
+
+.count_rate {
+    margin-left: 5px;
+}
+
+.cook {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cook button {
+    color: #1d1d1d;
+    background-color: transparent;
+    width: 80%;
+    height: 45px;
+    border-style: solid;
+    border-radius: 30px;
+    transition: all 0.1s linear;
+    font-size: 17px;
+    font-weight: bolder;
+    cursor: pointer;
+    border-width: 1px;
+}
+
+.cook button:hover {
+    color: white;
+    background-color: #1d1d1d;
+}
+
+.card_box {
+    position: relative;
+    float: right;
 }
 
 /* MORE IDEAS */

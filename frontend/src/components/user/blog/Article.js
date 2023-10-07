@@ -18,6 +18,13 @@ import DeleteBlog from "../modal/DeleteBlog"
 import CommentBlog from "../modal/CommentBlog"
 import CreateBlog from "../modal/CreateBlog"
 import BlogForm from "../modal/BlogForm"
+import avt2 from "../../../image/anh123.jpg"
+import avt3 from "../../../image/cv.jpg"
+import avt4 from "../../../image/avt4.jpg"
+import minh from "../../../image/minh.jpg"
+import duong from "../../../image/duong.jpg"
+import phanh from "../../../image/phanh.jpg"
+import hi from "../../../image/hilli.jpg"
 
 
 const Article = () => {
@@ -81,6 +88,51 @@ const Article = () => {
                                             </div>
                                         </div>
                                     </li>
+
+                                    <div className={style.follower}>
+                                        <h2>Following account</h2>
+                                        <div className={style.show_info1}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={Avt} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">Minn</Link>
+                                                </h6>
+                                                <div className={style.btn_follow1}>
+                                                    <span className={style.follow}>minlu.thi</span>
+                                                </div>                                                                                    </div>
+                                        </div>
+                                        <div className={style.show_info1}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={avt2} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">PhanhLee</Link>
+                                                </h6>
+                                                <div className={style.btn_follow1}>
+                                                    <span className={style.follow}>anhlt</span>
+                                                </div>                                                                                    </div>
+                                        </div><div className={style.show_info1}>
+                                            <Link to="#">
+                                                <div className={style.avt_follow}>
+                                                    <img className={style.circle_avt} src={avt3} />
+                                                </div>
+                                            </Link>
+                                            <div className={style.show_name}>
+                                                <h6>
+                                                    <Link to="#">SeaNoc</Link>
+                                                </h6>
+                                                <div className={style.btn_follow1}>
+                                                    <span className={style.follow}>duong.ht</span>
+                                                </div>                                                                                    </div>
+                                        </div>
+                                    </div>
                                     {/* <DarkMode /> */}
                                 </ul>
                             </div>
@@ -243,12 +295,12 @@ const Article = () => {
                                         <div className={style.show_info}>
                                             <Link to="#">
                                                 <div className={style.avt_follow}>
-                                                    <img className={style.circle_avt} src={Avt} />
+                                                    <img className={style.circle_avt} src={avt4} />
                                                 </div>
                                             </Link>
                                             <div className={style.show_name}>
                                                 <h6>
-                                                    <Link to="#">Helen</Link>
+                                                    <Link to="#">QuanLe</Link>
                                                 </h6>
                                                 <button className={style.btn_follow}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -263,12 +315,12 @@ const Article = () => {
                                         <div className={style.show_info}>
                                             <Link to="#">
                                                 <div className={style.avt_follow}>
-                                                    <img className={style.circle_avt} src={Avt} />
+                                                    <img className={style.circle_avt} src={duong} />
                                                 </div>
                                             </Link>
                                             <div className={style.show_name}>
                                                 <h6>
-                                                    <Link to="#">Helen</Link>
+                                                    <Link to="#">Thùy Dương</Link>
                                                 </h6>
                                                 <button className={style.btn_follow}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -283,12 +335,12 @@ const Article = () => {
                                         <div className={style.show_info}>
                                             <Link to="#">
                                                 <div className={style.avt_follow}>
-                                                    <img className={style.circle_avt} src={Avt} />
+                                                    <img className={style.circle_avt} src={minh} />
                                                 </div>
                                             </Link>
                                             <div className={style.show_name}>
                                                 <h6>
-                                                    <Link to="#">Helen</Link>
+                                                    <Link to="#">Thiên Minh</Link>
                                                 </h6>
                                                 <button className={style.btn_follow}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -303,12 +355,12 @@ const Article = () => {
                                         <div className={style.show_info}>
                                             <Link to="#">
                                                 <div className={style.avt_follow}>
-                                                    <img className={style.circle_avt} src={Avt} />
+                                                    <img className={style.circle_avt} src={phanh} />
                                                 </div>
                                             </Link>
                                             <div className={style.show_name}>
                                                 <h6>
-                                                    <Link to="#">Helen</Link>
+                                                    <Link to="#">PhuongAnh</Link>
                                                 </h6>
                                                 <button className={style.btn_follow}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
@@ -323,12 +375,12 @@ const Article = () => {
                                         <div className={style.show_info}>
                                             <Link to="#">
                                                 <div className={style.avt_follow}>
-                                                    <img className={style.circle_avt} src={Avt} />
+                                                    <img className={style.circle_avt} src={hi} />
                                                 </div>
                                             </Link>
                                             <div className={style.show_name}>
                                                 <h6>
-                                                    <Link to="#">Helen</Link>
+                                                    <Link to="#">Anna </Link>
                                                 </h6>
                                                 <button className={style.btn_follow}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
