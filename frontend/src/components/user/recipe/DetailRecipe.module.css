@@ -111,7 +111,7 @@
     cursor: pointer;
     font-size: 16px;
     line-height: 1.625;
-    color: #fac031;
+    color: #f46708;
 }
 
 .recipe_rating span {
@@ -416,10 +416,10 @@
 .step_header1 svg,
 .step_header1 h3,
 .step_header1 span {
-    color: #fac031;
+    color: #f46708;
 }
 .save:hover {
-    color: #fac031;
+    color: #f46708;
 }
 
 /* nutrition  */

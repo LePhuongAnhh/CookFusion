@@ -27,7 +27,7 @@
 
 .blog_card .blog_tag .blog_date {
     width: 100%;
-    color: #facc22;
+    color: #f46708;
     padding: 15px 0 0 20px;
     font-size: 14px;
 }
@@ -54,7 +54,7 @@
     margin: 0 auto;
     height: 1px;
     border: 0;
-    background: #facc22;
+    background: #f46708;
     border-radius: 5px;
 }
 

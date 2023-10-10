@@ -13,6 +13,9 @@ import Article from "./components/user/blog/Article"
 import RoleModal from "./components/user/modal/RoleModal"
 import DetailRecipe from "./components/user/recipe/DetailRecipe"
 import PlanMeal from "./components/user/planmeal/PlanMeal"
+import AutoPlan from "./components/user/planmeal/AutoPlan"
+import Step2_auto from "./components/user/planmeal/Step2_auto"
+import ResultAuto from "./components/user/planmeal/ResultAuto"
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
         <Route path="/detail" element={< DetailRecipe />} />
         <Route path="/article" element={< Article />} />
         <Route path="/planmeal" element={< PlanMeal />} />
+        <Route path="/autoplan" element={< AutoPlan />} />
+        <Route path="/step2" element={< Step2_auto />} />
+        <Route path="/result_auto" element={<ResultAuto />} />
       </Routes>
     </Router>
   );

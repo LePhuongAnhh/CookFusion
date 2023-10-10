@@ -180,13 +180,13 @@ input:focus {
 }
 
 /* left  */
-.follower h2{
-font-size: 18px;
-margin: 8px 0 24px;
-color: #344050;
+.follower h2 {
+    font-size: 18px;
+    margin: 8px 0 24px;
+    color: #344050;
 }
 
-.show_info1{
+.show_info1 {
     margin: 20px 0;
 }
 
@@ -553,7 +553,7 @@ link {
     /* color: var(--falcon-card-color); */
 }
 
-.show_info, 
+.show_info,
 .show_info1 {
     display: flex;
 }
@@ -636,8 +636,6 @@ link {
         box-shadow 0.15s ease-in-out;
 }
 
-
-
 .btn_follow svg {
     margin-top: -4px;
     margin-right: 4px;
@@ -650,7 +648,7 @@ link {
 .border_line {
     margin: 15px 0;
     border-bottom: 1px dashed #d8e2ef;
-}
+}.show_info
 
 /* right bottom  */
 .right_bottom {

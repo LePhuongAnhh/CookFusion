@@ -31,7 +31,7 @@ const PlanMeal = () => {
                 <div className={style.create_auto_plan}>
                     <div className={style.plan_left}>
                         <div className={style.plan_wrapper}>
-                            <div className={style.automatic_plan}>
+                            <Link to="/autoplan" className={style.automatic_plan}>
                                 <div className={style.title_wrapper}>
                                     <div className={style.img_plan}>
                                         <img src={auto} />
@@ -47,7 +47,7 @@ const PlanMeal = () => {
                                     </span>
                                 </div>
                                 <span className={style.choose_btn}>Get Started</span>
-                            </div>
+                            </Link>
                             <div className={style.manual_plan}>
                                 <div className={style.title_wrapper}>
                                     <div className={style.img_plan}>

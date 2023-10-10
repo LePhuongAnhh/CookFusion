@@ -1,3 +1,6 @@
+* {
+    letter-spacing: 0.3px;
+}
 .home_body {
     display: flex;
     min-height: 100vh;
@@ -146,7 +149,7 @@
 }
 
 .home_home .main .main_text h1 span {
-    color: #facc22;
+    color: #f46708;
     font-family: polo;
 }
 
@@ -164,7 +167,7 @@
 .home_home .main .main_text .btn {
     color: #000;
     text-decoration: none;
-    border: 2px solid #facc22;
+    border: 2px solid #f46708;
     padding: 10px 20px;
     position: relative;
     top: 70px;
@@ -183,7 +186,7 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: #facc22;
+    background: #f46708;
     z-index: -1;
     transition: 0.3s;
 }
@@ -657,7 +660,7 @@ a {
 }
 
 .btn_save svg {
-    color: #fac031;
+    color: #f46708;
 }
 
 .recipe_card_img:hover img {
@@ -858,7 +861,7 @@ a {
 
 .gallary h1 span {
     margin-left: 15px;
-    color: #fac031;
+    color: #f46708;
     font-family: mv boli;
 }
 
@@ -866,7 +869,7 @@ a {
     content: '';
     width: 100%;
     height: 2px;
-    background: #fac031;
+    background: #f46708;
     display: block;
     position: relative;
     bottom: 15px;
@@ -900,7 +903,7 @@ a {
     position: absolute;
     font-size: 35px;
     margin-bottom: 130px;
-    color: #fac031;
+    color: #f46708;
     font-family: polo;
     z-index: 5;
     opacity: 0;
@@ -931,7 +934,7 @@ a {
     position: absolute;
     margin-top: 180px;
     color: #000;
-    background: #fac031;
+    background: #f46708;
     padding: 7px 25px;
     text-decoration: none;
     opacity: 0;
@@ -960,7 +963,7 @@ a {
 
 .review h1 span {
     margin-left: 15px;
-    color: #fac031;
+    color: #f46708;
     font-family: mv boli;
 }
 
@@ -968,7 +971,7 @@ a {
     content: '';
     width: 100%;
     height: 2px;
-    background: #fac031;
+    background: #f46708;
     position: relative;
     bottom: 15px;
     display: block;
@@ -1035,9 +1038,9 @@ a {
 }
 
 .review_icon svg {
-    color: #fac031;
-    /* background-color: #fac031; */
-    /* background: #fac031; */
+    color: #f46708;
+    /* background-color: #f46708; */
+    /* background: #f46708; */
 }
 
 .review_social svg {
@@ -1067,7 +1070,7 @@ a {
 }
 
 .team h1 span {
-    color: #fac031;
+    color: #f46708;
     margin-left: 15px;
     /* font-family: mv boli; */
 }
@@ -1076,7 +1079,7 @@ a {
     content: '';
     width: 100%;
     height: 2px;
-    background: #fac031;
+    background: #f46708;
     display: block;
     position: relative;
     bottom: 15px;
@@ -1139,7 +1142,7 @@ a {
 }
 
 .team .team_box .profile .info .name {
-    color: #fac031;
+    color: #f46708;
     margin-bottom: 15px;
 }
 
@@ -1156,5 +1159,5 @@ a {
 }
 
 .team .team_box .profile .info .team_icon i:hover {
-    color: #fac031;
+    color: #f46708;
 }

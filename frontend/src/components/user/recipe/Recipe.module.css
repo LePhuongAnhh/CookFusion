@@ -191,7 +191,7 @@ text h2 {
 
 .blog h1 span,
 .team h1 span {
-    color: #fac031;
+    color: #f46708;
     font-family: mv boli;
     margin-left: 15px;
 }
@@ -201,7 +201,7 @@ text h2 {
     content: '';
     width: 100%;
     height: 2px;
-    background: #fac031;
+    background: #f46708;
     display: block;
     position: relative;
     bottom: 15px;
@@ -387,7 +387,7 @@ text h2 {
 }
 
 .team .team_box .profile .info .name {
-    color: #fac031;
+    color: #f46708;
     /* margin-bottom: 15px; */
 }
 .name {
@@ -409,5 +409,5 @@ text h2 {
 }
 
 .team .team_box .profile .info .team_icon svg:hover {
-    color: #fac031;
+    color: #f46708;
 }
