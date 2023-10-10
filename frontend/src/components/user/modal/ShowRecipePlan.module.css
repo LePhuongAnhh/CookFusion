@@ -56,7 +56,7 @@
     height: 30px;
     border-radius: 50%;
     background-color: #e4e6eb;
-    background-color: #cbced5;
+    /* background-color: #cbced5; */
 }
 /* BODY  */
 .body_modal {
@@ -212,7 +212,7 @@
 .left_column {
     width: 100%;
     padding: 0 24px;
-    background: #fff;
+    background: #f9f9fc;
     border-radius: 12px;
 }
 .scale_tool {
