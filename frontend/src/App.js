@@ -16,6 +16,7 @@ import PlanMeal from "./components/user/planmeal/PlanMeal"
 import AutoPlan from "./components/user/planmeal/AutoPlan"
 import Step2_auto from "./components/user/planmeal/Step2_auto"
 import ResultAuto from "./components/user/planmeal/ResultAuto"
+import Index from "./components/admin/Index"
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/autoplan" element={< AutoPlan />} />
         <Route path="/step2" element={< Step2_auto />} />
         <Route path="/result_auto" element={<ResultAuto />} />
+        <Route path="/admin" element={<Index />} />
       </Routes>
     </Router>
   );
