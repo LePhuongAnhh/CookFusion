@@ -17,6 +17,21 @@ function Index() {
                     <div className={style.container_fluid}>
                         {/* <!-- start page title --> */}
                         <div className={style.row}>
+                            <div className={style.col_12}>
+                                <div className={style.page_title_box}>
+                                    {/* <div className={style.page_title_right}>
+                                        <ol className={style.breadcrumb}>
+                                            <li className={style.breadcrumb_item}><a href="javascript: void(0);">Abstack</a></li>
+                                            <li className={style.breadcrumb_item_active}>Dashboard</li>
+                                        </ol>
+                                    </div> */}
+                                    <h4 className={style.page_title}>Dashboard</h4>
+                                </div>
+                            </div>
+                        </div>
+                        {/* <!-- end page title -->  */}
+
+                        <div className={style.row}>
                             {/* account  */}
                             <div className={style.layout_page}>
                                 {/* header */}
@@ -60,8 +75,105 @@ function Index() {
                                                     </div>
                                                 </div>
                                                 {/* update info  */}
-                                                <div>
-                                                    
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={style.info_item}>
+                                                    <div className={style.info_gird}>
+                                                        <label className={style.form_control}>Username</label>
+                                                        <div className={style.input_info}>
+                                                            <input type='text' className={style.show_info}></input>
+                                                            <fieldset className={style.outline}>
+                                                                <legend className={style.css_lg}>
+                                                                    <span>Username</span>
+                                                                </legend>
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={style.save_change}>
+                                                    <button className={style.btn_save}>Save changes</button>
+                                                    <button className={style.btn_reset}>Reset</button>
                                                 </div>
                                             </div>
                                         </form>
