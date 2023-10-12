@@ -61,9 +61,16 @@ const AutoPlan = () => {
                                 </div>
                             </div>
                             <div className={style.while_block}>
-                                <div className={style.block_title}>My height is</div>
+                                <div className={style.block_title}>In</div>
                                 <div className={style.while_block_wrapper}>
-                                    <input min="0" type='number' name='height' placeholder='0' className={style.input_text} />&nbsp; cm
+                                    <select value={selectedOptionMeal} onChange={handleSelectChangeMeal} className={style.select_calorie} placeholder="calories">
+                                        <option value="option1"> 1 meal </option>
+                                        <option value="option2"> 2 meals</option>
+                                        <option value="option3"> 3 meals</option>
+                                        <option value="option2"> 4 meals</option>
+                                        <option value="option3"> 5 meals</option>
+                                    </select>
+                                    {/* <p>Selected option: {selectedOption}</p> */}
                                 </div>
                             </div>
                             <div className={style.while_block}>

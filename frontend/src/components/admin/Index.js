@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import style from "./Index.module.css"
 import HeaderAdmin from './HeaderAdmin';
+import FooterAdmin from './footer/FooterAdmin';
 
 import phanh from "../../image/phanh.jpg"
 
@@ -183,6 +184,7 @@ function Index() {
                         </div>
                         {/* <!-- end page title --> */}
                     </div>
+                    <FooterAdmin />
                 </div>
             </div>
         </body >

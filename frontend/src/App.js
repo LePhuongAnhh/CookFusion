@@ -17,6 +17,10 @@ import AutoPlan from "./components/user/planmeal/AutoPlan"
 import Step2_auto from "./components/user/planmeal/Step2_auto"
 import ResultAuto from "./components/user/planmeal/ResultAuto"
 import Index from "./components/admin/Index"
+import PostManagement from "./components/admin/postManagement/PostManagement"
+import AccountManagement from "./components/admin/accountManagement/AccountManagement"
+import RecipeManagement from "./components/admin/recipeManagement/RecipeManagement"
+import FooterAdmin from "./components/admin/footer/FooterAdmin"
 
 function App() {
   return (
@@ -38,6 +42,11 @@ function App() {
         <Route path="/step2" element={< Step2_auto />} />
         <Route path="/result_auto" element={<ResultAuto />} />
         <Route path="/admin" element={<Index />} />
+        <Route path="/postmanagement" element={<PostManagement />} />
+        <Route path="/accountmanagement" element={<AccountManagement />} />
+        <Route path="/recipemanagement" element={<RecipeManagement />} />
+        <Route path="/footeradmin" element={<FooterAdmin />} />
+        {/* </Routes> */}
       </Routes>
     </Router>
   );

@@ -96,10 +96,12 @@ const Step2_auto = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {/* item  */}
                                 <div className={sty.allergy_card}>
                                     <div className={sty.text_allergy}>Allergy</div>
                                     <input type='text' name='height' placeholder='0' className={sty.input_allergy} />
                                 </div>
+                                {/* item  */}
                             </div>
                         </div>
                         <div className={sty.buttons_wrapper}>

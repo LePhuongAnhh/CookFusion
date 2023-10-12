@@ -144,7 +144,7 @@ function HeaderAdmin() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/admin">
                                         <i class="bi bi-gear"></i>
                                         <span> Account Setting </span>
                                         <span className={style.menu_arrow}></span>
@@ -158,9 +158,21 @@ function HeaderAdmin() {
                                 </li>
                                 <li className={style.menu_title}>More</li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/accountmanagement">
                                         <i class="bi bi-gear"></i>
-                                        <span> Maps </span>
+                                        <span> Account </span>
+                                        <span className={style.menu_arrow}></span>
+                                    </a>
+                                    {/* <ul className={style.nav_second_level} aria-expanded="false">
+                                        <li><a href="maps-google.html">Google Maps</a></li>
+                                        <li><a href="maps-vector.html">Vector Maps</a></li>
+                                        <li><a href="maps-mapael.html">Mapael Maps</a></li>
+                                    </ul> */}
+                                </li>
+                                <li>
+                                    <a href="/recipemanagement">
+                                        <i class="bi bi-gear"></i>
+                                        <span> Recipe </span>
                                         <span className={style.menu_arrow}></span>
                                     </a>
                                     {/* <ul className={style.nav_second_level} aria-expanded="false">
@@ -172,9 +184,21 @@ function HeaderAdmin() {
 
 
                                 <li>
-                                    <a href="#">
+                                    <a href="/postmanagement">
                                         <i class="bi bi-gear"></i>
-                                        <span> Calendar </span>
+                                        <span> Article </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/categorymanagement">
+                                        <i class="bi bi-gear"></i>
+                                        <span> Category </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/">
+                                        <i class="bi bi-gear"></i>
+                                        <span> Plan Meal </span>
                                     </a>
                                 </li>
                             </ul>
