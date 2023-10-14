@@ -2,25 +2,27 @@
 // import { useState } from "react"
 // import { useNavigate } from "react-router-dom"
 // import axios from "axios"
-import facebook from '../../../image/facebook.png'
-import google from '../../../image/google.png'
-
-import style from './LoginForm.module.css'
+// import facebook from '../../../image/facebook.png'
+// import google from '../../../image/google.png'
+import classNames from 'classnames/bind'
+import styles from './LoginForm.module.scss'
+import images from '~/assets/images'
 import { Link } from 'react-router-dom'
+const cx = classNames.bind(styles)
 
 const LoginForm = () => {
     return (
         <>
-            <div className={style.login_background}>
-                <div className={style.overlay}>
-                    <div className={style.login_box}>
+            <div className={cx('login_background')}>
+                <div className={cx('overlay')}>
+                    <div className={cx('login_box')}>
                         <h2>
                             Login
                         </h2>
                         <form>
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="text"
                                     name="Username"
                                     required
@@ -28,16 +30,16 @@ const LoginForm = () => {
                                 <label for="text">Username</label>
                             </div>
 
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="password"
                                     name="Password"
                                     required
                                 />
                                 <label>Password</label>
                             </div>
-                            <div className={style.forgot_pass}>
+                            <div className={cx('forgot_pass')}>
                                 <label>
                                     <input
                                         type="checkbox"
@@ -46,9 +48,9 @@ const LoginForm = () => {
                                     />
                                     &nbsp;  Remember me
                                 </label>
-                                <Link to="/forgotpassword" className={style.forgot_password}>Forgot Password?</Link>
+                                <Link to="/forgotpassword" className={cx('forgot_password')}>Forgot Password?</Link>
                             </div>
-                            <div className={style.login_btn}>
+                            <div className={cx('login_btn')}>
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -56,11 +58,11 @@ const LoginForm = () => {
                                 Login
                             </div>
                             <h3>Or </h3>
-                            <div className={style.login_other}>
-                                <img src={google} />
-                                <img src={facebook} />
+                            <div className={cx('login_other')}>
+                                <img src={images.google} />
+                                <img src={images.facebook} />
                             </div>
-                            <div className={style.lb_register}>
+                            <div className={cx('lb_register')}>
                                 {/* <label> Do you haven't an account? </label> */}
                                 <Link to='/register'> &nbsp;  Register</Link>
                             </div>

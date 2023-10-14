@@ -1,0 +1,37 @@
+@import 'normalize.css';
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-text-color: black; //màu sắc chính
+    --main-text-color: #292e32; //biến toàn cục cho màu chữ chính
+    --main-bg-color: #ffffff; //biến toàn cục cho màu nền chính
+    --secondary-bg-color: #f9fafd; //biến toàn cục cho nền phụ
+    --secondary-text-color: #344050; //biến toàn cục cho màu chữ phụ
+    --third-text-color: #5e6e82; //maù chữ tứ ba
+    --link-text-color: #2162b6; // màu chữ thẻ link
+    --span-text-color: #f46708; // màu chữ của span
+}
+html {
+    font-size: 63%;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.6rem;
+    line-height: 23px;
+    text-rendering: optimizeSpeed;
+}
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+img{
+    object-fit: cover;
+    vertical-align: middle;
+    border-style: none;
+}

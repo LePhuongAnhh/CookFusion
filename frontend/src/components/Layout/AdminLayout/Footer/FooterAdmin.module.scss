@@ -1,0 +1,29 @@
+.layout_footer {
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer_content {
+    width: 100%;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    padding: 1rem 1.5rem;
+}
+.content {
+    margin-top: 30px;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.15px;
+    color: rgba(58, 53, 65, 0.87);
+    margin-right: 0.5rem;
+}
+.span_text {
+    color: #ff4c51;
+}
+.link_to {
+    margin: 0;
+    color: #9155fd;
+    text-decoration: none;
+}

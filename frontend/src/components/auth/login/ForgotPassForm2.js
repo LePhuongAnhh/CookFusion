@@ -1,31 +1,32 @@
-import style from './LoginForm.module.css'
+import styles from './LoginForm.module.scss'
+import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
-import email from '../../../image/email.png'
-
+import images from '~/assets/images'
+const cx = classNames.bind(styles)
 const ForgotPassForm2 = () => {
     return (
         <>
-            <div className={style.login_background}>
-                <div className={style.overlay}>
-                    <div className={style.forgotpass_box}>
+            <div className={cx('login_background')}>
+                <div className={cx('overlay')}>
+                    <div className={cx('forgotpass_box')}>
                         <h2>Forgot Password</h2>
-                        <div className={style.send_email}>
-                            <img src={email} />
+                        <div className={cx('send_email')}>
+                            <img src={images.email} />
                         </div>
-                        <p className={style.inform_email}>
+                        <p className={cx('inform_email')}>
                             Please check your email for further instructions.
                         </p>
                         <form>
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="text"
                                     name="pin code"
                                     required
                                 />
                                 <label for="text">Enter PIN code</label>
                             </div>
-                            <div className={style.login_btn1}>
+                            <div className={cx('login_btn1')}>
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -39,7 +40,7 @@ const ForgotPassForm2 = () => {
                                 </svg>
                             </Link>
 
-                            <div className={style.lb_register}>
+                            <div className={cx('lb_register')}>
                                 <label> Back to </label>
                                 <Link to='/'> &nbsp;  Sign in </Link>
                                 <p> &nbsp; or</p>

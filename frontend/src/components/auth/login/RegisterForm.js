@@ -1,29 +1,23 @@
-import style from './LoginForm.module.css'
+import styles from './LoginForm.module.scss'
+import classNames from 'classnames/bind'
 import React, { useState } from 'react';
+import images from '~/assets/images'
 import { Link } from 'react-router-dom';
-import RoleModal from '~/components/user/modal/RoleModal';
-
+import RoleModal from '~/components/Modal/RoleModal';
+const cx = classNames.bind(styles)
 
 const RegisterForm = () => {
-    // const [isModalOpenChooSeRole, setIsModalOpenChooSeRole] = useState(false);
 
-    // const openModalChooSeRole = () => {
-    //     setIsModalOpenChooSeRole(true);
-    // };
-
-    // const closeModalChooSeRole = () => {
-    //     setIsModalOpenChooSeRole(false);
-    // };
     return (
         <>
-            <div className={style.login_background}>
-                <div className={style.overlay}>
-                    <div className={style.register_box}>
+            <div className={cx('login_background')}>
+                <div className={cx('overlay')}>
+                    <div className={cx('register_box')}>
                         <h2>Register</h2>
                         <form>
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="text"
                                     name="name "
                                     required
@@ -32,18 +26,18 @@ const RegisterForm = () => {
                                 <label for="text">Full Name *</label>
                             </div>
 
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="text"
                                     name="username"
                                     required
                                 />
                                 <label>Username *</label>
                             </div>
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="password"
                                     name="Password"
                                     required
@@ -51,16 +45,16 @@ const RegisterForm = () => {
                                 <label>Password *</label>
                             </div>
 
-                            <div className={style.user_box}>
+                            <div className={cx('user_box')}>
                                 <input
-                                    className={style.input_field}
+                                    className={cx('input_field')}
                                     type="password"
                                     name="Confirm Password"
                                     required
                                 />
                                 <label>Confirm Password *</label>
                             </div>
-                            <div className={style.term_condition}>
+                            <div className={cx('term_condition')}>
                                 <label>
                                     <input
                                         type="checkbox"
@@ -68,10 +62,10 @@ const RegisterForm = () => {
                                     // onChange={handleAgreeChange}
                                     />
                                     &nbsp; Agree to
-                                    <Link to="#" className={style.term}>  </Link>
+                                    <Link to="#" className={cx('term')}>  </Link>
                                 </label>
                             </div>
-                            <div className={style.login_btn} >
+                            <div className={cx('login_btn')} >
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -79,7 +73,7 @@ const RegisterForm = () => {
                                 Create
                             </div>
                             {/* <RoleModal /> */}
-                            <div className={style.lb_register}>
+                            <div className={cx('lb_register')}>
                                 <label> Already register? </label>
                                 <Link to='/'> &nbsp;  Sign in </Link>
                             </div>

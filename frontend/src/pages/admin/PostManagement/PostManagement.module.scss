@@ -1,0 +1,30 @@
+@media (min-width: 1200px) {
+    .row {
+        max-width: 100%;
+    }
+}
+.row {
+    width: 100%;
+    padding: 10px 1.5rem 0;
+    transition: padding 0.25s ease-in-out;
+    margin-left: auto;
+    margin-right: auto;
+}
+.col_12 {
+    -webkit-box-flex: 0;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+.page_title_box {
+    padding: 0 20px;
+    margin: 0 -27px 30px -27px;
+    /* background-color: #292e32; */
+    /* box-shadow: 0 0 2px 0 rgba(30, 30, 30, 0.15); */
+}
+.page_title_box .page_title {
+    font-size: 18px;
+    margin: 0;
+    line-height: 50px;
+    font-weight: 700;
+    color: #292e32;
+}
