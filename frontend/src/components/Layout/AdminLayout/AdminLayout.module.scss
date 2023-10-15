@@ -7,7 +7,6 @@ body {
     line-height: 1.5;
     color: #e6e6e6;
     text-align: left;
-    // background-color: #1f2227;
 }
 .wrapper{
     height: 100%;
@@ -20,7 +19,7 @@ ul {
 }
 .content_page {
     margin-left: 240px;
-    overflow: hidden;
+    overflow: auto;
     padding: 0 15px 5px 15px;
     min-height: 80vh;
     margin-top: 70px;
@@ -29,4 +28,12 @@ ul {
     width: 100%;
     padding: 0 12px;
     margin: 0 auto;
+}
+@media (max-width: 63.9375em){
+    .content_page {
+        margin-left: 0;
+        overflow: hidden;
+        min-height: 80vh;
+        margin-top: 70px;
+    }
 }

@@ -1,27 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import styles from "./ProfileAdmin.module.scss"
-// import HeaderAdmin from '../../../components/Layout/DefaulLayout/Header/HeaderAdmin';
-// import FooterAdmin from '../../../components/Layout/DefaulLayout/Footer/FooterAdmin';
-// import phanh from "../../../image/phanh.jpg"
 import images from '~/assets/images'
+import ChangePassWord from '~/components/Modal/ChangePassword';
 
 const cx = classNames.bind(styles)
 function ProfileAdmin() {
+    const [showChangePassWordModal, setShowChangePassWordModal] = useState(false)
     return (
         <div>
             {/* <!-- start page title --> */}
             < div className={cx('row')} >
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        {/* <div className={cx('page_title_right')}>
-                                        <ol className={cx('breadcrumb')}>
-                                            <li className={cx('breadcrumb_item')}><a href="javascript: void(0);">Abstack</a></li>
-                                            <li className={cx('breadcrumb_item_active')}>Dashboard</li>
-                                        </ol>
-                                    </div> */}
                         <h4 className={cx('page_title')}>Dashboard</h4>
                     </div>
                 </div>
@@ -42,12 +35,12 @@ function ProfileAdmin() {
                                         <span className={cx('title_account')}> Account</span>
                                     </div>
                                 </button>
-                                <button className={cx('action_btn')}>
+                                <button onClick={() => setShowChangePassWordModal(true)} className={cx('action_btn')}>
                                     <div className={cx('item_setting')}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
                                             <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2zM3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H3z" />
                                         </svg>
-                                        <span className={cx('title_account')}> Security</span>
+                                        <span > Security</span>
                                     </div>
                                 </button>
                             </div>
@@ -153,20 +146,6 @@ function ProfileAdmin() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={cx('info_item')}>
-                                        <div className={cx('info_gird')}>
-                                            <label className={cx('form_control')}>Username</label>
-                                            <div className={cx('input_info')}>
-                                                <input type='text' className={cx('show_info')}></input>
-                                                <fieldset className={cx('outline')}>
-                                                    <legend className={cx('css_lg')}>
-                                                        <span>Username</span>
-                                                    </legend>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div className={cx('save_change')}>
                                         <button className={cx('btn_save')}>Save changes</button>
                                         <button className={cx('btn_reset')}>Reset</button>
@@ -177,6 +156,7 @@ function ProfileAdmin() {
                     </div >
                 </div >
             </div >
+            {showChangePassWordModal && < ChangePassWord setShowChangePassWordModal={setShowChangePassWordModal} />}
         </div>
     )
 }

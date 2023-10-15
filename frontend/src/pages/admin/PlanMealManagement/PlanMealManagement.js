@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
+import styles from "./PlanMealManagement.module.scss"
 import classNames from 'classnames/bind'
-import styles from "./PostManagement.module.scss"
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
-function PostManagement() {
+function PlanMealManagement() {
     return (
         <div>
-   post
+            Planmeal
         </div>
     );
 }
 
-export default PostManagement;
+export default PlanMealManagement;

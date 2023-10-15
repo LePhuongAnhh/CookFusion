@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
-import styles from "../../admin/ProfileAdmin/ProfileAdmin.module.scss"
+import styles from "./PostManagement.module.scss"
 import classNames from 'classnames/bind'
 // import HeaderAdmin from '../../../components/Layout/DefaulLayout/Header/HeaderAdmin';
 import { render } from '@testing-library/react';
@@ -69,32 +69,11 @@ function RecipeManagement() {
             <div className={cx('row')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        <h4 className={cx('page_title')}>Article management</h4>
+                        <h4 className={cx('page_title')}>Recipe management</h4>
                     </div>
                 </div>
             </div>
-            {/* <div className={cx('row')}>
-                            <AdvanceTableWrapper
-                                columns={columns}
-                                data={data}
-                                sortable
-                                pagination
-                                perPage={5}
-                                selection
-                                selectionColumnWidth={30}
-                            >
-                                <BulAction table />
-                                <AdvanceTable
-                                    table
-                                    headerClassName="bg-200 text-900 text-nowrap align-middle"
-                                    rowClassName="align-middle white-space-nowrap"
-                                    tableProps={{
-                                        striped: true,
-                                        className: 'fs--1 mb-0 overflow-hidden'
-                                    }}
-                                />
-                            </AdvanceTableWrapper>
-                        </div> */}
+
 
         </div>
     )

@@ -2,21 +2,11 @@ import styles from './CreateBlog.module.scss'
 import classNames from 'classnames/bind'
 import React, { useState, Component } from 'react';
 import { Link } from 'react-router-dom'
-// import Avt from "../../../image/avt.jpg"
-// import article2 from "../../../image/article2.webp"
-// import addfile from "../../../image/image.png"
-// import img from "../../../image/anh123.jpg"
-// import checkin from "../../../image/check-in.png"
-// import event from "../../../image/calendar-date.png"
-// import DeleteBlog from "./DeleteBlog"
-// import CommentBlog from "./CommentBlog"
-// import BlogForm from "./BlogForm"
 import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
 const CreateBlog = ({ setShowCreateBlogModal }) => {
     const [isChecked, setIsChecked] = useState(true);
-
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>

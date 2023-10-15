@@ -8,25 +8,11 @@ import images from '~/assets/images'
 import styles from './Article.module.scss'
 import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-// import DarkMode from "../modal/DarkMode"
-// import Avt from "../../../image/avt.jpg"
 import { Link } from 'react-router-dom'
-// import article2 from "../../../image/article2.webp"
-// import addfile from "../../../image/image.png"
-// import img from "../../../image/anh123.jpg"
-// import checkin from "../../../image/check-in.png"
-// import event from "../../../image/calendar-date.png"
 import DeleteBlog from "../../../components/Modal/DeleteBlog"
 import CommentBlog from "../../../components/Modal/CommentBlog"
 import CreateBlog from "../../../components/Modal/CreateBlog"
 import BlogForm from "../../../components/Modal/BlogForm"
-// import avt2 from "../../../image/anh123.jpg"
-// import avt3 from "../../../image/cv.jpg"
-// import avt4 from "../../../image/avt4.jpg"
-// import minh from "../../../image/minh.jpg"
-// import duong from "../../../image/duong.jpg"
-// import phanh from "../../../image/phanh.jpg"
-// import hi from "../../../image/hilli.jpg"
 
 const cx = classNames.bind(styles)
 const Article = () => {
@@ -35,9 +21,8 @@ const Article = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     return (
-        <body>
+        <>
             <div className={cx('article_form')}>
-                <Navigation />
                 <div className={cx('article_container')}>
                     {/* nav  - left */}
                     <nav className={cx('article_navbar')}>
@@ -465,13 +450,11 @@ const Article = () => {
                         </div>
                     </div>
                 </div>
+                {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
+                {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
+                {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
             </div>
-
-            {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
-            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
-            {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
-
-        </body>
+        </>
     )
 }
 

@@ -19,8 +19,16 @@ import Step2_auto from "~/pages/user/planmeal/Step2_auto";
 import ResultAuto from "~/pages/user/planmeal/ResultAuto";
 import ProfileAdmin from "~/pages/admin/ProfileAdmin/ProfileAdmin";
 import PostManagement from "~/pages/admin/PostManagement/PostManagement";
+import RecipeManagement from "~/pages/admin/PostManagement/RecipeManagement";
+import ArticleManagement from "~/pages/admin/PostManagement/ArticleManagement";
 import AccountManagement from "~/pages/admin/AccountManagement/AccountManagement";
-import RecipeManagement from "~/pages/admin/RecipeManagement/RecipeManagement";
+import User from "~/pages/admin/AccountManagement/User";
+import Sponsor from "~/pages/admin/AccountManagement/Sponsor";
+import Dashboard from "~/pages/admin/Dashboard/Dashboard";
+import PlanMealManagement from "~/pages/admin/PlanMealManagement/PlanMealManagement";
+import Category from "~/pages/admin/Category/Category";
+
+
 
 import Search from "~/pages/user/Search"
 
@@ -43,8 +51,14 @@ const publicRoutes = [
     { path: "/search", component: Search, layout: null },
     { path: "/profileAdmin", component: ProfileAdmin, layout: AdminLayout },
     { path: "/postmanagement", component: PostManagement, layout: AdminLayout },
-    { path: "/accountmanagement", component: AccountManagement, layout: AdminLayout },
     { path: "/recipemanagement", component: RecipeManagement, layout: AdminLayout },
+    { path: "/articlemanagement", component: ArticleManagement, layout: AdminLayout },
+    { path: "/accountmanagement", component: AccountManagement, layout: AdminLayout },
+    { path: "/dashboard", component: Dashboard, layout: AdminLayout },
+    { path: "/planmealmanagement", component: PlanMealManagement, layout: AdminLayout },
+    { path: "/userManagement", component: User, layout: AdminLayout },
+    { path: "/sponsormanagement", component: Sponsor, layout: AdminLayout },
+    { path: "/category", component: Category, layout: AdminLayout },
 ];
 const privateRoutes = [];
 
