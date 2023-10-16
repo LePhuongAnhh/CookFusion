@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import styles from "./PostManagement.module.scss"
+import { Form, Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import images from '~/assets/images'
 
@@ -23,10 +24,9 @@ function ArticleManagement() {
                 <MDBTable align='middle'>
                     <MDBTableHead>
                         <tr>
-                            <th scope='col'>Name</th>
-                            <th scope='col'>Title</th>
-                            <th scope='col'>Status</th>
-                            <th scope='col'>Position</th>
+                            <th scope='col'>Recipe</th>
+                            <th scope='col'>Author</th>
+                            <th scope='col'>Accept</th>
                             <th scope='col'>Actions</th>
                         </tr>
                     </MDBTableHead>
@@ -38,28 +38,31 @@ function ArticleManagement() {
                                         src='https://mdbootstrap.com/img/new/avatars/8.jpg'
                                         alt=''
                                         style={{ width: '45px', height: '45px' }}
-                                        className='rounded-circle'
+                                        className="rounded-2"
                                     />
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>John Doe</p>
-                                        <p className='text-muted mb-0'>john.doe@gmail.com</p>
+                                        <p className='fw-700 mb-0'>Mặt trời ngủ trong mây</p>
+                                        <p className='text-muted mb-0'>Món chay</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <p className='fw-normal mb-1'>Software engineer</p>
-                                <p className='text-muted mb-0'>IT department</p>
+                                <p className='fw-normal mb-0'>Link Chi</p>
+                                <p className='text-muted mb-0'>10/16/2023</p>
                             </td>
                             <td>
-                                <MDBBadge color='success' pill>
-                                    Active
-                                </MDBBadge>
+                                <Form.Check
+                                    type='switch'
+                                    id='checkedSwitch'
+                                    defaultChecked
+                                />
                             </td>
-                            <td>Sponsor</td>
                             <td>
-                                <MDBBtn color='link' rounded size='sm'>
-                                    Edit
-                                </MDBBtn>
+                                <p className='mt-1' >
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512">
+                                        <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                                    </svg>
+                                </p>
                             </td>
                         </tr>
                         <tr>
@@ -69,28 +72,31 @@ function ArticleManagement() {
                                         src='https://mdbootstrap.com/img/new/avatars/6.jpg'
                                         alt=''
                                         style={{ width: '45px', height: '45px' }}
-                                        className='rounded-circle'
+                                        className="rounded-2"
                                     />
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>Alex Ray</p>
-                                        <p className='text-muted mb-0'>alex.ray@gmail.com</p>
+                                        <p className='fw-bold mb-0'>Rồng xanh vượt đại dương</p>
+                                        <p className='text-muted mb-0'>Món chay</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <p className='fw-normal mb-1'>Consultant</p>
-                                <p className='text-muted mb-0'>Finance</p>
+                                <p className='fw-normal mb-0'>Grack</p>
+                                <p className='text-muted mb-0'>10/16/2023</p>
                             </td>
                             <td>
-                                <MDBBadge color='primary' pill>
-                                    Inactive
-                                </MDBBadge>
+                                <Form.Check
+                                    type='switch'
+                                    id='checkedSwitch'
+                                    defaultChecked
+                                />
                             </td>
-                            <td>User</td>
                             <td>
-                                <MDBBtn color='link' rounded size='sm'>
-                                    Edit
-                                </MDBBtn>
+                                <p className='mt-1' >
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512">
+                                        <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                                    </svg>
+                                </p>
                             </td>
                         </tr>
                         <tr>
@@ -100,28 +106,31 @@ function ArticleManagement() {
                                         src='https://mdbootstrap.com/img/new/avatars/7.jpg'
                                         alt=''
                                         style={{ width: '45px', height: '45px' }}
-                                        className='rounded-circle'
+                                        className="rounded-2"
                                     />
                                     <div className='ms-3'>
-                                        <p className='fw-bold mb-1'>Kate Hunington</p>
-                                        <p className='text-muted mb-0'>kate.hunington@gmail.com</p>
+                                        <p className='fw-bold mb-0'>Bạch băng dầm thủy </p>
+                                        <p className='text-muted mb-0'>Nóm Việt</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <p className='fw-normal mb-1'>Designer</p>
-                                <p className='text-muted mb-0'>UI/UX</p>
+                                <p className='fw-normal mb-0'>Mark</p>
+                                <p className='text-muted mb-0'>10/16/2023</p>
                             </td>
                             <td>
-                                <MDBBadge color='success' pill>
-                                    Active
-                                </MDBBadge>
+                                <Form.Check
+                                    type='switch'
+                                    id='checkedSwitch'
+                                    defaultChecked
+                                />
                             </td>
-                            <td>User</td>
                             <td>
-                                <MDBBtn color='link' rounded size='sm'>
-                                    Edit
-                                </MDBBtn>
+                                <p className='mt-1' >
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 448 512">
+                                        <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
+                                    </svg>
+                                </p>
                             </td>
                         </tr>
                     </MDBTableBody>
