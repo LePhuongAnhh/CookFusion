@@ -3,28 +3,109 @@
         max-width: 100%;
     }
 }
+.container-table{
+    padding-top: 1.5rem;
+    overflow: hidden;
+}
+
 .row {
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0px 2px 10px 0px rgba(58, 53, 65, 0.1);
     width: 100%;
-    padding: 10px 1.5rem 0;
     transition: padding 0.25s ease-in-out;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 50px auto;
 }
 .col_12 {
-    -webkit-box-flex: 0;
-    flex: 0 0 100%;
-    max-width: 100%;
+    display: flex;
 }
 .page_title_box {
+    flex: 1;
     padding: 0 20px;
     margin: 0 -27px 30px -27px;
-    background-color: #292e32;
-    box-shadow: 0 0 2px 0 rgba(30, 30, 30, 0.15);
 }
 .page_title_box .page_title {
     font-size: 18px;
-    margin: 0;
+    margin: 15px 0 -20px 35px;
+    margin-top: 15px;
     line-height: 50px;
-    font-weight: 700;
-    color: #ababab;
+    font-weight: 500;
+    color: #292e32;
+}
+.border-table{
+    background-color: #FFF;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 6px;
+    background-image: none;
+    width: 100%;
+    overflow-x: auto;
+    box-shadow: none;
+    border-top-color: rgba(58, 53, 65, 0.12);
+}
+
+.header th,
+.hover-actions-trigger td {
+    padding: 1rem 2.5rem;
+    color: #292e32;
+    font-family: 500;
+  }
+ .border-300 svg:hover{
+   color: blue;
+ }
+.status{
+    border-radius: 20px;
+    text-align: center;
+    padding: 3px 5px;
+}
+.badge-soft-success{
+    color: #00864e;;
+    background-color:#ccf6e4;
+}
+.badge-soft-warning {
+    color: #9d5228;
+    background-color: #fde6d9;
+
+}
+
+.table-list{
+padding: 5px 20px;
+}
+
+table thead tr .text-color{
+    color:#282d31;
+    font-size: 16px;
+    font-weight:500;
+}
+table tbody tr .text-color,
+table tbody tr  .text-color svg{
+    color: #292e32;
+    font-size: 16px;
+    // font-weight:400;
+}
+
+
+//CATEGORY
+.select-type{
+    padding-right: 5rem !important;
+    padding-left: 29rem !important;
+    padding-top: 29px;
+}
+.mt-2 i:hover{
+ color: #00864e;
+ cursor: pointer;
+}
+.select{
+    height: 30px;
+    font-size: 16px;
+}
+.select option{
+    font-size: 13px;
+}
+.add-cate{
+    float: right;
+    margin: 20px 20px 0 0;
+    width: 20px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
 }
