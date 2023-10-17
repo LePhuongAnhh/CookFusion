@@ -8,53 +8,61 @@
     background-color: rgba(175, 167, 167, 0.4);
     z-index: 20;
 }
-
 .modalContentDeleteIdea {
-    width: 320px;
-    height: 330px;
-    background-color: rgb(253, 235, 235);
+    width: 400px;
+    height: 195px;
+    background-color:#ffffff;
     margin: auto;
     position: relative;
     z-index: 1;
     border-radius: 10px;
+    color: var(--main-text-color);
+}
+.header-delete{
+    display: flex;
+    padding: 14px 20px 0;
     text-align: center;
-}
+    .containerDelete{
 
-.imgResponsive {
-    max-width: 20%;
-    margin: 25px;
+    }
 }
-
-.containerDelete {
-    padding: 0 15px 5px;
+.icon-exit{
+    flex: 1;
+    float: right;
+    margin-left: 275px; 
+    cursor: pointer;
+    i{
+        font-size: 24px;
+    }
+    i:hover{
+        color: #eeeaea;
+    }
 }
-
-.contextDeleteIdea {
-    margin: 8px 12px 28px;
-    /* padding:5px 5px 35px ; */
+.line{
+    margin: 20px 0 14px;
 }
-
+.body-delete{
+    padding: 0px 20px 0;
+   }
+.footer-delete{
+    padding: 20px 16px;
+}
 .btn_delete,.btn_cancle {
-    padding: 9px 20px;
-    border-radius: 4px;
+float: right;
+    padding: 7px 15px;
+    border-radius: 5px;
     margin: 0px 8px;
-    text-align: center;
 }
-
 .btn_delete{
-    background-color: #dc4f45;
+    background-color: #9155fd;
     color: #fff;
 }
-
 .btn_cancle{
-    background-color: #ccc;
     text-align: center;
 }
-
 .btn_delete:hover{
-    background-color: #f44336;
+    background-color: #844ced;
 }
-
 .btn_cancle:hover{
     background-color: #c3bcbc;
 }

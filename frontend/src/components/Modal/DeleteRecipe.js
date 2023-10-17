@@ -1,14 +1,15 @@
+
 import styles from './DeleteBlog.module.scss'
 import classNames from 'classnames/bind'
 
 const cx = classNames.bind(styles)
-const DeleteBlog = ({ setShowDeleteModal }) => {
+function DeleteRecipe(setShowDeleteRecipeModal) {
     return (
         <div className={cx('modalDeleteIdea')}>
             < div className={cx('modalContentDeleteIdea')}>
                 <div className={cx('header-delete')}>
                     <h2 className={cx('containerDelete')}>Delete</h2>
-                    <div onClick={() => setShowDeleteModal(false)} className={cx('icon-exit')}>
+                    <div onClick={() => setShowDeleteRecipeModal(false)} className={cx('icon-exit')}>
                         <i class="bi bi-x"></i>
                     </div>
                 </div>
@@ -19,11 +20,11 @@ const DeleteBlog = ({ setShowDeleteModal }) => {
                 </div>
                 <div className={cx('footer-delete')}>
                     < button className={cx('btn_delete')} >Delete</button>
-                    < button className={cx('btn_cancle')} onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                    < button className={cx('btn_cancle')} onClick={() => setShowDeleteRecipeModal(false)}>Cancel</button>
                 </div>
             </div >
         </div >
-    )
+    );
 }
 
-export default DeleteBlog
+export default DeleteRecipe;
