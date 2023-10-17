@@ -21,12 +21,12 @@
 }
 .page_title_box {
     flex: 1;
-    padding: 0 20px;
-    margin: 0 -27px 30px -27px;
+    padding: 0px 0 12px 26px;
+    // margin: 0 -27px 30px -27px;
 }
 .page_title_box .page_title {
     font-size: 18px;
-    margin: 15px 0 -20px 35px;
+    // margin: 15px 0 -20px 35px;
     margin-top: 15px;
     line-height: 50px;
     font-weight: 500;
@@ -86,13 +86,18 @@ table tbody tr  .text-color svg{
 
 //CATEGORY
 .select-type{
-    padding-right: 5rem !important;
-    padding-left: 29rem !important;
-    padding-top: 29px;
+    padding-top: 8px;
+    float: right;
+    margin: 20px 55px 8px 0px;
+    width: 135px;
+
 }
 .mt-2 i:hover{
  color: #00864e;
  cursor: pointer;
+}
+.form-select{
+    // width: 25% !important;
 }
 .select{
     height: 30px;
@@ -101,11 +106,57 @@ table tbody tr  .text-color svg{
 .select option{
     font-size: 13px;
 }
+// .add-cate{
+//     float: right;
+//     margin: 20px 55px 0 0px;
+//     width: 120px;
+//     height: 32px;
+//     border-radius: 3px;
+//     border: 1px solid #dee2e6;
+//     justify-content: center;
+//     text-align: center;
+// }
 .add-cate{
-    float: right;
-    margin: 20px 20px 0 0;
-    width: 20px;
-    height: 30px;
-    border-radius: 5px;
+    width: 125px;
+    height: 32px;
+    margin: 20px 55px 0 0px;
+    border-radius: 3px;
     border: 1px solid #dee2e6;
+    text-align: center;
+    cursor: pointer;
+}
+.add-cate svg{
+    color: #282d31;
+}
+.add-cate:hover{
+    box-shadow: 0px 0px 10px rgba(153, 100, 244, 0.3);
+    transition: border 0.15s ease-in-out;
+    background: #afb1b300;
+}
+.add-cate span{
+    font-size: 15px;
+    color: #292e32;
+}
+//contributor
+.c-flex{
+    display: flex;
+}
+.flex-mod{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-right: .5rem;
+}
+.flex-mod img{
+    margin-right: -.5rem;
+    height: 2.5rem;
+    width: 40px;
+    height: 40px;
+    // max-width: 100%;
+    border-radius: 50%;
+    border: solid 2px  #9155fd;
+    transform: .3s all ease;
+}
+.flex-mod img:hover{
+transform: scale(1.3);
 }

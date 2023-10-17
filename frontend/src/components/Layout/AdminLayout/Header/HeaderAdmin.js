@@ -31,11 +31,6 @@ function HeaderAdmin() {
         setIsDropdownOpenPost(!isDropdownOpenPost);
     };
 
-    // dropdown category
-    const [isDropdownOpenCategory, setIsDropdownOpenCategory] = useState(false);
-    const toggleDropdownCategory = () => {
-        setIsDropdownOpenCategory(!isDropdownOpenCategory);
-    };
     return (
         <>
             <div className={cx('navbar_custom')}>
@@ -296,23 +291,10 @@ function HeaderAdmin() {
                                 )}
                             </li>
                             <li  >
-                                <Link to="/category" className={cx('active')} onClick={toggleDropdownCategory}>
+                                <Link to="/category" className={cx('active')}>
                                     <i class="bi bi-people"></i>
                                     <span>Category</span>
-                                    <div className={cx("icon-dropdown")}>
-                                        <i className={`${isDropdownOpenCategory ? 'bi bi-chevron-down' : 'bi bi-chevron-right'}`}></i>
-                                    </div>
                                 </Link>
-                                {isDropdownOpenCategory && (
-                                    <ul className={cx("dropdown-content")}>
-                                        <li>
-                                            <Link to="#">Category</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#">Sub-category</Link>
-                                        </li>
-                                    </ul>
-                                )}
                             </li>
                             <li >
                                 <Link to="/planmealmanagement" className={cx('active')}>

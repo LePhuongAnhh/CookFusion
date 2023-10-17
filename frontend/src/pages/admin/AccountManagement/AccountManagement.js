@@ -5,13 +5,11 @@ import classNames from 'classnames/bind'
 import styles from "./AccountManagement.module.scss"
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
-import images from '~/assets/images'
 import DeleteAccount from '~/components/Modal/DeleteAccount';
 const cx = classNames.bind(styles)
 
 
 function AccountManagement() {
-    // const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
     return (
         <div className={cx('container-table')}>
             <div className={cx('row')}>
@@ -28,7 +26,6 @@ function AccountManagement() {
                                 <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
-                                {/* <th scope="col">Rating</th> */}
                                 <th scope="col">Active</th>
                             </tr>
                         </thead>

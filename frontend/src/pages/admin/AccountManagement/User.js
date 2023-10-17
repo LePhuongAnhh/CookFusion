@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import styles from "./AccountManagement.module.scss"
 import classNames from 'classnames/bind'
-import images from '~/assets/images'
 import DeleteAccount from '~/components/Modal/DeleteAccount';
 
 const cx = classNames.bind(styles)
@@ -20,8 +19,7 @@ function User() {
             </div>
           </div>
         </div>
-
-
+        
         <div className={cx('py-0 card-body', 'row')}>
           <div className={cx('tab-content')}>
             <div className={cx('table-responsive')}>
