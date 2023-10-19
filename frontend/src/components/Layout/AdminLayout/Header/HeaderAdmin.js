@@ -3,10 +3,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import styles from "./HeaderAdmin.module.scss"
 import classNames from 'classnames/bind'
+import { useTranslation } from 'react-i18next';
 import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
 function HeaderAdmin() {
+    const { t, i18n } = useTranslation();
+
     //show thông báo
     const [isNotificationVisible, setNotificationVisibility] = useState(false);
     const handleNotificationClick = () => {
@@ -41,6 +44,13 @@ function HeaderAdmin() {
                         <Link to="#" className={cx('nav_link')}>
                             <i className="bi bi-brightness-high-fill"></i>
                         </Link>
+                    </li>
+                    <li className={cx('notification_list')}>
+                        <li className={cx('notification_list')}>
+                            <Link to="#" className={cx('nav_link')}>
+                                <i className="bi bi-brightness-high-fill"></i>
+                            </Link>
+                        </li>
                     </li>
                     <li className={cx('notification_list')}>
                         {/* thông báo  */}
