@@ -82,7 +82,6 @@ function RecipeManagement() {
                         <thead>
                             <tr className={cx('header')}>
                                 <th scope='col'>Annunciator</th>
-                                <th scope='col'>Report content</th>
                                 <th scope='col'>Recipe</th>
                                 <th scope='col'>Author</th>
                                 <th scope='col'>Reject</th>
@@ -102,9 +101,6 @@ function RecipeManagement() {
                                             <p className='mb-2'>Hana Lee</p>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>Tôi thấy bài viết này có một số nọi dung không đúng như các nguyên liệu chưa đc xác thực rõ ràng là có ảnh hưởng đến người mắc bệnh tiểu đường hay không. </p>
                                 </td>
                                 <td>
                                     <p className={cx('mt-2')}>Những món ăn tốt cho người mắc bệnh tiểu đường</p>

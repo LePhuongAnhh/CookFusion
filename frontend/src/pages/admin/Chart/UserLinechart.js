@@ -18,26 +18,36 @@ export default function UserLineChart() {
         <LineChart
             width={450}
             height={300}
+            // định nghĩa dữ liệu cho các series trên biểu đồ, bao gồm "User" và "Sponsor".
             series={[
                 { data: pData, label: 'User', id: 'userId' },
                 { data: uData, label: 'Sponsor', id: 'sponsorId' },
             ]}
+
+            // định nghĩa nhãn cho trục x.
             xAxis={[{ scaleType: 'point', data: xLabels }]}
             sx={{
+                // Selector cho series "User".
                 '.MuiLineElement-root, .MuiMarkElement-root': {
                     strokeWidth: 1,
                 },
                 '.MuiLineElement-series-userId': {
+                    stroke: 'blue', // Đổi màu sắc cho User thành màu xanh
                     strokeDasharray: '5 5',
                 },
                 '.MuiLineElement-series-sponsorId': {
-                    strokeDasharray: '3 4 5 2',
+                    stroke: 'red', // Đổi màu sắc cho Sponsor thành màu đỏ
+                    strokeDasharray: '3 4 5 2', //Thuộc tính để đặt kiểu đường dẫn (dash-array) cho đường dẫn của series.
                 },
                 '.MuiMarkElement-root:not(.MuiMarkElement-highlighted)': {
                     fill: '#fff',
+
                 },
                 '& .MuiMarkElement-highlighted': {
                     stroke: 'none',
+                },
+                '.MuiLegendItem-root': {
+                    color: 'green', // Đổi màu sắc chú thích thành màu xanh
                 },
             }}
         />

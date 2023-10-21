@@ -16,12 +16,6 @@ function HeaderAdmin() {
         setNotificationVisibility(!isNotificationVisible);
     };
 
-    // dropdown dashboard
-    const [isDropdownOpenDashBoard, setIsDropdownOpenDashBoard] = useState(false);
-    const toggleDropdownDashBoard = () => {
-        setIsDropdownOpenDashBoard(!isDropdownOpenDashBoard);
-    };
-
     // dropdown account
     const [isDropdownOpenAccount, setIsDropdownOpenAccount] = useState(false);
     const toggleDropdownAccount = () => {
@@ -171,7 +165,7 @@ function HeaderAdmin() {
                         </button>
                     </li>
                     {/* ******  */}
-                    <li className={cx('d_none')}>
+                    {/* <li className={cx('d_none')}>
                         <form className={cx('app_search')}>
                             <div className={cx('app_search_box')}>
                                 <div className={cx('input_group')}>
@@ -184,7 +178,7 @@ function HeaderAdmin() {
                                 </div>
                             </div>
                         </form>
-                    </li>
+                    </li> */}
                 </ul>
             </div >
             <input
@@ -230,29 +224,13 @@ function HeaderAdmin() {
                             <hr className={cx('line')}></hr>
                             {/* ****** */}
                             <li  >
-                                <Link to="/dashboard" className={cx('active')} onClick={toggleDropdownDashBoard}>
+                                <Link to="/dashboard" className={cx('active')}>
                                     <i class="bi bi-terminal-dash"></i>
                                     <span>Dashboard</span>
-                                    <div className={cx("icon-dropdown")}>
+                                    {/* <div className={cx("icon-dropdown")}>
                                         <i className={`${isDropdownOpenDashBoard ? 'bi bi-chevron-down' : 'bi bi-chevron-right'}`}></i>
-                                    </div>
+                                    </div> */}
                                 </Link>
-                                {isDropdownOpenDashBoard && (
-                                    <ul className={cx("dropdown-content")}>
-                                        <li>
-                                            <Link to="#">Recipe</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#">Post</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#">Planner</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#">Sponsor</Link>
-                                        </li>
-                                    </ul>
-                                )}
                             </li>
                             <li >
                                 <Link to="/profileAdmin" className={cx('active')}>

@@ -46,7 +46,7 @@ function Dashboard() {
                     <div className={cx('col-xxl-3', 'col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Recipe</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -55,7 +55,7 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>213
                                     </h2>
                                     <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
                                 </div>
@@ -65,7 +65,7 @@ function Dashboard() {
                     <div className={cx('col-xxl-3', 'col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Article</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -74,9 +74,9 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>132
                                     </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
+                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>-7%</div>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +84,7 @@ function Dashboard() {
                     <div className={cx('col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Plan meal</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -95,7 +95,7 @@ function Dashboard() {
                                 <div className={cx('border-right')}>
                                     <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
                                     </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
+                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+12%</div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@ function Dashboard() {
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
-                                    <h6 className={cx('mb-0')}>Helo chua bit de gi</h6>
+                                    <h6 className={cx('mb-0')}>Hi!</h6>
                                 </div>
                             </div>
                             <div className={cx('card-body-chart')}>
@@ -193,7 +193,7 @@ function Dashboard() {
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
-                                    <h6 className={cx('mb-0')}>Chart showing ad performance</h6>
+                                    <h6 className={cx('mb-0')}>Rating Recipe</h6>
                                 </div>
                             </div>
                             <div className={cx('card-body-chart')}>
@@ -210,7 +210,7 @@ function Dashboard() {
                                     <h6 className={cx('mb-0')}>Chart showing Ad Pack Delivery</h6>
                                 </div>
                             </div>
-                            <div className={cx('card-body-chart')}>
+                            <div className={cx('card-body-piechart')}>
                                 <AdBarsChart />
                             </div>
                         </div>

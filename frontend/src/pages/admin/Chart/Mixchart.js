@@ -11,7 +11,7 @@ const MixChart = () => {
             {
                 type: 'line', // Loại biểu đồ đường
                 label: 'Số Lượng Công Thức',
-                borderColor: 'blue',
+                borderColor: 'red',
                 borderWidth: 2,
                 fill: false,
                 data: [10, 15, 20, 18, 25, 3],
