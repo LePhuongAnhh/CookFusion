@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+// import Modal from './Modal';
 
 //import từ bên trong src
 import {
@@ -19,7 +20,7 @@ import { Link } from 'react-router-dom'
 const cx = classNames.bind(styles)
 
 const LoginForm = () => {
-
+    //validation
     function checkUsername() {
         var username = document.getElementById('txt-username').value;
         var errorUsername = document.getElementById('error-username');
@@ -41,6 +42,8 @@ const LoginForm = () => {
         }
     }
 
+    const [showModal, setShowModal] = useState(false); // Trạng thái để kiểm soát việc hiển thị modal
+    const [modalMessage, setModalMessage] = useState(''); // Nội dung thông báo modal
 
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState({
@@ -51,6 +54,7 @@ const LoginForm = () => {
     //theo dõi sự thay đổi trong các trường nhập liệu của mẫu đăng nhập
     //được gọi và cập nhật giá trị tương ứng trong biến trạng thái loginForm.
     const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
+  
     const login = async event => {
         event.preventDefault();
         try {
@@ -70,7 +74,7 @@ const LoginForm = () => {
         } catch (error) {
             if (error.response.data.message === "Invalid account's information") {
                 // alert("Nhập sai username or pasword");
-                setIncorrectAccount(true)
+                setIncorrectAccount(true) //Hiển thị Modal
             } else {
                 console.error(error.response.data.message);
             }
@@ -92,6 +96,7 @@ const LoginForm = () => {
                         {
                             incorrectAccount &&
                             <div className={cx("warning")}>Incorrect Username or Password, please try again</div>
+                            // <Modal show={showModal} onClose={() => setShowModal(false)} />
                         }
                         <div className={cx('user_box')}>
                             <input
@@ -123,8 +128,6 @@ const LoginForm = () => {
                             <label>
                                 <input
                                     type="checkbox"
-                                // checked={agree}
-                                // onChange={handleAgreeChange}
                                 />
                                 &nbsp;
                                 <p className={cx('remember')}> Remember me</p>
@@ -145,7 +148,7 @@ const LoginForm = () => {
                             {/* <img src={images.facebook} /> */}
                         </div>
                         <div className={cx('lb_register')}>
-                            {/* <label> Do you haven't an account? </label> */}
+                            <label> Do you haven't an account? </label>
                             <Link to='/register'> &nbsp;  Register</Link>
                         </div>
                     </form>

@@ -131,6 +131,10 @@
     color: var( --span-text-color);
 }
 
+.lb_login label{
+    color: var(--main-text-color);
+}
+
 .term_condition{
     margin-top: -18px;
     label{
@@ -167,7 +171,8 @@ form .login_btn1 {
     cursor: pointer;
     font-weight: 600;
 }
-.login_btn input{
+.login_btn input,
+.login_btn button{
     background: none;
     border: none;
 }
@@ -227,8 +232,12 @@ form a,
     margin: 0 auto;
     color: var(--main-text-color);
     cursor: pointer;
-  
+ 
 }
+.login_other:hover{
+    background: orange;
+}
+
 .login_other img {
     width: 25px;
     height: 25px;
@@ -245,6 +254,9 @@ form a,
 
 .lb_register {
     margin-top: 48px;
+    label{
+        color: var(--main-text-color);
+    }
 }
 
 /* register */

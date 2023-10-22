@@ -4,11 +4,25 @@ import axios from 'axios';
 import { apiUrl } from '~/constants/constants';
 import React, { useState } from 'react';
 import images from '~/assets/images'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RoleModal from '~/components/Modal/RoleModal';
 const cx = classNames.bind(styles)
 
 const RegisterForm = () => {
+    function checkValideInput() {
+        let isValid = true;
+        let arrInput = ['name', 'username', 'email', 'password', 'rePassword'];
+        for (let i = 0; i < arrInput.length; i++) {
+            console.log(createAccount[arrInput[i]], arrInput[i])
+            if (!createAccount[arrInput[i]]) {
+                isValid = false;
+                alert("khong dc de trong du lieu  ", + arrInput[i]);
+                break
+            }
+        }
+        return isValid;
+    }
+
     function checkName() {
         var full_name = document.getElementById('txt-full-name').value;
         var check_error_fullname = document.getElementById('error-full-name');
@@ -75,44 +89,56 @@ const RegisterForm = () => {
             return password;
         }
     }
+    const navigate = useNavigate();
+    const [createAccount, setCreateAccount] = useState({
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+        rePassword: ""
+    })
 
-    const registrationForm = document.getElementById('registrationForm');
-    // registrationForm.addEventListener('submit', async function (event) {
-    //     event.preventDefault();
-    //     const full_name = document.getElementById('txt-full-name').value;
-    //     const user_name = document.getElementById('txt-user-name').value;
-    //     const email = document.getElementById('text-email').value;
-    //     const password = document.getElementById('txt-password').value;
-    //     const re_password = document.getElementById('txt-confirm-password').value;
+    const handleOnChangeInput = (event, id) => {
+        console.log(event.target.value, id)
+        const value = event.target.value; //lay gia tri cua mot event
+        setCreateAccount((prevState) => ({
+            ...prevState,
+            [id]: value,
+        }));
+    };
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        // Thực hiện kiểm tra hợp lệ.
+        let isValid = checkValideInput();
+        if (isValid === true) {
+            try {
+                const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
+                if (response.data.success) {
+                    console.log('Đăng ký thành công', response.data);
+                    alert("Đăng ký thành công")
 
-    //     try {
-    //         const response = await axios.post(`${apiUrl}/auth/create`, {
-    //             name: full_name,
-    //             username: user_name,
-    //             email: email,
-    //             password: password,
-    //             rePassword: re_password,
+                }
 
-    //         });
-
-    //         if (response.status === 201) {
-    //             alert('Đăng ký thành công!');
-    //             // Tùy chỉnh xử lý sau khi đăng ký thành công, chẳng hạn chuyển người dùng đến trang đăng nhập.
-    //         }
-    //     } catch (error) {
-    //         alert('Đăng ký thất bại. Vui lòng thử lại.');
-    //         console.error(error);
-    //     }
-    // });
-
-    // const {full_name, user_name, email, password, confirm_password} = register
+            } catch (error) {
+                if (error.response.data.message === "Username or email address is exsisted") {
+                    alert("Trung username or email");
+                } else {
+                    console.error('Lỗi đăng ký:', error);
+                    alert("dang ky that bai");
+                }
+            }
+        }
+    };
     return (
         <>
             <img src={images.Background_logo} className={cx('login_background')} />
             <div className={cx('overlay')}>
                 <div className={cx('register_box')}>
                     <h2>Register</h2>
-                    <form id="registrationForm">
+                    <form
+                        id="registrationForm"
+                        onSubmit={handleRegister}
+                    >
                         <div className={cx('user_box')}>
                             <input
                                 className={cx('input_field')}
@@ -120,6 +146,7 @@ const RegisterForm = () => {
                                 name="name "
                                 id='txt-full-name'
                                 onBlur={checkName}
+                                onChange={(event) => { handleOnChangeInput(event, "name") }}
                             />
                             <label>Full Name * <span className={cx('txt-red')} id='error-full-name' ></span> </label>
                         </div>
@@ -130,7 +157,8 @@ const RegisterForm = () => {
                                 type="text"
                                 name="username"
                                 id='txt-user-name'
-                                onBlur={checkUserName}
+                                // onBlur={checkUserName}
+                                onChange={(event) => { handleOnChangeInput(event, "username") }}
                             />
                             <label >Username * <span className={cx('txt-red')} id='error-user-name'></span></label>
                         </div>
@@ -141,7 +169,8 @@ const RegisterForm = () => {
                                 type="email"
                                 name="Email"
                                 id='txt-email'
-                                onBlur={checkEmail}
+                                // onBlur={checkEmail}
+                                onChange={(event) => { handleOnChangeInput(event, "email") }}
                             />
                             <label>Email * <span className={cx('txt-red')} id='error-email'></span></label>
                         </div>
@@ -152,7 +181,8 @@ const RegisterForm = () => {
                                 type="password"
                                 name="Password"
                                 id='txt-password'
-                                onBlur={checkPassword}
+                                // onBlur={checkPassword}
+                                onChange={(event) => { handleOnChangeInput(event, "password") }}
                             />
                             <label>Password *  </label>
                             <span className={cx('txt-red-password')} id='error-password'></span>
@@ -165,7 +195,8 @@ const RegisterForm = () => {
                                 type="password"
                                 name="confirmPassword"
                                 id='txt-confirm-password'
-                                onBlur={checkConfirmPassword}
+                                // onBlur={checkConfirmPassword}
+                                onChange={(event) => { handleOnChangeInput(event, "rePassword") }}
                             />
                             <label>Confirm Password  <span className={cx('txt-red')} id='error-confirm-password'></span> *</label>
 
@@ -185,7 +216,12 @@ const RegisterForm = () => {
                             <span></span>
                             <span></span>
                             <span></span>
-                            <button type="submit">Đăng ký</button>
+                            <input
+                                type="submit"
+                                value="Register"
+                            />
+                            {/* Đăng ký */}
+                            {/* </input> */}
                         </div>
                         {/* <RoleModal /> */}
                         <div className={cx('lb_login', 'd-flex', 'justify-content-center', 'align-items-center')}>
