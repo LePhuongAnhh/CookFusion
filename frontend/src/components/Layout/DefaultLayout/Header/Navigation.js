@@ -45,6 +45,15 @@ function Navigation() {
                                 </Link>
                             </div>
                         </div>
+                        {/* responsive  */}
+                        <button className={cx("button-menu-mobile")}>
+                            <label htmlFor="navInput">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </label>
+                        </button>
+
                         <div className={cx('header_item_center')}>
                             <nav className={cx('site_navigation')}>
                                 <ul className={cx('site_menu')} >
@@ -55,7 +64,6 @@ function Navigation() {
                                             </Link>
                                         </div>
                                     </li>
-
                                     <li>
                                         <div className={cx('text_item1')}>
                                             <Link to="/recipe" className={cx('nav_link')}>
@@ -83,7 +91,10 @@ function Navigation() {
                         <div class={cx('header_item_right')}>
                             <div className={cx('gird_right')}>
                                 <div className={cx('nav_link_right')}>
-                                    <ShowInfor />
+                                    <li className={cx('notification_list')}>
+                                        {/* thông báo  */}
+                                        <ShowInfor />
+                                    </li >
                                 </div>
                                 <div className={cx('nav_link_right')}>
                                     <Link onClick={logout}>
@@ -93,12 +104,71 @@ function Navigation() {
                                         </svg>
                                     </Link>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </header>
+            <input
+                hidden
+                className={cx('navbarInput')}
+                type="checkbox"
+                name=""
+                id="navInput"
+            />
+            {/* sidebar responsive  */}
+            <label htmlFor="navInput" className={cx("overlaySidebar")}></label>
+            <div className={cx('left_side_menu')}>
+                <div className={cx('slimscroll_menu')}>
+                    <div id="sidebar-menu" className={cx('sidebar_menu')}>
+                        <ul className={cx('metismenu')}>
+                            <li className={cx('logo-respon')}>
+                                <Link to="/homepage" className={cx('text_image')}>
+                                    <span>GournFood</span>
+                                </Link>
+                            </li>
+                            {/* for iad  */}
+                            <label htmlFor="navInput" className={cx('sidebarClose')}>
+                            </label>
+                            <hr className={cx('line')}></hr>
+                            {/* ****** */}
+                            <li>
+                                <Link to="#" className={cx('active')}>
+                                    <i class="bi bi-terminal-dash"></i>
+                                    <span>Home</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="#" className={cx('active')}>
+                                    <i class="bi bi-terminal-dash"></i>
+                                    <span>Article</span>
+                                </Link>
+                            </li>
+                            <li >
+                                <Link to="#" className={cx('active')}>
+                                    <i className="bi bi-gear"></i>
+                                    <span>Recipe </span>
+                                    {/* <span className={cx('menu_arrow')}></span> */}
+                                </Link>
+                            </li>
+                            <li >
+                                <Link to="#" className={cx('active')}>
+                                    <i className="bi bi-gear"></i>
+                                    <span>Sponsor </span>
+                                    {/* <span className={cx('menu_arrow')}></span> */}
+                                </Link>
+                            </li>
+                            <li >
+                                <Link to="#" className={cx('active')}>
+                                    <i className="bi bi-gear"></i>
+                                    <span>Plan Meal </span>
+                                    {/* <span className={cx('menu_arrow')}></span> */}
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }

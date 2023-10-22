@@ -1,6 +1,11 @@
+.notification_list {
+    margin-left: 0;
+    position: relative;
+    // display: inline-block
+}
 .notification-icon {
     padding: 0 15px;
-    color: #ffffff;
+    // color: #ffffff;
     min-width: 32px;
     display: block;
     line-height: 70px;

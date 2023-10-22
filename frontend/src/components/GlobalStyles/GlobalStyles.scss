@@ -57,4 +57,12 @@ img{
     html *::-webkit-scrollbar-thumb:hover {
         background: #555;
   }
+
+  button{
+    background: none;
+    border: none;
+  }
   
+  ul , li{
+    list-style: none;
+  }
