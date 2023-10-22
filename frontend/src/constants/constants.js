@@ -1,4 +1,5 @@
-export const apiUrl = 'https://gourmet-indol.vercel.app/api'
+// export const apiUrl = 'https://gourmet-indol.vercel.app/api'
+export const apiUrl = 'http://localhost:9996/api'
 export const ACCOUNT_ID = 'accountId'
 export const ROLE = 'role'
 export const ACCESS_TOKEN = 'accessToken'

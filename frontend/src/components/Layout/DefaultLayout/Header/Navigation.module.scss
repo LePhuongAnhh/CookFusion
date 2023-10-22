@@ -1,21 +1,3 @@
-*,
-::after,
-::before {
-    box-sizing: inherit;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 1px;
-}
-button {
-    border: none;
-    background: none;
-}
-
-u,
-li {
-    text-decoration: none;
-    list-style: none;
-}
-
 .site_navbar {
     z-index: 1999;
     width: 100%;
@@ -24,6 +6,7 @@ li {
     background: white;
     top: 0;
     z-index: 10000;
+    overflow: hidden;
     box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
 }
 .row_header {
@@ -72,8 +55,8 @@ li {
 
 .site_menu li {
     display: inline;
-    font-size: 16px;
     margin: 30px;
+    color: var(--main-text-color);
 }
 
 .site_navigation .site_menu li .text_item1 {
@@ -81,6 +64,8 @@ li {
     width: 100x;
     height: 70px;
     border-radius: 5px;
+    font-size: 18px;
+
 }
 
 .site_navigation .site_menu li:hover {
@@ -105,7 +90,11 @@ li {
     border-radius: 50%;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
+    svg{
+        color: var(--main-text-color);
+    }
 }
+
 
 .nav_link_right svg:hover {
     color: #e16120;

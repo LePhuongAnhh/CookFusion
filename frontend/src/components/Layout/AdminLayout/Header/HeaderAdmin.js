@@ -32,7 +32,6 @@ function HeaderAdmin() {
         <>
             <div className={cx('navbar_custom')}>
                 <ul className={cx('list_unstyled')}>
-
                     {/* chuyển màu  */}
                     <li className={cx('notification_list')}>
                         <Link to="#" className={cx('nav_link')}>

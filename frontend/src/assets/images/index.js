@@ -1,5 +1,6 @@
 const images = {
     logo: require('~/assets/images/restauran1.png'),
+    Background_logo: require('~/assets/images/background-login.png'),
     email: require('~/assets/images/email.png'),
     step1: require('~/assets/images/correct.png'),
     step2: require('~/assets/images/number-2.png'),
