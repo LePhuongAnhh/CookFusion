@@ -1,10 +1,8 @@
-import styles from "./Button_save.module.scss"
+import styles from './Button_save.module.scss'
 import classNames from 'classnames/bind'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
-const Button_save = () => {
+const createRecipeButton = () => {
     return (
         <div className={cx('floating_button')}>
             <div className={cx('tray_row')}>
@@ -23,4 +21,4 @@ const Button_save = () => {
     )
 }
 
-export default Button_save
+export default createRecipeButton

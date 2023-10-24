@@ -5,22 +5,15 @@ import { Link } from 'react-router-dom'
 import Navigation from "../../../components/Layout/DefaultLayout/Header/Navigation";
 import { Helmet } from "react-helmet"
 import images from '~/assets/images'
+import { apiUrl } from "~/constants/constants";
+import axios from "axios";
 
-// import img_article from "../../../image/thit-kho-tau-mien-nam.jpg"
-// import Avt from "../../../image/avt.jpg"
-// import pig_meal from "../../../image/pig_meal.jpg"
-// import thitlonnau from "../../../image/thit-kho-tau-2-e1591983890543.jpg"
-// import ketqua from "../../../image/ketquatht.jpg"
-// import time from "../../../image/time.png"
-// import ingredient from "../../../image/nutrients.png"
-// import burning from "../../../image/burning.png"
-// import serving from "../../../image/food.jpg"
 
 const cx = classNames.bind(styles)
-function DetailRecipe() {
+function DetailRecipe({ match }) {
+    const [recipe, setRecipe] = useState(null);
 
     const scrollingImage = document.querySelector('.detail_left_gird');
-
     if (scrollingImage) {
         window.addEventListener('scroll', () => {
             const scrollPosition = window.scrollY;
@@ -36,15 +29,31 @@ function DetailRecipe() {
         });
     }
 
+    // useEffect(() => {
+    //     const recipeId = match.params.id; // Lấy recipeId từ URL
+    //     // Gọi API để lấy thông tin chi tiết công thức nấu ăn dựa trên recipeId
+    //     axios.get(`${apiUrl}/recipe/${recipeId}`)
+    //         .then((response) => {
+    //             setRecipe(response.data);
+    //             alert("thanh cong r")
+    //         })
+    //         .catch((error) => {
+    //             console.error('Lỗi khi tải thông tin công thức nấu ăn', error);
+    //             alert('k lay dc du lieu')
+    //         });
+    // }, [match.params.id]);
+
+    // if (!recipe) {
+    //     return <div>Loading...</div>;
+
+    // }
+
     return (
         <>
             <div className={cx('detail_recipe')}>
                 <Helmet>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                 </Helmet>
-                <div className={cx('header')}>
-                    <Navigation />
-                </div>
                 <div className={cx('home')}>
                     <div className={cx('top')}>
                         <div className={cx('breadcrumb_container')}>
@@ -54,7 +63,7 @@ function DetailRecipe() {
                                 </span>
                                 <span className={cx('breadcrumb_separator')}>/</span>
                                 <span className={cx('breadcrumb_link')}>
-                                    <Link to="#" title>Recipe</Link>
+                                    <Link to="/recipe" title>Recipe</Link>
                                 </span>
                                 <span className={cx('breadcrumb_separator')}>/</span>
                                 <span className={cx('breadcrumb_current')}>Ten cong thuc</span>
@@ -69,7 +78,7 @@ function DetailRecipe() {
                                 <div className={cx('header_right')}>
                                     <div className={cx('header_right_text')}>
                                         <div className={cx('gird_text')}>
-                                            <h1 className={cx('title_recipe')}>Cheesy Broccoli Stuffed Chicken (low-carb, Keto)</h1>
+                                            <h1 className={cx('title_recipe')}> (low-carb, Keto)</h1>
                                             <span className={cx('atribution')}>
                                                 <Link to="" className={cx('source_link')}>ABCD</Link>
                                             </span>

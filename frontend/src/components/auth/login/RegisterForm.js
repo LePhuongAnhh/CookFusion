@@ -108,27 +108,30 @@ const RegisterForm = () => {
     };
     const handleRegister = async (e) => {
         e.preventDefault();
-        // Thực hiện kiểm tra hợp lệ.
-        let isValid = checkValideInput();
-        if (isValid === true) {
-            try {
-                const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
-                if (response.data.success) {
-                    console.log('Đăng ký thành công', response.data);
-                    alert("Đăng ký thành công")
-
-                }
-
-            } catch (error) {
-                if (error.response.data.message === "Username or email address is exsisted") {
-                    alert("Trung username or email");
-                } else {
-                    console.error('Lỗi đăng ký:', error);
-                    alert("dang ky that bai");
-                }
+        const isValid = checkValideInput();
+        if (!isValid) {
+            return;
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
+            if (response.data.success) {
+                console.log('Đăng ký thành công', response.data);
+                alert("Đăng ký thành công");
+                navigate('/');
+            } else {
+                console.error('Lỗi đăng ký:', response.data);
+                alert("Đăng ký thất bại");
+            }
+        } catch (error) {
+            if (error.response.data.message === "Username or email address is exsisted") {
+                alert("Trùng username hoặc email");
+            } else {
+                console.error('Lỗi đăng ký:', error);
+                alert("Đăng ký thất bại");
             }
         }
     };
+
     return (
         <>
             <img src={images.Background_logo} className={cx('login_background')} />

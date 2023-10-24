@@ -27,9 +27,7 @@ import Sponsor from "~/pages/admin/AccountManagement/Sponsor";
 import Dashboard from "~/pages/admin/Dashboard/Dashboard";
 import PlanMealManagement from "~/pages/admin/PlanMealManagement/PlanMealManagement";
 import Category from "~/pages/admin/Category/Category";
-
-
-
+import Profile from "~/pages/user/profile/Profile";
 import Search from "~/pages/user/Search"
 
 const publicRoutes = [
@@ -59,6 +57,7 @@ const publicRoutes = [
     { path: "/userManagement", component: User, layout: AdminLayout },
     { path: "/sponsormanagement", component: Sponsor, layout: AdminLayout },
     { path: "/category", component: Category, layout: AdminLayout },
+    { path: "/profile", component: Profile },
 ];
 const privateRoutes = [];
 

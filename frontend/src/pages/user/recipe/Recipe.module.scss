@@ -2,7 +2,6 @@
     font-family: 'DM Sans', sans-serif;
 }
 .browse {
-    /* display: flex; */
     width: 100%;
     margin-top: 70px;
 }
@@ -13,7 +12,6 @@
 
 /* TOP  */
 .top {
-    /* z-index: 9; */
     position: absolute;
     margin: 35px 0;
     width: 100%;
@@ -23,7 +21,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    /* overflow-x: auto; */
     height: 100%;
     width: 100%;
     max-width: 1360px;
@@ -145,18 +142,7 @@
 .card_top:hover .figcaption {
     border-radius: 5px;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(14, 14, 14, 0) 100%);
-    position: absolute;
-    /* height: 240px; */
     display: flex;
-    /* font-size: 0.6rem;
-    position: absolute;
-    height: 240px;
-    display: flex;
-    border-radius: 5px;
-    align-items: end;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
-    left: 0px;
-    bottom: 0px; */
 }
 
 /* .g_card:hover .figcaption {
@@ -215,7 +201,6 @@ text h2 {
 }
 
 /* HET  */
-
 /* Introduction of Recipe */
 
 .summary {
@@ -411,3 +396,47 @@ text h2 {
 .team .team_box .profile .info .team_icon svg:hover {
     color: #f46708;
 }
+
+//create RECIPE
+.floating_button {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 400ms ease;
+    height: auto;
+    margin-top: 35px;
+    /* position: absolute; */
+    z-index: 2;
+    right: 0;
+    margin-right: 99px;
+    position: fixed;
+}
+.save_button {
+    position: relative;
+}
+
+.button_save_recipe {
+    overflow: hidden;
+    display: flex;
+    border: none;
+    transition: max-width 600ms ease;
+    border-radius: 3em;
+    margin-top: 16px;
+    width: 56px;
+    height: 56px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.05) inset;
+    padding: 0;
+    color: #242424;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.icon_save {
+    padding: 15px;
+    transition: color 200ms ease;
+    display: inline-block;
+}
+
+.button_save_recipe:hover {
+    transform: scale(1.1);
+    transition: 200ms ease;
+}
+

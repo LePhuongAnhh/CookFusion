@@ -2,34 +2,40 @@ import styles from './Recipe.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-// import FooterForm from '../../../components/Layout/DefaulLayout/Footer/FooterForm'
 import Button_save from '../../../components/Botton/Button_save'
+import createRecipeButton from '~/components/Botton/createRecipeButton'
 import RecipeForm from './RecipeForm'
-// import img_article from "../../../image/background.jpg"
-// import thikhtao from "../../../image/thit-kho-tau-mien-nam.jpg"
-// import breakfast from "../../../image/brafast.png"
-// import meal from "../../../image/meal.jpg"
-// import anh1 from "../../../image/anh1.jpg"
-// import vegetable from "../../../image/vegetable.jpg"
-// import Avt from "../../../image/avt.jpg"
+import CreateRecipe from './CreateRecipe'
 import images from '~/assets/images'
 
-import React, { useEffect } from 'react';
-// import { Swiper, SwiperSlide } from "swiper/react";
+import React, { useEffect, useState } from 'react';
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
-// import Top from "../../../image/topraucu.webp"
-// import Top2 from "../../../image/top2.webp"
-// import Top3 from "../../../image/top3.webp"
-// import Top4 from "../../../image/top4.webp"
 
 const cx = classNames.bind(styles)
 const Recipe = () => {
+    const [showCreateRecipeModal, setShowCreateRecipeModal] = useState(false);
+
     return (
         <div>
-            <div><Navigation /></div>
-
             <div className={cx('browse')}>
-                <Button_save />
+                <div className={cx('floating_button')}>
+                    <div className={cx('tray_row')}>
+                        <div className={cx('save_button')}>
+                            <button
+                                aria-label='Save-recipe'
+                                className={cx('button_save_recipe')}
+                                onClick={() => setShowCreateRecipeModal(true)}
+                            >
+                                <span className={cx('icon_save')} title="Create Recipe">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div className={cx('right')}>
                     <div className={cx('top')}>
                         <div className={cx('breadcrumb_container')}>
@@ -115,7 +121,7 @@ const Recipe = () => {
                     </div>
 
                     {/* INGRS  */}
-                    <div className={cx('cate_contain')}>
+                    {/* <div className={cx('cate_contain')}>
                         <div className={cx('cate_gird')}>
                             <h2>Explore more</h2>
                             <div className={cx('cate_img_block')}>
@@ -161,7 +167,7 @@ const Recipe = () => {
                                 <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className={cx('blog')}>
                         <h1>Our<span>Blog</span></h1>
@@ -258,6 +264,8 @@ const Recipe = () => {
                     {/* NEW RECIPE  */}
                 </div>
             </div>
+
+            {showCreateRecipeModal && <CreateRecipe setShowCreateRecipeModal={setShowCreateRecipeModal} />}
         </div>
     )
 }

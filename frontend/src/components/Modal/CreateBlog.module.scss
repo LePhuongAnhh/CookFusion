@@ -98,6 +98,11 @@
 .create_post {
     font-size: 1rem;
     margin-bottom: 0;
+    input{
+        border: none;
+        padding: 0 5px;
+        font-size: 15px;
+    }
 }
 
 h5 {
@@ -124,12 +129,12 @@ h5 {
     display: block;
     width: 100%;
     padding: 0.3125rem 1.25rem;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
     background-clip: padding-box;
     border: 1px solid #d8e2ef;
-    /* border: none; */
+    padding: 10px 15px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -192,13 +197,17 @@ h5 {
 /* COndition  */
 .condition {
     font-size: 14px;
-    padding: 15px 25px;
+    padding: 15px;
+    label{
+        font-size: 14px;
+        color: var(--main-text-color);
+    }
 }
 
 .linkCondition {
     margin-left: 5px;
     color: #2c7be5;
-    font-size: 0.8rem;
+    font-size: 14px;
     text-decoration: none;
     cursor: pointer;
 }
@@ -217,16 +226,15 @@ h5 {
 }
 .btn_post_share {
     color: #fff;
-    padding: 7px 205px;
+    padding: 7px 215px;
     border-radius: 3px;
     background-color: #2c7be5;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 600;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
-    /* margin-top: 10px; */
 }
 
 .btn_post_share:hover {

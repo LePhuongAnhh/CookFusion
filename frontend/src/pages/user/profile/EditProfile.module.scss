@@ -1,0 +1,33 @@
+.modalDeleteIdea {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    background-color: rgba(175, 167, 167, 0.4);
+    z-index: 2000000;
+}
+
+.modalContentDeleteIdea {
+    width: 500px;
+    height: 450px;
+    // background-color: white;
+    margin: auto;
+    z-index: 1;
+    border-radius: 7px;
+}
+
+.text-right{
+    color: var(--main-text-color);
+    cursor: pointer;
+}
+.text-right:hover{
+    color: black;
+}
+
+  .btn{
+    float: right;
+    /* margin: 20px 0; */
+    margin-top: -12px;
+  }

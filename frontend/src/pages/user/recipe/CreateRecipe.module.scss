@@ -1,0 +1,321 @@
+.modalDeleteIdea {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    z-index: 20000000;
+    overflow: hidden;
+}
+.modalContentDeleteIdea {
+    width: 830px;
+    height: 530px;
+    background-color: white;
+    margin: auto;
+    z-index: 1;
+    border-radius: 7px;
+    overflow: auto;
+    padding: 32px 40px 12px;
+    margin: 10px auto;
+    overflow-x: hidden;
+}
+.modalContentDeleteIdea .createIdeaHeader {
+    padding: 0;
+    border: none;
+    position: relative;
+}
+.createIdeaHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    input{
+        border: none;
+    }
+    button{
+        width: 90px;
+    height: 40px;
+    background: #f9f9fc;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--main-text-color);
+    }
+    button:hover{
+        background: #dadae2;
+    }
+}
+.modal_title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #121320;
+    width: 85%;
+    margin: 0 0 32px;
+        padding: 5px;
+
+}
+.exit_cmt_modal {
+    float: right;
+    margin: 15px;
+    cursor: pointer;
+    position: absolute;
+    margin: 0;
+    top: -30px;
+    right: -35px;
+}
+.exit_cmt_modal:hover {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e4e6eb;
+}
+/* BODY  */
+.body_modal {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding-bottom: 85px;
+    padding: 0;
+    position: relative;
+}
+.recipe_container .top_section {
+    border-bottom: 2px solid #000;
+    padding-bottom: 38px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    .choose-image{
+        width: 310px;
+        height: 225px;
+        img{
+            width: 280px;
+            height: 225px;
+            margin-left: 35px;
+            border-radius: 5px;
+        }
+        div{
+            width: 280px;
+            height: 225px;
+            margin-left: 35px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            text-align: center;
+           p {
+            margin: 85px;
+            }
+        }
+    }
+}
+.recipe_container .recipe_image {
+    width: 222px;
+    height: 222px;
+    border-radius: 12px;
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+.recipe_container .recipe_info_wrapper {
+    padding: 16px 0 0 60px;
+}
+.recipe_time {
+    width: 100% !important;
+}
+.recipe_container .time_to_cook {
+    width: 100%;
+    margin-bottom: 16px;
+    margin-top: 0;
+    background-color: transparent;
+    display: flex;
+       select{
+        margin: 0 10px;
+        cursor: pointer;
+    }
+}
+.recipe_container .time_to_cook img {
+    padding: 0;
+    margin-right: 10px;
+    display: flex;
+    align-self: center;
+    width: 20px;
+}
+.pre_content {
+    display: inline-block;
+}
+.value_time {
+    font-size: 15px;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #1b1e35;
+    display: block;
+}
+.meal_nutri_wrapper {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.row_nutri {
+    padding: 0 !important;
+    margin: 0;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .description{
+        width: 295px;
+        height: 108px;
+        padding: 5px;
+        resize: none;
+    }
+}
+
+.nutri_cell:first {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+.nutri_cell {
+    width: 68px;
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f9f9fc;
+}
+.title {
+    font-family: Open Sans;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1b1e35;
+}
+.nutri_gram,
+.nutri_gram_green,
+.nutri_gram_orange,
+.nutri_gram_purple {
+    font-size: 18px;
+    font-weight: 700;
+}
+.nutri_gram {
+    color: #1b1e35;
+}
+.nutri_gram_green {
+    color: #27ac09;
+}
+.nutri_gram_orange {
+    color: #f46708 !important;
+}
+.nutri_gram_purple {
+    color: #b361e8 !important;
+}
+.function_wrapper {
+    display: flex;
+    margin-top: 24px;
+}
+.buttons {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 7px 8px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    margin-right: 8px;
+    input{
+        border: none;
+        width: 75px;
+        background: none;
+        font-family: Open Sans;
+        font-size: 15px;
+        font-weight: 600;
+        // color: #1b1e35;
+    }
+}
+.buttons svg {
+    width: 18px;
+    height: 18px;
+    -o-object-fit: contain;
+    object-fit: contain;
+    cursor: pointer;
+    margin: 0 5px;
+    color: gray;
+}
+.button_text {
+    font-family: Open Sans;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1b1e35;
+}
+.bottom_section {
+    margin: 0 !important;
+    max-width: 100%;
+    padding: 0 !important;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.bottom_card {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 14px;
+}
+.column_title {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 40px 0 24px;
+    color: var(--main-text-color);
+}
+.left_column {
+    width: 100%;
+    padding: 0 24px;
+    background: #f9f9fc;
+    border-radius: 12px;
+}
+.scale_tool {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0;
+}
+.minus,
+.plus {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    padding: 0 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.quantity {
+    font-size: 15px;
+    font-weight: 700;
+}
+.ingrs .ingredient_contain {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 2px dashed #dedee6;
+    flex-wrap: wrap;
+}
+.measure {
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.right_column b {
+    font-weight: bolder;
+    color: #1b1e35;
+    input{
+        margin-left: 12px;
+        width: 60px;
+        border: none;
+    }
+}
+.right_column textarea{
+    width: 320px;
+    resize: none;
+    padding: 5px 0;
+    border: 5px;
+}

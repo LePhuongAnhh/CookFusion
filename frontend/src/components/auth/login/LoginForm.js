@@ -21,25 +21,18 @@ const cx = classNames.bind(styles)
 
 const LoginForm = () => {
     //validation
-    function checkUsername() {
-        var username = document.getElementById('txt-username').value;
-        var errorUsername = document.getElementById('error-username');
-
-        if (username == "" || username == null) {
-            errorUsername.innerHTML = "(*) không được để trống";
-        } else {
-            errorUsername.innerHTML = ""; // Xóa thông báo lỗi nếu hợp lệ.
+    function checkValideInput() {
+        let isValid = true;
+        let arrInput = ['username', 'password'];
+        for (let i = 0; i < arrInput.length; i++) {
+            console.log(loginForm[arrInput[i]], arrInput[i])
+            if (!loginForm[arrInput[i]]) {
+                isValid = false;
+                alert("khong dc de trong du lieu  ", + arrInput[i]);
+                break
+            }
         }
-    }
-    function checkPassword() {
-        var password = document.getElementById('txt-password').value;
-        var errorPassword = document.getElementById('error-password');
-
-        if (password == "" || password == null) {
-            errorPassword.innerHTML = "(*) không được để trống";
-        } else {
-            errorPassword.innerHTML = ""; // Xóa thông báo lỗi nếu hợp lệ.
-        }
+        return isValid;
     }
 
     const [showModal, setShowModal] = useState(false); // Trạng thái để kiểm soát việc hiển thị modal
@@ -51,35 +44,37 @@ const LoginForm = () => {
         password: ""
     })
     const [incorrectAccount, setIncorrectAccount] = useState(false) //hiển thị modal kki nhập username or password sai
-    //theo dõi sự thay đổi trong các trường nhập liệu của mẫu đăng nhập
-    //được gọi và cập nhật giá trị tương ứng trong biến trạng thái loginForm.
     const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
-  
+
+    console.log("hi:", loginForm)
     const login = async event => {
         event.preventDefault();
+        const isValid = checkValideInput();
+        if (!isValid) {
+            return;
+        }
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, loginForm);
             if (response.data.success) {
-                console.log(response.data)
-                alert("login thnah cong")
-                // setIsDisableAccount(false)
-                localStorage.setItem(USERNAME, loginForm.username)
-                localStorage.setItem(ACCESS_TOKEN, response.data.accessToken)
-                localStorage.setItem(ACCOUNT_ID, response.data.accountId)
-                localStorage.setItem(ROLE, response.data.role)
-                localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.user))
-                navigate = ('/homepage')
+                console.log(response.data);
+                alert("Login thành công");
+                localStorage.setItem(USERNAME, loginForm.username);
+                localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
+                localStorage.setItem(ACCOUNT_ID, response.data.accountId);
+                localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.user));
+                navigate('/homepage');
             }
-
         } catch (error) {
             if (error.response.data.message === "Invalid account's information") {
-                // alert("Nhập sai username or pasword");
-                setIncorrectAccount(true) //Hiển thị Modal
+                alert("Sai tên đăng nhập hoặc mật khẩu");
+                setIncorrectAccount(true); // Hiển thị Modal
             } else {
                 console.error(error.response.data.message);
+                alert("Đã xảy ra lỗi");
             }
         }
     };
+
 
 
     const { username, password } = loginForm
@@ -93,11 +88,11 @@ const LoginForm = () => {
                         Login
                     </h2>
                     <form onSubmit={login}>
-                        {
+                        {/* {
                             incorrectAccount &&
                             <div className={cx("warning")}>Incorrect Username or Password, please try again</div>
                             // <Modal show={showModal} onClose={() => setShowModal(false)} />
-                        }
+                        } */}
                         <div className={cx('user_box')}>
                             <input
                                 className={cx('input_field')}
@@ -105,20 +100,16 @@ const LoginForm = () => {
                                 name="username"
                                 value={username}
                                 id="txt-username"
-                                onBlur={checkUsername}
                                 onChange={onChangeLoginForm}
-
                             />
                             <label>Username <span id="error-username" className="error-username"></span></label>
                         </div>
-
                         <div className={cx('user_box')}>
                             <input
                                 className={cx('input_field')}
                                 type="password"
                                 name="password"
                                 id="txt-password"
-                                onBlur={checkPassword}
                                 value={password}
                                 onChange={onChangeLoginForm}
                             />

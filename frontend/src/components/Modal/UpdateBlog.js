@@ -13,19 +13,12 @@ import {
 
 const cx = classNames.bind(styles)
 
-const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
+const UpdateBlog = ({ setShowUpdateBlogModal, updateNewArticle }) => {
     const profile_information = JSON.parse(localStorage.getItem(PROFILE_INFORMATION)) // chuyển json sang object để lấy thông tin profile người dùng
     // const userId = profile_information._id // lấy ra user ID (không phải account ID)
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
-    const [isChecked, setIsChecked] = useState(false);
-
-    //Đồng ý điều khoản 
-    const handleCheckboxChange = () => {
-        setIsChecked(!isChecked); // Thay đổi trạng thái khi người dùng thay đổi ô điều khoản
-    };
 
     const [articleData, setArticleData] = useState({
-        // userId: userId,
         title: '',
         content: '',
         files: null,
@@ -57,16 +50,12 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         event.preventDefault();
         let isValid = checkValideInput();
         if (isValid === true) {
-            if (!isChecked) {
-                alert('Vui lòng đồng ý với điều khoản trước khi đăng bài.');
-                return;
-            }
             const formData = new FormData();
             formData.append('title', articleData.title);
             formData.append('content', articleData.content);
             formData.append('files', articleData.files);
             console.log(articleData)
-            createNewArticle(articleData);
+            updateNewArticle(articleData);
             try {
                 const response = await axios.post(`${apiUrl}article/addNew`, formData, {
                     headers: {
@@ -96,10 +85,10 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
                 <div className={cx('createIdeaHeader')}>
-                    <h1 className={cx('createIdea')}>Create Article</h1>
+                    <h1 className={cx('createIdea')}>Update Article</h1>
                     <div
                         className={cx('exit_cmt_modal')}
-                        onClick={() => setShowCreateBlogModal(false)}
+                        onClick={() => setShowUpdateBlogModal(false)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -110,7 +99,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
 
                 <div className={cx('post_status')}>
                     <form
-                        onClick={() => setShowCreateBlogModal(true)}
+                        onClick={() => setShowUpdateBlogModal(true)}
                         onSubmit={handleSubmit}
                     >
                         <div className={cx('post_hearer')}>
@@ -167,26 +156,12 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 </div>
                             </div>
                             <div className={cx('condition')}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={isChecked}
-                                        onChange={handleCheckboxChange}
-                                    /> &nbsp;
-                                    I agree to
-                                </label>
-                                <span
-                                    className={cx('linkCondition')}
-                                // onClick={() => setShowConditionMosdal(true)}
-                                >
-                                    Term and Condition
-                                </span>
                             </div>
 
                         </div >
 
                         <div className={cx('create_footer')}>
-                            <button type='submit' className={cx('btn_post_share')}>Share</button>
+                            <button type='submit' className={cx('btn_post_share')}>Update</button>
                         </div>
                     </form >
                 </div >
@@ -195,4 +170,4 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
     )
 }
 
-export default CreateBlog
+export default UpdateBlog
