@@ -58,10 +58,14 @@ const LoginForm = () => {
             if (response.data.success) {
                 console.log(response.data);
                 alert("Login thành công");
-                localStorage.setItem(USERNAME, loginForm.username);
-                localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
-                localStorage.setItem(ACCOUNT_ID, response.data.accountId);
-                localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.user));
+
+                // Lưu thông tin người dùng vào localStorage
+                // localStorage.setItem('username', loginForm.username);
+                localStorage.setItem('username', response.data.account.username);
+                localStorage.setItem('accessToken', response.data.token);
+                // localStorage.setItem('accountId', response.data.account._id);
+                localStorage.setItem('accountId', response.data.account);
+
                 navigate('/homepage');
             }
         } catch (error) {

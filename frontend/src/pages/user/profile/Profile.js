@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 //import từ bên trong src
+import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
 import classNames from 'classnames/bind'
 import styles from './Profile.module.scss'
 import images from '~/assets/images'
@@ -13,6 +14,15 @@ import EditProfile from "./EditProfile"
 const cx = classNames.bind(styles)
 function Profile() {
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
+    // lấy dữ liệu thông tin người  dùng
+    const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
+
+    if (userDataFromLocalStorage) {
+        console.log('Thông tin người dùng đã lưu trong Local Storage:', userDataFromLocalStorage);
+    } else {
+        console.log('Chưa có thông tin người dùng trong Local Storage');
+    }
+
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>
@@ -76,7 +86,7 @@ function Profile() {
                             </div>
                         </div>
                     </div>
-<br />
+                    <br />
 
                     <div className="max-w-6xl h-full mx-auto bg-white p-1">
                         <div></div>
