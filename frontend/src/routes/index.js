@@ -4,6 +4,7 @@ import { AdminLayout } from "~/components/Layout";
 
 import LoginForm from "~/components/auth/login/LoginForm";
 import RegisterForm from "~/components/auth/login/RegisterForm";
+import VerifyEmail from "~/components/auth/login/VerifyEmail";
 import ForgotPassForm from "~/components/auth/login/ForgotPassForm";
 import ForgotPassForm2 from "~/components/auth/login/ForgotPassForm2";
 import ForgotPassForm3 from "~/components/auth/login/ForgotPassForm3";
@@ -33,6 +34,7 @@ import Search from "~/pages/user/Search"
 const publicRoutes = [
     { path: '/', component: LoginForm, layout: null },
     { path: "/register", component: RegisterForm, layout: null },
+    { path: "/verify", component: VerifyEmail, layout: null },
     { path: "/chooserole", component: RoleModal, layout: null },
     { path: "/forgotpassword", component: ForgotPassForm, layout: null },
     { path: "/forgotpassword2", component: ForgotPassForm2, layout: null },

@@ -117,7 +117,7 @@ const RegisterForm = () => {
             if (response.data.success) {
                 console.log('Đăng ký thành công', response.data);
                 alert("Đăng ký thành công");
-                navigate('/');
+                navigate('/verify');
             } else {
                 console.error('Lỗi đăng ký:', response.data);
                 alert("Đăng ký thất bại");

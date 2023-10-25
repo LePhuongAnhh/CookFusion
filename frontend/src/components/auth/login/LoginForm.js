@@ -58,24 +58,20 @@ const LoginForm = () => {
             if (response.data.success) {
                 console.log(response.data);
                 alert("Login thành công");
-
                 // Lưu thông tin người dùng vào localStorage
                 // localStorage.setItem('username', loginForm.username);
                 localStorage.setItem('username', response.data.account.username);
                 localStorage.setItem('accessToken', response.data.token);
-                // localStorage.setItem('accountId', response.data.account._id);
-                localStorage.setItem('accountId', response.data.account);
-
+                localStorage.setItem('accountId', response.data.account._id);
+                // localStorage.setItem('accountId', response.data.account);
                 navigate('/homepage');
             }
-        } catch (error) {
-            if (error.response.data.message === "Invalid account's information") {
+            else {
                 alert("Sai tên đăng nhập hoặc mật khẩu");
-                setIncorrectAccount(true); // Hiển thị Modal
-            } else {
-                console.error(error.response.data.message);
-                alert("Đã xảy ra lỗi");
             }
+        } catch (error) {
+            alert("Đã xảy ra lỗi, moi nguo dung nhap lai");
+
         }
     };
 
