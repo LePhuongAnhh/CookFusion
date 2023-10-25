@@ -77,8 +77,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                     console.log('Bài viết đã được tạo thành công.');
                     alert('Bài viết đã được tạo thành công')
                 } else {
-                    console.error('Có lỗi khi tạo bài viết:', response.data.message);
-                    alert('cos loi')
+                    console.log(response.data.success, "please enter again")
                 }
             } catch (error) {
                 if (error.response.data.message === "This article contains badword") {

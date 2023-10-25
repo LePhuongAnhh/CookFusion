@@ -34,19 +34,13 @@ const LoginForm = () => {
         }
         return isValid;
     }
-
-    const [showModal, setShowModal] = useState(false); // Trạng thái để kiểm soát việc hiển thị modal
-    const [modalMessage, setModalMessage] = useState(''); // Nội dung thông báo modal
-
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState({
         username: "",
         password: ""
     })
-    const [incorrectAccount, setIncorrectAccount] = useState(false) //hiển thị modal kki nhập username or password sai
     const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
-
-    console.log("hi:", loginForm)
+    
     const login = async event => {
         event.preventDefault();
         const isValid = checkValideInput();
@@ -55,23 +49,18 @@ const LoginForm = () => {
         }
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, loginForm);
+            console.log("hel", response.data.success);
             if (response.data.success) {
                 console.log(response.data);
                 alert("Login thành công");
-                // Lưu thông tin người dùng vào localStorage
-                // localStorage.setItem('username', loginForm.username);
-                localStorage.setItem('username', response.data.account.username);
-                localStorage.setItem('accessToken', response.data.token);
-                localStorage.setItem('accountId', response.data.account._id);
-                // localStorage.setItem('accountId', response.data.account);
+                localStorage.setItem(USERNAME, response.data.account.username);
+                localStorage.setItem(ACCESS_TOKEN, response.data.token);
+                localStorage.setItem(ACCOUNT_ID, response.data.account._id);
+                localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
                 navigate('/homepage');
             }
-            else {
-                alert("Sai tên đăng nhập hoặc mật khẩu");
-            }
         } catch (error) {
-            alert("Đã xảy ra lỗi, moi nguo dung nhap lai");
-
+            console.log(error.response.data.message)
         }
     };
 

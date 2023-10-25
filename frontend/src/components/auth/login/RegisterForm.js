@@ -9,6 +9,11 @@ import RoleModal from '~/components/Modal/RoleModal';
 const cx = classNames.bind(styles)
 
 const RegisterForm = () => {
+    //Đồng ý điều khoản 
+    const [isChecked, setIsChecked] = useState(false);
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked); // Thay đổi trạng thái khi người dùng thay đổi ô điều khoản
+    };
     function checkValideInput() {
         let isValid = true;
         let arrInput = ['name', 'username', 'email', 'password', 'rePassword'];
@@ -98,36 +103,36 @@ const RegisterForm = () => {
         rePassword: ""
     })
 
+    // const handleOnChangeInput = (event, id) => {
+    //     console.log(event.target.value, id)
+    //     const value = event.target.value;
+    //     setCreateAccount((prevState) => ({
+    //         ...prevState,
+    //         [id]: value,
+    //     }));
+    // };
     const handleOnChangeInput = (event, id) => {
-        console.log(event.target.value, id)
-        const value = event.target.value; //lay gia tri cua mot event
-        setCreateAccount((prevState) => ({
-            ...prevState,
-            [id]: value,
-        }));
+        const value = event.target.value;
+        setCreateAccount((prevState) => ({ ...prevState, [id]: value }));
     };
     const handleRegister = async (e) => {
         e.preventDefault();
         const isValid = checkValideInput();
-        if (!isValid) {
-            return;
-        }
-        try {
-            const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
-            if (response.data.success) {
-                console.log('Đăng ký thành công', response.data);
-                alert("Đăng ký thành công");
-                navigate('/verify');
-            } else {
-                console.error('Lỗi đăng ký:', response.data);
-                alert("Đăng ký thất bại");
+        if (isValid === true) {
+            if (!isChecked) {
+                alert('Vui lòng đồng ý với điều khoản trước khi đăng bài.');
+                return;
             }
-        } catch (error) {
-            if (error.response.data.message === "Username or email address is exsisted") {
-                alert("Trùng username hoặc email");
-            } else {
-                console.error('Lỗi đăng ký:', error);
-                alert("Đăng ký thất bại");
+            try {
+                const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
+                if (response.data.success) {
+                    console.log('Đăng ký thành công', response.data);
+                    alert("Đăng ký thành công");
+                    navigate('/verify');
+                }
+            } catch (error) {
+                // console.log()
+                alert(error.response.data.message)
             }
         }
     };
@@ -160,7 +165,7 @@ const RegisterForm = () => {
                                 type="text"
                                 name="username"
                                 id='txt-user-name'
-                                // onBlur={checkUserName}
+                                onBlur={checkUserName}
                                 onChange={(event) => { handleOnChangeInput(event, "username") }}
                             />
                             <label >Username * <span className={cx('txt-red')} id='error-user-name'></span></label>
@@ -172,7 +177,7 @@ const RegisterForm = () => {
                                 type="email"
                                 name="Email"
                                 id='txt-email'
-                                // onBlur={checkEmail}
+                                onBlur={checkEmail}
                                 onChange={(event) => { handleOnChangeInput(event, "email") }}
                             />
                             <label>Email * <span className={cx('txt-red')} id='error-email'></span></label>
@@ -184,7 +189,7 @@ const RegisterForm = () => {
                                 type="password"
                                 name="Password"
                                 id='txt-password'
-                                // onBlur={checkPassword}
+                                onBlur={checkPassword}
                                 onChange={(event) => { handleOnChangeInput(event, "password") }}
                             />
                             <label>Password *  </label>
@@ -198,7 +203,7 @@ const RegisterForm = () => {
                                 type="password"
                                 name="confirmPassword"
                                 id='txt-confirm-password'
-                                // onBlur={checkConfirmPassword}
+                                onBlur={checkConfirmPassword}
                                 onChange={(event) => { handleOnChangeInput(event, "rePassword") }}
                             />
                             <label>Confirm Password  <span className={cx('txt-red')} id='error-confirm-password'></span> *</label>
@@ -209,6 +214,8 @@ const RegisterForm = () => {
                             <label>
                                 <input
                                     type="checkbox"
+                                    checked={isChecked}
+                                    onChange={handleCheckboxChange}
                                 />
                                 &nbsp; Agree to &nbsp;
                                 <Link to="#" className={cx('term')}> Term and Condition  </Link>

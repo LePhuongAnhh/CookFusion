@@ -1,5 +1,5 @@
 //import từ thư viện bên ngoài
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
@@ -13,15 +13,14 @@ import EditProfile from "./EditProfile"
 
 const cx = classNames.bind(styles)
 function Profile() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN)
+    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    // const convertedDoB = new Date(profileInformation.DoB)
+    // profileInformation.DoB = convertedDoB.toISOString().substr(0, 10)
+    const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
-    // lấy dữ liệu thông tin người  dùng
-    const userDataFromLocalStorage = JSON.parse(localStorage.getItem('userData'));
 
-    if (userDataFromLocalStorage) {
-        console.log('Thông tin người dùng đã lưu trong Local Storage:', userDataFromLocalStorage);
-    } else {
-        console.log('Chưa có thông tin người dùng trong Local Storage');
-    }
+
 
     return (
         <>
@@ -46,8 +45,9 @@ function Profile() {
                                 <div className="w-35 h-35 rounded-full bg-gray-300 border-4 border-white d-flex align-items-center justify-content-center">
                                     <img
                                         className="w-full h-full rounded-full  rounded-circle"
-                                        src="https://random.imagecdn.app/250/250"
-                                        alt="dp"
+                                        // src="https://random.imagecdn.app/250/250"
+                                        src={profileInformation.avatar}
+                                        alt="avatar "
                                         style={{ marginTop: "12rem" }}
                                     />
                                 </div>
@@ -61,7 +61,7 @@ function Profile() {
                                 >
                                     Edit Profile
                                 </p>
-                                <p className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'name-account')}>Name Account</p>
+                                <p className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'name-account')}>{profileInformation.name}</p>
                             </div>
                             <div className="mt-1 flex items-center justify-between">
 
