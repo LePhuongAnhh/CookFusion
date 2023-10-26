@@ -3,6 +3,7 @@ import classNames from 'classnames/bind'
 import React, { useRef, useState, Component } from 'react';
 import { Link } from 'react-router-dom'
 import images from '~/assets/images'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import {
     apiUrl,
@@ -14,8 +15,8 @@ import {
 const cx = classNames.bind(styles)
 
 const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
-    const profile_information = JSON.parse(localStorage.getItem(PROFILE_INFORMATION)) // chuyển json sang object để lấy thông tin profile người dùng
-    // const userId = profile_information._id // lấy ra user ID (không phải account ID)
+    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION))
+    const userId = profileInformation._id
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const [isChecked, setIsChecked] = useState(false);
 
@@ -23,9 +24,8 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked); // Thay đổi trạng thái khi người dùng thay đổi ô điều khoản
     };
-
     const [articleData, setArticleData] = useState({
-        // userId: userId,
+        userId: userId,
         title: '',
         content: '',
         files: null,
@@ -38,6 +38,8 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
             [name]: name === 'files' ? files[0] : value,
         });
     };
+
+    console.log("input data:", articleData)
 
     function checkValideInput() {
         let isValid = true;
@@ -70,22 +72,23 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
             try {
                 const response = await axios.post(`${apiUrl}article/addNew`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data', // Đặt header cho tệp tin đính kèm
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 });
                 if (response.data.success) {
                     console.log('Bài viết đã được tạo thành công.');
                     alert('Bài viết đã được tạo thành công')
-                } else {
-                    console.log(response.data.success, "please enter again")
                 }
+
             } catch (error) {
                 if (error.response.data.message === "This article contains badword") {
                     alert("Bài viết chứa từ tục, không được đăng.");
-                } else {
-                    console.error(error.response.data.message);
-                    alert('loi kia, tu sua di')
                 }
+                //  else {
+                //     console.error(error.response.data.message);
+                //     alert('loi kia, tu sua di')
+                // }
+                // alert(error.response.data.message)
             }
         }
     };
