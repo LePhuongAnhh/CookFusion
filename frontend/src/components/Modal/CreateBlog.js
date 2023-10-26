@@ -70,7 +70,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
             console.log(articleData)
             createNewArticle(articleData);
             try {
-                const response = await axios.post(`${apiUrl}article/addNew`, formData, {
+                const response = await axios.post(`${apiUrl}/article/addNew`, formData, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -88,7 +88,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                 //     console.error(error.response.data.message);
                 //     alert('loi kia, tu sua di')
                 // }
-                // alert(error.response.data.message)
+                alert(error.response.data.message)
             }
         }
     };
