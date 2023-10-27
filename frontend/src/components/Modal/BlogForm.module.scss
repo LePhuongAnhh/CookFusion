@@ -1,7 +1,6 @@
 //blog form
 .post_status {
     margin-bottom: 1rem;
-    /* box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07); */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -11,6 +10,10 @@
     background-clip: border-box;
     /* border: 0px solid rgba(0, 0, 0, 0.125); */
     /* border-radius: calc(0.375rem - 0px); */
+    li {
+        box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+        margin-bottom: 30px;
+    }
 }
 
 .post_hearer:first-child {
@@ -241,6 +244,7 @@ link {
     width: 2rem;
     position: relative;
     display: inline-block;
+    margin-top: 2px;
 }
 
 .input_cmt {
@@ -296,11 +300,13 @@ link {
 
 .view_cmt {
     margin-left: 0.25rem;
+    color: var(--main-text-color);
 }
 
 .reply_comment {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    color: var(--main-text-color);
 }
 
 .reply_comment a,

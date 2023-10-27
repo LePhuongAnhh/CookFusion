@@ -237,31 +237,8 @@ const Article = (props) => {
                                 </div>
                             </div>
                             {/* Bai dang  */}
-                            <div className={cx('post_status')}>
+                            <div className={cx('post-status')}>
                                 <BlogForm />
-                                <div>
-                                    <div className={cx('read_comment')}>
-                                        <Link to="#">
-                                            <div className={cx('avatar_comment')}>
-                                                <img className={cx('circle_avt')} src={images.Avt} />
-                                            </div>
-                                        </Link>
-                                        <div className={cx('read_cmt')}>
-                                            <p className={cx('content_cmt')}>
-                                                <Link className={cx('name_account_cmt')}>
-                                                    John
-                                                </Link>
-                                                <span className={cx('view_cmt')}>
-                                                    She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
-                                                </span>
-                                            </p>
-                                            <div className={cx('reply_comment')}>
-                                                <Link to="#"> Like  </Link> •
-                                                <Link to="#"> Reply  </Link>• 3hs
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
