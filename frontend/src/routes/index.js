@@ -31,6 +31,8 @@ import Category from "~/pages/admin/Category/Category";
 import Profile from "~/pages/user/profile/Profile";
 import Search from "~/pages/user/Search"
 
+import BlogForm from "~/components/Modal/BlogForm";
+
 const publicRoutes = [
     { path: '/', component: LoginForm, layout: null },
     { path: "/register", component: RegisterForm, layout: null },
@@ -60,6 +62,8 @@ const publicRoutes = [
     { path: "/sponsormanagement", component: Sponsor, layout: AdminLayout },
     { path: "/category", component: Category, layout: AdminLayout },
     { path: "/profile", component: Profile },
+
+    { path: "/formArticle", component: BlogForm },
 ];
 const privateRoutes = [];
 

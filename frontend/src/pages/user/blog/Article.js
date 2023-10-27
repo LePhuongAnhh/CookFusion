@@ -26,42 +26,21 @@ const Article = (props) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const navigate = useNavigate()
-    const [currentIdeas, setCurrentIdeas] = useState([])
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
-    const [events, setEvents] = useState([])
 
     //Lấy thời gian
     const formatTime = (date) => {
         return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
     };
-    //lấy thông tin bài viết
-    const [post, setPost] = useState([]);
-    useEffect(() => {
-        axios.get(`${apiUrl}/article/getdata`)
-            .then((response) => {
-                if (response.data.success) {
-                    setPost(response.data.post);
-                    console.log('data bai bang ne:', response)
-                    alert('lay dc khong')
-                } else {
-                    console.error('Lỗi khi lấy thông tin bài viết:', response.data.message);
-                }
-            })
-            .catch((error) => {
-                console.error('Lỗi khi gửi yêu cầu:', error);
-            });
-    }, []);
-
     const createNewArticle = (data) => {
         console.log('check data in service', data)
     }
     const updateNewArticle = (data) => {
         console.log('get data update post', data)
     }
-
 
     return (
         <div className={cx('article_form')}>
