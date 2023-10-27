@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import {
     apiUrl,
-    ACCESS_TOKEN
+    ACCESS_TOKEN,
+    PROFILE_INFORMATION
 } from "~/constants/constants"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { enUS } from 'date-fns/locale';
@@ -16,36 +17,39 @@ import { Link } from 'react-router-dom'
 import DeleteBlog from "./DeleteBlog"
 import CommentBlog from "./CommentBlog"
 import CreateBlog from "./CreateBlog"
+import UpdateBlog from "./UpdateBlog";
 
 const cx = classNames.bind(styles)
-const BlogForm = ({ articleId }) => {
-    const [articles, setArticles] = useState({});
-    const [user, setUser] = useState({});
-    const [ideas, setIdeas] = useState([])
-    const [comments, setComments] = useState([])
-    const accessToken = localStorage.getItem(ACCESS_TOKEN)
-    const [displayedIdeas, setDisplayedIdeas] = useState([]);
-    const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
-    const [showUpdateModal, setShowUpdateModal] = useState(false)
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
+const BlogForm = ({ }) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+
+
+    const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
+    const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
 
     const formatTime = (date) => {
         return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
     };
-
+    const [articles, setArticles] = useState({});
     useEffect(() => {
-        axios.get(`${apiUrl}/article/getdata`)
+        axios.get(`${apiUrl}/article/getlistforglobal`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
             .then((response) => {
                 if (response.data.success) {
-                    setArticles(response.data.articles);
-                } else {
-                    console.error('Lỗi khi lấy danh sách bài đăng');
+                    setArticles(response.data);
                 }
+                console.log('du lie bai dang: ', response.data)
             })
             .catch((error) => {
-                console.error('Lỗi kết nối đến API:', error);
+                console.log(error.response.data.message);
             });
-    }, []); // Gọi API sau khi component được render lần đầu
+    }, []);
 
 
 
@@ -53,8 +57,6 @@ const BlogForm = ({ articleId }) => {
 
     return (
         <>
-            {/* {
-                displayedIdeas.map((idea, index) => { */}
             <li>
                 <div className={cx('post_status')}>
                     <div className={cx('post_hearer')}>
@@ -68,10 +70,9 @@ const BlogForm = ({ articleId }) => {
                                     </Link>
                                     <div className={cx('name_account')}>
                                         <p className={cx('name_user')}>
-                                            <Link to="#" className={cx('post_name_account')}>John &nbsp;</Link>
+                                            <Link to="#" className={cx('post_name_account')}>{profileInformation.name}&nbsp;</Link>
                                             <span className={cx('share_album')}>
-                                                share an
-                                                <Link to="#"> album</Link>
+                                                share post
                                             </span>
                                         </p>
                                         <p className={cx('date_time')}>
@@ -90,7 +91,7 @@ const BlogForm = ({ articleId }) => {
                                                 </svg>
                                             </button>
                                             <div className={cx('dropdown_content')}>
-                                                <Link to="#" onClick={() => setShowUpdateModal(true)}>Update</Link>
+                                                <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                 <Link to="#" onClick={() => setShowDeleteModal(true)}>Delete</Link>
                                                 <Link to="#">Accuse</Link>
                                             </div>
@@ -130,7 +131,7 @@ const BlogForm = ({ articleId }) => {
                             </div>
                         </div>
                         <div className={cx('emotion_item')}>
-                            <div className={cx('emotion_gird} onClick={() => setShowCommentBlogModal(true)')}>
+                            <div className={cx('emotion_gird')} onClick={() => setShowCommentBlogModal(true)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
                                     <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
                                 </svg>
@@ -147,7 +148,7 @@ const BlogForm = ({ articleId }) => {
                         </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <div className={cx('read_comment')}>
                             <Link to="#">
                                 <div className={cx('avatar_comment')}>
@@ -169,17 +170,13 @@ const BlogForm = ({ articleId }) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </li>
-            {/* })
-            } */}
 
-
-
-
+            {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} />}
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
-            {/* {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />} */}
+            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
 
         </>
     )

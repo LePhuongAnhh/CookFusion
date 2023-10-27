@@ -1,7 +1,9 @@
 import styles from './EditProfile.module.scss'
 import classNames from 'classnames/bind'
 import React, { useState, } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
+import images from '~/assets/images'
 import { useNavigate } from 'react-router-dom';
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from '~/constants/constants';
 
@@ -9,25 +11,36 @@ const cx = classNames.bind(styles)
 function EditProfile({ setShowUpdateProfileModal }) {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-
     profileInformation.dob = new Date(profileInformation.dob).toISOString().substr(0, 10);
 
     const navigate = useNavigate();
+
+    //chọn và hiển thị ảnh
+    const [selectedImage, setSelectedImage] = useState(null);
+    const handleImageClick = () => {
+        const fileInput = document.getElementById('fileInput');
+        fileInput.click();
+    };
+    const handleImageUpload = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            setSelectedImage(URL.createObjectURL(selectedFile));
+        }
+    };
+
     const [updateProfileForm, setUpdateProfileForm] = useState(profileInformation);
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUpdateProfileForm({ ...updateProfileForm, [name]: value });
     };
-    // const handleGenderChange = (event) => {
-    //     setUpdateProfileForm({ ...updateProfileForm, Gender: event.target.value });
-    // };
-    console.log('update data:', updateProfileForm,)
+    console.log('update data:', updateProfileForm)
 
     const updateProfile = async (event) => {
         // Ngăn chặn sự kiện mặc định của form
         event.preventDefault();
+
         const formData = new FormData();
-        formData.append('id', updateProfileForm._id);
+        formData.append('_id', updateProfileForm._id);
         formData.append('name', updateProfileForm.name);
         formData.append('username', updateProfileForm.username);
         formData.append('email', updateProfileForm.email);
@@ -35,7 +48,9 @@ function EditProfile({ setShowUpdateProfileModal }) {
         formData.append('gender', updateProfileForm.gender);
         formData.append('country', updateProfileForm.country);
         formData.append('address', updateProfileForm.address);
+        formData.append('avatar', updateProfileForm.avatar);
 
+        console.log(formData)
         try {
             const response = await axios.patch(`${apiUrl}/user/updateProfile`, formData,
                 {
@@ -46,6 +61,19 @@ function EditProfile({ setShowUpdateProfileModal }) {
             );
             if (response.data.success) {
                 console.log('Profile updated successfully');
+                // Cập nhật profileInformation từ updateProfileForm
+                profileInformation._id = updateProfileForm._id;
+                profileInformation.name = updateProfileForm.name;
+                profileInformation.username = updateProfileForm.username;
+                profileInformation.email = updateProfileForm.email;
+                profileInformation.dob = updateProfileForm.dob;
+                profileInformation.gender = updateProfileForm.gender;
+                profileInformation.country = updateProfileForm.country;
+                profileInformation.address = updateProfileForm.address;
+                profileInformation.avatar = updateProfileForm.avatar;
+
+                // Lưu profileInformation lên localStorage
+                localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(profileInformation));
                 navigate('/profile');
             }
         } catch (error) {
@@ -61,125 +89,175 @@ function EditProfile({ setShowUpdateProfileModal }) {
     return (
         <div className={cx('modalDeleteIdea')} >
             <div className={cx('modalContentDeleteIdea')}>
-                <div className="container rounded bg-white mt-5">
+                <div className={cx('exit')} onClick={() => setShowUpdateProfileModal(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                </div>
+                <div className="container py-5">
+                    <div className="row">
+                        <div className="col">
+                            <nav aria-label="breadcrumb" className="bg-light rounded-3 p-3 mb-4">
+                                <ol className="breadcrumb mb-0">
+                                    <li style={{ color: '#292e32' }} className="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li style={{ color: '#292e32' }} className="breadcrumb-item"><Link to="#" onClick={() => setShowUpdateProfileModal(false)}>Profile</Link></li>
+                                    <li className="breadcrumb-item active" aria-current="page">{profileInformation.name} Profile's</li>
+                                </ol>
+
+                            </nav>
+                        </div>
+                    </div>
                     <form onSubmit={updateProfile}>
                         <div className="row">
-                            <div className="col-md-4 border-right">
-                                <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-                                    <img className="rounded-circle mt-5"
-                                        src={profileInformation.avatar}
-                                        width="90"
-                                    />
-                                    <span className="font-weight-bold" style={{ cursor: "pointer" }}>Edit avatar</span>
-                                    <span className="text-black-50">{updateProfileForm.name}</span>
-                                    <span>{updateProfileForm.email}</span>
+                            <div className="col-lg-4">
+                                <div className="card mb-4">
+                                    <div className="card-body text-center">
+                                        {selectedImage ? (
+                                            <img src={selectedImage} alt="Selected Image" className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                        ) : (
+                                            <img src={profileInformation.avatar} alt='avt ne' />
+                                        )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            id="fileInput"
+                                            style={{ display: 'none' }}
+                                            onChange={handleImageUpload}
+                                        />
+                                        <h5 onClick={handleImageClick} className="my-3">Update avatar</h5>
+                                        <p className="text-muted mb-1 my-3">{profileInformation.name}</p>
+                                        <p className="text-muted mb-4">{profileInformation.email}</p>
+                                        <div className="d-flex justify-content-center mb-2">
+                                            {/* <button type="button" className="btn btn-primary">Follow</button> */}
+                                            {/* <button type="button" className="btn btn-outline-primary ms-1">
+                                                &nbsp; &nbsp; &nbsp;<img src={images.google} style={{ width: '20px', height: '20px' }} /> &nbsp; &nbsp; &nbsp;
+                                            </button> */}
+                                            <button style={{ fontSize: '15px' }} type="submit" className="btn btn-outline-primary ms-1">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
-                            <div className="col-md-8">
-                                <div className="p-3 py-5">
-                                    <div className="d-flex justify-content-between align-items-center mb-3">
-                                        <div className="d-flex flex-row align-items-center back"><i className="fa fa-long-arrow-left mr-1 mb-1"></i>
-                                            <h6 className={cx("text-right")} onClick={() => setShowUpdateProfileModal(false)}>Back to home</h6>
-                                        </div>
-                                        <h6 className={cx("text-right")}>Edit Profile</h6>
-                                    </div>
-
-                                    <div className="row mt-2">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={updateProfileForm.name}
-                                                name='name'
-                                                onChange={handleInputChange}
-                                                placeholder="Full name"
-                                            />
-                                        </div>
-                                        <input value={updateProfileForm._id} hidden />
-                                        <div className="col-md-6">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={updateProfileForm.username}
-                                                name='userName'
-                                                onChange={handleInputChange}
-                                                placeholder="Username"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row mt-3">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="email"
-                                                value={updateProfileForm.email}
-                                                name='email'
-                                                className="form-control"
-                                                // onChange={handleInputChange}
-                                                ReadOnly
-                                                placeholder="Email"
-                                            />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <input
-                                                type="date"
-                                                value={updateProfileForm.dob}
-                                                name='dob'
-                                                className="form-control"
-                                                onChange={handleInputChange}
-                                                placeholder="Date of Birth"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row mt-3">
-                                        <div className="col-md-6">
-                                            <input
-                                                type="text"
-                                                value={updateProfileForm.address}
-                                                name="address"
-                                                className="form-control"
-                                                onChange={handleInputChange}
-                                                placeholder="Address"
-                                            />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <input
-                                                type="text"
-                                                value={updateProfileForm.country}
-                                                name="country "
-                                                className="form-control"
-                                                onChange={handleInputChange}
-                                                placeholder="Country"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row mt-3">
-                                        <div className="col-md-12">
-                                            <select
-                                                className="form-control"
-                                                name='gender'
-                                                onChange={handleInputChange}
-                                            >
-                                                <option className="form-control" value="">{updateProfileForm.gender} </option>
-                                                <option className="form-control" value="Male">Male</option>
-                                                <option className="form-control" value="Female">Female</option>
-                                                {/* <option className="form-control" value="Female">nu</option> */}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {/* <div className={cx('modalGender')}>
-                                        <label>Gender: </label>
-                                        <select
-                                            value={updateProfileForm.gender}
-                                            name='gender'
+                            <div className="col-lg-8">
+                                <div className="card mb-4">
+                                    <div className="card-body">
+                                        <input
+                                            type='text'
+                                            value={updateProfileForm._id}
+                                            name='name'
                                             onChange={handleInputChange}
-                                        >
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div> */}
-                                    <div className="mt-5 text-right">
-                                        <button type="submit" className="btn btn-primary profile-button" style={{ float: "right", marginTop: "-12px" }} >Save Profile</button>
+                                            className="text-muted mb-0"
+                                            hidden
+                                        />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Full Name</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type='text'
+                                                    value={updateProfileForm.name}
+                                                    name='name'
+                                                    onChange={handleInputChange}
+                                                    className="text-muted mb-0" />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Username</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type='text'
+                                                    className="text-muted mb-0"
+                                                    value={updateProfileForm.username}
+                                                    name='username'
+                                                // onChange={handleInputChange}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Email</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type='email'
+                                                    className="text-muted mb-0"
+                                                    value={updateProfileForm.email}
+                                                    name='email'
+                                                // onChange={handleInputChange}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Date of Birth</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    type="date"
+                                                    value={updateProfileForm.dob}
+                                                    name='dob'
+                                                    className="text-muted mb-0"
+                                                    onChange={handleInputChange}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Gender</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <select
+                                                    style={{ border: 'none', padding: '0', background: 'transparent' }}
+                                                    className="text-muted mb-0"
+                                                    name='gender'
+                                                    onChange={handleInputChange}
+                                                >
+                                                    <option className="form-control" value="">{updateProfileForm.gender} </option>
+                                                    <option className="form-control" value="Male">Male</option>
+                                                    <option className="form-control" value="Female">Female</option>
+                                                    {/* <option className="form-control" value="Female">nu</option> */}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Address</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    value={updateProfileForm.address}
+                                                    name='address'
+                                                    type='text'
+                                                    onChange={handleInputChange}
+                                                    className="text-muted mb-0"
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div className="row">
+                                            <div className="col-sm-3">
+                                                <p className="mb-0">Country</p>
+                                            </div>
+                                            <div className="col-sm-9">
+                                                <input
+                                                    value={updateProfileForm.country}
+                                                    name='country'
+                                                    type='text'
+                                                    onChange={handleInputChange}
+                                                    className="text-muted mb-0"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

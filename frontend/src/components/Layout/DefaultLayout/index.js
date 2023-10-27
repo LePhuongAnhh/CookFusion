@@ -5,7 +5,7 @@ function DefaultLayout({ children }) {
         <body>
             <div>
                 <Navigation />
-                <div className="user- container">
+                <div>
                     {children}
                 </div>
                 {/* <FooterForm /> */}

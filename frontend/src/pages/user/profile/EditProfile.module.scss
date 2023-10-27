@@ -10,24 +10,22 @@
 }
 
 .modalContentDeleteIdea {
-    width: 500px;
+    width: 750px;
     height: 450px;
-    // background-color: white;
+    background-color: #f9fafd;
     margin: auto;
     z-index: 1;
     border-radius: 7px;
+    overflow: auto;
+    input {
+        border: none;
+    }
 }
-
-.text-right{
-    color: var(--main-text-color);
+.exit {
+    float: right;
+    margin: 5px 10px 5px 5px;
     cursor: pointer;
 }
-.text-right:hover{
-    color: black;
+.exit:hover {
+    color: #292e32;
 }
-
-  .btn{
-    float: right;
-    /* margin: 20px 0; */
-    margin-top: -12px;
-  }

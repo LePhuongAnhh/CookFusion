@@ -11,8 +11,37 @@ import AdBarsChart from '../Chart/AdBarChart';
 import RatingPieChart from '../Chart/RatingPieChart';
 import images from '~/assets/images'
 
+import axios from "axios"
+import {
+    apiUrl,
+    ACCESS_TOKEN,
+    ACCOUNT_ID,
+    ROLE,
+    PROFILE_INFORMATION,
+    USERNAME
+} from "../../../constants/constants.js"
+
 const cx = classNames.bind(styles)
-function Dashboard() {
+const Dashboard = () => {
+    const [totalUser, setTotalUser] = useState(0)
+    const [totalArticle, setTotalArticle] = useState(0)
+    const [totalRecipe, setTotalRecipe] = useState(0)
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/admin/getDashboard`);
+                console.log(response.data)
+                if (response.data.success) {
+                    setTotalUser(response.data.data.totalUser)
+                    setTotalArticle(response.data.data.totalArticle)
+                    setTotalRecipe(response.data.data.totalRecipe)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <>
             < div className={cx('row-dashboard')} >
@@ -36,7 +65,7 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')} >{totalUser}
                                     </h2>
                                     <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
                                 </div>
@@ -55,7 +84,7 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>213
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{totalRecipe}
                                     </h2>
                                     <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
                                 </div>
@@ -74,7 +103,7 @@ function Dashboard() {
                                     </svg>
                                 </div>
                                 <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>132
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{totalArticle}
                                     </h2>
                                     <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>-7%</div>
                                 </div>

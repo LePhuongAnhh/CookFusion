@@ -1,3 +1,4 @@
+//blog form
 .post_status {
     margin-bottom: 1rem;
     /* box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07); */
@@ -18,7 +19,7 @@
 .post_hearer {
     --falcon-bg-opacity: 1;
     background-color: rgba(249, 250, 253, 1);
-    padding: 1rem 1.25rem;
+    padding: 1.5rem 1rem 1rem;
     margin-bottom: 0;
     border-bottom: 0 solid var(0, 0, 0, 0.125);
 }
@@ -54,6 +55,7 @@ link {
     flex: 1;
     margin-left: 0.5rem;
     align-self: center;
+    color: var(--main-text-color);
 }
 
 .name_user {
@@ -70,7 +72,7 @@ link {
 }
 
 .date_time {
-    font-size: 0.8333333333rem;
+    font-size: 12px;
     margin-bottom: 0;
 }
 
@@ -80,20 +82,22 @@ link {
 
 .btn_setting {
     color: gray;
-    padding-right: 1.1rem;
+    padding-right: 0;
     white-space: nowrap;
+    margin-top: -21px;
 }
 
 /* post body  */
 .posts_body {
     flex: 1 1 auto;
-    padding: 0.25rem 1.25rem;
-    color: var(--falcon-card-color);
+    padding: 0.25rem 1.75rem;
+    // color: var(--falcon-card-color);
 }
 
 .posts_body p {
-    font-size: 16px;
+    font-size: 15px;
     text-align: justify;
+    color: var(--primary-text-color);
 }
 
 .body_img {
@@ -145,22 +149,24 @@ link {
 }
 
 .dropdown_content {
+    margin-left: 15px;
+    margin-top: -10px;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    height: 140px;
     align-items: center;
 }
 
 .dropdown:hover .dropdown_content {
-    padding: 10px;
+    padding: 8px;
     display: inline-block;
     color: #333;
-    padding: 10px;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 .dropdown_content a {
@@ -180,14 +186,8 @@ link {
 }
 /* footer  */
 .posts_footer:last-child {
-    border-radius: 0 0 calc(0.375rem - 0px) calc(0.375rem - 0px);
-    --falcon-bg-opacity: 1;
-    /* background-color: rgba(var(--falcon-light-rgb), var(--falcon-bg-opacity)); */
-    padding-top: 0;
     background: #f9fafd;
-    padding: 1rem 1.25rem;
-    color: #344050;
-    border-top: 0 solid rgba(0, 0, 0, 0.125);
+    padding: 1rem 1.75rem;
 }
 .total_like {
     border-color: rgba(237, 242, 249, 1);
@@ -318,7 +318,7 @@ link {
 
 .circle_avt {
     object-fit: cover;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 2rem;
+    width: 2rem;
     border-radius: 50%;
 }

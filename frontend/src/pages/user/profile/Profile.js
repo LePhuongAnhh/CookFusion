@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
+
 //import từ bên trong src
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
 import classNames from 'classnames/bind'
@@ -10,18 +11,27 @@ import styles from './Profile.module.scss'
 import images from '~/assets/images'
 import { Link } from 'react-router-dom'
 import EditProfile from "./EditProfile"
+import CreateBlog from "~/components/Modal/CreateBlog"
+import UpdateBlog from "~/components/Modal/UpdateBlog"
+import DeleteBlog from "~/components/Modal/DeleteBlog"
+import CommentBlog from "~/components/Modal/CommentBlog"
+import BlogForm from "~/components/Modal/BlogForm"
 
 const cx = classNames.bind(styles)
 function Profile() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    // const convertedDoB = new Date(profileInformation.DoB)
-    // profileInformation.DoB = convertedDoB.toISOString().substr(0, 10)
     const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
-
-
-
+    const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
+    const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
+    const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
+    const [events, setEvents] = useState([])
+    const updateNewArticle = (data) => {
+        console.log('get data update post', data)
+    }
+    console.log("avt ne", profileInformation.avatar)
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>
@@ -86,30 +96,73 @@ function Profile() {
                             </div>
                         </div>
                     </div>
-                    <br />
+                </div>
+            </div>
 
-                    <div className="max-w-6xl h-full mx-auto bg-white p-1">
-                        <div></div>
-                        <div>
-                            <ul className={cx("flex", "mb-2", "items-center", "space-x-2")}>
-                                <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                    <Link to="#"> Save recipe</Link>
-                                </li>
-                                <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                    <Link to="#"> Blog</Link>
-                                </li>
-                                <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                    <Link to="#"> Recipe</Link>
-                                </li>
-                                <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                    <Link to="#"> Plan meal</Link>
-                                </li>
-                            </ul>
+            <div className={("row")}>
+                {/* left  */}
+                <div className="col-lg-3 shadow">
+                    <div className="card mb-4">
+                        <div className="card-body text-center">
+                        </div>
+                    </div>
+                </div>
+                {/* right  */}
+                <div className="col-lg-9 shadow h-auto">
+                    <div className="card mb-4">
+                        <div className="card-body">
+                            <div>
+                                <ul className={cx("flex", "mb-2", "items-center", "space-x-2")}>
+                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
+                                        <Link to="#"> Blog</Link>
+                                    </li>
+                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
+                                        <Link to="#"> Recipe</Link>
+                                    </li>
+                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
+                                        <Link to="#"> Plan meal</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div className="max-w-6xl h-full mx-auto bg-white p-1">
+                                    {/* chôx tạo bài  */}
+                                    <div className={cx('post_status')}>
+                                        <div className={cx('post_hearer')}>
+                                            <div className={cx('header_item')}>
+                                                <div className={cx('header_avatar')}>
+                                                    <img className={cx('circle_avt')} src={images.Avt} />
+                                                </div>
+                                                <div className={cx('post_create')}>
+                                                    <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className={cx('post_body')} >
+                                            <form onClick={() => setShowCreateBlogModal(true)}>
+                                                <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
+                                                </textarea>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('post_status')}>
+                                        <BlogForm />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             {showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />}
+            {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
+            {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
+            {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
+            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
         </>
     );
 }

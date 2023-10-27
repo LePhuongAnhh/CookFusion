@@ -45,9 +45,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         ingredients: '',
         nPerson: '',
         images: '',
-        timeUpload:'',
-        categoryId:'',
-        steps:''
+        timeUpload: '',
+        categoryId: '',
+        steps: ''
 
     });
 

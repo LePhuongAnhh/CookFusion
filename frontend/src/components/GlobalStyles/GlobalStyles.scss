@@ -31,38 +31,39 @@ a {
     text-decoration: none;
     background-color: transparent;
 }
-img{
+img {
     object-fit: cover;
     vertical-align: middle;
     border-style: none;
 }
 
-    /* Tạo một thanh cuộn dọc tùy chỉnh */
-    html *::-webkit-scrollbar {
-    width: 8px; 
-  }
-  
-  /* Định dạng track (nền của thanh cuộn) */
-  html *::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  /* Định dạng thumb (nút kéo thanh cuộn) */
-  html *::-webkit-scrollbar-thumb {
-    background: #888;
-        border-radius: 40px ;
-  }
-  
-  /* Định dạng thumb khi hover */
-    html *::-webkit-scrollbar-thumb:hover {
-        background: #555;
-  }
+/* Tạo một thanh cuộn dọc tùy chỉnh */
+html *::-webkit-scrollbar {
+    width: 8px;
+}
 
-  button{
+/* Định dạng track (nền của thanh cuộn) */
+html *::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Định dạng thumb (nút kéo thanh cuộn) */
+html *::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 40px;
+}
+
+/* Định dạng thumb khi hover */
+html *::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+button {
     background: none;
     border: none;
-  }
-  
-  ul , li{
+}
+
+ul,
+li {
     list-style: none;
-  }
+} 

@@ -40,7 +40,7 @@ const LoginForm = () => {
         password: ""
     })
     const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
-    
+
     const login = async event => {
         event.preventDefault();
         const isValid = checkValideInput();
@@ -53,9 +53,9 @@ const LoginForm = () => {
             if (response.data.success) {
                 console.log(response.data);
                 alert("Login thành công");
-                localStorage.setItem(USERNAME, response.data.account.username);
+                // localStorage.setItem(USERNAME, response.data.account.username);
                 localStorage.setItem(ACCESS_TOKEN, response.data.token);
-                localStorage.setItem(ACCOUNT_ID, response.data.account._id);
+                // localStorage.setItem(ACCOUNT_ID, response.data.account._id);
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
                 navigate('/homepage');
             }
@@ -63,9 +63,6 @@ const LoginForm = () => {
             console.log(error.response.data.message)
         }
     };
-
-
-
     const { username, password } = loginForm
 
     return (
