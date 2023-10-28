@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import DeleteBlog from "./DeleteBlog"
 
 const cx = classNames.bind(styles)
-const CommentBlog = ({ setShowCommentBlogModal }) => {
+const CommentBlog = ({ article, setShowCommentBlogModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const [showUpdateModal, setShowUpdateModal] = useState(false) // trạng thái của modal hiển thị form comment
@@ -90,26 +90,11 @@ const CommentBlog = ({ setShowCommentBlogModal }) => {
                         </div>
                     </div>
                 </div>
-
-                {/* <div>
-                    <div className={cx('createIdeaFooter')}>
-                        <form>
-                            <div className={cx('write_comment')}>
-                                <div className={cx('cmt_avt')}>
-                                    <div className={cx('avatar_comment')}>
-                                        <img className={cx('circle_avt} src={Avt} />
-                                    </div>
-                                </div>
-                                <input placeholder="Write a comment ..." type='text' className={cx('input_cmt')}></input>
-                            </div>
-                        </form>
-                    </div>
-                </div> */}
             </div>
-
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
             {/* {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />} */}
         </div>
+
 
     )
 }

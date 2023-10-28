@@ -26,59 +26,73 @@ const BlogForm = ({ }) => {
     const authorIdToDisplay = profileInformation._id
     const location = useLocation();
 
-
+    // Đặt state để lưu thông tin bài viết được chọn
+    const [selectedArticleForComment, setSelectedArticleForComment] = useState(null);
+    // Xử lý sự kiện khi nhấp vào biểu tượng comment
+    const handleCommentClick = (article) => {
+        setSelectedArticleForComment(article); // Lưu thông tin bài viết được chọn
+        setShowCommentBlogModal(true); // Hiển thị modal
+    };
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
-    const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
-    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
-
     const formatTime = (date) => {
         return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
     };
-    const [articles, setArticles] = useState([]);
+
+    //DELETE IDEA
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [articleIdToDelete, setArticleIdToDelete] = useState(null);
+
+    const handleDeleteIconClick = (articleId) => {
+        setArticleIdToDelete(articleId);
+        setShowDeleteModal(true);
+    };
+
+    //DETAIL IDEA 
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
+    // Hàm xử lý khi người dùng click vào bài viết
+    const handleViewPost = (articleId) => {
+        const selectedPost = filteredArticles.find(article => article.articleId === articleId);
+        setSelectedArticleForComment(selectedPost); // Lưu thông tin bài viết được chọn
+        setShowCommentBlogModal(true); // Hiển thị modal CommentBlog
+    };
+
+
     const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
+    // const [selectedArticle, setSelectedArticle] = useState(null);
     useEffect(() => {
-        axios.get(`${apiUrl}/article/getlistforglobal`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-            .then((response) => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
                 if (response) {
-                    // Xử lý dữ liệu trả về
-                    const articlesData = response.data.data;
-
-                    articlesData.forEach((article) => {
-                        // Định dạng thời gian của bài viết
-                        article.timeUpload = formatTime(new Date(article.timeUpload));
-
-                        // Trích xuất danh sách hashtag từ nội dung
+                    const articlesData = response.data.data.map(article => {
+                        const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
                         const content = article.content;
                         const hashtags = content.match(/#[^\s#]*/g);
-                        article.hashtags = hashtags;
+                        const articleId = article._id; // Lấy _id và lưu vào biến articleId
+                        return { ...article, timeUpload, hashtags, articleId }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
                     });
-
-                    // Kiểm tra trang cá nhân
-                    const isProfilePage = location.pathname === '/profile';
-
                     // Lọc bài viết dựa trên trang hiện tại
+                    const isProfilePage = location.pathname === '/profile';
                     const filtered = isProfilePage
-                        ? articlesData.filter((article) => article.userUpload._id === profileInformation._id)
+                        ? articlesData.filter(article => article.userUpload._id === profileInformation._id)
                         : articlesData;
-
                     // Sắp xếp bài viết theo thứ tự ngược lại
                     const sortedArticles = filtered.slice().sort((a, b) => new Date(b.timeUpload) - new Date(a.timeUpload));
-
-                    // Đảo ngược thứ tự của mảng
                     const reversedArticles = sortedArticles.reverse();
-                    setFilteredArticles(reversedArticles); // Lưu kết quả vào state filteredArticles
+                    setFilteredArticles(reversedArticles);
                 }
                 console.log('Dữ liệu bài đăng: ', response.data.data);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.log(error.response.data.message);
-            });
+            }
+        };
+        fetchData();
     }, []);
-
 
     return (
         <>
@@ -92,18 +106,18 @@ const BlogForm = ({ }) => {
                                         <div className={cx('d_flex')}>
                                             <Link to="#" className={cx('d_flex')}>
                                                 <div className={cx('header_avatar')}>
-                                                    {/* <img
+                                                    <img
                                                         className={cx('circle_avt1')}
-                                                        src={article.userUpload.avatar}
-                                                    /> */}
-                                                    {
-                                                        article.userUpload.avatar === null ? (<img src={article.userPost.Avatar} className={cx('circle_avt1')} />) : <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar" className={cx('circle_avt1')} />
-                                                    }
+                                                        src={article.userUpload[0].avatar}
+                                                    />
+                                                    {/* {
+                                                        article.userUpload[0].avatar === null ? (<img src={article.userUpload[0].Avatar} className={cx('circle_avt1')} />) : <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar" className={cx('circle_avt1')} />
+                                                    } */}
                                                 </div>
                                             </Link>
                                             <div className={cx('name_account')}>
                                                 <p className={cx('name_user')}>
-                                                    <Link to="#" className={cx('post_name_account')}>{article.userUpload.name}&nbsp;</Link>
+                                                    <Link to="#" className={cx('post_name_account')}>{article.userUpload[0].name}&nbsp;</Link>
                                                     <span className={cx('share_album')}>
                                                         share post {article.title}
                                                     </span>
@@ -125,7 +139,7 @@ const BlogForm = ({ }) => {
                                                     </button>
                                                     <div className={cx('dropdown_content')}>
                                                         <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                        <Link to="#" onClick={() => setShowDeleteModal(true)}>Delete</Link>
+                                                        <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
                                                         <Link to="#">Accuse</Link>
                                                     </div>
                                                 </div>
@@ -145,7 +159,12 @@ const BlogForm = ({ }) => {
                                             {article.files.length > 0 && (
                                                 <div>
                                                     {article.files.map((file, index) => (
-                                                        <img key={index} src={file} alt={`Image ${index}`} className={cx('img_img')} />
+                                                        file.files && file.files[0] && file.files[0].url && file.files.map((fileInfor) => {
+
+                                                            <img key={index} src={file.files[0].url} alt={`Image ${index}`} className={cx('img_img')} />
+                                                        })
+
+
                                                     ))}
                                                 </div>
                                             )}
@@ -172,7 +191,7 @@ const BlogForm = ({ }) => {
                                     </div>
                                 </div>
                                 <div className={cx('emotion_item')}>
-                                    <div className={cx('emotion_gird')} onClick={() => setShowCommentBlogModal(true)}>
+                                    <div className={cx('emotion_gird')} onClick={() => handleCommentClick(article)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
                                             <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
                                         </svg>
@@ -217,8 +236,29 @@ const BlogForm = ({ }) => {
             </div>
 
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} />}
-            {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
-            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
+
+            {showDeleteModal && (
+                <DeleteBlog
+                    setShowDeleteModal={setShowDeleteModal}
+                    articleIdToDelete={articleIdToDelete}
+                />
+            )}
+
+            {showCommentBlogModal && selectedArticleForComment && (
+                <CommentBlog
+                    setShowDeleteModal={setShowDeleteModal}
+                    articleId={articleIdToDelete}
+                    filteredArticles={filteredArticles} // Truyền filteredArticles vào DeleteBlog
+                    setFilteredArticles={setFilteredArticles} // Truyền hàm cập nhật danh sách bài viết
+                />
+            )}
+            {/* {showCommentBlogModal && selectedArticleForComment && (
+                <CommentBlog
+                    selectedArticle={selectedArticleForComment}
+                    setShowCommentBlogModal={setShowCommentBlogModal} // Có thể cần truyền hàm để ẩn modal
+                />
+            )} */}
+
 
         </>
     )
