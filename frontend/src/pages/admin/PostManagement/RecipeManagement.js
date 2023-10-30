@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import styles from "../AccountManagement/AccountManagement.module.scss"
 import classNames from 'classnames/bind'
+import DeletePost from '~/components/Modal/DeletePost';
 import Table from 'react-bootstrap/Table';
-
+import axios from "axios"
+import {
+    apiUrl,
+    ACCESS_TOKEN,
+    ACCOUNT_ID,
+    ROLE,
+    PROFILE_INFORMATION,
+    USERNAME
+} from "../../../constants/constants.js"
 const cx = classNames.bind(styles)
 
 function RecipeManagement() {
+    const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+    const [totalPost, setTotalPost] = useState(0)
+    const [listPost, setListPost] = useState([])
+    const [postId, setPostId] = useState(null);
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/admin/getRecipesInformation`);
+                console.log(response.data)
+                if (response.data.success) {
+                    setTotalPost(response.data.recipes.length)
+                    setListPost(response.data.recipes)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
+    const handleDeleteIconClick = (_id) => {
+        setPostId(_id);
+        setShowDeletePostModal(true);
+    };
     return (
         <div className={cx('container_fluid')}>
             <div className={cx('row')}>
@@ -22,7 +54,7 @@ function RecipeManagement() {
             <div className={cx('row')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        <h4 className={cx('page_title')}>Total Recipe: 234</h4>
+                        <h4 className={cx('page_title')}>Total Recipe: {totalPost}</h4>
                         <p></p>
                     </div>
                 </div>
@@ -37,33 +69,38 @@ function RecipeManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className={cx("hover-actions-trigger")}>
-                                <td>
-                                    <div className='d-flex align-items-center mt-1'>
-                                        <img
-                                            src='https://mdbootstrap.com/img/new/avatars/8.jpg'
-                                            alt=''
-                                            style={{ width: '50px', height: '50px' }}
-                                            className="rounded-2"
-                                        />
-                                        <div className='ms-3'>
-                                            <p className='fw-700 mb-0'>Mặt trời ngủ trong mây</p>
-                                            <p className='text-muted mb-0'>Món chay</p>
+                            {listPost && listPost.map((recipe) => (
+                                <tr className={cx("hover-actions-trigger")}>
+                                    <td>
+                                        <div className='d-flex align-items-center mt-1'>
+                                            <img
+                                                src={recipe.image}
+                                                alt=''
+                                                style={{ width: '50px', height: '50px' }}
+                                                className="rounded-2"
+                                            />
+                                            <div className='ms-3'>
+                                                <p className='fw-700 mb-0'>{recipe.title}</p>
+                                                <p className='text-muted mb-0'>{recipe.Category}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>Le linh nhi</p>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>03/10/2023</p>
-                                </td>
-                                <td >
-                                    <div className={cx('mt-3')}>
-                                        <i className={cx("bi bi-trash d-inline-block")}></i>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <p className={cx('mt-2')}>{recipe.user[0].name}</p>
+                                    </td>
+                                    <td>
+                                        <p className={cx('mt-2')}>{recipe.timeUpload}</p>
+                                    </td>
+                                    <td >
+                                        <div className={cx('mt-3')}>
+                                            <button onClick={() => handleDeleteIconClick(recipe._id)}>
+                                                <i className={cx("bi bi-trash d-inline-block")}></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+
                         </tbody>
                     </Table>
                 </div>
@@ -119,6 +156,14 @@ function RecipeManagement() {
                     </Table>
                 </div>
             </div>
+            {showDeletePostModal && <DeletePost
+                setShowDeletePostModal={setShowDeletePostModal}
+                postId={postId}
+                setTotalPost={setTotalPost}
+                setListPost={setListPost}
+                listPost={listPost}
+                isRecipe={1}
+            />}
         </div>
     )
 }
