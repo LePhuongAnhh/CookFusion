@@ -114,9 +114,9 @@ function EditProfile({ setShowUpdateProfileModal }) {
                                 <div className="card mb-4">
                                     <div className="card-body text-center">
                                         {selectedImage ? (
-                                            <img src={selectedImage} alt="Selected Image" className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                            <img src={selectedImage} alt="Selected Image" className="rounded-circle img-fluid" style={{ width: "150px", height: "150px" }} />
                                         ) : (
-                                            <img src={profileInformation.avatar} alt='avt ne' className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                                            <img src={profileInformation.avatar} alt='avt ne' className="rounded-circle img-fluid" style={{ width: "150px", height: "150px" }} />
                                         )}
                                         <input
                                             type="file"
