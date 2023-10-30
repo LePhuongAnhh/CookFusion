@@ -10,7 +10,7 @@ const DeleteBlog = ({ setShowDeleteModal, articleId, setFilteredArticles, filter
 
     const handleDeleteArticle = async () => {
         try {
-            const response = await axios.delete(`${apiUrl}/article/getlistforglobal/${articleId}`, {
+            const response = await axios.delete(`${apiUrl}/article/delete/${articleId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
