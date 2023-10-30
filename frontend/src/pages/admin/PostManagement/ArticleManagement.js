@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
@@ -7,11 +7,43 @@ import styles from "../AccountManagement/AccountManagement.module.scss"
 import DeletePost from '~/components/Modal/DeletePost';
 import { Form, Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import axios from "axios"
+import {
+    apiUrl,
+    ACCESS_TOKEN,
+    ACCOUNT_ID,
+    ROLE,
+    PROFILE_INFORMATION,
+    USERNAME
+} from "../../../constants/constants.js"
+
 
 const cx = classNames.bind(styles)
 
 function ArticleManagement() {
     const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+    const [totalPost, setTotalPost] = useState(0);
+    const [listPost, setListPost] = useState([]);
+    const [postId, setPostId] = useState(null);
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/admin/getArticlesInformation`);
+                console.log(response.data)
+                if (response.data.success) {
+                    setTotalPost(response.data.articles.length)
+                    setListPost(response.data.articles)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
+    const handleDeleteIconClick = (_id) => {
+        setPostId(_id);
+        setShowDeletePostModal(true);
+    };
     return (
         <div className={cx('container_fluid')}>
             <div className={cx('row')}>
@@ -26,7 +58,7 @@ function ArticleManagement() {
             <div className={cx('row')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        <h4 className={cx('page_title')}>Total Article: 234</h4>
+                        <h4 className={cx('page_title')}>Total Article: {totalPost}</h4>
                         <p></p>
                     </div>
                 </div>
@@ -41,36 +73,40 @@ function ArticleManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className={cx("hover-actions-trigger")}>
-                                <td>
-                                    <div className='d-flex align-items-center mt-1'>
-                                        <img
+                            {listPost && listPost.map((article) => (
+                                <tr className={cx("hover-actions-trigger")}>
+                                    <td>
+                                        <div className='d-flex align-items-center mt-1'>
+                                            {/* <img
                                             src='https://mdbootstrap.com/img/new/avatars/8.jpg'
                                             alt=''
                                             style={{ width: '50px', height: '50px' }}
                                             className="rounded-2"
-                                        />
-                                        <div className='ms-3'>
-                                            <p className='fw-700 mb-0'>Mặt trời ngủ trong mây</p>
-                                            <p className='text-muted mb-0'>Món chay</p>
+                                        /> */}
+                                            <div className='ms-3'>
+                                                <p className='fw-700 mb-0'>{article.title}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* <div className='ms-3'> */}
-                                    <p className={cx('mt-2')}>Le linh nhi</p>
-                                    {/* </div> */}
+                                    </td>
+                                    <td>
+                                        {/* <div className='ms-3'> */}
+                                        <p className={cx('mt-2')}>{article.user[0].name}</p>
+                                        {/* </div> */}
 
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>03/10/2023</p>
-                                </td>
-                                <td >
-                                    <div className={cx('mt-3')}>
-                                        <i className={cx("bi bi-trash d-inline-block")}></i>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>
+                                        <p className={cx('mt-2')}>{article.timeUpload}</p>
+                                    </td>
+                                    <td >
+                                        <div className={cx('mt-3')}>
+                                            <button onClick={() => handleDeleteIconClick(article._id)}>
+                                                <i className={cx("bi bi-trash d-inline-block")}></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+
                         </tbody>
                     </Table>
                 </div>
@@ -133,7 +169,13 @@ function ArticleManagement() {
 
 
 
-            {showDeletePostModal && <DeletePost setShowDeletePostModal={setShowDeletePostModal} />}
+            {showDeletePostModal && <DeletePost
+                setShowDeletePostModal={setShowDeletePostModal}
+                postId={postId}
+                setTotalPost={setTotalPost}
+                setListPost={setListPost}
+                listPost={listPost}
+            />}
         </div>
     )
 }
