@@ -67,7 +67,6 @@ const BlogForm = ({ }) => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-
                 if (response) {
                     const articlesData = response.data.data.map(article => {
                         const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
@@ -97,7 +96,7 @@ const BlogForm = ({ }) => {
     return (
         <>
             <div className={cx('post_status')}>
-                {filteredArticles.map((article) => (
+                {filteredArticles.map((article,index) => (
                     <li key={article._id}>
                         <div className={cx('post_status')}>
                             <div className={cx('post_hearer')}>
@@ -137,11 +136,15 @@ const BlogForm = ({ }) => {
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    <div className={cx('dropdown_content')}>
+                                                    { article.userUpload[0]._id === profileInformation._id && (
+                                                        <div className={cx('dropdown_content')}>
                                                         <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                         <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
                                                         <Link to="#">Accuse</Link>
                                                     </div>
+                                                    )
+                                                    }
+                                                    
                                                 </div>
                                             </button>
                                         </div>
@@ -156,18 +159,12 @@ const BlogForm = ({ }) => {
                                 <div>
                                     <div className={cx('body_img')}>
                                         <div className={cx('show_img_6')}>
-                                            {article.files.length > 0 && (
                                                 <div>
-                                                    {article.files.map((file, index) => (
-                                                        file.files && file.files[0] && file.files[0].url && file.files.map((fileInfor) => {
-
-                                                            <img key={index} src={file.files[0].url} alt={`Image ${index}`} className={cx('img_img')} />
+                                                    {article.files[0] && article.files[0].files.map((fileInfor,index) => {
+                                                            return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
                                                         })
-
-
-                                                    ))}
+                                                    }
                                                 </div>
-                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +237,9 @@ const BlogForm = ({ }) => {
             {showDeleteModal && (
                 <DeleteBlog
                     setShowDeleteModal={setShowDeleteModal}
-                    articleIdToDelete={articleIdToDelete}
+                    articleId={articleIdToDelete}
+                    setFilteredArticles={setFilteredArticles}
+                    filteredArticles={filteredArticles}
                 />
             )}
 
