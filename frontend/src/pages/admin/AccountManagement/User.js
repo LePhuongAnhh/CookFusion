@@ -5,15 +5,23 @@ import { Link } from 'react-router-dom'
 import styles from "./AccountManagement.module.scss"
 import classNames from 'classnames/bind'
 // import DeleteAccount from '~/components/Modal/DeleteAccount';
-
+import axios from "axios"
+import {
+  apiUrl,
+  ACCESS_TOKEN,
+  ACCOUNT_ID,
+  ROLE,
+  PROFILE_INFORMATION,
+  USERNAME
+} from "../../../constants/constants.js"
 
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 const columns = [
-  { field: 'id', headerName: 'No.', width: 50 },
+  { field: '_id', headerName: 'Id', width: 50 },
   {
-    field: 'account',
-    headerName: 'Account',
+    field: 'name',
+    headerName: 'name',
     width: 110,
     editable: true,
   },
@@ -25,13 +33,7 @@ const columns = [
     editable: true,
   },
   {
-    field: 'phone',
-    headerName: 'Phone',
-    width: 140,
-    editable: true,
-  },
-  {
-    field: 'DoB',
+    field: 'dob',
     headerName: 'Birthday',
     width: 140,
     editable: true,
@@ -43,14 +45,14 @@ const columns = [
     editable: true,
   },
   {
-    field: 'article',
+    field: 'articles',
     headerName: 'Article',
     type: 'number',
     width: 90,
     editable: true,
   },
   {
-    field: 'recipe',
+    field: 'recipes',
     headerName: 'Recipe',
     type: 'number',
     width: 110,
@@ -64,40 +66,37 @@ const columns = [
     editable: true,
   },
   {
-    field: 'rating',
-    headerName: 'Rating',
-    type: 'number',
-    width: 130,
-    editable: true,
-  },
-  {
     field: 'action',
     headerName: 'Action',
     width: 100,
     editable: true,
   },
 ];
-
-const rows = [
-  { id: 1, account: 'le thu', email: 'Snow@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 2, account: 'le thu', email: 'Lannister@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 3, account: 'le thu', email: 'Lannister@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 4, account: 'le thu', email: 'Stark@gmail.com', phone: '0936947367', DoB: null, gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 5, account: 'le thu', email: 'Targaryen@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 6, account: 'le thu', email: 'Melisandre@gmail.com', phone: null, DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 7, account: 'le thu', email: 'Clifford@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 8, account: 'le thu', email: 'Frances@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-  { id: 9, account: 'le thu', email: 'Roxie@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-];
 const cx = classNames.bind(styles)
 function User() {
-
+  const [total, setTotal] = useState(0)
+  const [list, setList] = useState([])
+  useEffect(() => {
+      (async () => {
+          try {
+              const response = await axios.get(`${apiUrl}/admin/getUsersInformation`);
+              console.log(response.data)
+              if (response.data.success) {
+                  setTotal(response.data.listUsers.length)
+                  setList(response.data.listUsers)
+              }
+          } catch (error) {
+              console.log(error)
+          }
+      }
+      )()
+  }, [])
   return (
     <div className={cx('container_fluid')}>
       <div className={cx('row')}>
         <div className={cx('col_12')}>
           <div className={cx('page_title_box1')}>
-            <h4 className={cx('page_title')}>Account: 234</h4>
+            <h4 className={cx('page_title')}>Accounts: {total}</h4>
           </div>
         </div>
       </div>
@@ -112,8 +111,9 @@ function User() {
                 border: 'none'
               }}>
               <DataGrid
-                rows={rows}
+                rows={list}
                 columns={columns}
+                getRowId={(row) => row._id}
                 initialState={{
                   pagination: {
                     paginationModel: {
