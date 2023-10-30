@@ -54,11 +54,10 @@ function Profile() {
                             >
                                 <div className="w-35 h-35 rounded-full bg-gray-300 border-4 border-white d-flex align-items-center justify-content-center">
                                     <img
-                                        className="w-full h-full rounded-full  rounded-circle"
-                                        // src="https://random.imagecdn.app/250/250"
+                                        className="rounded-circle img-fluid"
                                         src={profileInformation.avatar}
                                         alt="avatar "
-                                        style={{ marginTop: "12rem" }}
+                                        style={{ marginTop: "18rem", width: "150px" }}
                                     />
                                 </div>
                             </div>

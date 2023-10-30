@@ -74,7 +74,8 @@ function EditProfile({ setShowUpdateProfileModal }) {
 
                 // Lưu profileInformation lên localStorage
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(profileInformation));
-                navigate('/profile');
+                // navigate('/profile');
+                setShowUpdateProfileModal(false);
             }
         } catch (error) {
             if (error.response.statusCode === 401) {
@@ -115,7 +116,7 @@ function EditProfile({ setShowUpdateProfileModal }) {
                                         {selectedImage ? (
                                             <img src={selectedImage} alt="Selected Image" className="rounded-circle img-fluid" style={{ width: "150px" }} />
                                         ) : (
-                                            <img src={profileInformation.avatar} alt='avt ne' />
+                                            <img src={profileInformation.avatar} alt='avt ne' className="rounded-circle img-fluid" style={{ width: "150px" }} />
                                         )}
                                         <input
                                             type="file"
@@ -128,10 +129,6 @@ function EditProfile({ setShowUpdateProfileModal }) {
                                         <p className="text-muted mb-1 my-3">{profileInformation.name}</p>
                                         <p className="text-muted mb-4">{profileInformation.email}</p>
                                         <div className="d-flex justify-content-center mb-2">
-                                            {/* <button type="button" className="btn btn-primary">Follow</button> */}
-                                            {/* <button type="button" className="btn btn-outline-primary ms-1">
-                                                &nbsp; &nbsp; &nbsp;<img src={images.google} style={{ width: '20px', height: '20px' }} /> &nbsp; &nbsp; &nbsp;
-                                            </button> */}
                                             <button style={{ fontSize: '15px' }} type="submit" className="btn btn-outline-primary ms-1">
                                                 Submit
                                             </button>
