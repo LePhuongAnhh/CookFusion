@@ -36,7 +36,20 @@ function AccountManagement() {
             }
         }
         )()
-    }, [])
+    }, [setList])
+    const onClickChangeActive = async (index) =>{
+        try{
+            const updatedList = [...list];
+            const res = await axios.patch(`${apiUrl}/admin/changeActiveState`,{active:list[index].active,_id:list[index]._id})
+            console.log(res.data)
+            if (res.data.success) {
+                updatedList[index].active = !updatedList[index].active
+                setList(updatedList)
+            }
+        }catch(error){
+            console.log(error)
+        }
+    }
     return (
         <div className={cx('container-table')}>
             <div className={cx('row')}>
@@ -57,7 +70,7 @@ function AccountManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {list.length > 0 && list.map((item) => (
+                            {list.length > 0 && list.map((item, index) => (
                                 <tr className={cx("hover-actions-trigger")}>
                                     <td>
                                         <div className='d-flex align-items-center mt-1'>
@@ -82,43 +95,22 @@ function AccountManagement() {
                                         <p className='mt-2'>User</p>
                                     </td>
                                     <td >
-                                        {/* <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
-                                        {/* <span className="fw-400">{item.active}</span>
-                                         */}
-                                        <div className={cx('status', 'badge-soft-success', 'mt-3')}>
-                                            <span className="fw-400">Active</span>
-                                            <span className="ms-1 fas fa-check"></span>
-                                        </div>
+                                         {(item.active == true)? (
+                                            <div className={cx('status', 'badge-soft-success', 'mt-3')}>
+                                                <button onClick={() => onClickChangeActive(index)} className="fw-400">Active</button>
+                                                <span className="ms-1 fas fa-check"></span>
+                                            </div>
+                                            ):(
+                                                <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
+                                                <button onClick={() => onClickChangeActive(index)} className="fw-400">Inactive</button>
+                                                <span className="ms-1 fas fa-check"></span>
+                                            </div> 
+                                            )
+                                         }
+                                        
                                     </td>
                                 </tr>
                             ))}
-                            <tr className={cx("hover-actions-trigger")}>
-                                <td>
-                                    <div className='d-flex align-items-center mt-1'>
-                                        <img
-                                            src='https://mdbootstrap.com/img/new/avatars/8.jpg'
-                                            alt=''
-                                            style={{ width: '45px', height: '45px' }}
-                                            className="rounded-circle"
-                                        />
-                                        <div className='ms-3'>
-                                            <p className='mb-2'>Hana Lee</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p className='mt-2'>May@gmail.com</p>
-                                </td>
-                                <td>
-                                    <p className='mt-2'>User</p>
-                                </td>
-                                <td >
-                                    <div className={cx('status', 'badge-soft-success', 'mt-3')}>
-                                        <span className="fw-400">Active</span>
-                                        <span className="ms-1 fas fa-check"></span>
-                                    </div>
-                                </td>
-                            </tr>
                         </tbody>
                     </Table>
                 </div>
