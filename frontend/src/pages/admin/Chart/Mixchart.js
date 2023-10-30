@@ -4,9 +4,9 @@ import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 Chart.register(CategoryScale);
 
-const MixChart = () => {
+const MixChart = ({ratingCategory}) => {
     const data = {
-        labels: ["Vegetarian", "Seafood", "Poultry", "Dessert", "Pork", "Beef"],
+        labels: ratingCategory.category,
         datasets: [
             {
                 type: 'line', // Loại biểu đồ đường
@@ -14,13 +14,21 @@ const MixChart = () => {
                 borderColor: 'red',
                 borderWidth: 2,
                 fill: false,
-                data: [10, 15, 20, 18, 25, 3],
+                data: ratingCategory.count,
+            }, {
+                type: 'line', // Loại biểu đồ đường
+                label: 'Average rating',
+                borderColor: 'blue',
+                borderWidth: 2,
+                fill: false,
+                data: ratingCategory.avgRating,
+                yz: 'right'
             },
             {
                 type: 'bar', // Loại biểu đồ cột
                 label: 'Số Lượng Đánh Giá',
                 backgroundColor: 'orange',
-                data: [5, 8, 12, 10, 15, 5],
+                data: ratingCategory.rating,
             },
         ],
     };
@@ -32,6 +40,11 @@ const MixChart = () => {
             y: {
                 beginAtZero: true,
             },
+            yz:{
+                beginAtZero: true,
+                position:'right',
+                suggestedMax: 5
+            }
         },
     };
 
