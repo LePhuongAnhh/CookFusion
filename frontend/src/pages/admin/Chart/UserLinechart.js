@@ -1,27 +1,46 @@
-import * as React from 'react';
+import React,{useEffect,useState} from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
+import axios from "axios"
+import {
+  apiUrl,
+  ACCESS_TOKEN,
+  ACCOUNT_ID,
+  ROLE,
+  PROFILE_INFORMATION,
+  USERNAME
+} from "../../../constants/constants.js"
 
-const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
-const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
-const xLabels = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thur',
-    'Fri',
-    'Sat',
-    'Sun',
-];
 
 export default function UserLineChart() {
+    const xLabels = [
+        'January', 'February', 'March', 'April', 'May', 'June','July',
+         'August', 'September', 'October', 'November', 'December'
+      ];
+    const [uData,setUData] = useState([1,1,1,1,1,1,1,1,1,1,1,1])
+    const [pData,setPData] = useState([1,1,1,1,1,1,1,1,1,1,1,1])
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/admin/getUserDashboard`);
+                console.log(response.data)
+                if (response.data.success) {
+                    setUData(response.data.users.map(item => item.count))
+                    setPData(response.data.sponsors.map(item => item.count))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <LineChart
             width={450}
             height={300}
             // định nghĩa dữ liệu cho các series trên biểu đồ, bao gồm "User" và "Sponsor".
             series={[
-                { data: pData, label: 'User', id: 'userId' },
-                { data: uData, label: 'Sponsor', id: 'sponsorId' },
+                { data: uData, label: 'User', id: 'userId' },
+                { data: pData, label: 'Sponsor', id: 'sponsorId' },
             ]}
 
             // định nghĩa nhãn cho trục x.

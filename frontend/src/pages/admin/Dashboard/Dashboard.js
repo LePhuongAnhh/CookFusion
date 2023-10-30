@@ -26,6 +26,8 @@ const Dashboard = () => {
     const [totalUser, setTotalUser] = useState(0)
     const [totalArticle, setTotalArticle] = useState(0)
     const [totalRecipe, setTotalRecipe] = useState(0)
+    const [ratingCategory, setRatingCategory] = useState([])
+    const [topTrending, setTopTrending] = useState([])
     useEffect(() => {
         (async () => {
             try {
@@ -35,6 +37,8 @@ const Dashboard = () => {
                     setTotalUser(response.data.data.totalUser)
                     setTotalArticle(response.data.data.totalArticle)
                     setTotalRecipe(response.data.data.totalRecipe)
+                    setRatingCategory(response.data.rating)
+                    setTopTrending(response.data.recipes)
                 }
             } catch (error) {
                 console.log(error)
@@ -140,9 +144,10 @@ const Dashboard = () => {
                                     <h6 className={cx('mb-0')}>The chart shows the growth of the account</h6>
                                 </div>
                             </div>
-                            <div className={cx('card-body')}>
-                                <UserLineChart />
+                                <div className={cx('card-body')}>
+                                <UserLineChart/>
                             </div>
+                            
                         </div>
                     </div>
                     <div className={cx('col-lg-6')}>
@@ -170,7 +175,7 @@ const Dashboard = () => {
                             </div>
                             {/* //duoi */}
                             <div className={cx('card-body-mix')}>
-                                <MixChart />
+                                <MixChart ratingCategory={ratingCategory} />
                             </div>
                         </div>
                     </div>
@@ -181,22 +186,29 @@ const Dashboard = () => {
                                     <h6 className={cx('mb-0')}>Top trending recipe</h6>
                                 </div>
                             </div>
-                            <div className={cx('pb-0', 'card-body')}>
-                                <div className={cx('d-flex', 'align-items-center', 'mb-3', 'hover-actions-trigger')}>
-                                    <div className={cx('file-thumbnail')}>
-                                        <img src={images.Avt} />
-                                    </div>
-                                    <div className={cx('ms-3', 'flex-shrink-1', 'flex-grow-1')}>
-                                        <h6 className={cx('mb-1')}>
-                                            <Link to="#" className={cx('stretched-link', 'text-900', 'fw-semi-bold')}>Cháo Đậu Xanh</Link>
-                                        </h6>
-                                        <div className={cx('fs--1')}>
-                                            <span className={cx('fw-semi-bold')}>Antony</span>
-                                            <span className={cx('fw-medium', 'text-600', 'ms-2')}>Just Now</span>
+                            {topTrending && topTrending.map((recipe) => (
+                                recipe.ratings && (
+                                    <div className={cx('pb-0', 'card-body')}>
+                                        <div className={cx('d-flex', 'align-items-center', 'mb-3', 'hover-actions-trigger')}>
+                                            <div className={cx('file-thumbnail')}>
+                                                <img src={recipe.image} />
+                                            </div>
+                                            <div className={cx('ms-3', 'flex-shrink-1', 'flex-grow-1')}>
+                                                <h6 className={cx('mb-1')}>
+                                                    <Link to="#" className={cx('stretched-link', 'text-900', 'fw-semi-bold')}>{recipe.name}</Link>
+                                                </h6>
+                                                <span className={cx('fw-semi-bold')}>Rating:{recipe.ratings}</span>
+                                                <div className={cx('fs--1')}>
+                                                    <span className={cx('fw-semi-bold')}>{recipe.user[0].name}</span>
+                                                    <span className={cx('fw-medium', 'text-600', 'ms-2')}>Just Now</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                )
+
+                            ))}
+
                         </div>
                     </div>
                 </div>
