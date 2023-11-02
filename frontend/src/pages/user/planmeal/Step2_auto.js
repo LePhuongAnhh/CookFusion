@@ -4,17 +4,12 @@ import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-// import auto_header from "../../../image/header.png"
-// import Anything from "../../../image/sandwich.png"
-// import Paleo from "../../../image/paleo-diet.png"
-// import Veget from "../../../image/veget.png"
-// import Vegan from "../../../image/venga.png"
-// import Keto from "../../../image/ketogenic-diet.png"
-// import Medi from "../../../image/mediterranean-diet.png"
 import images from '~/assets/images'
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const Step2_auto = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [divStyles, setDivStyles] = useState({
         div1: { backgroundColor: 'initial', color: 'initial' },
         div2: { backgroundColor: 'initial', color: 'initial' },

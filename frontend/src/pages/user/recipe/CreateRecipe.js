@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 const cx = classNames.bind(styles)
 const CreateRecipe = ({ setShowCreateRecipeModal }) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const options = ["Cate 1", "Cate 2", "Cate 3"];
     const [selectedOption, setSelectedOption] = useState("");
 
@@ -28,7 +29,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             setSelectedImage(URL.createObjectURL(selectedFile));
         }
     };
-
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]); // Danh sách kết quả tìm kiếm
 

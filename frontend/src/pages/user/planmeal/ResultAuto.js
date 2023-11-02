@@ -9,9 +9,11 @@ import ShowRecipe from "../../../components/Modal/ShowRecipePlan";
 // import minh from "../../../image/article.webp"
 import ShowRecipePlan from '../../../components/Modal/ShowRecipePlan';
 import images from '~/assets/images'
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const ResultAuto = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     return (
         <div className={cx('result')}>

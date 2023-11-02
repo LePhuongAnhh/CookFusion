@@ -52,12 +52,17 @@ const LoginForm = () => {
             console.log("hel", response.data.success);
             if (response.data.success) {
                 console.log(response.data);
-                alert("Login thành công");
-                // localStorage.setItem(USERNAME, response.data.account.username);
+                localStorage.setItem(USERNAME, response.data.account.username);
+                localStorage.setItem(ACCOUNT_ID, response.data.account._id)
                 localStorage.setItem(ACCESS_TOKEN, response.data.token);
-                // localStorage.setItem(ACCOUNT_ID, response.data.account._id);
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
-                navigate('/homepage');
+                localStorage.setItem(ROLE, response.data.account.role);
+                const role = response.data.account.role
+                if (role === "653b77c56139d7a2604cedb9") { //admin
+                    navigate('/homepage');
+                } else if (role === '653b77c46139d7a2604cedb5') {
+                    navigate("dashboard");
+                }
             }
         } catch (error) {
             console.log(error.response.data.message)

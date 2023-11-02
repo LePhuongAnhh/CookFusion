@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom'
 import Navigation from "../../../components/Layout/DefaultLayout/Header/Navigation";
 import { Helmet } from "react-helmet"
 import images from '~/assets/images'
-import { apiUrl } from "~/constants/constants";
+import { ACCESS_TOKEN, apiUrl } from "~/constants/constants";
 import axios from "axios";
 
 
 const cx = classNames.bind(styles)
 function DetailRecipe({ match }) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+
     const [recipe, setRecipe] = useState(null);
 
     const scrollingImage = document.querySelector('.detail_left_gird');
@@ -29,24 +31,7 @@ function DetailRecipe({ match }) {
         });
     }
 
-    // useEffect(() => {
-    //     const recipeId = match.params.id; // Lấy recipeId từ URL
-    //     // Gọi API để lấy thông tin chi tiết công thức nấu ăn dựa trên recipeId
-    //     axios.get(`${apiUrl}/recipe/${recipeId}`)
-    //         .then((response) => {
-    //             setRecipe(response.data);
-    //             alert("thanh cong r")
-    //         })
-    //         .catch((error) => {
-    //             console.error('Lỗi khi tải thông tin công thức nấu ăn', error);
-    //             alert('k lay dc du lieu')
-    //         });
-    // }, [match.params.id]);
 
-    // if (!recipe) {
-    //     return <div>Loading...</div>;
-
-    // }
 
     return (
         <>

@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom'
 import styles from './RecipeForm.module.scss'
 import classNames from 'classnames/bind'
-// import Recipe from "../../../image/recipe.webp"
-// import vegetable from "../../../image/vegetable.jpg"
-// import stars from "../../../image/star1.png"
+import { ACCESS_TOKEN } from '~/constants/constants'
 import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
 const RecipeForm = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <>
             <div className={cx('blog_card')}>

@@ -18,6 +18,9 @@ import DeleteBlog from "./DeleteBlog"
 import CommentBlog from "./CommentBlog"
 import CreateBlog from "./CreateBlog"
 import UpdateBlog from "./UpdateBlog";
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const BlogForm = ({ }) => {
@@ -41,11 +44,11 @@ const BlogForm = ({ }) => {
     //DELETE IDEA
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [articleIdToDelete, setArticleIdToDelete] = useState(null);
-
     const handleDeleteIconClick = (articleId) => {
         setArticleIdToDelete(articleId);
         setShowDeleteModal(true);
     };
+    const [changeArticle, setChangeArticle] = useState(null)
 
     //DETAIL IDEA 
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
@@ -55,8 +58,26 @@ const BlogForm = ({ }) => {
         setSelectedArticleForComment(selectedPost); // Lưu thông tin bài viết được chọn
         setShowCommentBlogModal(true); // Hiển thị modal CommentBlog
     };
-
-
+    const handleAddState = (_id) => {
+        const state = { Article_id: _id, state: 'heart', Account_id: authorIdToDisplay }
+        setChangeArticle(_id)
+        socket.emit('setheart', state)
+    }
+    const handleUnState = (state) => {
+        setChangeArticle(state.Article_id)
+        socket.emit('setheart', state)
+    }
+    const handleReport = async(_id) => {
+        try{
+            await axios.get(`${apiUrl}/report/article/${_id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+        }catch(error){
+            console.log(error)
+        }
+    }
     const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
     // const [selectedArticle, setSelectedArticle] = useState(null);
     useEffect(() => {
@@ -67,6 +88,7 @@ const BlogForm = ({ }) => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
+                setChangeArticle(null)
                 if (response) {
                     const articlesData = response.data.data.map(article => {
                         const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
@@ -84,6 +106,7 @@ const BlogForm = ({ }) => {
                     const sortedArticles = filtered.slice().sort((a, b) => new Date(b.timeUpload) - new Date(a.timeUpload));
                     const reversedArticles = sortedArticles.reverse();
                     setFilteredArticles(reversedArticles);
+
                 }
                 console.log('Dữ liệu bài đăng: ', response.data.data);
             } catch (error) {
@@ -91,12 +114,26 @@ const BlogForm = ({ }) => {
             }
         };
         fetchData();
-    }, []);
+        socket.on('error', (message) => {
+            return
+        })
+        socket.on('addheart', (state) => {
+            setChangeArticle(true)
+        })
+        socket.on('deleteheart', (state) => {
+            setChangeArticle(true)
+        })
+        return () => {
+            socket.off('error')
+            socket.off('addheart')
+            socket.off('deleteheart')
+        }
+    }, [changeArticle]);
 
     return (
         <>
             <div className={cx('post_status')}>
-                {filteredArticles.map((article,index) => (
+                {filteredArticles.map((article, index) => (
                     <li key={article._id}>
                         <div className={cx('post_status')}>
                             <div className={cx('post_hearer')}>
@@ -136,15 +173,17 @@ const BlogForm = ({ }) => {
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    { article.userUpload[0]._id === profileInformation._id && (
+                                                    {(article.userUpload[0]._id === profileInformation._id )? (
                                                         <div className={cx('dropdown_content')}>
-                                                        <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                        <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
-                                                        <Link to="#">Accuse</Link>
-                                                    </div>
-                                                    )
+                                                            <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
+                                                            <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
+                                                            <Link to="#">Accuse</Link>
+                                                        </div>
+                                                    ):<div className={cx('dropdown_content')}>
+                                                    <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
+                                                </div>
                                                     }
-                                                    
+
                                                 </div>
                                             </button>
                                         </div>
@@ -159,12 +198,12 @@ const BlogForm = ({ }) => {
                                 <div>
                                     <div className={cx('body_img')}>
                                         <div className={cx('show_img_6')}>
-                                                <div>
-                                                    {article.files[0] && article.files[0].files.map((fileInfor,index) => {
-                                                            return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
-                                                        })
-                                                    }
-                                                </div>
+                                            <div>
+                                                {article.files[0] && article.files[0].files.map((fileInfor, index) => {
+                                                    return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
+                                                })
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -174,18 +213,35 @@ const BlogForm = ({ }) => {
                         <div className={cx('posts_footer')}>
                             <div className={cx('total_like')}>
                                 <Link to="#" className={cx('count_like')}>
-                                    342
-                                    likes
+                                    {article.states.length} <span> loves  </span>
+                                </Link>
+                                <Link to="#" className={cx('count_like')}>
+                                    {article.comment.length} <span>   comments </span>
                                 </Link>
                             </div>
                             <div className={cx('emotion')}>
                                 <div className={cx('emotion_item')}>
-                                    <div className={cx('emotion_gird')}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                        </svg>
-                                        <span className={cx('like_icon')}>Like</span>
-                                    </div>
+                                    {article.states && (
+                                        (article.states.find(state => state.Account_id === authorIdToDisplay)) ? (
+                                            article.states.map((state) => (
+                                                state.Account_id == authorIdToDisplay && (
+                                                    <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                        </svg>
+                                                        <span className={cx('like_icon')}>Love</span>
+                                                    </div>
+                                                )
+                                            ))
+                                        ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(article._id)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                            </svg>
+                                            <span className={cx('like_icon')}>Love</span>
+                                        </div>
+                                    )}
+
+
                                 </div>
                                 <div className={cx('emotion_item')}>
                                     <div className={cx('emotion_gird')} onClick={() => handleCommentClick(article)}>
@@ -205,27 +261,34 @@ const BlogForm = ({ }) => {
                                 </div>
                             </div>
                             <div>
-                                <div className={cx('read_comment')}>
-                                    <Link to="#">
-                                        <div className={cx('avatar_comment')}>
-                                            <img className={cx('circle_avt')} src={images.Avt} />
-                                        </div>
-                                    </Link>
-                                    <div className={cx('read_cmt')}>
-                                        <p className={cx('content_cmt')}>
-                                            <Link className={cx('name_account_cmt')}>
-                                                John
-                                            </Link>
-                                            <span className={cx('view_cmt')}>
-                                                She starred as Jane Porter, Tanya Vanderpoel in for which nominated for a Teen Choice Award, and many other awards.
-                                            </span>
-                                        </p>
-                                        <div className={cx('reply_comment')}>
-                                            <Link to="#"> Like  </Link> •
-                                            <Link to="#"> Reply  </Link>• 3hs
-                                        </div>
-                                    </div>
-                                </div>
+                                {
+                                    article.comment && article.comment.map((comment, index) => (
+                                        index < 3 && (
+                                            <div className={cx('read_comment')}>
+                                                <Link to="#">
+                                                    <div className={cx('avatar_comment')}>
+                                                        <img className={cx('circle_avt')} src={comment.usercomment.avatar} />
+                                                    </div>
+                                                </Link>
+                                                <div className={cx('read_cmt')}>
+                                                    <p className={cx('content_cmt')}>
+                                                        <Link className={cx('name_account_cmt')}>
+                                                            {comment.usercomment.name}
+                                                        </Link>
+                                                        <span className={cx('view_cmt')}>
+                                                            {comment.comment}
+                                                        </span><span>  {comment.timeComment}</span>
+                                                    </p>
+                                                    {/* <div className={cx('reply_comment')}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• 3hs
+                                                    </div> */}
+                                                </div>
+                                            </div>
+                                        )
+                                    ))
+                                }
+
                             </div>
                         </div>
                     </li>

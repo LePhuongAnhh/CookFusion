@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
@@ -15,28 +14,25 @@ import axios from "axios"
 import {
     apiUrl,
     ACCESS_TOKEN,
-    ACCOUNT_ID,
-    ROLE,
-    PROFILE_INFORMATION,
-    USERNAME
-} from "../../../constants/constants.js"
+    PROFILE_INFORMATION
+} from "~/constants/constants"
+const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
 const cx = classNames.bind(styles)
 const Dashboard = () => {
-    const [totalUser, setTotalUser] = useState(0)
-    const [totalArticle, setTotalArticle] = useState(0)
-    const [totalRecipe, setTotalRecipe] = useState(0)
+    const [ratingDev, setRatingDev] = useState({ ratingDevUser: { currentMonth: 1, rate: 0 }, ratingDevRecipe: { currentMonth: 1, rate: 0 }, ratingDevArticle: { currentMonth: 1, rate: 0 } })
     const [ratingCategory, setRatingCategory] = useState([])
     const [topTrending, setTopTrending] = useState([])
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getDashboard`);
+                const response = await axios.get(`${apiUrl}/admin/getDashboard`, {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
                 console.log(response.data)
                 if (response.data.success) {
-                    setTotalUser(response.data.data.totalUser)
-                    setTotalArticle(response.data.data.totalArticle)
-                    setTotalRecipe(response.data.data.totalRecipe)
+                    setRatingDev(response.data.data)
+                    console.log(ratingDev)
                     setRatingCategory(response.data.rating)
                     setTopTrending(response.data.recipes)
                 }
@@ -48,7 +44,9 @@ const Dashboard = () => {
     }, [])
     return (
         <>
+
             < div className={cx('row-dashboard')} >
+
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
                         <h4 className={cx('page_title')}>Dashboard</h4>
@@ -57,25 +55,31 @@ const Dashboard = () => {
             </ div>
             <div div className={cx('content')} >
                 <div className={cx('g-3', 'mb-3', 'row')}>
-                    <div className={cx('col-xxl-3', 'col-md-6')}>
-                        <div className={cx('h-md-100', 'card')}>
-                            <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
-                            </div>
-                            <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
-                                <div className={cx('border-left')}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-                                    </svg>
+                    {ratingDev && (
+                        <div className={cx('col-xxl-3', 'col-md-6')}>
+                            <div className={cx('h-md-100', 'card')}>
+                                <div className={cx('pd-0', 'card-header')}>
+                                    <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
                                 </div>
-                                <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')} >{totalUser}
-                                    </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
+                                <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
+                                    <div className={cx('border-left')}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                        </svg>
+                                    </div>
+                                    <div className={cx('border-right')}>
+                                        <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>
+                                            {ratingDev.ratingDevUser && ratingDev.ratingDevUser.currentMonth}
+                                        </h2>
+                                        <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>
+                                            {ratingDev.ratingDevUser && ratingDev.ratingDevUser.rate}%
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
+
                     <div className={cx('col-xxl-3', 'col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
@@ -87,11 +91,11 @@ const Dashboard = () => {
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                     </svg>
                                 </div>
-                                <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{totalRecipe}
+                                {/* <div className={cx('border-right')}>
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{ratingDev.ratingDevRecipe.currentMonth}
                                     </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+3%</div>
-                                </div>
+                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>{ratingDev.ratingDevRecipe.rate}%</div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -106,11 +110,11 @@ const Dashboard = () => {
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                     </svg>
                                 </div>
-                                <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{totalArticle}
+                                {/* <div className={cx('border-right')}>
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{ratingDev.ratingDevArticle.currentMonth}
                                     </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>-7%</div>
-                                </div>
+                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>{ratingDev.ratingDevArticle.rate}%</div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -125,11 +129,11 @@ const Dashboard = () => {
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                     </svg>
                                 </div>
-                                <div className={cx('border-right')}>
+                                {/* <div className={cx('border-right')}>
                                     <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
                                     </h2>
                                     <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+12%</div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -144,10 +148,10 @@ const Dashboard = () => {
                                     <h6 className={cx('mb-0')}>The chart shows the growth of the account</h6>
                                 </div>
                             </div>
-                                <div className={cx('card-body')}>
-                                <UserLineChart/>
+                            <div className={cx('card-body')}>
+                                <UserLineChart />
                             </div>
-                            
+
                         </div>
                     </div>
                     <div className={cx('col-lg-6')}>

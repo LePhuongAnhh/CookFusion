@@ -11,9 +11,11 @@ import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigati
 // import manual from "../../../image/auto.png"
 // import auto from "../../../image/manual.png"
 import images from '~/assets/images'
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const PlanMeal = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <div className={cx('plan_meal')}>
             <Navigation />

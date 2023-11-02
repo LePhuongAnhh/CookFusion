@@ -4,7 +4,7 @@ import { CategoryScale } from 'chart.js';
 import Chart from 'chart.js/auto';
 Chart.register(CategoryScale);
 
-const MixChart = ({ratingCategory}) => {
+const MixChart = ({ ratingCategory }) => {
     const data = {
         labels: ratingCategory.category,
         datasets: [
@@ -40,9 +40,9 @@ const MixChart = ({ratingCategory}) => {
             y: {
                 beginAtZero: true,
             },
-            yz:{
+            yz: {
                 beginAtZero: true,
-                position:'right',
+                position: 'right',
                 suggestedMax: 5
             }
         },

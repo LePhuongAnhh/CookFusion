@@ -10,9 +10,12 @@ import images from '~/assets/images'
 
 import React, { useEffect, useState } from 'react';
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
+import { ACCESS_TOKEN } from '~/constants/constants'
 
 const cx = classNames.bind(styles)
 const Recipe = () => {
+
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showCreateRecipeModal, setShowCreateRecipeModal] = useState(false);
 
     return (

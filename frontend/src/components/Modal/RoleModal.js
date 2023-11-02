@@ -3,9 +3,11 @@ import styles from './RoleModal.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom';
 import images from '~/assets/images'
+import { ACCESS_TOKEN } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const RoleModal = ({ setShowRoleModal }) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [selectedOption, setSelectedOption] = useState('');
 
     const handleRoleChange = (event) => {

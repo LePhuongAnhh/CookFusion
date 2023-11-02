@@ -18,6 +18,7 @@ import {
 } from "../../../constants/constants.js"
 const cx = classNames.bind(styles)
 function Category() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
     const [showUpdateCategoryModal, setShowUpdateCategoryModal] = useState(false);
     const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
@@ -26,7 +27,11 @@ function Category() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getAllCategory`);
+                const response = await axios.get(`${apiUrl}/admin/getAllCategory`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
                 console.log(response.data)
                 if (response.data.success) {
                     setTotal(response.data.categories.length)

@@ -1,8 +1,10 @@
+import { ACCESS_TOKEN } from '~/constants/constants'
 import styles from './DeleteBlog.module.scss'
 import classNames from 'classnames/bind'
 
 const cx = classNames.bind(styles)
 const DeleteCategory = ({ setShowDeleteCategoryModal }) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <div className={cx('modalDeleteIdea')}>
             < div className={cx('modalContentDeleteIdea')}>

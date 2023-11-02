@@ -20,12 +20,17 @@ const cx = classNames.bind(styles)
 
 
 function AccountManagement() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [total, setTotal] = useState(0)
     const [list, setList] = useState([])
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getAllAccount`);
+                const response = await axios.get(`${apiUrl}/admin/getAllAccount`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                });
                 console.log(response.data)
                 if (response.data.success) {
                     setTotal(response.data.listUsers.length)
@@ -37,16 +42,16 @@ function AccountManagement() {
         }
         )()
     }, [setList])
-    const onClickChangeActive = async (index) =>{
-        try{
+    const onClickChangeActive = async (index) => {
+        try {
             const updatedList = [...list];
-            const res = await axios.patch(`${apiUrl}/admin/changeActiveState`,{active:list[index].active,_id:list[index]._id})
+            const res = await axios.patch(`${apiUrl}/admin/changeActiveState`, { active: list[index].active, _id: list[index]._id })
             console.log(res.data)
             if (res.data.success) {
                 updatedList[index].active = !updatedList[index].active
                 setList(updatedList)
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -66,7 +71,7 @@ function AccountManagement() {
                                 <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
-                                <th scope="col">Active</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,19 +100,19 @@ function AccountManagement() {
                                         <p className='mt-2'>User</p>
                                     </td>
                                     <td >
-                                         {(item.active == true)? (
+                                        {(item.active == true) ? (
                                             <div className={cx('status', 'badge-soft-success', 'mt-3')}>
                                                 <button onClick={() => onClickChangeActive(index)} className="fw-400">Active</button>
                                                 <span className="ms-1 fas fa-check"></span>
                                             </div>
-                                            ):(
-                                                <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
+                                        ) : (
+                                            <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
                                                 <button onClick={() => onClickChangeActive(index)} className="fw-400">Inactive</button>
                                                 <span className="ms-1 fas fa-check"></span>
-                                            </div> 
-                                            )
-                                         }
-                                        
+                                            </div>
+                                        )
+                                        }
+
                                     </td>
                                 </tr>
                             ))}

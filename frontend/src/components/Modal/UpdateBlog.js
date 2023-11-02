@@ -59,8 +59,8 @@ const UpdateBlog = ({ setShowUpdateBlogModal, updateNewArticle }) => {
             try {
                 const response = await axios.post(`${apiUrl}article/addNew`, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data', // Đặt header cho tệp tin đính kèm
-                    },
+                        Authorization: `Bearer ${accessToken}`
+                    }
                 });
                 if (response.data.success) {
                     console.log('Bài viết đã được tạo thành công.');

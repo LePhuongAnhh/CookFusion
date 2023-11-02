@@ -21,19 +21,31 @@ import {
 const cx = classNames.bind(styles)
 
 function ArticleManagement() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showDeletePostModal, setShowDeletePostModal] = useState(false);
     const [totalPost, setTotalPost] = useState(0);
     const [listPost, setListPost] = useState([]);
     const [postId, setPostId] = useState(null);
+    const [report, setReport] = useState([])
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getArticlesInformation`);
+                const response = await axios.get(`${apiUrl}/admin/getArticlesInformation`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                const report = await axios.get(`${apiUrl}/report/getArticleReport`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
                 console.log(response.data)
                 if (response.data.success) {
                     setTotalPost(response.data.articles.length)
                     setListPost(response.data.articles)
                 }
+                if (report.data.success) setReport(report.data.data)
             } catch (error) {
                 console.log(error)
             }
@@ -125,43 +137,49 @@ function ArticleManagement() {
                         <thead>
                             <tr className={cx('header')}>
                                 <th scope='col'>Annunciator</th>
-                                <th scope='col'>Report content</th>
+                                {/* <th scope='col'>Report content</th> */}
                                 <th scope='col'>Article</th>
                                 <th scope='col'>Author</th>
-                                <th scope='col'>Reject</th>
+                                <th scope='col'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className={cx("hover-actions-trigger")}>
-                                <td>
-                                    <div className='d-flex align-items-center mt-1'>
-                                        <img
-                                            src='https://mdbootstrap.com/img/new/avatars/8.jpg'
-                                            alt=''
-                                            style={{ width: '45px', height: '45px' }}
-                                            className="rounded-circle"
-                                        />
-                                        <div className='ms-3'>
-                                            <p className='mb-2'>Hana Lee</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>Tôi thấy bài viết này có một số nọi dung không đúng như các nguyên liệu chưa đc xác thực rõ ràng là có ảnh hưởng đến người mắc bệnh tiểu đường hay không. </p>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>Những món ăn tốt cho người mắc bệnh tiểu đường</p>
-                                </td>
-                                <td>
-                                    <p className={cx('mt-2')}>Lee Anh</p>
-                                </td>
-                                <td >
-                                    <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
-                                        <span className="fw-400">Inactive</span>
-                                        <span className="ms-1 fas fa-check"></span>
-                                    </div>
-                                </td>
-                            </tr>
+                            {report && report.map((report) => (
+                                report.userPost.length > 0 && report.article.length > 0 && (
+                                    <tr className={cx("hover-actions-trigger")}>
+                                        <td>
+                                            <div className='d-flex align-items-center mt-1'>
+                                                <img
+                                                    src={report.userReport[0].avatar}
+                                                    alt=''
+                                                    style={{ width: '45px', height: '45px' }}
+                                                    className="rounded-circle"
+                                                />
+                                                <div className='ms-3'>
+                                                    <p className='mb-2'>{report.userReport[0].name}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {/* <td>
+                                        <p className={cx('mt-2')}>Tôi thấy bài viết này có một số nọi dung không đúng như các nguyên liệu chưa đc xác thực rõ ràng là có ảnh hưởng đến người mắc bệnh tiểu đường hay không. </p>
+                                    </td> */}
+                                        <td>
+                                            <p className={cx('mt-2')}>{report.article[0].title}</p>
+                                        </td>
+                                        <td>
+                                            <p className={cx('mt-2')}>{report.userPost[0].name}</p>
+                                        </td>
+                                        <td >
+                                            <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
+                                                <span className="fw-400">Censored</span>
+                                                <span className="ms-1 fas fa-check"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+
+                            ))}
+
                         </tbody>
                     </Table>
                 </div>

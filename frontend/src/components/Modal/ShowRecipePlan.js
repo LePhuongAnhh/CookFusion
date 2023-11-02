@@ -4,11 +4,10 @@ import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import images from '~/assets/images'
-// import oclock from "../../../image/nine-oclock-on-circular-clock.png"
-
-// import minh from "../../../image/article.webp"
+import { ACCESS_TOKEN } from "~/constants/constants";
 const cx = classNames.bind(styles)
 const ShowRecipePlan = ({ setShowDetailRecipeModal }) => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>

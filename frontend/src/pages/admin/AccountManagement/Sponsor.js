@@ -6,13 +6,23 @@ import styles from "./AccountManagement.module.scss"
 import classNames from 'classnames/bind'
 import images from '~/assets/images'
 import DeleteAccount from '~/components/Modal/DeleteAccount';
+import axios from "axios"
+import {
+    apiUrl,
+    ACCESS_TOKEN,
+    PROFILE_INFORMATION
+} from "~/constants/constants"
+
 
 // import { DataGrid } from '@mui/x-data-grid';
 import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { DataGridPremium, GridToolbar } from '@mui/x-data-grid-premium';
 import Box from '@mui/material/Box';
+
+const accessToken = localStorage.getItem(ACCESS_TOKEN);
 // import { useDemoData } from '@mui/x-data-grid-generator';
-const rows = [
+
+const row = [
     {
         id: 1,
         path: ['Account1', 'lần 1'],
@@ -72,22 +82,22 @@ const rows = [
 ]
 const columns = [
     {
-        field: 'Type',
+        field: 'Package',
         Type: 'singleSelect',
-        valueOptions: ['Community', 'Pro', 'Premium'],
+        valueOptions: ['Beginner', 'Middle', 'Master'],
     },
     {
-        field: 'Renewal',
+        field: 'from',
         // Type: 'boolean',
     },
     {
-        field: 'Expiration',
+        field: 'to',
         // type: 'date'
     },
     {
         field: 'Price',
         Type: 'singleSelect',
-        valueOptions: ['$24', '$54', '$30'],
+        valueOptions: ['$4.99', '$9.99', '$19.99'],
     }
 ];
 
@@ -135,7 +145,41 @@ const excelOptions = { exceljsPreProcess, exceljsPostProcess };
 
 const cx = classNames.bind(styles)
 function Sponsor() {
-    
+    const [rows, setRow] = useState(row)
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/admin/getSponsorList`, {
+                    headers: { Authorization: `Bearer ${accessToken}` }
+                });
+                console.log(response.data)
+                if (response.data.success) {
+                    let rowInput = []
+                    let id = 1;
+                    response.data.list.map((data) => {
+                        let count = 1;
+                        if (data.packages.length > 0) data.packages.map((pk) => {
+                            const rowdata = {
+                                id: id,
+                                path: [data.name, count],
+                                Package: pk.package.name,
+                                from: pk.from, to: pk.to,
+                                Price: pk.cost.payment
+                            }
+                            rowInput[rowInput.length] = rowdata
+                            id++
+                            count++
+                        })
+                    })
+                    console.log(rowInput)
+                    setRow(rowInput)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <div className={cx('container_fluid')}>
             <div className={cx('row')}>

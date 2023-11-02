@@ -3,9 +3,11 @@ import classNames from 'classnames/bind'
 import React, { useState, Component } from 'react';
 import { Link } from 'react-router-dom'
 import images from '~/assets/images'
+import { ACCESS_TOKEN } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 function ChangePassWord({ setShowChangePassWordModal }) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>

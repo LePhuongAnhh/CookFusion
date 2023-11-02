@@ -7,9 +7,11 @@ import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import Button_save from '~/components/Botton/Button_save';
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const HomepageForm = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <body>
             <div>

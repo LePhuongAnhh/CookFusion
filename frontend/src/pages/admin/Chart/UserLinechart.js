@@ -1,27 +1,32 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import axios from "axios"
 import {
-  apiUrl,
-  ACCESS_TOKEN,
-  ACCOUNT_ID,
-  ROLE,
-  PROFILE_INFORMATION,
-  USERNAME
+    apiUrl,
+    ACCESS_TOKEN,
+    ACCOUNT_ID,
+    ROLE,
+    PROFILE_INFORMATION,
+    USERNAME
 } from "../../../constants/constants.js"
 
 
 export default function UserLineChart() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const xLabels = [
-        'January', 'February', 'March', 'April', 'May', 'June','July',
-         'August', 'September', 'October', 'November', 'December'
-      ];
-    const [uData,setUData] = useState([1,1,1,1,1,1,1,1,1,1,1,1])
-    const [pData,setPData] = useState([1,1,1,1,1,1,1,1,1,1,1,1])
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+    ];
+    const [uData, setUData] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    const [pData, setPData] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getUserDashboard`);
+                const response = await axios.get(`${apiUrl}/admin/getUserDashboard`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
                 console.log(response.data)
                 if (response.data.success) {
                     setUData(response.data.users.map(item => item.count))
@@ -35,7 +40,7 @@ export default function UserLineChart() {
     }, [])
     return (
         <LineChart
-            width={450}
+            width={890}
             height={300}
             // định nghĩa dữ liệu cho các series trên biểu đồ, bao gồm "User" và "Sponsor".
             series={[

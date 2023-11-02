@@ -4,15 +4,12 @@ import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-// import auto_header from "../../../image/header.png"
-// import Male from "../../../image/man.png"
-// import Male_change from "../../../image/man_change.png"
-// import Female from "../../../image/business-woman.png"
-// import Female_change from "../../../image/female_change.png"
 import images from '~/assets/images'
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const AutoPlan = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [selectedOptionCalorie, setSelectedOptionCalorie] = useState('option1');
     const handleSelectChangeCalorie = (event) => {
         setSelectedOptionCalorie(event.target.value);

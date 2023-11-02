@@ -5,9 +5,11 @@ import { useDropzone } from 'react-dropzone';
 import { Link } from 'react-router-dom'
 import { Form, Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import images from '~/assets/images'
+import { ACCESS_TOKEN } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 function CreateCategory({ setShowCreateCategoryModal }) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const onDrop = useCallback((acceptedFiles) => {
         // Xử lý tệp đã được chọn ở đây, ví dụ: tải lên máy chủ hoặc hiển thị trước tệp.
 

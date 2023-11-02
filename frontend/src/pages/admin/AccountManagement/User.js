@@ -74,12 +74,17 @@ const columns = [
 ];
 const cx = classNames.bind(styles)
 function User() {
+  const accessToken = localStorage.getItem(ACCESS_TOKEN);
   const [total, setTotal] = useState(0)
   const [list, setList] = useState([])
   useEffect(() => {
       (async () => {
           try {
-              const response = await axios.get(`${apiUrl}/admin/getUsersInformation`);
+              const response = await axios.get(`${apiUrl}/admin/getUsersInformation`,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
               console.log(response.data)
               if (response.data.success) {
                   setTotal(response.data.listUsers.length)

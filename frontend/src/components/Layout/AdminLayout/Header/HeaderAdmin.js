@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom'
+import { apiUrl, ACCESS_TOKEN, PROFILE_INFORMATION, ACCOUNT_ID, ROLE } from '~/constants/constants';
 import styles from "./HeaderAdmin.module.scss"
+import { useNavigate } from "react-router-dom"
 import classNames from 'classnames/bind'
 import { useTranslation } from 'react-i18next';
 import ShowInfor from './ShowInfor';
@@ -9,13 +11,16 @@ import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
 function HeaderAdmin() {
+    const navigate = useNavigate();
+    const logout = (event) => {
+        event.preventDefault()
+        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(ACCOUNT_ID)
+        localStorage.removeItem(ROLE)
+        localStorage.removeItem(PROFILE_INFORMATION)
+        navigate("/")
+    }
     const { t, i18n } = useTranslation();
-
-    //show thông báo
-    // const [isNotificationVisible, setNotificationVisibility] = useState(false);
-    // const handleNotificationClick = () => {
-    //     setNotificationVisibility(!isNotificationVisible);
-    // };
 
     // dropdown account
     const [isDropdownOpenAccount, setIsDropdownOpenAccount] = useState(false);
@@ -39,17 +44,18 @@ function HeaderAdmin() {
                             <i className="bi bi-brightness-high-fill"></i>
                         </Link>
                     </li>
-                    <li className={cx('notification_list')}>
-                        <li className={cx('notification_list')}>
-                            <Link to="#" className={cx('nav_link')}>
-                                <i className="bi bi-brightness-high-fill"></i>
-                            </Link>
-                        </li>
-                    </li>
+
                     <li className={cx('notification_list')}>
                         {/* thông báo  */}
                         <ShowInfor />
                     </li >
+                    <li className={cx('notification_list')}>
+                        <li onClick={logout} className={cx('notification_list')}>
+                            <Link to="#" className={cx('nav_link')}>
+                                <i class="bi bi-door-closed"></i>
+                            </Link>
+                        </li>
+                    </li>
                     <li className={cx('notification_list')}>
                         <a className={cx('nav_link_dropdown_toggle')} data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <img src={images.phanh} alt="user-image" className={cx('rounded_circle')} />
@@ -154,35 +160,39 @@ function HeaderAdmin() {
                                     </ul>
                                 )}
                             </li>
-                            <li  >
-                                <Link to="/postManagement" className={cx('active')} onClick={toggleDropdownPost}>
-                                    <i class="bi bi-people"></i>
-                                    <span>Post</span>
-                                    <div className={cx("icon-dropdown")}>
-                                        <i className={`${isDropdownOpenPost ? 'bi bi-chevron-down' : 'bi bi-chevron-right'}`}></i>
-                                    </div>
+                            <li >
+                                <Link to="/articlemanagement" className={cx('active')}>
+                                    <i className="bi bi-gear"></i>
+                                    <span>Article </span>
+                                    <span className={cx('menu_arrow')}></span>
                                 </Link>
-                                {isDropdownOpenPost && (
-                                    <ul className={cx("dropdown-content")}>
-                                        <li>
-                                            <Link to="/articlemanagement">Article</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/recipemanagement">Recipe</Link>
-                                        </li>
-                                    </ul>
-                                )}
                             </li>
                             <li  >
-                                <Link to="/category" className={cx('active')}>
+                                <Link to="/recipemanagement" className={cx('active')} onClick={toggleDropdownAccount}>
                                     <i class="bi bi-people"></i>
-                                    <span>Category</span>
+                                    <span>Recipe</span>
+                                    <div className={cx("icon-dropdown")}>
+                                        <i className={`${isDropdownOpenAccount ? 'bi bi-chevron-down' : 'bi bi-chevron-right'}`}></i>
+                                    </div>
                                 </Link>
+                                {isDropdownOpenAccount && (
+                                    <ul className={cx("dropdown-content")}>
+                                        <li>
+                                            <Link to="/category">Category</Link>
+                                        </li>                                        
+                                    </ul>
+                                )}
                             </li>
                             <li >
                                 <Link to="/planmealmanagement" className={cx('active')}>
                                     <i class="bi bi-gear"></i>
                                     <span>Plan Meal </span>
+                                </Link>
+                            </li>
+                            <li >
+                                <Link to="/packageAds" className={cx('active')}>
+                                    <i class="bi bi-gear"></i>
+                                    <span>Package Ads </span>
                                 </Link>
                             </li>
                         </ul>
