@@ -135,14 +135,14 @@ function Category() {
                                             <td>
                                                 <div className={cx('c-flex')}>
                                                     <div className={cx('flex-mod')}>
-                                                        {category.top.length > 0 && category.top.map((user)=>(
+                                                        {category.top.length > 0 && category.top.map((user) => (
                                                             <Link to='#'>
-                                                            <img
-                                                                src={user.avatar} title= {user.count + " posts"}
-                                                                className={cx("c-rounded-circle")}
-                                                            />
-                                                        </Link>
-                                                        )) }
+                                                                <img
+                                                                    src={user.avatar} title={user.count + " posts"}
+                                                                    className={cx("c-rounded-circle")}
+                                                                />
+                                                            </Link>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </td>

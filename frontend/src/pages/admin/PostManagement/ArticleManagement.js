@@ -8,6 +8,7 @@ import DeletePost from '~/components/Modal/DeletePost';
 import { Form, Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import axios from "axios"
+import CensoredModal from '~/components/Modal/CensoredModal';
 import {
     apiUrl,
     ACCESS_TOKEN,
@@ -23,6 +24,7 @@ const cx = classNames.bind(styles)
 function ArticleManagement() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showDeletePostModal, setShowDeletePostModal] = useState(false);
+    const [showCensoredModal, setShowCensoredModal] = useState(false);
     const [totalPost, setTotalPost] = useState(0);
     const [listPost, setListPost] = useState([]);
     const [postId, setPostId] = useState(null);
@@ -140,7 +142,7 @@ function ArticleManagement() {
                                 {/* <th scope='col'>Report content</th> */}
                                 <th scope='col'>Article</th>
                                 <th scope='col'>Author</th>
-                                <th scope='col'>Action</th>
+                                <th scope='col'></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -169,7 +171,7 @@ function ArticleManagement() {
                                         <td>
                                             <p className={cx('mt-2')}>{report.userPost[0].name}</p>
                                         </td>
-                                        <td >
+                                        <td onClick={() => setShowCensoredModal(true)} >
                                             <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
                                                 <span className="fw-400">Censored</span>
                                                 <span className="ms-1 fas fa-check"></span>
@@ -185,7 +187,8 @@ function ArticleManagement() {
                 </div>
             </div>
 
-
+            {showCensoredModal && < CensoredModal
+                setShowCensoredModal={setShowCensoredModal} />}
 
             {showDeletePostModal && <DeletePost
                 setShowDeletePostModal={setShowDeletePostModal}
