@@ -4,7 +4,6 @@ import classNames from 'classnames/bind'
 import BlogForm from "./BlogForm"
 import images from '~/assets/images'
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
-
 import { Link } from 'react-router-dom'
 import DeleteBlog from "./DeleteBlog"
 
@@ -26,7 +25,6 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                     </div>
                 </div>
 
-
                 <div className={cx('post_status')}>
                     <li >
                         <div className={cx('post_status')}>
@@ -38,6 +36,8 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                                                 <div className={cx('header_avatar')}>
                                                     <img
                                                         className={cx('circle_avt1')}
+                                                        src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar"
+
                                                     // src={article.userUpload[0].avatar}
                                                     />
                                                     {/* {
