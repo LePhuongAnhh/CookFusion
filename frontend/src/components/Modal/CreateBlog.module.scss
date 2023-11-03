@@ -271,12 +271,11 @@ h5 {
     border-radius: 7px;
 }
 .body-cate {
-    padding: 3rem 2rem;
+    padding: 3rem 2rem 0;
     font-size: 16px;
 }
 .dropzone {
     position: relative;
-    background-color: #f5f7fa;
     border: 0;
     border-radius: 0.5rem;
     min-height: auto;
@@ -284,23 +283,29 @@ h5 {
     cursor: pointer;
 }
 .dz-message {
-    padding: 3rem 0rem;
+    padding: 1rem 0rem;
     border: 1px dashed #cbd0dd;
     border-radius: 0.5rem;
+    background-color: #f5f7fa;
+    margin-top: 20px;
 }
 .dz-message-text {
     color: #313743;
 }
 .btn-submit {
     text-align: center;
-    width: 135px;
     justify-content: center;
-    margin: 20px auto 0;
+    margin: 18px auto 0;
     display: flex;
     font-size: 16px;
     font-weight: 500;
+    padding: 12px 200px;
 }
 .form-text {
     font-size: 16px;
     color: #313743;
+}
+.image-select {
+    height: 300px;
+    border-radius: 5px;
 }

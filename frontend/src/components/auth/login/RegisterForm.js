@@ -102,15 +102,6 @@ const RegisterForm = () => {
         password: "",
         rePassword: ""
     })
-
-    // const handleOnChangeInput = (event, id) => {
-    //     console.log(event.target.value, id)
-    //     const value = event.target.value;
-    //     setCreateAccount((prevState) => ({
-    //         ...prevState,
-    //         [id]: value,
-    //     }));
-    // };
     const handleOnChangeInput = (event, id) => {
         const value = event.target.value;
         setCreateAccount((prevState) => ({ ...prevState, [id]: value }));

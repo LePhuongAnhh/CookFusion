@@ -1,7 +1,6 @@
 import styles from './CreateBlog.module.scss'
 import classNames from 'classnames/bind'
 import React, { useRef, useState, Component } from 'react';
-import { Link, Navigate } from 'react-router-dom'
 import images from '~/assets/images'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
@@ -90,7 +89,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
             formData.append('content', articleData.content);
             formData.append('files', articleData.files);
             formData.append('userId', userId);
-            console.log(formData)
+
             createNewArticle(articleData);
             try {
 
