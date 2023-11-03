@@ -1,21 +1,18 @@
 
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link } from 'react-router-dom'
 import styles from "./AccountManagement.module.scss"
 import classNames from 'classnames/bind'
-import axios from "axios"
+import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
+import axios from "axios";
+import { format, isValid, parseISO } from 'date-fns';
 import {
   apiUrl,
   ACCESS_TOKEN,
-  ACCOUNT_ID,
-  ROLE,
-  PROFILE_INFORMATION,
-  USERNAME
 } from "../../../constants/constants.js"
 
-import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
+
 const columns = [
   {
     field: 'No.',
@@ -29,54 +26,52 @@ const columns = [
   {
     field: 'name',
     headerName: 'Name',
-    width: 110,
-    editable: true,
+    width: 180,
   },
   {
     field: 'email',
     headerName: 'Email',
     type: 'email',
     width: 200,
-    editable: true,
   },
   {
     field: 'dob',
     headerName: 'Birthday',
-    width: 140,
-    editable: true,
+    width: 180,
+    renderCell: (params) => {
+      // Kiểm tra nếu định dạng ngày tháng hợp lệ trước khi hiển thị
+      const dobDate = parseISO(params.row.dob);
+      const isDateValid = isValid(dobDate);
+      return <div>{isDateValid ? format(dobDate, 'dd/MM/yyyy') : 'Invalid Date'}</div>;
+    },
   },
   {
     field: 'gender',
     headerName: 'Gender',
     width: 100,
-    editable: true,
   },
   {
     field: 'articles',
     headerName: 'Article',
     type: 'number',
     width: 90,
-    editable: true,
   },
   {
     field: 'recipes',
     headerName: 'Recipe',
     type: 'number',
     width: 110,
-    editable: true,
   },
   {
     field: 'planmeal',
     headerName: 'Plan meal',
     type: 'number',
     width: 130,
-    editable: true,
   },
   {
     field: 'action',
     headerName: 'Action',
     width: 100,
-    editable: true,
   },
 ];
 const cx = classNames.bind(styles)
@@ -111,8 +106,8 @@ function User() {
     <div className={cx('container_fluid')}>
       <div className={cx('row')}>
         <div className={cx('col_12')}>
-          <div className={cx('page_title_box1')}>
-            <h4 className={cx('page_title')}>Accounts: {total}</h4>
+          <div className={cx('page_title_box')}>
+            <h4 className={cx('page_title')}>The website has a total of {total} user accounts</h4>
           </div>
         </div>
       </div>
@@ -121,7 +116,7 @@ function User() {
           <div className={cx('table-responsive')}>
             <Box
               sx={{
-                height: 440,
+                height: 430,
                 width: '100%',
                 fontSize: 20,
                 border: 'none'
@@ -134,7 +129,7 @@ function User() {
                 initialState={{
                   pagination: {
                     paginationModel: {
-                      pageSize: 6,
+                      pageSize: 5,
                     },
                   },
                 }}
@@ -156,7 +151,7 @@ function User() {
                     //   Toolbar: GridToolbarExport, // export
                     // },
                     showQuickFilter: true,
-                    style: { backgroundColor: 'lightgray', padding: '8px' },
+                    style: { padding: '8px' },
                   },
                 }}
               />

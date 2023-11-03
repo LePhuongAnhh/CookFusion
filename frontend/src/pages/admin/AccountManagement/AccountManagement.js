@@ -1,24 +1,18 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import styles from "./AccountManagement.module.scss"
 import { Button } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
-import DeleteAccount from '~/components/Modal/DeleteAccount';
 import axios from "axios"
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
 import {
     apiUrl,
     ACCESS_TOKEN,
-    ACCOUNT_ID,
-    ROLE,
-    PROFILE_INFORMATION,
-    USERNAME
 } from "../../../constants/constants.js"
+import { Avatar } from '@mui/material';
+
 const cx = classNames.bind(styles)
-
-
-
 function AccountManagement() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [total, setTotal] = useState(0)
@@ -33,8 +27,12 @@ function AccountManagement() {
                 });
                 console.log(response.data)
                 if (response.data.success) {
-                    setTotal(response.data.listUsers.length)
-                    setList(response.data.listUsers)
+                    const users = response.data.listUsers.map((user, index) => ({
+                        ...user,
+                        id: index + 1,
+                    }));
+                    setTotal(users.length);
+                    setList(users);
                 }
             } catch (error) {
                 console.log(error)
@@ -42,6 +40,64 @@ function AccountManagement() {
         }
         )()
     }, [setList])
+
+    const columns = [
+        {
+            field: 'id',
+            headerName: 'No.',
+            width: 70,
+        },
+        {
+            field: 'name',
+            headerName: 'Username',
+            width: 250,
+            renderCell: (params) => {
+                return (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar alt={params.row.name} src={params.row.avatar} />
+                        <span style={{ marginLeft: '10px' }}>{params.row.name}</span>
+                    </div>
+                );
+            },
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 250,
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            width: 200,
+        },
+        {
+            field: 'active',
+            headerName: 'Status',
+            width: 110,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color={params.row.active ? 'primary' : 'secondary'}
+                    onClick={() => onClickChangeActive(params.row.id - 1)}
+                    sx={{
+                        fontSize: '16px', // Điều chỉnh kích thước chữ ở đây
+                        borderRadius: '8px', // Điều chỉnh độ cong của góc
+                        textTransform: 'none', // Vô hiệu hóa việc viết hoa
+                        '&.MuiButton-containedPrimary': {
+                            backgroundColor: 'green', // Màu nền cho trạng thái Active
+                        },
+                        '&.MuiButton-containedSecondary': {
+                            backgroundColor: 'red', // Màu nền cho trạng thái Inactive
+                        },
+                    }}
+                >
+                    {params.row.active ? 'Active' : 'Inactive'}
+                </Button>
+            ),
+        },
+
+    ];
+
     const onClickChangeActive = async (index) => {
         try {
             const updatedList = [...list];
@@ -59,72 +115,65 @@ function AccountManagement() {
         }
     }
     return (
-        <div className={cx('container-table')}>
+        <div className={cx('container_fluid ')}>
             <div className={cx('row')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        <h4 className={cx('page_title')}>Account: {total}</h4>
+                        <h4 className={cx('page_title')}>The website has a total of {total} accounts </h4>
                         <p></p>
                     </div>
                 </div>
                 <div className={cx('border-table')}>
-                    <Table hover responsive>
-                        <thead>
-                            <tr className={cx('header')}>
-                                <th scope="col">Username</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Role</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {list.length > 0 && list.map((item, index) => (
-                                <tr className={cx("hover-actions-trigger")}>
-                                    <td>
-                                        <div className='d-flex align-items-center mt-1'>
-                                            <img
-                                                src='https://mdbootstrap.com/img/new/avatars/8.jpg'
-                                                alt=''
-                                                style={{ width: '45px', height: '45px' }}
-                                                className="rounded-circle"
-                                            />
-                                            <div className='ms-3'>
-                                                <p className='mb-2'>{item.name}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {/* <div className='ms-3'> */}
-                                        <p className='mt-2'>{item.email}</p>
-                                        {/* </div> */}
+                    <Box
+                        sx={{
+                            height: 413,
+                            width: '100%',
+                            border: 'none',
+                            boxShadow: '0px 2px 10px 0px rgba(58, 53, 65, 0.1)',
+                        }}
+                    >
+                        <DataGrid
+                            rows={list}
+                            columns={columns}
+                            getRowId={(row) => row._id}
+                            // đặt kích thước trang ban đầu thành 6
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 5,
+                                    },
+                                },
+                            }}
+                            sx={{
+                                fontSize: '16',
+                                rowHeight: 100,
+                                border: 'none',
+                                boxShadow: '0px 2px 10px 0px rgba(58, 53, 65, 0.1)',
+                            }}
+                            //Xác định các tùy chọn có sẵn để chọn kích thước trang.
+                            pageSizeOptions={[6]}
+                            disableRowSelectionOnClick //Vô hiệu hóa lựa chọn hàng khi nhấp vào một hàng.
+                            //các chức năng liên quan đến bộ lọc cột, bộ chọn cột và bộ chọn mật độ tương ứng
+                            disableColumnFilter
+                            disableColumnSelector
+                            disableDensitySelector
 
-                                    </td>
-                                    <td>
-                                        <p className='mt-2'>User</p>
-                                    </td>
-                                    <td >
-                                        {(item.active == true) ? (
-                                            <div className={cx('status', 'badge-soft-success', 'mt-3')}>
-                                                <button onClick={() => onClickChangeActive(index)} className="fw-400">Active</button>
-                                                <span className="ms-1 fas fa-check"></span>
-                                            </div>
-                                        ) : (
-                                            <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
-                                                <button onClick={() => onClickChangeActive(index)} className="fw-400">Inactive</button>
-                                                <span className="ms-1 fas fa-check"></span>
-                                            </div>
-                                        )
-                                        }
-
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            slots={{ toolbar: GridToolbar }}//chỉ định vị trí thanh công cụ bằng thành phần GridToolbar
+                            slotProps={{//Cung cấp cấu hình cho thanh công cụ.
+                                toolbar: {
+                                    // components: {
+                                    //   Toolbar: GridToolbarExport, // export
+                                    // },
+                                    showQuickFilter: true,
+                                    style: { padding: '8px' },
+                                },
+                            }}
+                        />
+                    </Box>
                 </div>
             </div>
-            {/* {showDeleteAccountModal && <DeleteAccount setShowDeleteAccountModal={setShowDeleteAccountModal} />} */}
-        </div>
+
+        </div >
     )
 }
 export default AccountManagement
