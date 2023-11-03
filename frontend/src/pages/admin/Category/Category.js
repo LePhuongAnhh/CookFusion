@@ -11,10 +11,6 @@ import axios from "axios"
 import {
     apiUrl,
     ACCESS_TOKEN,
-    ACCOUNT_ID,
-    ROLE,
-    PROFILE_INFORMATION,
-    USERNAME
 } from "../../../constants/constants.js"
 const cx = classNames.bind(styles)
 function Category() {
@@ -36,6 +32,7 @@ function Category() {
                 if (response.data.success) {
                     setTotal(response.data.categories.length)
                     setList(response.data.categories)
+                    // setOriginalList(response.data.categories);
                 }
             } catch (error) {
                 console.log(error)
@@ -43,6 +40,19 @@ function Category() {
         }
         )()
     }, [])
+
+    const [searchTermCategory, setSearchTermCategory] = useState(''); // State cho bảng Category
+    const [searchTermContributor, setSearchTermContributor] = useState(''); // State cho bảng Contributor
+
+    // Filter the list based on the search term for each table
+    const filteredListCategory = list.filter(category =>
+        category.name.toLowerCase().includes(searchTermCategory.toLowerCase())
+    );
+
+    const filteredListContributor = list.filter(category =>
+        category.name.toLowerCase().includes(searchTermContributor.toLowerCase())
+    );
+
     return (
         <>
             <div className={cx('container_fluid')}>
@@ -56,11 +66,17 @@ function Category() {
                                 </svg>
                                 <span>Add category</span>
                             </div>
+                            <input
+                                type="text"
+                                placeholder="Search Category"
+                                value={searchTermCategory}
+                                onChange={e => setSearchTermCategory(e.target.value)}
+                            />
 
                         </div>
                     </div>
                     <div className={cx('border-table')}>
-                        <Table hover responsive>
+                        <Table hover responsive style={{ height: '505px', overflowY: "auto" }} >
                             <thead>
                                 <tr className={cx('header')}>
                                     <th scope="col">Image</th>
@@ -70,32 +86,31 @@ function Category() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    list && list.map((category, index) => (
-                                        <tr className={cx("hover-actions-trigger")}>
-                                            <td>
-                                                <div className='d-flex align-items-center mt-1'>
-                                                    <img
-                                                        src={category.image}
-                                                        style={{ width: '65px', height: '65px' }}
-                                                        className="rounded-2"
-                                                    />
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p className={cx('mt-2')}>{category.name}</p>
-                                            </td>
-                                            <td>
-                                                <p className={cx('mt-2')}>{category.description}</p>
-                                            </td>
-                                            <td >
-                                                <p className={cx('mt-2')}>
-                                                    <i onClick={() => setShowUpdateCategoryModal(true)} className={cx("bi bi-pencil-square")} style={{ marginRight: "15px" }}></i>
-                                                    {/* <i onClick={() => setShowDeleteCategoryModal(true)} className={cx("bi bi-trash")}></i> */}
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    ))
+                                {filteredListCategory && filteredListCategory.map((category, index) => (
+                                    <tr className={cx("hover-actions-trigger")}>
+                                        <td>
+                                            <div className='d-flex align-items-center mt-1'>
+                                                <img
+                                                    src={category.image}
+                                                    style={{ width: '65px', height: '65px' }}
+                                                    className="rounded-2"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p className={cx('mt-2')}>{category.name}</p>
+                                        </td>
+                                        <td>
+                                            <p className={cx('mt-2')}>{category.description}</p>
+                                        </td>
+                                        <td >
+                                            <p className={cx('mt-2')}>
+                                                <i onClick={() => setShowUpdateCategoryModal(true)} className={cx("bi bi-pencil-square")} style={{ marginRight: "15px" }}></i>
+                                                {/* <i onClick={() => setShowDeleteCategoryModal(true)} className={cx("bi bi-trash")}></i> */}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                ))
                                 }
 
                             </tbody>
@@ -109,11 +124,18 @@ function Category() {
                         <div className={cx('page_title_box')}>
                             <h4 className={cx('page_title')}>Contributor</h4>
                         </div>
+                        <input
+                            type="text"
+                            placeholder="Search Contributor"
+                            value={searchTermContributor}
+                            onChange={e => setSearchTermContributor(e.target.value)}
+                        />
                     </div>
                     <div className={cx('border-table')}>
                         <Table hover responsive>
                             <thead>
                                 <tr className={cx('header')}>
+                                    <th scope="col">No.</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Post</th>
                                     <th scope="col">Contributor</th>
@@ -121,33 +143,37 @@ function Category() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
-                                    list && list.map((category, index) => (
-                                        <tr className={cx("hover-actions-trigger")}>
-                                            <td>
-                                                <div className='d-flex align-items-center mt-1'>
-                                                    <p className={cx('mt-2')}>{category.name}</p>
+                                {filteredListContributor && filteredListContributor.map((category, index) => (
+                                    <tr className={cx("hover-actions-trigger")}>
+                                        <td className={cx('no-column')}>
+                                            <div className='d-flex align-items-center mt-1'>
+                                                <p className={cx('mt-2')}>{index + 1}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='d-flex align-items-center mt-1'>
+                                                <p className={cx('mt-2')}>{category.name}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p className={cx('mt-2')}>{category.recipes.length}</p>
+                                        </td>
+                                        <td>
+                                            <div className={cx('c-flex')}>
+                                                <div className={cx('flex-mod')}>
+                                                    {category.top.length > 0 && category.top.map((user) => (
+                                                        <Link to='#'>
+                                                            <img
+                                                                src={user.avatar} title={user.count + " posts"}
+                                                                className={cx("c-rounded-circle")}
+                                                            />
+                                                        </Link>
+                                                    ))}
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <p className={cx('mt-2')}>{category.recipes.length}</p>
-                                            </td>
-                                            <td>
-                                                <div className={cx('c-flex')}>
-                                                    <div className={cx('flex-mod')}>
-                                                        {category.top.length > 0 && category.top.map((user) => (
-                                                            <Link to='#'>
-                                                                <img
-                                                                    src={user.avatar} title={user.count + " posts"}
-                                                                    className={cx("c-rounded-circle")}
-                                                                />
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </Table>
                     </div>

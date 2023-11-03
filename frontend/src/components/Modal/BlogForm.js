@@ -16,7 +16,6 @@ import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import DeleteBlog from "./DeleteBlog"
 import CommentBlog from "./CommentBlog"
-import CreateBlog from "./CreateBlog"
 import UpdateBlog from "./UpdateBlog";
 import { io } from 'socket.io-client'
 

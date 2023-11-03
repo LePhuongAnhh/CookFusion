@@ -32,19 +32,21 @@ const columns = [
     field: 'email',
     headerName: 'Email',
     type: 'email',
-    width: 200,
+    width: 260,
   },
   {
     field: 'dob',
     headerName: 'Birthday',
-    width: 180,
+    width: 150,
     renderCell: (params) => {
-      // Kiểm tra nếu định dạng ngày tháng hợp lệ trước khi hiển thị
       const dobDate = parseISO(params.row.dob);
       const isDateValid = isValid(dobDate);
-      return <div>{isDateValid ? format(dobDate, 'dd/MM/yyyy') : 'Invalid Date'}</div>;
+      // If the date is valid, display it in 'dd/MM/yyyy' format, otherwise, display the database value
+      const formattedDate = isDateValid ? format(dobDate, 'dd/MM/yyyy') : params.row.dob;
+      return <div>{formattedDate}</div>;
     },
   },
+
   {
     field: 'gender',
     headerName: 'Gender',
