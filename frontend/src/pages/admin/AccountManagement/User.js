@@ -17,9 +17,9 @@ import {
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 const columns = [
-  { field: '_id', headerName: 'Id', width: 50 },
+  // { field: '_id', headerName: 'Id', width: 50 },
   {
-    field: 'name',
+    field: 'Name',
     headerName: 'name',
     width: 110,
     editable: true,
