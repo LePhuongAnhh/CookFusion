@@ -101,10 +101,11 @@ function AccountManagement() {
     const onClickChangeActive = async (index) => {
         try {
             const updatedList = [...list];
-            const res = await axios.patch(`${apiUrl}/admin/changeActiveState`, {
+            if (list[index].role[0] == "admin") return
+            const res = await axios.patch(`${apiUrl}/admin/changeActiveState`,
+            { active: list[index].active, _id: list[index]._id }, {
                 headers: { Authorization: `Bearer ${accessToken}` }
-            },
-                { active: list[index].active, _id: list[index]._id })
+            })
             console.log(res.data)
             if (res.data.success) {
                 updatedList[index].active = !updatedList[index].active

@@ -58,10 +58,10 @@ const LoginForm = () => {
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
                 localStorage.setItem(ROLE, response.data.account.role);
                 const role = response.data.account.role
-                if (role === "653b77c56139d7a2604cedb9") { //admin
-                    navigate('/homepage');
-                } else if (role === '653b77c46139d7a2604cedb5') {
+                if (role === "653b77c46139d7a2604cedb5") { 
                     navigate("dashboard");
+                } else {
+                    navigate('/homepage');
                 }
             }
         } catch (error) {

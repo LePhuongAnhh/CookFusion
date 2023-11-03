@@ -41,7 +41,34 @@ const Article = (props) => {
     const updateNewArticle = (data) => {
         console.log('get data update post', data)
     }
-
+    const [notification, setNotification] = useState([])
+    const [following, setFollowing] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [resNotification, resFollowing] = await Promise.all([
+                    axios.get(`${apiUrl}/user/notification`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }),
+                    axios.get(`${apiUrl}/user/getfollowing`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    })
+                ])
+                console.log(resFollowing.data)
+                if (resNotification.data.success && resFollowing.data.success) {
+                    setNotification(resNotification.data.notifications.slice(0, 5))
+                    setFollowing(resFollowing.data.following.slice(0,5))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <div className={cx('article_form')}>
             <div className={cx('article_container')}>
@@ -90,85 +117,29 @@ const Article = (props) => {
                                 <div className={cx('follower')}>
                                     <div className={cx('follow-box')}>
                                         <h2>Following </h2>
-                                        <div className={cx('show_info1')}>
-                                            <Link to="#">
-                                                <div className={cx('avt_follow')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                            </Link>
-                                            <div className={cx('show_name')}>
-                                                <h6>
-                                                    <Link to="#">Minn</Link>
-                                                </h6>
-                                                <div className={cx('btn_follow1')}>
-                                                    <span className={cx('follow')}>minlu.thi</span>
-                                                </div>                                                                                    </div>
-                                        </div>
-                                        <div className={cx('show_info1')}>
-                                            <Link to="#">
-                                                <div className={cx('avt_follow')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                            </Link>
-                                            <div className={cx('show_name')}>
-                                                <h6>
-                                                    <Link to="#">Minn</Link>
-                                                </h6>
-                                                <div className={cx('btn_follow1')}>
-                                                    <span className={cx('follow')}>minlu.thi</span>
-                                                </div>                                                                                    </div>
-                                        </div>
+                                        {following.length > 0 && following.map((following)=>(
+                                             <div className={cx('show_info1')}>
+                                             <Link to="#">
+                                                 <div className={cx('avt_follow')}>
+                                                     <img className={cx('circle_avt')} src={following.followingAvatar} />
+                                                 </div>
+                                             </Link>
+                                             <div className={cx('show_name')}>
+                                                 <h6>
+                                                     <Link to="#">{following.following_id}</Link>
+                                                 </h6>
+                                                 <div className={cx('btn_follow1')}>
+                                                     <span className={cx('follow')}>{following.followingName}</span>
+                                                 </div>                                                                                    </div>
+                                         </div>
+                                        ))}
+                                       
+                                       
                                     </div>
                                 </div>
 
                                 {/* gọi ý follow  */}
-                                <div className={cx('right_info1')}>
-                                    <div className={cx('header_add_follow')} >
-                                        <h5 className={cx('header_add_fl')}>Add to you feed</h5>
-                                    </div>
-                                    <div className={cx('right_follow')}>
-                                        <div className={cx('show_info')}>
-                                            <Link to="#">
-                                                <div className={cx('avt_follow')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                            </Link>
-                                            <div className={cx('show_name')}>
-                                                <h6>
-                                                    <Link to="#">Helen</Link>
-                                                </h6>
-                                                <button className={cx('btn_follow')}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-person-fill-add" viewBox="0 0 16 16">
-                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
-                                                    </svg>
-                                                    <span className={cx('follow')}>Follow</span>
-                                                </button>
-                                                <div className={cx('border_line')}></div>
-                                            </div>
-                                        </div>
-                                        <div className={cx('show_info')}>
-                                            <Link to="#">
-                                                <div className={cx('avt_follow')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                            </Link>
-                                            <div className={cx('show_name')}>
-                                                <h6>
-                                                    <Link to="#">Helen</Link>
-                                                </h6>
-                                                <button className={cx('btn_follow')}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-person-fill-add" viewBox="0 0 16 16">
-                                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
-                                                    </svg>
-                                                    <span className={cx('follow')}>Follow</span>
-                                                </button>
-                                                <div className={cx('border_line')}></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            
                             </ul>
                         </div>
                     </div>
@@ -249,16 +220,21 @@ const Article = (props) => {
                                 <div className={cx('header_annous')} >
                                     <h5 className={cx('header_add_fl')}>Announs</h5>
                                 </div>
-                                <div className={cx('right_info_card')}>
-                                    <div className={cx('show_info')}>
-                                        <img src={images.Avt} />
-                                        <div className={cx('show_name')}>
-                                            <Link to="#" className={cx('name_account_cmt')}> Alice </Link>
-                                            has followed you
+                                {notification.length > 0 && notification.map((notifcation) => (
+                                    <div className={cx('right_info_card')}>
+                                        <div className={cx('show_info')}>
+                                            {/* <img src={images.Avt} /> */}
+                                            <div className={cx('show_name')}>
+                                                {/* <Link to="#" className={cx('name_account_cmt')}> Alice </Link>
+                                            has followed you */}
+                                                {notifcation.message} <span> at </span>
+                                                {notifcation.date}
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
+                                    </div>
+                                ))}
+
                             </div>
                             <div className={cx('right_info')}>
                                 <div className={cx('header_annous')} >

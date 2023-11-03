@@ -4,11 +4,31 @@ import classNames from 'classnames/bind'
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
 import { Link } from 'react-router-dom'
 import images from '~/assets/images'
+import axios from "axios"
 
 const cx = classNames.bind(styles)
-const CensoredModal = ({ setShowCensoredModal }) => {
+const CensoredModal = ({ setShowCensoredModal, report, setReport, listreport }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
-
+    const handleAccept = async (state) => {
+        try {
+            const response = await axios.patch(`${apiUrl}/report/censored`, {
+                _id: report._id,
+                pass: state,
+                badwords:[]
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data.success) {
+                const updateReport = [...listreport]
+                setReport(updateReport.filter((rp) => { return rp._id != report._id }))
+                setShowCensoredModal(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
@@ -31,8 +51,8 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                                         <div className={cx('header_avatar')}>
                                             <img
                                                 className={cx('circle_avt1')}
-                                                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar"
-                                            // src={article.userUpload[0].avatar}
+                                                // src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar"
+                                                src={report.userPost[0].avatar}
                                             />
                                             {/* {
                                                         article.userUpload[0].avatar === null ? (<img src={article.userUpload[0].Avatar} className={cx('circle_avt1')} />) : <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar" className={cx('circle_avt1')} />
@@ -41,13 +61,13 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                                     </Link>
                                     <div className={cx('name_account')}>
                                         <p className={cx('name_user')}>
-                                            <Link to="#" className={cx('post_name_account')}>Name&nbsp;</Link>
+                                            <Link to="#" className={cx('post_name_account')}>{report.userPost[0].name}&nbsp;</Link>
                                             <span className={cx('share_album')}>
-                                                share post Title
+                                                uploaded post {report.article[0].title}
                                             </span>
                                         </p>
                                         <p className={cx('date_time')}>
-                                            timeUpload
+                                            {report.article[0].timeUpload}
                                         </p>
                                     </div>
                                 </div>
@@ -56,7 +76,7 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                     </div>
                     <div className={cx('posts_body')}>
                         <p>
-                            day la cho d moi nguoi hincontn cua minh ln nh, chan ua
+                            {report.article[0].content}
                             {/* {article.content}
                                             <p style={{ color: "blue" }}>{article.hashtags}</p> */}
                         </p>
@@ -64,13 +84,10 @@ const CensoredModal = ({ setShowCensoredModal }) => {
                             <div className={cx('body_img')}>
                                 <div className={cx('show_img_6')}>
                                     <div>
-                                        {/* {article.files[0] && article.files[0].files.map((fileInfor, index) => {
-                                                            return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
-                                                        })
-                                                        } */}
-                                        <img
-                                            src={images.Avt}
-                                            alt='image' className={cx('img_img')} />
+                                        {report.files && report.files[0] && report.files[0].length > 0 && report.files[0].map((fileInfor, index) => {
+                                            return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
+                                        })
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -80,22 +97,22 @@ const CensoredModal = ({ setShowCensoredModal }) => {
 
                 <div className={cx('posts_footer')}>
                     <div className={cx('total_like')}>
-                        <Link to="#" className={cx('count_like')}>
-                            {/* {article.states.length} */}
-                            <span> loves  </span>
-                        </Link>
-                        <Link to="#" className={cx('count_like')}>
-                            {/* {article.comment.length}  */}
-                            <span>   comments </span>
-                        </Link>
+                        {/* <Link to="#" className={cx('count_like')}> */}
+                        {/* {article.states.length} */}
+                        {/* <span> loves  </span> */}
+                        {/* </Link> */}
+                        {/* <Link to="#" className={cx('count_like')}> */}
+                        {/* {article.comment.length}  */}
+                        {/*     <span>   comments </span> */}
+                        {/* </Link> */}
                     </div>
                 </div>
                 <div className={cx('action')}>
-                    <div className={cx('action-accept')}>
-                        Accept
+                    <div className={cx('action-accept')} onClick={() => handleAccept(false)}>
+                        Pass
                     </div>
-                    <div className={cx('action-cancle')}>
-                        Cancel
+                    <div className={cx('action-cancle')} onClick={() => handleAccept(true)}>
+                        Reject
                     </div>
                 </div>
             </div >

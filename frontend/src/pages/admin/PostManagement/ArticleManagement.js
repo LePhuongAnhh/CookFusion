@@ -27,6 +27,7 @@ function ArticleManagement() {
     const [listPost, setListPost] = useState([]);
     const [postId, setPostId] = useState(null);
     const [report, setReport] = useState([])
+    const [reportCensored, setReportToCensored] = useState(null)
     const columns = [
         {
             field: 'No.',
@@ -93,7 +94,7 @@ function ArticleManagement() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 })
-                console.log(response.data)
+                console.log(response.data,report.data)
                 if (response.data.success) {
                     const articles = response.data.articles.map((article, index) => ({
                         ...article,
@@ -111,6 +112,10 @@ function ArticleManagement() {
         )()
     }, [])
 
+    const handleCensored = (rp) =>{
+        setReportToCensored(rp)
+        setShowCensoredModal(true)
+    }
     const handleDeleteIconClick = (_id) => {
         setPostId(_id);
         setShowDeletePostModal(true);
@@ -216,7 +221,7 @@ function ArticleManagement() {
                                         <td>
                                             <p className={cx('mt-2')}>{report.userPost[0].name}</p>
                                         </td>
-                                        <td onClick={() => setShowCensoredModal(true)} >
+                                        <td onClick={() => handleCensored(report)} >
                                             <div className={cx('status', 'badge-soft-warning', 'mt-3')}>
                                                 <span className="fw-400">Censored</span>
                                                 <span className="ms-1 fas fa-check"></span>
@@ -233,6 +238,9 @@ function ArticleManagement() {
             </div>
 
             {showCensoredModal && < CensoredModal
+                report={reportCensored}
+                setReport={setReport}
+                listreport={report}
                 setShowCensoredModal={setShowCensoredModal} />}
 
             {showDeletePostModal && <DeletePost

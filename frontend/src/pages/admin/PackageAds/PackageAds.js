@@ -95,15 +95,14 @@ function PackageAds() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getUsersInformation`, {
+                const response = await axios.get(`${apiUrl}/adspackage/getall`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
                 console.log(response.data)
                 if (response.data.success) {
-                    setTotal(response.data.listUsers.length)
-                    setList(response.data.listUsers)
+                    setList(response.data.data)
                 }
             } catch (error) {
                 console.log(error)
