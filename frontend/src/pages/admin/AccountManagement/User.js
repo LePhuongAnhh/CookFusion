@@ -14,13 +14,21 @@ import {
   USERNAME
 } from "../../../constants/constants.js"
 
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 const columns = [
-  // { field: '_id', headerName: 'Id', width: 50 },
   {
-    field: 'Name',
-    headerName: 'name',
+    field: 'No.',
+    headerName: 'No.',
+    width: 70,
+    renderCell: (params) => {
+      return <div>{params.row.id + 1}</div>; // Adjust to begin numbering from 1
+    },
+  },
+
+  {
+    field: 'name',
+    headerName: 'Name',
     width: 110,
     editable: true,
   },
@@ -86,8 +94,12 @@ function User() {
         });
         console.log(response.data)
         if (response.data.success) {
-          setTotal(response.data.listUsers.length)
-          setList(response.data.listUsers)
+          const users = response.data.listUsers.map((user, index) => ({
+            ...user,
+            id: index, // Add unique id starting from 0
+          }));
+          setTotal(users.length);
+          setList(users);
         }
       } catch (error) {
         console.log(error)
@@ -118,6 +130,7 @@ function User() {
                 rows={list}
                 columns={columns}
                 getRowId={(row) => row._id}
+                // đặt kích thước trang ban đầu thành 6
                 initialState={{
                   pagination: {
                     paginationModel: {
@@ -128,17 +141,22 @@ function User() {
                 sx={{
                   fontSize: '16'
                 }}
+                //Xác định các tùy chọn có sẵn để chọn kích thước trang.
                 pageSizeOptions={[6]}
-                disableRowSelectionOnClick
-
+                disableRowSelectionOnClick //Vô hiệu hóa lựa chọn hàng khi nhấp vào một hàng.
+                //các chức năng liên quan đến bộ lọc cột, bộ chọn cột và bộ chọn mật độ tương ứng
                 disableColumnFilter
                 disableColumnSelector
                 disableDensitySelector
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    showQuickFilter: true,
 
+                slots={{ toolbar: GridToolbar }}//chỉ định vị trí thanh công cụ bằng thành phần GridToolbar
+                slotProps={{//Cung cấp cấu hình cho thanh công cụ.
+                  toolbar: {
+                    // components: {
+                    //   Toolbar: GridToolbarExport, // export
+                    // },
+                    showQuickFilter: true,
+                    style: { backgroundColor: 'lightgray', padding: '8px' },
                   },
                 }}
               />

@@ -5,12 +5,20 @@ import styles from "../AccountManagement/AccountManagement.module.scss"
 import classNames from 'classnames/bind'
 import images from '~/assets/images'
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 
 // const cx = classNames.bind(styles)
 const columns = [
-    { field: 'id', headerName: 'No.', width: 50 },
+    // { field: 'id', headerName: 'No.', width: 50 },
+    {
+        field: 'No.',
+        headerName: 'No.',
+        width: 70,
+        renderCell: (params) => {
+            return <div>{params.row.id + 1}</div>; // Adjust to begin numbering from 1
+        },
+    },
     {
         field: 'account',
         headerName: 'Account',
@@ -125,8 +133,20 @@ function PlanMealManagement() {
                                 fontSize: '16'
                             }}
                             pageSizeOptions={[6]}
-                            // checkboxSelection
-                            disableRowSelectionOnClick
+                            disableColumnFilter
+                            disableColumnSelector
+                            disableDensitySelector
+                            slots={{ toolbar: GridToolbar }}//chỉ định vị trí thanh công cụ bằng thành phần GridToolbar
+                            slotProps={{//Cung cấp cấu hình cho thanh công cụ.
+                                toolbar: {
+                                    // components: {
+                                    //   Toolbar: GridToolbarExport, // export
+                                    // },
+                                    showQuickFilter: true,
+                                    // style: { backgroundColor: 'lightgray', padding: '8px' },
+                                },
+                            }}
+
                         />
                     </Box>
                 </div>

@@ -15,13 +15,21 @@ import {
     USERNAME
 } from "../../../constants/constants.js"
 
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 const columns = [
     // { field: '_id', headerName: 'Id', width: 50 },
     {
+        field: 'No.',
+        headerName: 'No.',
+        width: 70,
+        renderCell: (params) => {
+            return <div>{params.row.id + 1}</div>; // Adjust to begin numbering from 1
+        },
+    },
+    {
         field: 'name',
-        headerName: 'name',
+        headerName: 'Name',
         width: 110,
         editable: true,
     },
@@ -137,15 +145,27 @@ function PackageAds() {
                                     fontSize: '16'
                                 }}
                                 pageSizeOptions={[6]}
-                                disableRowSelectionOnClick
+                                // disableRowSelectionOnClick
                                 disableColumnFilter
                                 disableColumnSelector
                                 disableDensitySelector
                                 slots={{ toolbar: GridToolbar }}
+
                                 slotProps={{
                                     toolbar: {
                                         showQuickFilter: true,
-
+                                        style: { // Thêm style CSS tại đây
+                                            borderRadius: '4px', // Border radius
+                                            display: 'flex', // Hiển thị theo kiểu flex
+                                            alignItems: 'center', // Căn giữa dọc
+                                            fontSize: "20px",
+                                            padding: '8px'
+                                        },
+                                        components: {
+                                            Toolbar: (props) => (
+                                                <GridToolbar {...props} />
+                                            )
+                                        },
                                     },
                                 }}
                             />
