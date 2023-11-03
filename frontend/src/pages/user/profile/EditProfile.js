@@ -38,7 +38,6 @@ function EditProfile({ setShowUpdateProfileModal }) {
     const updateProfile = async (event) => {
         // Ngăn chặn sự kiện mặc định của form
         event.preventDefault();
-
         const formData = new FormData();
         formData.append('_id', updateProfileForm._id);
         formData.append('name', updateProfileForm.name);
@@ -72,9 +71,7 @@ function EditProfile({ setShowUpdateProfileModal }) {
                 profileInformation.address = updateProfileForm.address;
                 profileInformation.avatar = updateProfileForm.avatar;
 
-                // Lưu profileInformation lên localStorage
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(profileInformation));
-                // navigate('/profile');
                 setShowUpdateProfileModal(false);
             }
         } catch (error) {

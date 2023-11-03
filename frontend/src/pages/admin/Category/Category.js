@@ -52,16 +52,23 @@ function Category() {
         category.name.toLowerCase().includes(searchTermContributor.toLowerCase())
     );
 
+    //updat
     const [selectedCategory, setSelectedCategory] = useState(null);
-    // Thay thế categoryData bằng selectedCategory khi mở modal chỉnh sửa
-
     const handleEditCategory = (category) => {
-        console.log("Edit icon clicked", category); // Log to check if the function is triggered
         setSelectedCategory(category);
         setShowUpdateCategoryModal(true);
     };
-
-    console.log("showUpdateCategoryModal value: ", showUpdateCategoryModal); // Log to check the state just before rendering the modal
+    // Function to update the list after a successful category update
+    const updateCategoryList = (updatedCategory) => {
+        // Find the index of the updated category in the list
+        const updatedIndex = list.findIndex((category) => category._id === updatedCategory._id);
+        if (updatedIndex !== -1) {
+            // Create a new list by replacing the updated category at the found index
+            const updatedList = [...list];
+            updatedList[updatedIndex] = updatedCategory;
+            setList(updatedList);
+        }
+    };
 
 
     return (
@@ -172,38 +179,45 @@ function Category() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredListContributor && filteredListContributor.map((category, index) => (
-                                    <tr className={cx("hover-actions-trigger")}>
-                                        <td className={cx('no-column')}>
-                                            <div className='d-flex align-items-center mt-1'>
-                                                <p className={cx('mt-2')}>{index + 1}</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className='d-flex align-items-center mt-1'>
-                                                <p className={cx('mt-2')}>{category.name}</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className={cx('mt-2')}>{category.recipes.length}</p>
-                                        </td>
-                                        <td>
-                                            <div className={cx('c-flex')}>
-                                                <div className={cx('flex-mod')}>
-                                                    {category.top.length > 0 && category.top.map((user) => (
-                                                        <Link to='#'>
-                                                            <img
-                                                                src={user.avatar} title={user.count + " posts"}
-                                                                className={cx("c-rounded-circle")}
-                                                            />
-                                                        </Link>
-                                                    ))}
+                                {filteredListContributor &&
+                                    filteredListContributor.map((category, index) => (
+                                        <tr className={cx("hover-actions-trigger")}>
+                                            <td className={cx('no-column')}>
+                                                <div className='d-flex align-items-center mt-1'>
+                                                    <p className={cx('mt-2')}>{index + 1}</p>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                            <td>
+                                                <div className='d-flex align-items-center mt-1'>
+                                                    <p className={cx('mt-2')}>{category.name}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p className={cx('mt-2')}>
+                                                    {category.recipes ? category.recipes.length : 0}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <div className={cx('c-flex')}>
+                                                    <div className={cx('flex-mod')}>
+                                                        {category.top &&
+                                                            category.top.length > 0 &&
+                                                            category.top.map((user, userIndex) => (
+                                                                <Link to='#' key={userIndex}>
+                                                                    <img
+                                                                        src={user.avatar}
+                                                                        title={user.count + " posts"}
+                                                                        className={cx("c-rounded-circle")}
+                                                                    />
+                                                                </Link>
+                                                            ))}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
+
                         </Table>
                     </div>
                 </div>
@@ -211,9 +225,9 @@ function Category() {
             {showCreateCategoryModal && < CreateCategory setShowCreateCategoryModal={setShowCreateCategoryModal} />}
             {showUpdateCategoryModal && (
                 <UpdateCategory
-                    showUpdateCategoryModal={showUpdateCategoryModal}
                     setShowUpdateCategoryModal={setShowUpdateCategoryModal}
                     categoryData={selectedCategory}
+                    updateCategoryList={updateCategoryList}
                 />
             )}
             {showDeleteCategoryModal && < DeleteCategory setShowDeleteCategoryModal={setShowDeleteCategoryModal} />}
