@@ -15,12 +15,11 @@ import {
 
 
 // import { DataGrid } from '@mui/x-data-grid';
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { DataGridPremium, GridToolbar } from '@mui/x-data-grid-premium';
 import Box from '@mui/material/Box';
 
-const accessToken = localStorage.getItem(ACCESS_TOKEN);
-// import { useDemoData } from '@mui/x-data-grid-generator';
+import { useDemoData } from '@mui/x-data-grid-generator';
 
 const row = [
     {
@@ -106,6 +105,7 @@ const groupingColDef = {
 };
 
 const exceljsPreProcess = ({ workbook, worksheet }) => {
+
     // Set document meta data
     workbook.creator = 'MUI-X team';
     workbook.created = new Date();
@@ -145,6 +145,7 @@ const excelOptions = { exceljsPreProcess, exceljsPostProcess };
 
 const cx = classNames.bind(styles)
 function Sponsor() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [rows, setRow] = useState(row)
     useEffect(() => {
         (async () => {

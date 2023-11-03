@@ -41,17 +41,28 @@ function Category() {
         )()
     }, [])
 
+    //search
     const [searchTermCategory, setSearchTermCategory] = useState(''); // State cho bảng Category
     const [searchTermContributor, setSearchTermContributor] = useState(''); // State cho bảng Contributor
-
     // Filter the list based on the search term for each table
     const filteredListCategory = list.filter(category =>
         category.name.toLowerCase().includes(searchTermCategory.toLowerCase())
     );
-
     const filteredListContributor = list.filter(category =>
         category.name.toLowerCase().includes(searchTermContributor.toLowerCase())
     );
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    // Thay thế categoryData bằng selectedCategory khi mở modal chỉnh sửa
+
+    const handleEditCategory = (category) => {
+        console.log("Edit icon clicked", category); // Log to check if the function is triggered
+        setSelectedCategory(category);
+        setShowUpdateCategoryModal(true);
+    };
+
+    console.log("showUpdateCategoryModal value: ", showUpdateCategoryModal); // Log to check the state just before rendering the modal
+
 
     return (
         <>
@@ -66,12 +77,21 @@ function Category() {
                                 </svg>
                                 <span>Add category</span>
                             </div>
-                            <input
-                                type="text"
-                                placeholder="Search Category"
-                                value={searchTermCategory}
-                                onChange={e => setSearchTermCategory(e.target.value)}
-                            />
+                            <div className="input-group rounded" style={{ display: 'flex', float: 'right', marginTop: "-58px", width: "200px" }}>
+                                <input
+                                    style={{ fontSize: " 14px" }}
+                                    type="search"
+                                    className="form-control rounded"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                    aria-describedby="search-addon"
+                                    value={searchTermCategory}
+                                    onChange={e => setSearchTermCategory(e.target.value)}
+                                />
+                                <span className={cx("input-group-text", "border-0")} id="search-addon" style={{ backgroundColor: "none" }}>
+                                    <i className="bi bi-search-heart"></i>
+                                </span>
+                            </div>
 
                         </div>
                     </div>
@@ -105,8 +125,7 @@ function Category() {
                                         </td>
                                         <td >
                                             <p className={cx('mt-2')}>
-                                                <i onClick={() => setShowUpdateCategoryModal(true)} className={cx("bi bi-pencil-square")} style={{ marginRight: "15px" }}></i>
-                                                {/* <i onClick={() => setShowDeleteCategoryModal(true)} className={cx("bi bi-trash")}></i> */}
+                                                <i onClick={() => handleEditCategory(category)} className={cx("bi bi-pencil-square")} style={{ marginRight: "15px" }}></i>
                                             </p>
                                         </td>
                                     </tr>
@@ -119,17 +138,27 @@ function Category() {
                 </div>
 
                 {/* những người đóng góp vào category  */}
-                <div className={cx('row')}>
+                <div className={cx('row')} style={{ marginTop: "35px" }}>
                     <div className={cx('col_12')}>
                         <div className={cx('page_title_box')}>
                             <h4 className={cx('page_title')}>Contributor</h4>
                         </div>
+
+                    </div>
+                    <div className="input-group rounded" style={{ display: 'flex', float: 'right', marginTop: "-58px", width: "200px" }}>
                         <input
-                            type="text"
-                            placeholder="Search Contributor"
+                            style={{ fontSize: " 14px" }}
+                            type="search"
+                            className="form-control rounded"
+                            placeholder="Search"
+                            aria-label="Search"
+                            aria-describedby="search-addon"
                             value={searchTermContributor}
                             onChange={e => setSearchTermContributor(e.target.value)}
                         />
+                        <span className={cx("input-group-text", "border-0")} id="search-addon" style={{ backgroundColor: "none" }}>
+                            <i className="bi bi-search-heart"></i>
+                        </span>
                     </div>
                     <div className={cx('border-table')}>
                         <Table hover responsive>
@@ -180,7 +209,13 @@ function Category() {
                 </div>
             </div >
             {showCreateCategoryModal && < CreateCategory setShowCreateCategoryModal={setShowCreateCategoryModal} />}
-            {showUpdateCategoryModal && < UpdateCategory setShowUpdateCategoryModal={setShowUpdateCategoryModal} />}
+            {showUpdateCategoryModal && (
+                <UpdateCategory
+                    showUpdateCategoryModal={showUpdateCategoryModal}
+                    setShowUpdateCategoryModal={setShowUpdateCategoryModal}
+                    categoryData={selectedCategory}
+                />
+            )}
             {showDeleteCategoryModal && < DeleteCategory setShowDeleteCategoryModal={setShowDeleteCategoryModal} />}
 
         </>
