@@ -12,9 +12,7 @@ const cx = classNames.bind(styles)
 const CommentBlog = ({ article, setShowCommentBlogModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const [showUpdateModal, setShowUpdateModal] = useState(false) // trạng thái của modal hiển thị form comment
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
-    // const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
 
     return (
         <div className={cx('modalDeleteIdea')}>
@@ -92,7 +90,6 @@ const CommentBlog = ({ article, setShowCommentBlogModal }) => {
                 </div>
             </div>
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
-            {/* {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />} */}
         </div>
 
 

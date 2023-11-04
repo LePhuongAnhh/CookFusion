@@ -34,14 +34,40 @@ function HeaderAdmin() {
         setIsDropdownOpenPost(!isDropdownOpenPost);
     };
 
+    // Set initial dark mode from localStorage or default to false
+    const localStorageKey = 'darkMode';
+    const initialMode = JSON.parse(localStorage.getItem(localStorageKey)) || false;
+    const [isDarkMode, setIsDarkMode] = useState(initialMode);
+
+    const saveToLocalStorage = (value) => {
+        localStorage.setItem(localStorageKey, JSON.stringify(value));
+    };
+
+    const handleModeChange = () => {
+        setIsDarkMode(!isDarkMode);
+        saveToLocalStorage(!isDarkMode);
+        // Any additional actions upon changing dark mode
+    };
+
+    useEffect(() => {
+        const savedMode = JSON.parse(localStorage.getItem(localStorageKey));
+        if (savedMode !== null) {
+            setIsDarkMode(savedMode);
+        }
+    }, []);
+
     return (
-        <>
-            <div className={cx('navbar_custom')}>
+        <div style={{ backgroundColor: isDarkMode ? '#333' : 'inherit' }} >
+            <div className={cx('navbar_custom')} style={{ backgroundColor: isDarkMode ? '#333' : 'inherit' }}>
                 <ul className={cx('list_unstyled')}>
                     {/* chuyển màu  */}
                     <li className={cx('notification_list')}>
-                        <Link to="#" className={cx('nav_link')}>
-                            <i className="bi bi-brightness-high-fill"></i>
+                        <Link to="#" className={cx('nav_link')} onClick={handleModeChange}>
+                            {isDarkMode ? (
+                                <i className="bi bi-moon-fill"></i> // Icon Moon (Chế độ tối)
+                            ) : (
+                                <i className="bi bi-brightness-high-fill"></i> // Icon Sun (Chế độ sáng)
+                            )}
                         </Link>
                     </li>
 
@@ -95,7 +121,7 @@ function HeaderAdmin() {
 
             {/* Left Sidebar Start */}
             <label htmlFor="navInput" className={cx("overlaySidebar")}></label>
-            <div className={cx('left_side_menu')}>
+            <div className={cx('left_side_menu')} style={{ backgroundColor: isDarkMode ? '#333' : 'inherit' }} >
                 <div className={cx('slimscroll_menu')}>
                     <div id="sidebar-menu" className={cx('sidebar_menu')}>
                         <ul className={cx('metismenu')}>
@@ -179,7 +205,7 @@ function HeaderAdmin() {
                                     <ul className={cx("dropdown-content")}>
                                         <li>
                                             <Link to="/category">Category</Link>
-                                        </li>                                        
+                                        </li>
                                     </ul>
                                 )}
                             </li>
@@ -198,9 +224,8 @@ function HeaderAdmin() {
                         </ul>
                     </div>
                 </div>
-                <div className={cx('clearfix')}></div>
             </div>
-        </>
+        </div>
     )
 }
 export default HeaderAdmin

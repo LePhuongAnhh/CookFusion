@@ -1,3 +1,24 @@
+:root {
+    --primary-background-light: #f0f2f5;
+    --primary-background-dark: #333;
+    --primary-text-light: #333;
+    --primary-text-dark: #fff;
+    /* Các biến màu và thuộc tính khác có thể được thêm vào đây */
+}
+
+.light-mode {
+    background-color: var(--primary-background-light);
+    color: var(--main-text-color);
+    /* Các thuộc tính khác cho chế độ sáng */
+}
+
+.dark-mode {
+    background-color: var(--primary-background-dark);
+    color: var(--primary-text-dark);
+    /* Các thuộc tính khác cho chế độ tối */
+}
+
+// ********
 body {
     overflow-x: hidden;
     margin: 0;
@@ -5,13 +26,13 @@ body {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #e6e6e6;
     text-align: left;
 }
 .wrapper {
     height: 100%;
     overflow: hidden;
     width: 100%;
+    background-color: rgba(237, 242, 249, 0.96);
 }
 ul {
     margin-top: 0;
@@ -37,3 +58,396 @@ ul {
         margin-top: 70px;
     }
 }
+
+//hearder
+header {
+    padding-bottom: 60px;
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.navbar_custom {
+    padding: 0 10px 0 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 70px;
+    z-index: 100;
+}
+.list_unstyled {
+    margin-bottom: 0 !important;
+    float: right !important;
+    padding-left: 0;
+    list-style: none;
+}
+.navbar_custom .list_unstyled > li {
+    float: left;
+}
+.notification_list {
+    margin-left: 0;
+    position: relative;
+    // display: inline-block
+}
+
+.nav_link_dropdown_toggle {
+    color: #ffffff;
+    min-width: 32px;
+    line-height: 70px;
+    text-align: center;
+    max-height: 70px;
+    position: relative;
+    cursor: pointer;
+    padding: 0 12px !important;
+    margin-right: 0 !important;
+}
+.ml_1 {
+    margin-left: 0.375rem;
+}
+.nav_link {
+    padding: 0 15px;
+    color: #ffffff;
+    min-width: 32px;
+    display: block;
+    line-height: 70px;
+    text-align: center;
+    max-height: 70px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.nav_link i {
+    font-size: 20px;
+}
+/* LOGO  */
+.logo_box {
+    float: left;
+    margin: 0 20px;
+}
+.logo_center {
+    display: block;
+    line-height: 70px;
+    text-align: center !important;
+}
+.logo_center span.logo_lg {
+    display: block;
+}
+.logo_lg img {
+    width: auto;
+    height: 36px;
+    margin: 18px 0px;
+}
+
+.button_menu_mobile {
+    border: none;
+    color: #fff;
+    display: inline-block;
+    height: 70px;
+    line-height: 50px;
+    width: 60px;
+    background-color: transparent;
+    font-size: 28px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+button {
+    text-transform: none;
+}
+
+/* search  */
+.list_unstyled_search {
+    padding-left: 0;
+    display: flex;
+}
+.app_search {
+    height: 70px;
+    display: table;
+}
+.app_search_box {
+    display: table-cell;
+    vertical-align: middle;
+}
+.input_group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.navbar_custom .app_search .form_control {
+    border: none;
+    height: 38px;
+    padding-left: 20px;
+    padding-right: 0;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 30px 0 0 30px;
+}
+.input_group_append {
+    margin-left: 0;
+    z-index: 4;
+    display: flex;
+}
+.navbar_custom .app_search .btn {
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #fff;
+    border-color: transparent;
+    border-radius: 0 30px 30px 0;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+.btn i {
+    font-size: 13.5px;
+}
+
+// image avatar
+.nav_link_dropdown_toggle img {
+    height: 32px;
+    width: 32px;
+}
+.rounded_circle {
+    border-radius: 50% !important;
+}
+
+/* Left Sidebar Start */
+.left_side_menu {
+    width: 257px;
+    bottom: 0;
+    padding: 5px 0;
+    position: fixed;
+    overflow: auto;
+    transition: all 0.2s ease-out;
+    top: 70px;
+    z-index: 10;
+}
+.slimscroll_menu {
+    overflow: auto;
+    width: auto;
+}
+.metismenu {
+    padding: 0;
+}
+.menu_title {
+    padding: 10px 25px;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    cursor: default;
+    text-transform: uppercase;
+    color: #292e32;
+    font-weight: 600;
+}
+.metismenu li {
+    list-style: none;
+}
+.sidebar_menu > ul > li > a.active {
+    color: #292e32;
+    border-radius: 5px;
+    margin: 2px 0 2px 2px;
+}
+.sidebar_menu > ul > li > a {
+    color: #292e32;
+    display: block;
+    padding: 13px 20px;
+    position: relative;
+    transition: all 0.4s;
+    font-size: 15px;
+}
+.sidebar_menu > ul > li > a i {
+    display: inline-block;
+    line-height: 1.0625rem;
+    margin: 0 10px 0 3px;
+    text-align: center;
+    vertical-align: middle;
+    width: 20px;
+    font-size: 16px;
+}
+.active:hover {
+    background: #ecf0f4;
+}
+.active:focus,
+.active:active {
+    background-color: #d1d3d5;
+}
+.dropdown-content li a:hover {
+    color: #3c86d8;
+}
+
+//dropdown
+.menu-arrow {
+    transition: transform 0.15s, -webkit-transform 0.15s;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    font-family: 'Material Design Icons';
+    text-rendering: auto;
+    line-height: 1.5rem;
+    font-size: 1.1rem;
+    transform: translate(0, 0);
+}
+.icon-dropdown {
+    display: inline-block;
+    float: right;
+}
+
+.sidebar_menu .badge_danger {
+    margin-top: 4px;
+}
+.sidebar_menu > ul > li > a > span {
+    vertical-align: middle;
+}
+
+.sidebar_menu .menu_arrow {
+    transition: transform 0.15s, -webkit-transform 0.15s;
+    position: absolute;
+    right: 20px;
+    display: inline-block;
+    font-family: 'Material Design Icons';
+    text-rendering: auto;
+    line-height: 1.5rem;
+    font-size: 1.1rem;
+    transform: translate(0, 0);
+}
+.sidebar_menu > ul > li > ul {
+    padding-left: 65px;
+}
+.dropdown-content {
+    transition: transform 0.15s, -webkit-transform 0.15s;
+}
+.metismenu ul li {
+    width: 100%;
+}
+.dropdown-content li {
+    margin: 15px 0;
+    color: #292e32;
+}
+.dropdown-content li:first-child {
+    margin-top: 1px;
+}
+.dropdown-content li:last-child {
+    margin-bottom: 1px;
+}
+
+// responsive
+.button-menu-mobile {
+    border: none;
+    color: #fff;
+    display: none;
+    height: 70px;
+    line-height: 53px;
+    width: 60px;
+    background-color: transparent;
+    font-size: 24px;
+    color: #ffffff;
+}
+.second-logo {
+    display: none;
+}
+// sidebar_menu
+.overlaySidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: fadeIn linear 0.2s;
+    z-index: 10;
+}
+.navbarInput:checked ~ .overlaySidebar {
+    display: block;
+}
+.navbarInput:checked ~ .left_side_menu {
+    transform: translateX(0);
+    opacity: 1;
+}
+.sidebarClose {
+    font-size: 1.4rem;
+    color: #666;
+    margin: 2%;
+    float: right;
+    display: none;
+}
+.sidebarClose:hover {
+    color: #292e32;
+}
+.sidebarListAvt {
+    text-align: center;
+    margin-top: -10px;
+    display: none;
+}
+.sidebarListAvt img {
+    margin: 11px auto;
+    display: flex;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px rgb(47, 51, 51);
+}
+.sidebarListAvt label {
+    margin-left: -21px;
+    color: #292e32;
+    font-weight: 500;
+    font-size: 18px;
+}
+.sidebarListAvt svg {
+    margin: -2px 10px 0;
+    cursor: pointer;
+}
+
+.line {
+    width: 90%;
+    background-color: #292828;
+    margin: 7% 0 0 6%;
+    display: none;
+}
+
+//left sidebar
+@media (max-width: 63.9375em) {
+    // header
+    .main-logo,
+    .menu_title,
+    .nav_link_dropdown_toggle {
+        display: none;
+    }
+    .sidebarListAvt,
+    .sidebarClose,
+    .line {
+        display: block;
+    }
+    .button-menu-mobile {
+        display: inline-block;
+    }
+
+    .left_side_menu {
+        position: fixed;
+        overflow: auto;
+        width: 240px;
+        max-width: 100%;
+        background-image: linear-gradient(195deg, #ffffff, #ffffff);
+        border-radius: 2px;
+        transform: translateX(-106%);
+        opacity: 0;
+        transition: transform linear 0.2s, opacity linear 0.2s;
+    }
+}
+
+@media (max-width: 664px) {
+}
+
+// shetting account
