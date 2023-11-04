@@ -88,7 +88,7 @@ const columns = [
 
 ];
 const cx = classNames.bind(styles)
-function PackageAds() {
+function PackageAdsManagement() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [total, setTotal] = useState(0)
     const [list, setList] = useState([])
@@ -176,4 +176,4 @@ function PackageAds() {
     );
 }
 
-export default PackageAds;
+export default PackageAdsManagement;

@@ -28,8 +28,9 @@ import Sponsor from "~/pages/admin/AccountManagement/Sponsor";
 import Dashboard from "~/pages/admin/Dashboard/Dashboard";
 import PlanMealManagement from "~/pages/admin/PlanMealManagement/PlanMealManagement";
 import Category from "~/pages/admin/Category/Category";
-import PackageAds from "~/pages/admin/PackageAds/PackageAds";
+import PackageAdsManagement from "~/pages/admin/PackageAds/PackageAdsManagement";
 import Profile from "~/pages/user/profile/Profile";
+import PackageAds from "~/pages/packgakeAds/PackageAds";
 import Search from "~/pages/user/Search"
 
 import BlogForm from "~/components/Modal/BlogForm";
@@ -62,9 +63,10 @@ const publicRoutes = [
     { path: "/userManagement", component: User, layout: AdminLayout },
     { path: "/sponsormanagement", component: Sponsor, layout: AdminLayout },
     { path: "/category", component: Category, layout: AdminLayout },
-    { path: "/packageAds", component: PackageAds, layout: AdminLayout },
+    { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
     { path: "/profile", component: Profile },
     { path: "/formArticle", component: BlogForm },
+    { path: "/packageAds", component: PackageAds },
 ];
 const privateRoutes = [];
 
