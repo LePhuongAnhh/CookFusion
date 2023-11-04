@@ -222,7 +222,7 @@ function AdminLayout({ children }) {
                                     </Link>
                                 </li>
                                 <li >
-                                    <Link to="/packageAds" className={cx('active')}>
+                                    <Link to="/packageAdsMagagement" className={cx('active')}>
                                         <i class="bi bi-gear"></i>
                                         <span>Package Ads </span>
                                     </Link>
