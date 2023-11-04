@@ -13,8 +13,6 @@ function EditProfile({ setShowUpdateProfileModal }) {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     profileInformation.dob = new Date(profileInformation.dob).toISOString().substr(0, 10);
 
-    const navigate = useNavigate();
-
     //chọn và hiển thị ảnh
     const [selectedImage, setSelectedImage] = useState(null);
     const handleImageClick = () => {
@@ -33,7 +31,6 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const { name, value } = event.target;
         setUpdateProfileForm({ ...updateProfileForm, [name]: value });
     };
-    console.log('update data:', updateProfileForm)
 
     const updateProfile = async (event) => {
         // Ngăn chặn sự kiện mặc định của form
@@ -111,7 +108,7 @@ function EditProfile({ setShowUpdateProfileModal }) {
                                 <div className="card mb-4">
                                     <div className="card-body text-center">
                                         {selectedImage ? (
-                                            <img src={selectedImage} alt="Selected Image" className="rounded-circle img-fluid" style={{ width: "150px", height: "150px" }} />
+                                            <img src={selectedImage} className="rounded-circle img-fluid" style={{ width: "150px", height: "150px" }} />
                                         ) : (
                                             <img src={profileInformation.avatar} alt='avt ne' className="rounded-circle img-fluid" style={{ width: "150px", height: "150px" }} />
                                         )}

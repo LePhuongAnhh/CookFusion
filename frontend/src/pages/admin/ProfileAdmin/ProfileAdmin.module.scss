@@ -8,7 +8,6 @@
     padding: 10px 1.5rem 0;
     transition: padding 0.25s ease-in-out;
     margin: 0 auto;
- 
 }
 .col_12 {
     -webkit-box-flex: 0;
@@ -65,7 +64,7 @@
 }
 
 .title_account:focus,
-.title_account:active{
+.title_account:active {
     color: #9155fd;
 }
 .item_setting {
@@ -146,7 +145,7 @@ form {
     width: 175px;
 }
 .update_photo:hover,
-.btn_save:hover{
+.btn_save:hover {
     background-color: #6b37ca;
 }
 .text_name {
@@ -299,7 +298,3 @@ form {
     border: 1px solid rgba(138, 141, 147, 0.5);
     margin: 0 30px;
 }
-
-
-
-
