@@ -11,10 +11,8 @@ function App() {
             const Page = route.component;
             // mặc định là dèaul layout
             let Layout = DefaultLayout
-
             if (route.layout) {
               Layout = route.layout
-
             } else if (route.layout === null) //nếu layout = null thì sẽ k lấy gì
             {
               Layout = Fragment

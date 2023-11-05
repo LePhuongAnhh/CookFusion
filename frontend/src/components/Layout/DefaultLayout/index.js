@@ -4,6 +4,7 @@ function DefaultLayout({ children }) {
     return (
         <body>
             <div>
+                {/* //Header */}
                 <Navigation />
                 <div>
                     {children}

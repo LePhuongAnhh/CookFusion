@@ -1,6 +1,6 @@
 
 // layout
-import { AdminLayout } from "~/components/Layout";
+import { AdminLayout, AdsLayout } from "~/components/Layout";
 
 import LoginForm from "~/components/auth/login/LoginForm";
 import RegisterForm from "~/components/auth/login/RegisterForm";
@@ -31,6 +31,10 @@ import Category from "~/pages/admin/Category/Category";
 import PackageAdsManagement from "~/pages/admin/PackageAds/PackageAdsManagement";
 import Profile from "~/pages/user/profile/Profile";
 import PackageAds from "~/pages/packgakeAds/PackageAds";
+import HomeAds from "~/pages/packgakeAds/homeAds";
+import ArticleAds from "~/pages/packgakeAds/ArticleAds";
+import DashboardAds from "~/pages/packgakeAds/DashboardAds";
+import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import Search from "~/pages/user/Search"
 
 import BlogForm from "~/components/Modal/BlogForm";
@@ -66,7 +70,12 @@ const publicRoutes = [
     { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
     { path: "/profile", component: Profile },
     { path: "/formArticle", component: BlogForm },
-    { path: "/packageAds", component: PackageAds },
+    { path: "/homepageAds", component: HomeAds, layout: AdsLayout },
+    { path: "/articleAds", component: ArticleAds, layout: AdsLayout },
+    { path: "/packageAds", component: PackageAds, layout: AdsLayout },
+    { path: "/dashboardAds", component: DashboardAds, layout: AdsLayout },
+    { path: "/profileSponsor", component: ProfileAds, layout: AdsLayout },
+
 ];
 const privateRoutes = [];
 

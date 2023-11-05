@@ -3,14 +3,22 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary-background-light: #f0f2f5;
-    --primary-background-dark: #333;
-    
-    --primary-text-color: #344050; //màu sắc chính
-    --main-text-color: #292e32; //biến toàn cục cho màu chữ chính
-    --main-bg-color: #ffffff; //biến toàn cục cho màu nền chính
+    //màu cữ chính
+    --main-text-color: #292e32;
+    --main-text-dark: #fff;
+
+    //màu nền
+    --main-background-dark: #333;
+    --main-background-light: #fff;
+
+    //màu cho các thẻ
+    --main-background-border-light: rgba(248, 249, 250, 1);
+    --main-background-border-dark: #18191a;
+
+    // màu chữ phụ
     --secondary-bg-color: #f9fafd; //biến toàn cục cho nền phụ
     --secondary-text-color: #344050; //biến toàn cục cho màu chữ phụ
+
     --third-text-color: #5e6e82; //maù chữ tứ ba
     --link-text-color: #2162b6; // màu chữ thẻ link
     --span-text-color: #f46708; // màu chữ của span

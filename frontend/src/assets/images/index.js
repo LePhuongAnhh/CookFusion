@@ -76,6 +76,6 @@ const images = {
     thikhtao: require('~/assets/images/thit-kho-tau-mien-nam.jpg'),
     breakfast: require('~/assets/images/brafast.png'),
     logoAdmin: require('~/assets/images/logo-admin.png'),
-    secondLogo: require('~/assets/images/logo-second.png')
+    payment: require('~/assets/images/online-business.png')
 }
 export default images;

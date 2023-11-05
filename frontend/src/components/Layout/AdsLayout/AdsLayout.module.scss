@@ -1,0 +1,37 @@
+.light-mode {
+    background-color: var(--main-background-light) !important;
+    color: var(--main-text-color);
+    // background: var(--main-background-border-light);
+    /* Các thuộc tính khác cho chế độ sáng */
+}
+
+.dark-mode {
+    background-color: var(--main-background-dark);
+    color: var(--main-text-dark);
+    // background: var(--main-background-border-dark);
+    /* Các thuộc tính khác cho chế độ tối */
+}
+
+a {
+    font-size: 14px;
+    font-weight: 700;
+}
+.superNav {
+    font-size: 13px;
+}
+.form-control {
+    outline: none !important;
+    box-shadow: none !important;
+}
+@media screen and (max-width: 540px) {
+    .centerOnMobile {
+        text-align: center;
+    }
+}
+
+.header-ads {
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+}
