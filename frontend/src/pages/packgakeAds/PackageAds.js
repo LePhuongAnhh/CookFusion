@@ -20,9 +20,14 @@ function PackageAds() {
     };
     const columns = [
         {
+            field: 'spacer', // Tạo một cột trống
+            headerName: '',
+            width: 8, // Thiết lập độ rộng của cột để tạo khoảng trống
+        },
+        {
             field: 'No.',
             headerName: 'No.',
-            width: 70,
+            width: 80,
             renderCell: (params) => {
                 return <div>{params.row.id + 1}</div>; // Adjust to begin numbering from 1
             },
@@ -45,8 +50,8 @@ function PackageAds() {
         },
         {
             field: 'price',
-            headerName: 'Prices',
-            width: 100,
+            headerName: 'Prices ($)',
+            width: 140,
             type: 'number'
         }
 
@@ -54,65 +59,145 @@ function PackageAds() {
 
 
     const rows = [
-        { id: 1, package: 'Snow', payments: 'Jon', date: "20/11/2023", price: 35 },
-        { id: 2, package: 'Lannister', payments: 'Cersei', date: "20/11/2023", price: 42 },
-        { id: 3, package: 'Lannister', payments: 'Jaime', date: "20/11/2023", price: 45 },
-        { id: 4, package: 'Stark', payments: 'Arya', date: "20/11/2023", price: 16 },
-        { id: 5, package: 'Targaryen', payments: 'Daenerys', date: "20/11/2023", price: null },
-        { id: 6, package: 'Melisandre', payments: null, date: "20/11/2023", price: 150 },
-        { id: 7, package: 'Clifford', payments: 'Ferrara', date: "20/11/2023", price: 44 },
-        { id: 8, package: 'Frances', payments: 'Rossini', date: "20/11/2023", price: 36 },
-        { id: 9, package: 'Roxie', payments: 'Harvey', date: "20/11/2023", price: 65 },
+        { id: 1, package: 'Snow', payments: 'Jon', date: "2023-11-09", price: 35 },
+        { id: 2, package: 'Lannister', payments: 'Cersei', date: "2023-10-09", price: 42 },
+        { id: 3, package: 'Lannister', payments: 'Jaime', date: "2023-11-05", price: 45 },
+        { id: 4, package: 'Stark', payments: 'Arya', date: "2023-12-12", price: 16 },
+        { id: 5, package: 'Targaryen', payments: 'Daenerys', date: "2023-11-11", price: 46 },
+        { id: 6, package: 'Melisandre', payments: null, date: "2023-09-09", price: 150 },
+        { id: 7, package: 'Clifford', payments: 'Ferrara', date: "2023-09-08", price: 44 },
+        { id: 8, package: 'Frances', payments: 'Rossini', date: "2023-11-09", price: 36 },
+        { id: 9, package: 'Roxie', payments: 'Harvey', date: "2023-12-09", price: 65 },
     ];
+
     const totalPrice = rows.reduce((total, row) => (row.price ? total + row.price : total), 0);
+
+    //loc du lieu theo tháng
+    const [filteredMonth, setFilteredMonth] = useState(null); // State để lưu trữ tháng được lọc
+    const handleMonthChange = (event) => {
+        const selectedMonth = event.target.value; // Lấy giá trị tháng từ dropdown hoặc input
+        setFilteredMonth(selectedMonth);
+    };
+    const filterDataByMonth = (data, month) => {
+        if (month) {
+            const filteredData = data.filter((row) => {
+                const rowDate = parseISO(row.date); // Parse the date string to a Date object
+                return rowDate.getMonth() + 1 === Number(month); // Check the month against the selected month
+            });
+            return filteredData;
+        }
+        return data;
+    };
+    const filteredData = filterDataByMonth(rows, filteredMonth);
+
+    //nút button
+    const [isBouncing, setIsBouncing] = useState(false);
+    const handleBounce = () => {
+        setIsBouncing(true);
+        setTimeout(() => {
+            setIsBouncing(false);
+        }, 2000);
+    };
+
     return (
         <div className={cx('packageAds')}>
             <div className={cx('packageAds-container')}>
-                {/* header package */}
-                <div className={cx('create_auto_plan')}>
-                    <div className={cx('plan_left')}>
-                        <div className={cx('plan_wrapper')}>
-                            <div className={cx('automatic_plan')}>
-                                <div className={cx('title_wrapper')}>
-                                    <div className={cx('text_wrapper')}>
-                                        <span className={cx('title')}>Package 1  </span>
-                                        <span className={cx('suptitle')}>Recomment</span>
-                                    </div>
+                {/* PACKAGE CHOOSE  */}
+                <div className={cx("h-screen")}>
+                    <div className="container sm:mx-auto py-20 px-3">
+                        <div className="grid lg:grid-cols-3 gap-6" style={{ display: 'flex', justifyContent: "center" }}>
+                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} >
+                                <span className="text-2xl">Intro</span>
+                                <div className="flex row-auto items-center mt-1">
+                                    <h2 className={cx("text-3xl", "font-bold")}>$19</h2>
+                                    <span className="font-light text-gray-400 ml-1">/month</span>
                                 </div>
-                                <div className={cx('intr_plan')}>
-                                    <span className={cx('intro_text')}>
-                                        Submit your goal, current condition, and personal requirements. Our meal wizard will then calculate your custom nutritional targets and generate a meal plan!
-                                    </span>
+                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
+                                <div className="flex row-auto items-center mt-4">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> All limited links</span>
                                 </div>
-                                <span className={cx('choose_btn')} onClick={() => setShowPaymentModal(true)}>Giá Ads</span>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Chat support</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
+                                </div>
+                                <div className="mt-5">
+                                    <button className={cx('choose_btn')} onClick={() => setShowPaymentModal(true)}>Buy</button>
+                                </div>
                             </div>
-                            <div className={cx('automatic_plan')}>
-                                <div className={cx('title_wrapper')}>
-                                    <div className={cx('text_wrapper')}>
-                                        <span className={cx('title')}>Ten Package 2 </span>
-                                        <span className={cx('suptitle')}>Recommended</span>
-                                    </div>
+                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} style={{ margin: '0 23px', width: "25.5%" }}>
+                                <span className="text-2xl">Base</span>
+                                <div className="flex row-auto items-center mt-1">
+                                    <h2 className={cx("text-3xl", "font-bold")}>$39</h2>
+                                    <span className="font-light text-gray-400 ml-1">/month</span>
                                 </div>
-                                <div className={cx('intr_plan')}>
-                                    <span className={cx('intro_text')}>
-                                        Submit your goal, current condition, and personal requirements. Our meal wizard will then calculate your custom nutritional targets and generate a meal plan!
-                                    </span>
+                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
+                                <div className="flex row-auto items-center mt-4">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> All limited links</span>
                                 </div>
-                                <span className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Giá Ads</span>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Chat support</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
+                                </div>
+                                <div className="mt-5">
+                                    <button className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Buy</button>
+                                </div>
                             </div>
-                            <div className={cx('automatic_plan')}>
-                                <div className={cx('title_wrapper')}>
-                                    <div className={cx('text_wrapper')}>
-                                        <span className={cx('title')}>Ten package 3  </span>
-                                        <span className={cx('suptitle')}>Recommended</span>
-                                    </div>
+                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} >
+                                <span className="text-2xl">Base</span>
+                                <div className="flex row-auto items-center mt-1">
+                                    <h2 className={cx("text-3xl", "font-bold")}>$39</h2>
+                                    <span className="font-light text-gray-400 ml-1">/month</span>
                                 </div>
-                                <div className={cx('intr_plan')}>
-                                    <span className={cx('intro_text')}>
-                                        Submit your goal, current condition, and personal requirements. Our meal wizard will then calculate your custom nutritional targets and generate a meal plan!
-                                    </span>
+                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
+                                <div className="flex row-auto items-center mt-4">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> All limited links</span>
                                 </div>
-                                <span className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Giá Ads</span>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Chat support</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
+                                </div>
+                                <div className="flex row-auto items-center mt-2">
+                                    <i className="bi bi-check-circle"></i>
+                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
+                                </div>
+                                <div className="mt-5">
+                                    <button className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Buy</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,42 +211,93 @@ function PackageAds() {
                                 <div className="col-lg-6 mx-auto" style={{ width: "80%" }}>
                                     <div className="card">
                                         <div className="card-header">
+                                            {/* CLICK  */}
                                             <div className=" pt-4 pl-2 pr-2 pb-2">
                                                 <ul role="tablist" className="nav bg-light nav-pills rounded nav-fill mb-3">
                                                     <li className={cx("nav-item")}>
-                                                        <button onClick={() => handleTabChange('credit-card')} className={`nav-link ${activeTab === 'credit-card' ? 'active' : ''}`} style={{ width: "77%" }}>
-                                                            <i className="fas fa-credit-card mr-2"></i> Using
+                                                        <button onClick={() => handleTabChange('credit-card')} className={`nav-link ${activeTab === 'credit-card' ? 'active' : ''}`} style={{ width: "77%", marginLeft: "10px", height: "40px" }}>
+                                                            <i className="fas fa-credit-card mr-2"></i> Active
                                                         </button>
                                                     </li>
                                                     <li className={cx("nav-item")} style={{ marginRight: "173px" }}>
-                                                        <button onClick={() => handleTabChange('paypal')} className={`nav-link ${activeTab === 'paypal' ? 'active' : ''}`} style={{ width: "61%" }}>
+                                                        <button onClick={() => handleTabChange('paypal')} className={`nav-link ${activeTab === 'paypal' ? 'active' : ''}`} style={{ width: "61%", height: "40px" }}>
                                                             <i className="fab fa-paypal mr-2"></i> Payment history
                                                         </button>
                                                     </li>
                                                 </ul>
                                             </div>
+
+
                                             <div className="tab-content">
+                                                {/* //Active */}
                                                 <div id="credit-card" className={`tab-pane fade ${activeTab === 'credit-card' ? 'show active pt-3' : ''}`}>
-                                                    Hello
+                                                    <div className="page-content page-container" id="page-content">
+                                                        <div className="padding">
+                                                            <div className="row container d-flex justify-content-center">
+                                                                <div className="col-lg-5 grid-margin stretch-card" style={{ width: "100%" }}>
+                                                                    <div className="card">
+                                                                        <div className="card-body">
+                                                                            <h4 className="card-title">You are using package NAME PACKAGE</h4>
+                                                                            <p className="card-description"> Details of your advertising package</p>
+                                                                            <form className="forms-sample">
+                                                                                <div className="form-group row">
+                                                                                    <div className="col">
+                                                                                        <label>Purchase date </label>
+                                                                                        <input className={cx("form-control")} />
+                                                                                    </div>
+                                                                                    <div className="col">
+                                                                                        <label>Expiration date</label>
+                                                                                        <input className={cx("form-control")} />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="form-group">
+                                                                                    <div className="padding">
+                                                                                        <div className="row container d-flex justify-content-center">
+                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} >Gia hạn</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+                                                {/* HISTORY PAYMENT */}
                                                 <div id="paypal" className={`tab-pane fade ${activeTab === 'paypal' ? 'show active pt-3' : ''}`}>
-                                                    {/* //noi dung  */}
                                                     <div className="row d-flex justify-content-center mt-100 mb-100">
                                                         <div className="col-lg-6" style={{ width: "100%" }}>
                                                             <div className="card">
-                                                                {/* <div className="card-body text-center">
-                                                                    <h4 className="card-title m-b-0">News Updates</h4>
-                                                                </div> */}
-
                                                                 <Box
                                                                     sx={{
-                                                                        height: 415,
-                                                                        width: '100%',
-                                                                        fontSize: 20,
+                                                                        height: 370,
                                                                         border: 'none'
                                                                     }}>
+                                                                    <div className={cx('filter-month')} style={{ margin: '15px 10px 15px' }}>
+                                                                        <label htmlFor="monthFilter"> Choose Month &nbsp;</label>
+                                                                        <select id="monthFilter" onChange={handleMonthChange}>
+                                                                            <option value="">All</option>
+                                                                            <option value="1">Tháng 1</option>
+                                                                            <option value="2">Tháng 2</option>
+                                                                            <option value="3">Tháng 3</option>
+                                                                            <option value="4">Tháng 4</option>
+                                                                            <option value="5">Tháng 5</option>
+                                                                            <option value="6">Tháng 6</option>
+                                                                            <option value="7">Tháng 7</option>
+                                                                            <option value="8">Tháng 8</option>
+                                                                            <option value="9">Tháng 9</option>
+                                                                            <option value="10">Tháng 10</option>
+                                                                            <option value="11">Tháng 11</option>
+                                                                            <option value="12">Tháng 12</option>
+
+                                                                        </select>
+                                                                    </div>
                                                                     <DataGrid
-                                                                        rows={rows}
+                                                                        rows={filteredData} // Pass filteredData instead of the unfiltered rows
                                                                         columns={columns}
                                                                         // đặt kích thước trang ban đầu thành 6
                                                                         initialState={{
@@ -175,8 +311,9 @@ function PackageAds() {
                                                                             fontSize: '16'
                                                                         }}
                                                                         //Xác định các tùy chọn có sẵn để chọn kích thước trang.
-                                                                        pageSizeOptions={[6]}
+                                                                        pageSizeOptions={[5]}
                                                                         disableRowSelectionOnClick //Vô hiệu hóa lựa chọn hàng khi nhấp vào một hàng.
+
                                                                     />
                                                                 </Box>
                                                             </div>
@@ -184,7 +321,7 @@ function PackageAds() {
                                                     </div>
 
                                                     <div style={{ textAlign: 'center' }}>
-                                                        <strong>Total Prices: {totalPrice}</strong>
+                                                        <strong> Total Prices: {totalPrice} $</strong>
                                                     </div>
                                                 </div>
                                             </div>
@@ -193,12 +330,6 @@ function PackageAds() {
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
                     </div>
                 </div>
             </div>
