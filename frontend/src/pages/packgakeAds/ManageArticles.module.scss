@@ -11,8 +11,8 @@
 .header2-title {
     padding: 9px 20px;
     border-radius: 5px;
-    // background-color: #1877f21a;
-    background-color: rgb(163 196 238 / 10%);
+    background-color: #1877f21a;
+    // background-color: rgb(163 196 238 / 10%);
     color: #1461cc;
     font-weight: 600;
 }
@@ -27,8 +27,10 @@
     display: flex;
     flex-direction: column;
     border-radius: 5px;
+    background-color: #fff !important;
     // background-color: #1877f21a;
-    background-color: rgb(163 196 238 / 10%);
+    // background-color: rgb(163 196 238 / 10%);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1), 0 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 .header-body {
     display: block;
@@ -90,7 +92,7 @@
     display: flex;
     text-align: center;
     justify-content: center;
-    margin-bottom: 35px;
+    margin-bottom: 10px;
     img {
         width: 305px;
         height: 195px;
@@ -114,7 +116,7 @@
     background-color: #156ad9;
 }
 .manageArticles {
-    z-index: 1;
+    background-color: rgb(163 196 238 / 10%);
     background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
 }
 
@@ -125,7 +127,7 @@
     background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
 }
 .card-article {
-    background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
+    background-color: rgb(163 196 238 / 10%) !important;
 }
 
 .card-body {
@@ -178,7 +180,8 @@ ul.list-style-none li a {
 }
 
 .dropdown-menu {
-    background-color: #ffffff;
+    background-color: rgb(240, 247, 255);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1), 0 0 1px 0 rgba(0, 0, 0, 0.1);
     margin-left: -130px;
     border-radius: 5px;
 
@@ -193,6 +196,8 @@ ul.list-style-none li a {
 }
 .drop-item {
     padding: 5px 20px;
+    // border: 1px solid #cbd0dd;
+    border-radius: 5px;
 }
 .item-setting:hover {
     color: #1461cc;
