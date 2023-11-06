@@ -3,21 +3,36 @@ import Inputmask from 'react-input-mask';
 import styles from './PackageAds.module.scss'
 import classNames from 'classnames/bind'
 import images from '~/assets/images'
+import { useNavigate } from 'react-router-dom'
 import UpdateInfoSponsor from '~/components/Modal/UpdateInfoSponsor';
-import { Link } from 'react-router-dom'
+import { Link,useParams } from 'react-router-dom'
 import PaymentModal from '~/components/Modal/PaymentModal';
 import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import { format, isValid, parseISO } from 'date-fns';
+import {
+    apiUrl,
+    ADS,
+    ADS_PAYMENT,
+    ACCESS_TOKEN,
+} from "../../constants/constants.js"
+import axios from 'axios';
 const cx = classNames.bind(styles)
 
 function PackageAds() {
+    const navigate = useNavigate()
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showPaymentModal, setShowPaymentModal] = useState(false)
     const [activeTab, setActiveTab] = useState('credit-card');
-
+    const [listHistoryUserPackage, setListHistoryUserPackage] = useState([])
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
     };
+    const handleShowPaymentModal = (ads)=>{
+        localStorage.setItem(ADS, JSON.stringify(ads))
+        localStorage.setItem(ADS_PAYMENT,true)
+        navigate('/payment')
+    }
     const columns = [
         {
             field: 'spacer', // Tạo một cột trống
@@ -34,22 +49,26 @@ function PackageAds() {
         },
 
         {
-            field: 'package',
+            field: 'name',
             headerName: 'Package',
             width: 150,
         },
         {
-            field: 'payments',
-            headerName: 'Payments',
+            field: 'payer',
+            headerName: 'Payer',
             width: 150,
         },
         {
-            field: 'date',
+            field: 'from',
             headerName: 'Date',
-            width: 200,
+            width: 220,
+        }, {
+            field: 'type',
+            headerName: 'Payment type',
+            width: 140,
         },
         {
-            field: 'price',
+            field: 'cost',
             headerName: 'Prices ($)',
             width: 140,
             type: 'number'
@@ -58,19 +77,7 @@ function PackageAds() {
     ];
 
 
-    const rows = [
-        { id: 1, package: 'Snow', payments: 'Jon', date: "2023-11-09", price: 35 },
-        { id: 2, package: 'Lannister', payments: 'Cersei', date: "2023-10-09", price: 42 },
-        { id: 3, package: 'Lannister', payments: 'Jaime', date: "2023-11-05", price: 45 },
-        { id: 4, package: 'Stark', payments: 'Arya', date: "2023-12-12", price: 16 },
-        { id: 5, package: 'Targaryen', payments: 'Daenerys', date: "2023-11-11", price: 46 },
-        { id: 6, package: 'Melisandre', payments: null, date: "2023-09-09", price: 150 },
-        { id: 7, package: 'Clifford', payments: 'Ferrara', date: "2023-09-08", price: 44 },
-        { id: 8, package: 'Frances', payments: 'Rossini', date: "2023-11-09", price: 36 },
-        { id: 9, package: 'Roxie', payments: 'Harvey', date: "2023-12-09", price: 65 },
-    ];
-
-    const totalPrice = rows.reduce((total, row) => (row.price ? total + row.price : total), 0);
+    // const totalPrice = listHistoryUserPackage.reduce((total, row) => (row.price ? total + row.price : total), 0);
 
     //loc du lieu theo tháng
     const [filteredMonth, setFilteredMonth] = useState(null); // State để lưu trữ tháng được lọc
@@ -81,14 +88,14 @@ function PackageAds() {
     const filterDataByMonth = (data, month) => {
         if (month) {
             const filteredData = data.filter((row) => {
-                const rowDate = parseISO(row.date); // Parse the date string to a Date object
+                const rowDate = parseISO(row.from); // Parse the date string to a Date object
                 return rowDate.getMonth() + 1 === Number(month); // Check the month against the selected month
             });
             return filteredData;
         }
         return data;
     };
-    const filteredData = filterDataByMonth(rows, filteredMonth);
+    const filteredData = filterDataByMonth(listHistoryUserPackage, filteredMonth);
 
     //nút button
     const [isBouncing, setIsBouncing] = useState(false);
@@ -98,107 +105,99 @@ function PackageAds() {
             setIsBouncing(false);
         }, 2000);
     };
+    const [paymentPackage, setPaymentPackage] = useState([])
+    const [listAdsPackage, setListAdsPackage] = useState([])
+    const [currentUserPackage, setCurrentUserPackage] = useState({ package: {}, from: "", to: "" })
+    useEffect(() => {
+        (async () => {
+            try {
+                const [adspackage, userpackage] = await Promise.all([
+                    axios.get(`${apiUrl}/adspackage/getall`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }),
+                    axios.get(`${apiUrl}/userpackage/getHistoryUserPackage`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }),
+                ])
+                if (adspackage.data.success && userpackage.data.success) {
+                    let list = adspackage.data.data.map((ads, index) => { return { ...ads, id: index + 1 } })
+                    setListAdsPackage(list)
 
+                    list = userpackage.data.data.list.map((userAds, index) => {
+                        return {
+                            ...userAds, id: index,
+                            from: userAds.from.substring(0, 10),
+                            name: userAds.adsName[0].name,
+                            cost: userAds.adsName[0].cost,
+                            payer: userAds.invoice[0].name,
+                            type: userAds.invoice[0].paymentType
+                        }
+                    })
+                    setListHistoryUserPackage(list)
+                    const currentpk = adspackage.data.data.find((ads) => { return ads._id == userpackage.data.data.currentPackage.AdsPackage_id })
+                    setCurrentUserPackage(
+                        {
+                            package: currentpk,
+                            from: userpackage.data.data.currentPackage.from,
+                            to: userpackage.data.data.currentPackage.to
+                        }
+                    )
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
+
         <div className={cx('packageAds')}>
             <div className={cx('packageAds-container')}>
                 {/* PACKAGE CHOOSE  */}
                 <div className={cx("h-screen")}>
                     <div className="container sm:mx-auto py-20 px-3">
                         <div className="grid lg:grid-cols-3 gap-6" style={{ display: 'flex', justifyContent: "center" }}>
-                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} >
-                                <span className="text-2xl">Intro</span>
-                                <div className="flex row-auto items-center mt-1">
-                                    <h2 className={cx("text-3xl", "font-bold")}>$19</h2>
-                                    <span className="font-light text-gray-400 ml-1">/month</span>
+                            {listAdsPackage.length > 0 && listAdsPackage.map((ads) => (
+                                <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} >
+                                    <span className="text-2xl">{ads.name}</span>
+                                    <div className="flex row-auto items-center mt-1">
+                                        <h2 className={cx("text-3xl", "font-bold")}>{ads.cost} $</h2>
+                                        <span className="font-light text-gray-400 ml-1">/month</span>
+                                    </div>
+                                    <p className="text-gray-500 mt-4">
+                                        {/* For most businesses that want to optimize the web series */}
+                                        </p>
+                                    <div className="flex row-auto items-center mt-4">
+                                        <i className="bi bi-check-circle text-info"></i>
+                                        <span className="ml-3 text-gray-500">Display ads: {ads.ratingDes}</span>
+                                    </div>
+                                    <div className="flex row-auto items-center mt-2">
+                                        <i className="bi bi-check-circle text-info"></i>
+                                        <span className="ml-3 text-gray-500">Active post: {ads.activePost} posts</span>
+                                    </div>
+                                    <div className="flex row-auto items-center mt-2">
+                                        {
+                                            (ads.banner == 1) ? <i className="bi bi-check-circle text-info"></i>
+                                                : <i className="bi bi-check-circle text-danger"></i>
+                                        }
+                                        <span className="ml-3 text-gray-500">Banner ads: {(ads.banner == 1) ? "Yes" : "No"}</span>
+                                    </div>
+                                    <div className="flex row-auto items-center mt-2">
+                                        {
+                                            (ads.dashboard) ? <i className="bi bi-check-circle text-info"></i>
+                                                : <i className="bi bi-check-circle text-danger"></i>
+                                        }
+                                        <span className="ml-3 text-gray-500">Dashboard: {(ads.dashboard) ? "Yes" : "No"}</span>
+                                    </div>
+                                    <div className="mt-5">
+                                        <button className={cx('choose_btn')} onClick={() => handleShowPaymentModal(ads)}>Buy / Upgrade</button>
+                                    </div>
                                 </div>
-                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
-                                <div className="flex row-auto items-center mt-4">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> All limited links</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Chat support</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
-                                </div>
-                                <div className="mt-5">
-                                    <button className={cx('choose_btn')} onClick={() => setShowPaymentModal(true)}>Buy</button>
-                                </div>
-                            </div>
-                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} style={{ margin: '0 23px', width: "25.5%" }}>
-                                <span className="text-2xl">Base</span>
-                                <div className="flex row-auto items-center mt-1">
-                                    <h2 className={cx("text-3xl", "font-bold")}>$39</h2>
-                                    <span className="font-light text-gray-400 ml-1">/month</span>
-                                </div>
-                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
-                                <div className="flex row-auto items-center mt-4">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> All limited links</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Chat support</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
-                                </div>
-                                <div className="mt-5">
-                                    <button className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Buy</button>
-                                </div>
-                            </div>
-                            <div className={cx("p-3", "border", "rounded", "px-5", "py-6")} >
-                                <span className="text-2xl">Base</span>
-                                <div className="flex row-auto items-center mt-1">
-                                    <h2 className={cx("text-3xl", "font-bold")}>$39</h2>
-                                    <span className="font-light text-gray-400 ml-1">/month</span>
-                                </div>
-                                <p className="text-gray-500 mt-4">For most businesses that want to optimize the web series</p>
-                                <div className="flex row-auto items-center mt-4">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> All limited links</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Own Analytics platform</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Chat support</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Optimize hashtags</span>
-                                </div>
-                                <div className="flex row-auto items-center mt-2">
-                                    <i className="bi bi-check-circle"></i>
-                                    <span className="ml-3 text-gray-500"> Unlimited users</span>
-                                </div>
-                                <div className="mt-5">
-                                    <button className={cx('choose_btn1')} onClick={() => setShowPaymentModal(true)}>Buy</button>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -237,24 +236,24 @@ function PackageAds() {
                                                                 <div className="col-lg-5 grid-margin stretch-card" style={{ width: "100%" }}>
                                                                     <div className="card">
                                                                         <div className="card-body">
-                                                                            <h4 className="card-title">You are using package NAME PACKAGE</h4>
-                                                                            <p className="card-description"> Details of your advertising package</p>
+                                                                            <h4 className="card-title">You are using package {currentUserPackage.package.name}</h4>
+                                                                            {/* <p className="card-description"> Details of your advertising package</p> */}
                                                                             <form className="forms-sample">
                                                                                 <div className="form-group row">
                                                                                     <div className="col">
                                                                                         <label>Purchase date </label>
-                                                                                        <input className={cx("form-control")} />
+                                                                                        <input className={cx("form-control")} disabled value={currentUserPackage.from.substring(0, 10)} />
                                                                                     </div>
                                                                                     <div className="col">
                                                                                         <label>Expiration date</label>
-                                                                                        <input className={cx("form-control")} />
+                                                                                        <input className={cx("form-control")} disabled value={currentUserPackage.to.substring(0, 10)} />
                                                                                     </div>
                                                                                 </div>
                                                                                 <div className="form-group">
                                                                                     <div className="padding">
                                                                                         <div className="row container d-flex justify-content-center" style={{ marginLeft: "0px" }}>
-                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} onClick={() => setShowPaymentModal(true)} >Gia hạn</button>
-                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} >Update</button>
+                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} onClick={() => handleShowPaymentModal(currentUserPackage.package)} >Continuation</button>
+                                                                                            {/* <button type="button" id="bouncebutton" className={cx('btn-button')} >Update</button> */}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -321,9 +320,9 @@ function PackageAds() {
                                                         </div>
                                                     </div>
 
-                                                    <div style={{ textAlign: 'center' }}>
+                                                    {/* <div style={{ textAlign: 'center' }}>
                                                         <strong> Total Prices: {totalPrice} $</strong>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -334,7 +333,7 @@ function PackageAds() {
                     </div>
                 </div>
             </div>
-            {showPaymentModal && < PaymentModal setShowPaymentModal={setShowPaymentModal} />}
+            {/* {showPaymentModal && < PaymentModal setShowPaymentModal={setShowPaymentModal} userPackage={paymentPackage} />} */}
         </div>
 
     );

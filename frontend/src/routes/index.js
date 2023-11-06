@@ -38,6 +38,7 @@ import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import ManageArticles from "~/pages/packgakeAds/ManageArticles";
 import Search from "~/pages/user/Search"
 import Testheader from "~/components/Layout/AdsLayout/Testheader";
+import PaymentModal from "~/components/Modal/PaymentModal";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -77,6 +78,7 @@ const publicRoutes = [
     { path: "/packageAds", component: PackageAds, layout: AdsLayout },
     { path: "/dashboardAds", component: DashboardAds, layout: AdsLayout },
     { path: "/profileSponsor", component: ProfileAds, layout: AdsLayout },
+    { path: "/payment", component: PaymentModal },
     { path: "/managementArticleAds", component: ManageArticles, layout: AdsLayout },
     { path: "/test", component: Testheader, layout: null },
 
