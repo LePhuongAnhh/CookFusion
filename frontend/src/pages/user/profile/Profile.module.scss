@@ -1,6 +1,6 @@
 .container-profile {
     // margin: 40px 40px 0;
-    margin-top: 40px;
+    // margin-top: 40px;
 }
 
 .left {
@@ -28,7 +28,6 @@
     width: 112px !important;
 }
 .edit-profile {
-    color: none !important;
     cursor: pointer;
 }
 .edit-profile:hover {
@@ -38,14 +37,12 @@
     margin-top: 50px;
     font-size: 16px;
     font-weight: 600;
-    color: var(--main-text-color);
 }
 .flex {
     display: flex;
     gap: 72px;
     li a {
         transition: 0.5s;
-        color: var(--main-text-color);
     }
 }
 
@@ -82,7 +79,6 @@
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
     background-clip: border-box;
     border: 0px solid rgba(0, 0, 0, 0.125);
     border-radius: calc(0.375rem - 0px);
@@ -161,3 +157,22 @@
     width: 2rem;
     border-radius: 50%;
 }
+
+//PROFILE- BODY
+.profile-body {
+    width: 100%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+.nav-item {
+    cursor: pointer;
+}
+.nav-item div.active {
+    border-bottom: 2px solid #007bff; /* Màu xanh dương - bạn có thể thay đổi mã màu tùy thích */
+}
+.body-right {
+    flex: 0 0 55%;
+}
+//MANAGEMNET
+

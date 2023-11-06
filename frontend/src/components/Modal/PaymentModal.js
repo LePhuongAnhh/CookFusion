@@ -15,8 +15,8 @@ function PaymentModal({ setShowPaymentModal }) {
                             <div className={cx("card", " text-center")} style={{ borderRadius: "10px" }}>
                                 <div className={cx("card-body")}>
                                     {/* <img src={images.payment} className={cx('img-payment')} /> */}
-                                    <h5 className={cx("title")}>Payment</h5>
-                                    <p className={cx("description")}>Please select the payment method for package PACKAGE NAME to complete the purchasing process.</p>
+                                    <h5 className={cx("title")}>How will you pay for advertising?</h5>
+                                    <p className={cx("description")}>You need a payment method to advertise. Of course, we'll only charge you when your ads start running.</p>
                                     <div className={cx("row")}>
                                         <div className="col-sm-6 mb-2  mb-md-0">
                                             <button className={cx("btn", "color-credit")}><i class="bi bi-credit-card-2-back"></i> Credit Cart</button>

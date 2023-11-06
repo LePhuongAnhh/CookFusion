@@ -31,7 +31,6 @@ function Profile() {
     const updateNewArticle = (data) => {
         console.log('get data update post', data)
     }
-    console.log("avt ne", profileInformation.avatar)
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>

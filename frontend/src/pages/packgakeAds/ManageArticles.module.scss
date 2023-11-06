@@ -1,10 +1,202 @@
+//hadr
+.header-title-text {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.header2 {
+    display: flex;
+    margin: 20px 0;
+}
+.header2-title {
+    padding: 9px 20px;
+    border-radius: 5px;
+    // background-color: #1877f21a;
+    background-color: rgb(163 196 238 / 10%);
+    color: #1461cc;
+    font-weight: 600;
+}
+
+//than
+.modal-choose {
+    width: 100%;
+}
+.border-choose {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    // background-color: #1877f21a;
+    background-color: rgb(163 196 238 / 10%);
+}
+.header-body {
+    display: block;
+    margin: 25px 20px 0;
+    .header-body--title {
+        font-weight: 600;
+        font-size: 17px;
+    }
+    .body-ads-gird {
+        display: flex;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        .header-left {
+            font-weight: 600;
+            font-size: 17px;
+        }
+        .header-right {
+            cursor: pointer;
+            float: right;
+            margin-left: 325px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #0000000d;
+        }
+    }
+}
+.header-right:hover {
+    background-color: #0505050d;
+}
+
+.body-ads {
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    height: 310px;
+    // height: 235px;
+    justify-content: center;
+    display: flex;
+    .body-ads-gird {
+        display: inline;
+    }
+}
+
+.bottom-ads {
+    display: flex;
+    margin: 20px;
+    .upload-file {
+        cursor: pointer;
+        float: right;
+        padding: 8px 16px;
+        color: #fff;
+        font-weight: 600;
+        background-color: #1877f2;
+        margin-left: 365px;
+        border-radius: 5px;
+    }
+}
+.dz-message-text {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    img {
+        width: 305px;
+        height: 195px;
+        object-fit: cover;
+        border-radius: 5px;
+        // margin-top: -14px;
+    }
+    .upload-banner {
+        margin: auto 0;
+        // width: 250px;
+        // height: 150px;
+        padding: 8rem;
+        border: 1px dashed #cbd0dd;
+        border-radius: 5px;
+        margin-bottom: 30px;
+        cursor: pointer;
+    }
+}
+
+.upload-file:hover {
+    background-color: #156ad9;
+}
 .manageArticles {
-    margin-top: 80px;
     z-index: 1;
+    background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
 }
 
 .manageArticles-container {
     width: 100%;
     display: flex;
-    margin-top: 15px;
+    justify-content: center;
+    background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
+}
+.card-article {
+    background-image: linear-gradient(linear-gradient(135deg, #fcf3e1, #f8e7ed, #ede7f6, #e1f5fe));
+}
+
+.card-body {
+    padding: 1rem 1.25rem 1rem 0;
+}
+.card .card-title {
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+ul.list-style-none li {
+    list-style: none;
+}
+
+.list-style {
+    padding-left: 0 !important;
+}
+ul.list-style-none li a {
+    color: #673ab7;
+    padding: 8px 0px;
+    display: block;
+    text-decoration: none;
+}
+
+.ml-auto {
+    margin: 0 0 0 40px;
+}
+.border-round {
+    border-radius: 5px;
+    width: 55px;
+    height: 55px;
+    margin: 0 11px 0;
+    cursor: pointer;
+}
+.title-choose {
+    font-weight: 600;
+    font-size: 17px;
+}
+.title-choose:hover {
+    // color: blue;
+    text-decoration: underline;
+}
+.input-check {
+    width: none !important;
+}
+//setting-ads
+.setting-ads i {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    background-color: #ffffff;
+    margin-left: -130px;
+    border-radius: 5px;
+
+    ul {
+        cursor: pointer;
+        // margin: 10px 0;
+        li {
+            padding: 6px 0px 6px 0px;
+            margin: 10px 3px;
+        }
+    }
+}
+.drop-item {
+    padding: 5px 20px;
+}
+.item-setting:hover {
+    color: #1461cc;
+}
+.card-item {
+    margin: 0 3px 0 -21px;
 }
