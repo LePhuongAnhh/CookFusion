@@ -158,7 +158,7 @@ ul.list-style-none li a {
 .btn-button {
     width: 220px;
     border: 1px solid #f2f2f2;
-    margin: 25px auto 10px;
+    margin: 25px 9px 10px;
     border-radius: 5px;
 }
 .btn-button:hover {
@@ -166,4 +166,45 @@ ul.list-style-none li a {
     color: #fff;
 }
 
-//réponsive
+//dashboard
+.col {
+    margin-top: 20px;
+}
+
+//thân db
+.insert {
+    background: #5e35b1;
+    width: 130px;
+    border-radius: 1rem;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 35px;
+    margin-top: 5px;
+}
+.title-total {
+    text-align: center;
+    font-weight: 600;
+    font-size: 19px;
+    margin: 4px 0;
+}
+.number-article {
+    text-align: center;
+    font-size: 15px;
+}
+.home {
+    text-align: left;
+}
+.opaque {
+    color: #5e35b1;
+}
+
+.insert {
+    transition: all 1.3s;
+}
+
+.insert:hover {
+    transform: scale(1.1);
+}

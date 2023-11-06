@@ -36,6 +36,7 @@ import ArticleAds from "~/pages/packgakeAds/ArticleAds";
 import DashboardAds from "~/pages/packgakeAds/DashboardAds";
 import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import Search from "~/pages/user/Search"
+import Testheader from "~/components/Layout/AdsLayout/Testheader";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -75,6 +76,7 @@ const publicRoutes = [
     { path: "/packageAds", component: PackageAds, layout: AdsLayout },
     { path: "/dashboardAds", component: DashboardAds, layout: AdsLayout },
     { path: "/profileSponsor", component: ProfileAds, layout: AdsLayout },
+    { path: "/test", component: Testheader, layout: null },
 
 ];
 const privateRoutes = [];

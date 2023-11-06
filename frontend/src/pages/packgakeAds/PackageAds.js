@@ -252,8 +252,9 @@ function PackageAds() {
                                                                                 </div>
                                                                                 <div className="form-group">
                                                                                     <div className="padding">
-                                                                                        <div className="row container d-flex justify-content-center">
-                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} >Gia hạn</button>
+                                                                                        <div className="row container d-flex justify-content-center" style={{ marginLeft: "0px" }}>
+                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} onClick={() => setShowPaymentModal(true)} >Gia hạn</button>
+                                                                                            <button type="button" id="bouncebutton" className={cx('btn-button')} >Update</button>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

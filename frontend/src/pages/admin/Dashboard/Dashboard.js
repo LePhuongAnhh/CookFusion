@@ -44,9 +44,7 @@ const Dashboard = () => {
     }, [])
     return (
         <>
-
             < div className={cx('row-dashboard')} >
-
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
                         <h4 className={cx('page_title')}>Dashboard</h4>
