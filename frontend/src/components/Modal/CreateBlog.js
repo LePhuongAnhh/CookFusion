@@ -35,12 +35,10 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
 
     //chọn và hiển thị ảnh
     const [selectedFiles, setSelectedFiles] = useState([]);
-
     const handleImageClick = () => {
         const fileInput = document.getElementById('fileInput');
         fileInput.click();
     };
-
     const handleImageUpload = (event) => {
         const selectedFiles = event.target.files;
         const filesArray = [];
@@ -52,8 +50,14 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                 filesArray.push({ type: 'video', url: URL.createObjectURL(file) });
             }
         }
-
         setSelectedFiles(filesArray);
+    };
+
+    // xóa file 
+    const handleRemoveFile = (index) => {
+        const updatedFiles = [...selectedFiles];
+        updatedFiles.splice(index, 1);
+        setSelectedFiles(updatedFiles);
     };
 
 
@@ -175,15 +179,27 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 />
                                 <div className={cx('show-files')}>
                                     {selectedFiles.map((file, index) => (
-                                        <div key={index}>
-                                            {file.type === 'image' ? (
-                                                <img src={file.url} alt={`Selected Image ${index}`} />
-                                            ) : (
-                                                <video controls>
-                                                    <source src={file.url} type="video/mp4" />
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            )}
+                                        <div key={index} className={cx('file-item')}>
+                                            <div className={cx('media-container')}>
+                                                {file.type === 'image' ? (
+                                                    <div className={cx('image-container')}>
+                                                        <img src={file.url} alt={`Selected Image ${index}`} />
+                                                    </div>
+                                                ) : (
+                                                    <div className={cx('video-container')}>
+                                                        <video controls>
+                                                            <source src={file.url} type="video/mp4" />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                )}
+                                                {/* Remove button positioned over the image or video */}
+                                                <button className={cx('remove-button')} onClick={() => handleRemoveFile(index)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
