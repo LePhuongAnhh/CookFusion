@@ -2,32 +2,55 @@ import styles from './LoginForm.module.scss'
 import classNames from 'classnames/bind'
 import axios from 'axios';
 import { apiUrl } from '~/constants/constants';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import images from '~/assets/images'
 import { Link, useNavigate } from 'react-router-dom';
 import RoleModal from '~/components/Modal/RoleModal';
+
 const cx = classNames.bind(styles)
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
+    //choose role
+    const [showRoleModal, setShowRoleModal] = useState(false);
+    const [selectedRole, setSelectedRole] = useState(null);
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setShowRoleModal(true);
+        }, 500);
+        return () => clearTimeout(timeout);
+    }, []);
+
+    const handleRoleSelect = (role) => {
+        setSelectedRole(role);
+        setShowRoleModal(false);
+    };
+
+    const handleCancel = () => {
+        setShowRoleModal(false);
+        navigate('/'); // Quay lại trang login khi bấm Cancel
+    };
+
+    const handleOK = () => {
+        if (selectedRole === 'User' || selectedRole === 'Sponsor') {
+            navigate('/register', { state: { selectedRole } });
+            console.log("Role dc", selectedRole)
+        } else {
+            console.log('Invalid role selected:', selectedRole);
+        }
+    };
+
+
+
+
     //Đồng ý điều khoản 
     const [isChecked, setIsChecked] = useState(false);
-    const handleCheckboxChange = () => {
-        setIsChecked(!isChecked); // Thay đổi trạng thái khi người dùng thay đổi ô điều khoản
-    };
-    function checkValideInput() {
-        let isValid = true;
-        let arrInput = ['name', 'username', 'email', 'password', 'rePassword'];
-        for (let i = 0; i < arrInput.length; i++) {
-            console.log(createAccount[arrInput[i]], arrInput[i])
-            if (!createAccount[arrInput[i]]) {
-                isValid = false;
-                alert("khong dc de trong du lieu  ", + arrInput[i]);
-                break
-            }
-        }
-        return isValid;
-    }
+    const [showTermsError, setShowTermsError] = useState(false); // State to manage visibility of the terms error message
 
+    const handleCheckboxChange = () => {
+        setShowTermsError(false); // Reset the terms error message when the checkbox changes
+        setIsChecked(!isChecked);
+    };
     function checkName() {
         var full_name = document.getElementById('txt-full-name').value;
         var check_error_fullname = document.getElementById('error-full-name');
@@ -94,7 +117,6 @@ const RegisterForm = () => {
             return password;
         }
     }
-    const navigate = useNavigate();
     const [createAccount, setCreateAccount] = useState({
         name: "",
         username: "",
@@ -108,23 +130,21 @@ const RegisterForm = () => {
     };
     const handleRegister = async (e) => {
         e.preventDefault();
-        const isValid = checkValideInput();
-        if (isValid === true) {
-            if (!isChecked) {
-                alert('Vui lòng đồng ý với điều khoản trước khi đăng bài.');
-                return;
+
+        if (!isChecked) {
+            setShowTermsError(true);
+            return;
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
+            if (response.data.success) {
+                console.log('Đăng ký thành công', response.data);
+                alert("Đăng ký thành công");
+                navigate('/verify');
             }
-            try {
-                const response = await axios.post(`${apiUrl}/auth/create`, createAccount);
-                if (response.data.success) {
-                    console.log('Đăng ký thành công', response.data);
-                    alert("Đăng ký thành công");
-                    navigate('/verify');
-                }
-            } catch (error) {
-                // console.log()
-                alert(error.response.data.message)
-            }
+        } catch (error) {
+            // console.log()
+            alert(error.response.data.message)
         }
     };
 
@@ -208,9 +228,18 @@ const RegisterForm = () => {
                                     checked={isChecked}
                                     onChange={handleCheckboxChange}
                                 />
-                                &nbsp; Agree to &nbsp;
-                                <Link to="#" className={cx('term')}> Term and Condition  </Link>
+
                             </label>
+                            <span className={cx('term')}>
+                                &nbsp; Term and Condition
+                            </span>
+                            {/* <Link to="#" className={cx('term')}> Term and Condition </Link> */}
+
+                            {showTermsError && ( // Conditionally display the terms error message
+                                <span className={cx('terms_error')}>
+                                    &nbsp; Please agree to the terms.
+                                </span>
+                            )}
                         </div>
                         <div className={cx('login_btn')} >
                             <span></span>
@@ -221,10 +250,7 @@ const RegisterForm = () => {
                                 type="submit"
                                 value="Register"
                             />
-                            {/* Đăng ký */}
-                            {/* </input> */}
                         </div>
-                        {/* <RoleModal /> */}
                         <div className={cx('lb_login', 'd-flex', 'justify-content-center', 'align-items-center')}>
                             <label> Already register? </label>
                             <Link to='/'> &nbsp;  Sign in </Link>
@@ -232,7 +258,13 @@ const RegisterForm = () => {
                     </form>
                 </div>
             </div>
-            {/* </img> */}
+            {showRoleModal && (
+                <RoleModal
+                    onRoleSelect={handleRoleSelect}
+                    onClose={handleCancel}
+                    onOK={handleOK}
+                />
+            )}
         </>
     )
 }

@@ -126,19 +126,20 @@ h5 {
     height: 200px;
     overflow-y: auto;
 }
-.show-image {
-    display: flex; /* Sử dụng một container dạng flexbox */
-    flex-direction: column; /* Đặt hướng hiển thị thành dọc (mỗi phần tử nằm trên dưới) */
+.show-files {
+    display: block;
+    margin: 0 80px;
+    // display: flex; /* Sử dụng một container dạng flexbox */
+    // flex-direction: column; /* Đặt hướng hiển thị thành dọc (mỗi phần tử nằm trên dưới) */
     align-items: center; /* Căn chỉnh theo chiều ngang vào giữa */
-    justify-content: center; /* Căn chỉnh theo chiều dọc vào giữa */
-    // width: 280px;
-    // margin-top: -10px;
-    height: 100%; /* Đảm bảo thẻ cha (container) có chiều cao 100% */
+    // justify-content: center; /* Căn chỉnh theo chiều dọc vào giữa */
+    // height: 100%; /* Đảm bảo thẻ cha (container) có chiều cao 100% */
     img {
-        height: 190px;
-        text-align: center;
+        width: 330px;
+        height: 220px;
         border-radius: 5px;
         object-fit: cover;
+        margin: 18px 0;
     }
 }
 

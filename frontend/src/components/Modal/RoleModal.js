@@ -4,65 +4,86 @@ import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom';
 import images from '~/assets/images'
 import { ACCESS_TOKEN } from '~/constants/constants';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles)
-const RoleModal = ({ setShowRoleModal }) => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const [selectedOption, setSelectedOption] = useState('');
+const RoleModal = ({ onClose, onRoleSelect, onOK }) => {
+    const [selectedRole, setSelectedRole] = useState('User'); // Thiết lập User là lựa chọn mặc định
 
-    const handleRoleChange = (event) => {
-        setSelectedOption(event.target.value);
+    const handleRoleSelection = (role) => {
+        setSelectedRole(role); // Cập nhật vai trò được chọn
+        console.log(selectedRole)
     };
 
-    // const [selectedOption, setSelectedOption] = useState('');
-
+    const handleOK = () => {
+        onRoleSelect(selectedRole); // Truyền dữ liệu đc chọn khi bấm "Next"
+        
+        onOK(); // Gọi hàm xử lý khi bấm Next
+    };
     return (
         <>
-            <div className={cx('modalChooseRole')}>
-                <form className={cx('modalBodyRole')}>
-                    {/* <div className={cx('modalBodyRole')}> */}
-                    <div>
-                        <div className={cx('roleHeader')}>
-                            <h1 className={cx('role')}>Choose the role</h1>
-                        </div>
-                        <div onClick={() => setShowRoleModal(false)} className={cx('cancel')}>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                </svg>
+            <div className={cx("modal-dialog")}>
+                <div className={cx("modal-content")}>
+                    {/* <!-- Modal body --> */}
+                    <div className={cx("modal-body", "mb-0", "pb-0", "mt-0")}>
+                        <div className={cx("container ")}>
+                            <div className={cx("row", "mb-1")}>
+                                <div className={cx("col")}>
+                                    <h2 className={cx("header")}>Choose Role</h2>
+                                </div>
                             </div>
+                            <form action="#" className={cx("customRadio", "customCheckbox", "m-0", "p-0")}>
+                                <div className={cx("row", "mb-0")}>
+                                    <div className={cx("row", "justify-content-start")}>
+                                        <div className={cx("col-12")}>
+                                            <div className={cx("row")}>
+                                                <input
+                                                    type="radio"
+                                                    name="textEditor"
+                                                    id="sublime"
+                                                    checked={selectedRole === 'User'} // Thiết lập User là mặc định
+                                                    onChange={() => handleRoleSelection('User')}
+                                                />
+                                                <label htmlFor="sublime">User</label>
+                                            </div>
+                                            <div className={cx("row")}>
+                                                <input
+                                                    type="radio"
+                                                    name="textEditor"
+                                                    id="dreamweaver"
+                                                    checked={selectedRole === 'Sponsor'} // Chọn sang Sponsor
+                                                    onChange={() => handleRoleSelection('Sponsor')}
+                                                />
+                                                <label htmlFor="dreamweaver">Sponsor</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
-                    <hr></hr>
-
-                    <div className={cx('inform')}>
-                        <p>You choose the role to complete the account login process</p>
-                    </div>
-
-                    <div className={cx('roleContent')}>
-                        <div className={cx('container')}>
-                            <div className={cx('choose')}>
-                                <label className={cx('user_normal')}>
-                                    <input className={cx('user')} type="radio" name="User" value="user" checked={selectedOption === 'user'} onChange={handleRoleChange} />
-                                    User
-                                </label>
-                            </div>
-                            <div className={cx('choose')}>
-                                <label className={cx('user_normal')}>
-                                    <input className={cx('user')} type="radio" name="User" value="user" checked={selectedOption === 'user'} onChange={handleRoleChange} />
-                                    User
-                                </label>
-
-                            </div>
+                    <div className={cx("modal-footer")}>
+                        <div className={cx("modal-footer-gird")}>
+                            <button
+                                type="button"
+                                className={cx("modal_footer", "ok")}
+                                onClick={onClose}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <div className="justify-content-start m-0 p-0">
+                            <button
+                                type="button"
+                                className={cx("modal_footer", "cancel")}
+                                onClick={handleOK}
+                            >
+                                Next
+                            </button>
                         </div>
                     </div>
-                    <div className={cx('box')}>
-                        <Link className={cx('accept_role')}>
-                            <svg> <rect></rect></svg>
-                            <p className={cx('accept')} >Accept</p>
-                        </Link>
-                    </div>
-                </form>
+                </div>
             </div>
         </>
     )

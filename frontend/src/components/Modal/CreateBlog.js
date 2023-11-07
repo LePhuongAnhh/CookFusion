@@ -1,9 +1,10 @@
-import styles from './CreateBlog.module.scss'
-import classNames from 'classnames/bind'
 import React, { useRef, useState, Component } from 'react';
-import images from '~/assets/images'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+
+import styles from './CreateBlog.module.scss'
+import classNames from 'classnames/bind'
+import images from '~/assets/images'
 import {
     userId,
     apiUrl,
@@ -20,22 +21,42 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
+
+
+
+
     //Đồng ý điều khoản 
+    const [showAgreementMessage, setShowAgreementMessage] = useState(false); // Thêm state mới
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked); // Thay đổi trạng thái khi người dùng thay đổi ô điều khoản
+        setIsChecked(!isChecked);
+        setShowAgreementMessage(false); // Reset lại trạng thái thông báo
     };
+
+
     //chọn và hiển thị ảnh
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
     const handleImageClick = () => {
         const fileInput = document.getElementById('fileInput');
         fileInput.click();
     };
+
     const handleImageUpload = (event) => {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
-            setSelectedImage(URL.createObjectURL(selectedFile));
+        const selectedFiles = event.target.files;
+        const filesArray = [];
+        for (let i = 0; i < selectedFiles.length; i++) {
+            const file = selectedFiles[i];
+            if (file.type.includes('image')) {
+                filesArray.push({ type: 'image', url: URL.createObjectURL(file) });
+            } else if (file.type.includes('video')) {
+                filesArray.push({ type: 'video', url: URL.createObjectURL(file) });
+            }
         }
+
+        setSelectedFiles(filesArray);
     };
+
+
 
     const [articleData, setArticleData] = useState({
         userId: userId,
@@ -62,54 +83,38 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         }
     };
     console.log("input data:", articleData)
-    function checkValideInput() {
-        let isValid = true;
-        let arrInput = ['title', 'content'];
-        for (let i = 0; i < arrInput.length; i++) {
-            console.log(articleData[arrInput[i]], arrInput[i])
-            if (!articleData[arrInput[i]]) {
-                isValid = false;
-                alert("title va content khong dc de trong nha nay  ", + arrInput[i]);
-                break
-            }
-        }
-        return isValid;
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        let isValid = checkValideInput();
-        if (isValid === true) {
-            if (!isChecked) {
-                alert('Vui lòng đồng ý với điều khoản trước khi đăng bài.');
-                return;
+        if (!isChecked) {
+            setShowAgreementMessage(true);
+            return;
+        }
+        const formData = new FormData();
+        formData.append('title', articleData.title);
+        formData.append('content', articleData.content);
+        formData.append('files', articleData.files);
+        formData.append('userId', userId);
+
+        createNewArticle(articleData);
+
+        try {
+            const response = await axios.post(`${apiUrl}/article/addNew`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.data.success) {
+                console.log('Bài viết đã được tạo thành công.');
+                setShowCreateBlogModal(false);
             }
-            const formData = new FormData();
-            formData.append('title', articleData.title);
-            formData.append('content', articleData.content);
-            formData.append('files', articleData.files);
-            formData.append('userId', userId);
-
-            createNewArticle(articleData);
-            try {
-
-                const response = await axios.post(`${apiUrl}/article/addNew`, formData, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                if (response.data.success) {
-                    console.log('Bài viết đã được tạo thành công.');
-                    alert('dawng bai thanh cong')
-                    setShowCreateBlogModal(false);
-                }
-
-            } catch (error) {
-                console.log(error.response)
-                alert(error.response.data.message)
-            }
+        } catch (error) {
+            console.log(error.response)
+            alert(error.response.data.message)
         }
     };
+
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
@@ -141,6 +146,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 <div className={cx('post_create')}>
                                     <h5 className={cx('create_post')}>
                                         <input
+                                            required
                                             placeholder='Title'
                                             type="text"
                                             name="title"
@@ -160,21 +166,28 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                         height: `${articleData.content.split('\n').length * 1.5}rem`,
                                         overflow: 'hidden', // Ẩn thanh cuộn dọc
                                     }}
+                                    required
                                     placeholder='What do you want to talk about?'
                                     className={cx('textarea_post')}
                                     name="content"
                                     value={articleData.content}
                                     onChange={handleInputChange}
                                 />
-                                <div className={cx('show-image')} >
-                                    {selectedImage ? (
-                                        <img src={selectedImage} alt="Selected Image" />
-                                    ) : (
-                                        <div>
-                                            {/* <p className={cx('bi bi-plus-circle')}>No image selected</p> */}
+                                <div className={cx('show-files')}>
+                                    {selectedFiles.map((file, index) => (
+                                        <div key={index}>
+                                            {file.type === 'image' ? (
+                                                <img src={file.url} alt={`Selected Image ${index}`} />
+                                            ) : (
+                                                <video controls>
+                                                    <source src={file.url} type="video/mp4" />
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            )}
                                         </div>
-                                    )}
+                                    ))}
                                 </div>
+
                             </div>
 
 
@@ -183,11 +196,13 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                     <button className={cx('btn_img')}  >
                                         <input
                                             type="file"
-                                            accept="image/*" // Chỉ cho phép chọn các tệp hình ảnh
+                                            accept="image/*,video/*" // Chấp nhận cả tệp hình ảnh và video
                                             id="fileInput"
                                             style={{ display: 'none' }}
+                                            multiple
                                             onChange={handleImageUpload}
                                         />
+
                                         <div
                                             id="imageContainer"
                                             className={cx('buttons')}
@@ -227,10 +242,13 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 >
                                     Term and Condition
                                 </span>
+                                {showAgreementMessage && (
+                                    <span className={cx('requireAgreement')}>
+                                        &nbsp; Please agree to the terms.
+                                    </span>
+                                )}
                             </div>
-
                         </div >
-
                         <div className={cx('create_footer')}>
                             <button type='submit' className={cx('btn_post_share')}>Share</button>
                         </div>

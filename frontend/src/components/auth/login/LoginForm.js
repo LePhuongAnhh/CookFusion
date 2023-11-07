@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import ErrorModal from "~/components/Modal/ErrorModal.js"
 // import Modal from './Modal';
 
 //import từ bên trong src
@@ -20,26 +21,31 @@ import { Link } from 'react-router-dom'
 const cx = classNames.bind(styles)
 
 const LoginForm = () => {
-    //validation
-    function checkValideInput() {
-        let isValid = true;
-        let arrInput = ['username', 'password'];
-        for (let i = 0; i < arrInput.length; i++) {
-            console.log(loginForm[arrInput[i]], arrInput[i])
-            if (!loginForm[arrInput[i]]) {
-                isValid = false;
-                alert("khong dc de trong du lieu  ", + arrInput[i]);
-                break
-            }
-        }
-        return isValid;
-    }
     const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState({
         username: "",
         password: ""
     })
+
     const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
+
+    const [errors, setErrors] = useState({}); // State to manage error messages
+    const [error, setError] = useState(null);
+    // Validation function to check for empty username and password
+    const checkValideInput = () => {
+        let errors = {};
+        let isValid = true;
+        if (!loginForm.username) {
+            errors.username = "Please enter a username";
+            isValid = false;
+        }
+        if (!loginForm.password) {
+            errors.password = "Please enter a password";
+            isValid = false;
+        }
+        setErrors(errors); // Update the state with error messages
+        return isValid;
+    };
 
     const login = async event => {
         event.preventDefault();
@@ -67,7 +73,7 @@ const LoginForm = () => {
                 }
             }
         } catch (error) {
-            console.log(error.response.data.message)
+            setError(error.response.data.message);
         }
     };
     const { username, password } = loginForm
@@ -81,11 +87,6 @@ const LoginForm = () => {
                         Login
                     </h2>
                     <form onSubmit={login}>
-                        {/* {
-                            incorrectAccount &&
-                            <div className={cx("warning")}>Incorrect Username or Password, please try again</div>
-                            // <Modal show={showModal} onClose={() => setShowModal(false)} />
-                        } */}
                         <div className={cx('user_box')}>
                             <input
                                 className={cx('input_field')}
@@ -95,7 +96,7 @@ const LoginForm = () => {
                                 id="txt-username"
                                 onChange={onChangeLoginForm}
                             />
-                            <label>Username <span id="error-username" className="error-username"></span></label>
+                            <label>Username {errors.username && <span className="error-message">{errors.username}</span>}</label>
                         </div>
                         <div className={cx('user_box')}>
                             <input
@@ -106,7 +107,7 @@ const LoginForm = () => {
                                 value={password}
                                 onChange={onChangeLoginForm}
                             />
-                            <label>Password <span id="error-password" className="error-password"></span></label>
+                            <label>Password  {errors.password && <span className="error-message">{errors.password}</span>}</label>
                         </div>
                         <div className={cx('forgot_pass')}>
                             <label>
@@ -138,7 +139,7 @@ const LoginForm = () => {
                     </form>
                 </div>
             </div>
-            {/* </img > */}
+            {error && <ErrorModal message={error} onClose={() => setError(null)} />}
         </>
     )
 }
