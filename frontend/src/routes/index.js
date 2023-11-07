@@ -36,7 +36,6 @@ import ArticleAds from "~/pages/packgakeAds/ArticleAds";
 import DashboardAds from "~/pages/packgakeAds/DashboardAds";
 import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import ManageArticles from "~/pages/packgakeAds/ManageArticles";
-import Search from "~/pages/user/Search"
 import Testheader from "~/components/Layout/AdsLayout/Testheader";
 import PaymentModal from "~/components/Modal/PaymentModal";
 
@@ -59,7 +58,6 @@ const publicRoutes = [
     { path: "/autoplan", component: AutoPlan },
     { path: "/step2", component: Step2_auto },
     { path: "/result_auto", component: ResultAuto },
-    { path: "/search", component: Search, layout: null },
     { path: "/profileAdmin", component: ProfileAdmin, layout: AdminLayout },
     { path: "/postmanagement", component: PostManagement, layout: AdminLayout },
     { path: "/recipemanagement", component: RecipeManagement, layout: AdminLayout },

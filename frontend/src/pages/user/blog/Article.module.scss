@@ -9,14 +9,17 @@ input:focus {
     outline: none;
 }
 .article_form {
-    margin-top: 80px;
     z-index: 1;
 }
 
 .article_container {
     width: 100%;
     display: flex;
-    margin-top: 15px;
+}
+.article_navbar,
+.nav-mobile,
+.article_content {
+    margin-top: 115px;
 }
 
 /* /NAV  */

@@ -4,12 +4,6 @@ import React, { useEffect, useState } from 'react';
 import styles from "./PlanMeal.module.scss"
 import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-// import VideoPlayer from './VideoPlayer';
-// import suggestions from "../../../image/2.png"
-// import star from "../../../image/star1.png"
-// import background_top from "../../../image/Cream Yellow Organic Illustrative Meal Planner (1).jpg"
-// import manual from "../../../image/auto.png"
-// import auto from "../../../image/manual.png"
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
@@ -23,7 +17,7 @@ const PlanMeal = () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>
             <div className={cx('plan_meal_contain')}>
-                <div className={cx('plan_meal_contain')}>
+                {/* <div className={cx('plan_meal_contain')}>
                     <div className={cx('plan_header_wrapper')}>
                         <img src={images.background_top} />
                         <div className={cx('plan_header_text')}>
@@ -31,7 +25,7 @@ const PlanMeal = () => {
                             <p>Gourmet Food creates personalized meal plans based on your food preferences and schedule. Reach your diet and nutritional goals with our calorie calculator, weekly meal plans, grocery lists and more. Create your meal plan right here in seconds.</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className={cx('create_auto_plan')}>
                     <div className={cx('plan_left')}>

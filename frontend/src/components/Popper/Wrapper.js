@@ -1,10 +1,11 @@
 // import { children } from "react";
-import style from "./Popper.module.css"
-// import classNames from "classnames/bind"
+import styles from "./Popper.module.scss"
+import classNames from "classnames/bind"
 
-function Wrapper({children }) {
+const cx = classNames.bind(styles);
+function Wrapper({ children }) {
     return (
-        <div className={style.wrapper}>{children}
+        <div className={cx('wrapper')}>{children}
 
         </div>
     );
