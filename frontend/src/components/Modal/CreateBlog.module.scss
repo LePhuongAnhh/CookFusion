@@ -134,13 +134,15 @@ h5 {
     align-items: center; /* Căn chỉnh theo chiều ngang vào giữa */
     // justify-content: center; /* Căn chỉnh theo chiều dọc vào giữa */
     // height: 100%; /* Đảm bảo thẻ cha (container) có chiều cao 100% */
-    img {
+    img,
+    .video-show {
         width: 330px;
         height: 220px;
         border-radius: 5px;
         object-fit: cover;
         margin: 18px 0;
     }
+
     .file-item {
         position: relative;
         display: inline-block;

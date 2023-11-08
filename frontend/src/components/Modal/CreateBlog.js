@@ -1,6 +1,7 @@
 import React, { useRef, useState, Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import ErrorModal from './ErrorModal';
 
 import styles from './CreateBlog.module.scss'
 import classNames from 'classnames/bind'
@@ -15,15 +16,11 @@ import {
 
 const cx = classNames.bind(styles)
 
-const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
+const CreateBlog = ({ setShowCreateBlogModal }) => {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION))
     const userId = profileInformation._id
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const [isChecked, setIsChecked] = useState(false);
-    const navigate = useNavigate();
-
-
-
 
     //Đồng ý điều khoản 
     const [showAgreementMessage, setShowAgreementMessage] = useState(false); // Thêm state mới
@@ -31,7 +28,6 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         setIsChecked(!isChecked);
         setShowAgreementMessage(false); // Reset lại trạng thái thông báo
     };
-
 
     //chọn và hiển thị ảnh
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -41,16 +37,14 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
     };
     const handleImageUpload = (event) => {
         const selectedFiles = event.target.files;
-        const filesArray = [];
-        for (let i = 0; i < selectedFiles.length; i++) {
-            const file = selectedFiles[i];
-            if (file.type.includes('image')) {
-                filesArray.push({ type: 'image', url: URL.createObjectURL(file) });
-            } else if (file.type.includes('video')) {
-                filesArray.push({ type: 'video', url: URL.createObjectURL(file) });
-            }
-        }
+        const filesArray = Array.from(selectedFiles);
         setSelectedFiles(filesArray);
+
+        // Update articleData with files
+        setArticleData({
+            ...articleData,
+            files: filesArray, // Update files in articleData
+        });
     };
 
     // xóa file 
@@ -66,27 +60,20 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         userId: userId,
         title: '',
         content: '',
-        files: null,
+        files: [],
     });
+
+
     const handleInputChange = (event) => {
-        const { name, value, files } = event.target;
-        console.log(event.target.value);
-        // Kiểm tra xem trường hiện tại có phải là trường file không
-        if (name === 'files') {
-            // Nếu là trường file, hãy sử dụng files[0] để cập nhật
-            setArticleData({
-                ...articleData,
-                [name]: files[0],
-            });
-        } else {
-            // Nếu không phải trường file, cập nhật bình thường
-            setArticleData({
-                ...articleData,
-                [name]: value,
-            });
-        }
+        const { name, value } = event.target;
+        setArticleData({
+            ...articleData,
+            [name]: value,
+        });
     };
     console.log("input data:", articleData)
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -97,10 +84,14 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
         const formData = new FormData();
         formData.append('title', articleData.title);
         formData.append('content', articleData.content);
-        formData.append('files', articleData.files);
+        if (Array.isArray(articleData.files)) {
+            articleData.files.forEach((file) => {
+                formData.append('files', file);
+            });
+        } else {
+            formData.append('files', articleData.files);
+        }
         formData.append('userId', userId);
-
-        createNewArticle(articleData);
 
         try {
             const response = await axios.post(`${apiUrl}/article/addNew`, formData, {
@@ -108,16 +99,15 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-
             if (response.data.success) {
-                console.log('Bài viết đã được tạo thành công.');
+                console.log('Bài viết đã được tạo thành công.', articleData);
                 setShowCreateBlogModal(false);
             }
         } catch (error) {
-            console.log(error.response)
-            alert(error.response.data.message)
+            alert(error.response.data.message);
         }
     };
+
 
     return (
         <div className={cx('modalDeleteIdea')}>
@@ -144,12 +134,13 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 <div className={cx('header_avatar')}>
                                     <img
                                         className={cx('circle_avt')}
-                                        src={images.Avt}
+                                        src={profileInformation.avatar}
                                     />
                                 </div>
                                 <div className={cx('post_create')}>
                                     <h5 className={cx('create_post')}>
                                         <input
+                                            style={{ width: "438px" }}
                                             required
                                             placeholder='Title'
                                             type="text"
@@ -181,19 +172,21 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                     {selectedFiles.map((file, index) => (
                                         <div key={index} className={cx('file-item')}>
                                             <div className={cx('media-container')}>
-                                                {file.type === 'image' ? (
+                                                {file.type.includes('image') ? (
                                                     <div className={cx('image-container')}>
-                                                        <img src={file.url} alt={`Selected Image ${index}`} />
+                                                        <img src={URL.createObjectURL(file)} alt={`Selected Image ${index}`} />
                                                     </div>
-                                                ) : (
+                                                ) : file.type.includes('video') ? (
                                                     <div className={cx('video-container')}>
-                                                        <video controls>
-                                                            <source src={file.url} type="video/mp4" />
+                                                        <video controls className={cx('video-show')}>
+                                                            <source src={URL.createObjectURL(file)} type="video/mp4" />
                                                             Your browser does not support the video tag.
                                                         </video>
                                                     </div>
+                                                ) : (
+                                                    <div>File type not supported</div>
                                                 )}
-                                                {/* Remove button positioned over the image or video */}
+                                                {/* ... (remove button remains the same) */}
                                                 <button className={cx('remove-button')} onClick={() => handleRemoveFile(index)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -211,6 +204,7 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
                                 <div className={cx('post_img_left')} >
                                     <button className={cx('btn_img')}  >
                                         <input
+                                            name="files"
                                             type="file"
                                             accept="image/*,video/*" // Chấp nhận cả tệp hình ảnh và video
                                             id="fileInput"
@@ -273,6 +267,23 @@ const CreateBlog = ({ setShowCreateBlogModal, createNewArticle }) => {
             </div >
         </div >
     )
+
 }
+
+// const ErrorModal = ({ isOpen, message, onClose }) => {
+//     if (!isOpen) {
+//         return null;
+//     }
+
+//     return (
+//         <div className="error-modal">
+//             <div className="error-modal-content">
+//                 <h2>Error</h2>
+//                 <p>{message}</p>
+//                 <button onClick={onClose}>Close</button>
+//             </div>
+//         </div>
+//     );
+// };
 
 export default CreateBlog

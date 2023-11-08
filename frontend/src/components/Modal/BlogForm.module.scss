@@ -101,6 +101,7 @@ link {
     font-size: 15px;
     text-align: justify;
     color: var(--primary-text-color);
+    margin: 5px 0 15px;
 }
 
 .body_img {
@@ -121,25 +122,34 @@ link {
     vertical-align: middle;
 }
 
-.show_img_4 {
-    flex: 0 0 auto;
-    width: 33.33333333%;
-    padding: 0 5px;
-}
-
-.show_img_4 img {
-    width: 245px;
-    height: 275px;
-    border-radius: 3px;
-    vertical-align: middle;
-}
-
 .img_img {
-    width: 300pt;
-    height: 300px;
+    width: auto;
+    height: 330px;
     border-radius: 5px;
     object-fit: cover;
     margin: 0 auto;
+}
+
+.prev-button,
+.next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    i {
+        color: red;
+    }
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
 }
 
 /* modal setting  */

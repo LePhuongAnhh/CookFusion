@@ -19,14 +19,28 @@ import CommentBlog from "./CommentBlog"
 import UpdateBlog from "./UpdateBlog";
 import { io } from 'socket.io-client'
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const BlogForm = ({ }) => {
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const authorIdToDisplay = profileInformation._id
     const location = useLocation();
+
+    const [errors, setErrors] = useState({});
+    const [error, setError] = useState(null);
 
     // Đặt state để lưu thông tin bài viết được chọn
     const [selectedArticleForComment, setSelectedArticleForComment] = useState(null);
@@ -66,14 +80,14 @@ const BlogForm = ({ }) => {
         setChangeArticle(state.Article_id)
         socket.emit('setheart', state)
     }
-    const handleReport = async(_id) => {
-        try{
+    const handleReport = async (_id) => {
+        try {
             await axios.get(`${apiUrl}/report/article/${_id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -145,9 +159,6 @@ const BlogForm = ({ }) => {
                                                         className={cx('circle_avt1')}
                                                         src={article.userUpload[0].avatar}
                                                     />
-                                                    {/* {
-                                                        article.userUpload[0].avatar === null ? (<img src={article.userUpload[0].Avatar} className={cx('circle_avt1')} />) : <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7vojjyljLC2ZHahToRN1w6Ll-1H1CQVrTXg&usqp=CAU' alt="avatar" className={cx('circle_avt1')} />
-                                                    } */}
                                                 </div>
                                             </Link>
                                             <div className={cx('name_account')}>
@@ -172,17 +183,16 @@ const BlogForm = ({ }) => {
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    {(article.userUpload[0]._id === profileInformation._id )? (
+                                                    {(article.userUpload[0]._id === profileInformation._id) ? (
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                             <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
                                                             <Link to="#">Accuse</Link>
                                                         </div>
-                                                    ):<div className={cx('dropdown_content')}>
-                                                    <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
-                                                </div>
+                                                    ) : <div className={cx('dropdown_content')}>
+                                                        <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
+                                                    </div>
                                                     }
-
                                                 </div>
                                             </button>
                                         </div>
@@ -194,18 +204,47 @@ const BlogForm = ({ }) => {
                                     {article.content}
                                     <p style={{ color: "blue" }}>{article.hashtags}</p>
                                 </p>
-                                <div>
-                                    <div className={cx('body_img')}>
-                                        <div className={cx('show_img_6')}>
-                                            <div>
-                                                {article.files[0] && article.files[0].files.map((fileInfor, index) => {
-                                                    return <img key={index} src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
-                                                })
+
+                                <div className={cx('body_img')}>
+                                    <div className={cx('show_img_6')}>
+                                        <Slider {...sliderSettings}>
+                                            {article.files[0] && article.files[0].files.map((fileInfor, index) => {
+                                                if (fileInfor && fileInfor.type && typeof fileInfor.type === 'string' && fileInfor.type.startsWith("video")) {
+                                                    // Hiển thị video
+                                                    return (
+                                                        <video key={index} controls className={cx('video_video')}>
+                                                            <source src={fileInfor.url} type={fileInfor.type} />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    );
+                                                } else if (fileInfor && fileInfor.url) {
+                                                    // Hiển thị ảnh
+                                                    return (
+                                                        <div key={index}>
+                                                            <div className={cx('image-container')}>
+                                                                <img src={fileInfor.url} alt={`Image ${index}`} className={cx('img_img')} />
+                                                                {index > 0 && ( // Hiển thị button quay lại ảnh trước đó nếu không phải ảnh đầu tiên
+                                                                    <button className={cx('prev-button')} onClick={() => this.slider.slickPrev()}>
+                                                                        <i class="bi bi-chevron-compact-left"></i>
+                                                                    </button>
+                                                                )}
+                                                                {index < article.files[0].files.length - 1 && ( // Hiển thị button chuyển đến ảnh tiếp theo nếu không phải ảnh cuối cùng
+                                                                    <button className={cx('next-button')} onClick={() => this.slider.slickNext()}>
+                                                                        <i class="bi bi-chevron-compact-right"></i>
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return null; // Hoặc xử lý khác tùy thuộc vào logic của bạn
                                                 }
-                                            </div>
-                                        </div>
+                                            })}
+                                        </Slider>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -278,10 +317,6 @@ const BlogForm = ({ }) => {
                                                             {comment.comment}
                                                         </span><span>  {comment.timeComment}</span>
                                                     </p>
-                                                    {/* <div className={cx('reply_comment')}>
-                                                        <Link to="#"> Like  </Link> •
-                                                        <Link to="#"> Reply  </Link>• 3hs
-                                                    </div> */}
                                                 </div>
                                             </div>
                                         )

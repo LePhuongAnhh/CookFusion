@@ -48,7 +48,6 @@ function CreateCategory({ setShowCreateCategoryModal }) {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            console.log('Category created:', response.data);
         } catch (error) {
             console.error('Error creating category:', error);
         }

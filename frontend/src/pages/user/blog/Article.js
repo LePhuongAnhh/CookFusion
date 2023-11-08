@@ -61,7 +61,7 @@ const Article = (props) => {
                 console.log(resFollowing.data)
                 if (resNotification.data.success && resFollowing.data.success) {
                     setNotification(resNotification.data.notifications.slice(0, 5))
-                    setFollowing(resFollowing.data.following.slice(0,5))
+                    setFollowing(resFollowing.data.following.slice(0, 5))
                 }
             } catch (error) {
                 console.log(error)
@@ -117,29 +117,29 @@ const Article = (props) => {
                                 <div className={cx('follower')}>
                                     <div className={cx('follow-box')}>
                                         <h2>Following </h2>
-                                        {following.length > 0 && following.map((following)=>(
-                                             <div className={cx('show_info1')}>
-                                             <Link to="#">
-                                                 <div className={cx('avt_follow')}>
-                                                     <img className={cx('circle_avt')} src={following.followingAvatar} />
-                                                 </div>
-                                             </Link>
-                                             <div className={cx('show_name')}>
-                                                 <h6>
-                                                     <Link to="#">{following.following_id}</Link>
-                                                 </h6>
-                                                 <div className={cx('btn_follow1')}>
-                                                     <span className={cx('follow')}>{following.followingName}</span>
-                                                 </div>                                                                                    </div>
-                                         </div>
+                                        {following.length > 0 && following.map((following) => (
+                                            <div className={cx('show_info1')}>
+                                                <Link to="#">
+                                                    <div className={cx('avt_follow')}>
+                                                        <img className={cx('circle_avt')} src={following.followingAvatar} />
+                                                    </div>
+                                                </Link>
+                                                <div className={cx('show_name')}>
+                                                    <h6>
+                                                        <Link to="#">{following.following_id}</Link>
+                                                    </h6>
+                                                    <div className={cx('btn_follow1')}>
+                                                        <span className={cx('follow')}>{following.followingName}</span>
+                                                    </div>                                                                                    </div>
+                                            </div>
                                         ))}
-                                       
-                                       
+
+
                                     </div>
                                 </div>
 
                                 {/* gọi ý follow  */}
-                            
+
                             </ul>
                         </div>
                     </div>
@@ -193,7 +193,7 @@ const Article = (props) => {
                                 <div className={cx('post_hearer')}>
                                     <div className={cx('header_item')}>
                                         <div className={cx('header_avatar')}>
-                                            <img className={cx('circle_avt')} src={images.Avt} />
+                                            <img className={cx('circle_avt')} src={profileInformation.avatar} />
                                         </div>
                                         <div className={cx('post_create')}>
                                             <h5 className={cx('create_post')}>{profileInformation.name}</h5>
