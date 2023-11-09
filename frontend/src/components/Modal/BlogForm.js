@@ -22,6 +22,7 @@ import { io } from 'socket.io-client'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { set } from "date-fns";
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
@@ -36,20 +37,14 @@ const BlogForm = ({ }) => {
     };
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    const userId = profileInformation._id
     const authorIdToDisplay = profileInformation._id
     const location = useLocation();
 
-    const [errors, setErrors] = useState({});
-    const [error, setError] = useState(null);
-
-    // Đặt state để lưu thông tin bài viết được chọn
-    const [selectedArticleForComment, setSelectedArticleForComment] = useState(null);
-    // Xử lý sự kiện khi nhấp vào biểu tượng comment
-    const handleCommentClick = (article) => {
-        setSelectedArticleForComment(article); // Lưu thông tin bài viết được chọn
-        setShowCommentBlogModal(true); // Hiển thị modal
-    };
+    // Sử dụng hàm này khi người dùng click vào icon comment
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
+
     const formatTime = (date) => {
         return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
     };
@@ -63,14 +58,7 @@ const BlogForm = ({ }) => {
     };
     const [changeArticle, setChangeArticle] = useState(null)
 
-    //DETAIL IDEA 
-    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
-    // Hàm xử lý khi người dùng click vào bài viết
-    const handleViewPost = (articleId) => {
-        const selectedPost = filteredArticles.find(article => article.articleId === articleId);
-        setSelectedArticleForComment(selectedPost); // Lưu thông tin bài viết được chọn
-        setShowCommentBlogModal(true); // Hiển thị modal CommentBlog
-    };
+
     const handleAddState = (_id) => {
         const state = { Article_id: _id, state: 'heart', Account_id: authorIdToDisplay }
         setChangeArticle(_id)
@@ -91,8 +79,8 @@ const BlogForm = ({ }) => {
             console.log(error)
         }
     }
+
     const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
-    // const [selectedArticle, setSelectedArticle] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -101,13 +89,15 @@ const BlogForm = ({ }) => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                setChangeArticle(null)
+                setChangeArticle(null);
+
                 if (response) {
                     const articlesData = response.data.data.map(article => {
                         const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
                         const content = article.content;
                         const hashtags = content.match(/#[^\s#]*/g);
-                        const articleId = article._id; // Lấy _id và lưu vào biến articleId
+                        const articleId = article._id;
+                        // console.log('id bai viwt laf :', article._id)
                         return { ...article, timeUpload, hashtags, articleId }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
                     });
                     // Lọc bài viết dựa trên trang hiện tại
@@ -143,10 +133,64 @@ const BlogForm = ({ }) => {
         }
     }, [changeArticle]);
 
+
+    //detail
+    const [selectedArticle, setSelectedArticle] = useState(null);
+    const handleCommentClick = (article) => {
+        setSelectedArticle(article);
+        setShowCommentBlogModal(true);
+    };
+
+
+
+    //cmt
+    const [articleIdForComment, setArticleIdForComment] = useState(null);
+    const [commentData, setCommentData] = useState({
+        comment: '',
+        userId: userId,
+        Article_id: null,
+    });
+
+    const handleChangeComment = (e) => {
+        const { name, value } = e.target;
+        if (name === 'comment') {
+            setArticleIdForComment(e.target.form.elements['_id'].value);
+            setCommentData({ ...commentData, [name]: value, Article_id: e.target.form.elements['_id'].value });
+        }
+    };
+
+
+    console.log("commentData: ", commentData);
+
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('comment', commentData.comment);
+            formData.append('Article_id', articleIdForComment);
+            formData.append('userId', userId);
+
+            console.log("Form data before axios call: ", formData);
+            console.log("articl id", articleIdForComment)
+
+            const response = await axios.post(`${apiUrl}/comment/addComment`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data.success) {
+                console.log('Bài viết đã được tạo thành công.', commentData);
+            }
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    };
+
+
     return (
         <>
             <div className={cx('post_status')}>
-                {filteredArticles.map((article, index) => (
+                {filteredArticles.map((article) => (
                     <li key={article._id}>
                         <div className={cx('post_status')}>
                             <div className={cx('post_hearer')}>
@@ -187,7 +231,6 @@ const BlogForm = ({ }) => {
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                             <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
-                                                            <Link to="#">Accuse</Link>
                                                         </div>
                                                     ) : <div className={cx('dropdown_content')}>
                                                         <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
@@ -237,7 +280,7 @@ const BlogForm = ({ }) => {
                                                         </div>
                                                     );
                                                 } else {
-                                                    return null; // Hoặc xử lý khác tùy thuộc vào logic của bạn
+                                                    return null;
                                                 }
                                             })}
                                         </Slider>
@@ -298,6 +341,28 @@ const BlogForm = ({ }) => {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className={cx('posts_footer')}>
+                                <form onSubmit={handleSubmitComment}>
+                                    <div className={cx('write_comment')}>
+                                        <div className={cx('cmt_avt')}>
+                                            <div className={cx('avatar_comment')}>
+                                                <img className={cx('circle_avt')} src={article.userUpload[0].avatar} />
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="_id" value={article._id} />
+                                        <input
+                                            placeholder="Write a comment ..."
+                                            type='text'
+                                            className={cx('input_cmt')}
+                                            name="comment"
+                                            onChange={handleChangeComment}
+                                        />
+                                        <button type="submit" hidden>Submit</button >
+                                    </div>
+                                </form>
+                            </div>
+
                             <div>
                                 {
                                     article.comment && article.comment.map((comment, index) => (
@@ -315,8 +380,12 @@ const BlogForm = ({ }) => {
                                                         </Link>
                                                         <span className={cx('view_cmt')}>
                                                             {comment.comment}
-                                                        </span><span>  {comment.timeComment}</span>
+                                                        </span>
                                                     </p>
+                                                    <div className={cx('reply_comment')}>
+                                                        <Link to="#"> Like  </Link> •
+                                                        <Link to="#"> Reply  </Link>• {formatTime(new Date(comment.timeComment))}
+                                                    </div>
                                                 </div>
                                             </div>
                                         )
@@ -340,21 +409,12 @@ const BlogForm = ({ }) => {
                 />
             )}
 
-            {showCommentBlogModal && selectedArticleForComment && (
+            {showCommentBlogModal && (
                 <CommentBlog
-                    setShowDeleteModal={setShowDeleteModal}
-                    articleId={articleIdToDelete}
-                    filteredArticles={filteredArticles} // Truyền filteredArticles vào DeleteBlog
-                    setFilteredArticles={setFilteredArticles} // Truyền hàm cập nhật danh sách bài viết
+                    setShowCommentBlogModal={setShowCommentBlogModal}
+                    selectedArticle={selectedArticle}
                 />
             )}
-            {/* {showCommentBlogModal && selectedArticleForComment && (
-                <CommentBlog
-                    selectedArticle={selectedArticleForComment}
-                    setShowCommentBlogModal={setShowCommentBlogModal} // Có thể cần truyền hàm để ẩn modal
-                />
-            )} */}
-
 
         </>
     )

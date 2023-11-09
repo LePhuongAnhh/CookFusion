@@ -7,7 +7,7 @@ import styles from './CreateBlog.module.scss';
 import { useDropzone } from 'react-dropzone';
 const cx = classNames.bind(styles);
 
-function UpdateCategory({ setShowUpdateCategoryModal, showUpdateCategoryModal, categoryData, updateCategoryList }) {
+function UpdateCategory({ setShowUpdateCategoryModal, categoryData, updateCategoryList }) {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
     const [selectedFile, setSelectedFile] = useState(null);
@@ -18,7 +18,7 @@ function UpdateCategory({ setShowUpdateCategoryModal, showUpdateCategoryModal, c
     const [updatedDescription, setUpdatedDescription] = useState(description);
     const [updatedId, setUpdatedId] = useState(_id);
 
-
+    console.log("updat comment:", categoryData)
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

@@ -84,6 +84,9 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
         const formData = new FormData();
         formData.append('title', articleData.title);
         formData.append('content', articleData.content);
+
+        console.log('Form data before axios call:', formData);
+
         if (Array.isArray(articleData.files)) {
             articleData.files.forEach((file) => {
                 formData.append('files', file);
