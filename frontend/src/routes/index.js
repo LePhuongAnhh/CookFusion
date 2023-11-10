@@ -31,12 +31,9 @@ import Category from "~/pages/admin/Category/Category";
 import PackageAdsManagement from "~/pages/admin/PackageAds/PackageAdsManagement";
 import Profile from "~/pages/user/profile/Profile";
 import PackageAds from "~/pages/packgakeAds/PackageAds";
-import HomeAds from "~/pages/packgakeAds/homeAds";
-import ArticleAds from "~/pages/packgakeAds/ArticleAds";
 import DashboardAds from "~/pages/packgakeAds/DashboardAds";
 import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import ManageArticles from "~/pages/packgakeAds/ManageArticles";
-import Testheader from "~/components/Layout/AdsLayout/Testheader";
 import PaymentModal from "~/components/Modal/PaymentModal";
 
 import BlogForm from "~/components/Modal/BlogForm";
@@ -71,14 +68,12 @@ const publicRoutes = [
     { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
     { path: "/profile", component: Profile },
     { path: "/formArticle", component: BlogForm },
-    { path: "/homepageAds", component: HomeAds, layout: AdsLayout },
-    { path: "/articleAds", component: ArticleAds, layout: AdsLayout },
-    { path: "/packageAds", component: PackageAds, layout: AdsLayout },
-    { path: "/dashboardAds", component: DashboardAds, layout: AdsLayout },
-    { path: "/profileSponsor", component: ProfileAds, layout: AdsLayout },
+
+    { path: "/packageAds", component: PackageAds },
+    { path: "/dashboardAds", component: DashboardAds },
+    { path: "/profileSponsor", component: ProfileAds },
     { path: "/payment", component: PaymentModal },
-    { path: "/managementArticleAds", component: ManageArticles, layout: AdsLayout },
-    { path: "/test", component: Testheader, layout: null },
+    { path: "/managementArticleAds", component: ManageArticles },
 
 ];
 const privateRoutes = [];

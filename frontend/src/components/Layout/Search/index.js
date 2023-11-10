@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import styles from "../AdsLayout/AdsLayout.module.scss"
+import styles from "../DefaultLayout/DefaultLayout.module.scss"
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"

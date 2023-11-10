@@ -15,7 +15,15 @@
     cursor: pointer;
     i {
         font-size: 22px;
+        width: 20px;
         margin: 0 5px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: rgb(249, 250, 253);
+        padding: 3px 7px;
+        &:hover {
+            background-color: rgb(200, 208, 231);
+        }
     }
 }
 .avatar-header {
@@ -85,23 +93,6 @@
     width: 100%;
     z-index: 100;
     box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
-}
-
-//dopdow show thoong baos
-.notification-dropdown {
-    display: none;
-    position: absolute;
-    /* Cấu hình vị trí hiển thị của dropdown */
-    /* ... */
-}
-
-.notification-dropdown.active {
-    display: block;
-    /* Cấu hình hiển thị dropdown */
-    /* ... */
-}
-.noti-gird {
-    color: red;
 }
 
 //search
@@ -210,4 +201,29 @@
     .info1:not(:last-child) {
         margin-top: 10px;
     }
+}
+.nav-link {
+    position: relative;
+    display: inline-block;
+}
+
+.text-info {
+    // position: absolute;
+    // top: 0;
+    // /* right: 6px; */
+    // /* background-color: red; */
+    // /* color: white; */
+    // padding: 0px 7px;
+    // border-radius: 50%;
+    // /* font-size: 0.8rem; */
+    // margin: 0 0 0px -16px;
+    // height: 23px;
+    position: absolute;
+    top: 0;
+    color: #fff;
+    background-color: red;
+    border-radius: 50%;
+    margin: 6px 0px 0px -23px;
+    height: 13px;
+    width: 13px;
 }

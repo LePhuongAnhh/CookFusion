@@ -161,15 +161,15 @@ link {
 }
 
 .dropdown_content {
-    margin-left: 15px;
+    margin-left: -85px;
     margin-top: -10px;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 140px;
+    min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    height: 140px;
+    // height: 140px;
     align-items: center;
 }
 
@@ -439,6 +439,8 @@ link {
 //     border-radius: 4px;
 //     outline: none;
 // }
+
+//setting article
 
 .write_comment button[type='submit'] {
     background-color: #4285f4;

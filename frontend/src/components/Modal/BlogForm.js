@@ -141,6 +141,14 @@ const BlogForm = ({ }) => {
         setShowCommentBlogModal(true);
     };
 
+    //setting article
+    const [showSetting, setShowSetting] = useState(false);
+    const toggleSetting = () => {
+        setShowSetting(!showSetting);
+    };
+    const closeSetting = () => {
+        setShowSetting(false);
+    };
 
 
     //cmt
@@ -222,20 +230,25 @@ const BlogForm = ({ }) => {
                                         <div className={cx('post_setting')}>
                                             <button className={cx('btn_setting')}>
                                                 <div className={cx('dropdown')}>
-                                                    <button className={cx('dropdown_toggle')}>
+                                                    <button className={cx('dropdown_toggle')} onClick={toggleSetting}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    {(article.userUpload[0]._id === profileInformation._id) ? (
-                                                        <div className={cx('dropdown_content')}>
-                                                            <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                            <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
+                                                    {showSetting && (
+                                                        <div className={cx("notification-popup")}>
+                                                            {(article.userUpload[0]._id === profileInformation._id) ? (
+                                                                <div className={cx('dropdown_content')}>
+                                                                    <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
+                                                                    <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
+                                                                </div>
+                                                            ) : <div className={cx('dropdown_content')}>
+                                                                <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
+                                                            </div>
+                                                            }
                                                         </div>
-                                                    ) : <div className={cx('dropdown_content')}>
-                                                        <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
-                                                    </div>
-                                                    }
+                                                    )}
+
                                                 </div>
                                             </button>
                                         </div>

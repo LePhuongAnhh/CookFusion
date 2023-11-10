@@ -67,7 +67,7 @@ const LoginForm = () => {
                 if (role === "653b77c46139d7a2604cedb5") {
                     navigate("dashboard");
                 } else if (role === "653b77c46139d7a2604cedb7") {
-                    navigate('/homepageAds');
+                    navigate('/homepage');
                 } else {
                     navigate('/homepage')
                 }

@@ -179,7 +179,7 @@ input:focus {
 }
 .follow-box {
     overflow: auto;
-    height: 160px;
+    max-height: 340px;
 }
 
 .show_info1 {

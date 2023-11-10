@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import FooterForm from "./Footer/FooterForm";
-import styles from "../AdsLayout/AdsLayout.module.scss"
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { enUS } from 'date-fns/locale';
-import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
+import axios from 'axios'
+import { io } from 'socket.io-client'
+
+//import trong thư viện
 import { apiUrl, PROFILE_INFORMATION, ACCOUNT_ID, ROLE, ACCESS_TOKEN } from "~/constants/constants";
+import classNames from 'classnames/bind'
+import FooterForm from "./Footer/FooterForm";
+import ChatModal from '~/components/Modal/ChatModal';
+import styles from "./DefaultLayout.module.scss"
 import Search from '../Search';
 import images from '~/assets/images';
-import ChatModal from '~/components/Modal/ChatModal';
-import axios from 'axios'
 
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 function DefaultLayout({ children }) {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const accountId = localStorage.getItem(ACCOUNT_ID);
     const role = localStorage.getItem(ROLE);
     const [isLoggedIn, setIsLoggedIn] = useState(!!profileInformation);
     //Lấy thời gian
@@ -100,9 +105,7 @@ function DefaultLayout({ children }) {
         setShowProfile(false);
     };
 
-
-
-    //CHAT
+    //SHOW CHAT
     const [showMessage, setShowMessage] = useState(false);
     const toggleMessage = () => {
         setShowMessage(!showMessage);
@@ -111,14 +114,108 @@ function DefaultLayout({ children }) {
         setShowMessage(false);
     };
 
+    //Logic
+    const [chat, setChat] = useState([])
+    const [otherUser, setOtherUSer] = useState([])
+    const handleShowMessageModal = async (message, chating) => {
+        try {
+            if (!chating) setShowMessageModal(false)
+            await axios.get(`${apiUrl}/message/seen/${message._id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            const newlist = listMessage.map((messag) => {
+                if (messag._id === message._id) {
+                    return { ...messag, seen: true };
+                }
+                return messag;
+            })
+            setListMessage(newlist)
+            setOtherUSer((message.sender[0]._id == accountId) ? message.receiver[0] : message.sender[0])
+            var _id = (message.sender[0]._id == accountId) ? message.receiver[0]._id : message.sender[0]._id
+            const res = await axios.get(`${apiUrl}/message/getmessage/${_id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            if (res.data.success) {
+                setChat(res.data.data)
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+        setShowMessageModal(true)
+    }
+
     //modal chart
     const [showMessageModal, setShowMessageModal] = useState(false);
+    const [listMessage, setListMessage] = useState([])
+    const [listNotifications, setListNotifications] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [message, notifications] = await Promise.all([
+                    axios.get(`${apiUrl}/message/getall`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }),
+                    axios.get(`${apiUrl}/user/notification`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    })
+                ])
+
+                if (message.data.success && notifications.data.success) {
+                    setListMessage(message.data.data)
+                    setListNotifications(notifications.data.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+        socket.on('notification', (notification) => {
+            console.log(notification)
+            if (accountId == notification.userId) {
+                //push new notification
+                setListNotifications((prevList) => [notification, ...prevList])
+            }
+        })
+        return () => {
+            socket.off('notification')
+        }
+    }, [setListMessage])
 
     //choose article or recipe
     const [activeTab, setActiveTab] = useState('credit-card');
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
     };
+
+    //chia role
+    const userMenu = [
+        { path: '/homepage', label: 'Home' },
+        { path: '/article', label: 'Article' },
+        { path: '/recipe', label: 'Recipe' },
+        { path: '/planmeal', label: 'Plan Meal' },
+    ];
+
+    const sponsorMenu = [
+        { path: '/homepage', label: 'Home' },
+        { path: '/article', label: 'Article' },
+        { path: '/dashboardAds', label: 'Dashboard' },
+        { path: '/packageAds', label: 'Packages' },
+    ];
+    const allowedRoles = ['653b77c56139d7a2604cedb9', '653b77c46139d7a2604cedb7'];
+    const menu = allowedRoles.includes(role) ? (role === '653b77c46139d7a2604cedb7' ? sponsorMenu : userMenu) : [];
+    const getProfileLink = (role) => {
+        return role === '653b77c46139d7a2604cedb7' ? '/profileSponsor' : '/profile';
+    };
+
     return (
         <body>
             <div>
@@ -127,15 +224,11 @@ function DefaultLayout({ children }) {
                         <div className="container">
                             <div className="row">
                                 <div className={cx("col-lg-6", "col-md-6", "col-sm-12", "col-xs-12", "centerOnMobile")}>
-                                    {/* <select className="me-3 border-0">
-                                        <option value="en-us">EN-US</option>
-                                    </select> */}
                                     <span className="d-none d-lg-inline-block d-md-inline-block d-sm-inline-block d-xs-none me-3"><strong>info@somedomain.com</strong></span>
                                     <span className="me-3"><i className="fa-solid fa-phone me-1 text-warning"></i> <strong>1-800-123-1234</strong></span>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 d-none d-lg-block d-md-block-d-sm-block d-xs-none text-end">
                                     <span className="me-3">
-
                                         <Link to="#" className={cx('nav_link')} onClick={handleModeChange}>
                                             {isDarkMode ? (
                                                 <i className="bi bi-moon-fill"></i>
@@ -158,23 +251,16 @@ function DefaultLayout({ children }) {
                                 <div className="ms-auto d-none d-lg-block" >
                                     <Search />
                                 </div>
-                                <ul className="navbar-nav ms-auto ">
-                                    <li className="nav-item">
-                                        <Link className="nav-link mx-2 active" aria-current="page" to="/homepage">Home</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link mx-2 " to="/article">Article</Link>
-                                    </li>
-
-                                    <li className="nav-item">
-                                        <Link className="nav-link mx-2 " to="/recipe">Recipe</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link mx-2 " to="/planmeal">Plan Meal</Link>
-                                    </li>
+                                <ul className="navbar-nav ms-auto">
+                                    {menu.map((item, index) => (
+                                        <li className="nav-item" key={index}>
+                                            <Link className={`nav-link mx-2 ${index === 0 ? 'active' : ''}`} to={item.path}>
+                                                {item.label}
+                                            </Link>
+                                        </li>
+                                    ))}
                                 </ul>
                                 <ul className="navbar-nav ms-auto " style={{ display: 'flex', alignItems: 'center' }}>
-                                    {/* Kiểm tra nếu chưa đăng nhập, hiển thị nút Login */}
                                     {!isLoggedIn && (
                                         <li className={cx("nav-item")}>
                                             <Link className="nav-link mx-2" to="/">
@@ -183,12 +269,14 @@ function DefaultLayout({ children }) {
                                         </li>
                                     )}
 
-                                    {/* Kiểm tra nếu đã đăng nhập, hiển thị icon thông báo, icon chat và avatar */}
                                     {isLoggedIn && (
                                         <>
                                             <li className={cx("nav-item")} onClick={toggleNotification}>
                                                 <div className="nav-link mx-2 " >
                                                     <i className="bi bi-bell"></i>
+                                                    <span className={cx("text-info")}>
+                                                        <small>{listNotifications.length}</small>
+                                                    </span>
                                                 </div>
                                             </li>
                                             {showNotification && (
@@ -231,7 +319,6 @@ function DefaultLayout({ children }) {
                                                         ))}
                                                         <div id="paypal" className={`tab-pane fade ${activeTab === 'paypal' ? 'show active ' : ''}`}>
                                                             thong bao cua recipe
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -240,6 +327,10 @@ function DefaultLayout({ children }) {
                                             <li className={cx("nav-item")} onClick={toggleMessage}>
                                                 <div className="nav-link mx-2 " >
                                                     <i className="bi bi-chat-dots"></i>
+
+                                                    <span className={cx("text-info")}>
+                                                        {listMessage.filter((mess) => { return !mess.seen }).length}
+                                                    </span>
                                                 </div>
                                             </li>
                                             {showMessage && (
@@ -248,27 +339,29 @@ function DefaultLayout({ children }) {
                                                     <div className={cx("input-group-chat")}>
                                                         <input type="search" className={cx('search-chat')} placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                                     </div>
-                                                    <li className="p-2 border-bottom" onClick={() => setShowMessageModal(true)} >
-                                                        <div onClick={closeMessage}>
-                                                            <a href="#!" className="d-flex justify-content-between" >
-                                                                <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
-                                                                    <div style={{ marginTop: "6px" }}>
-                                                                        <img
-                                                                            src={images.minh}
-                                                                            alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="45" height='45' />
-                                                                        <span className="badge bg-danger badge-dot"></span>
+                                                    {listMessage.length > 0 && listMessage.map((message) => (
+                                                        <li className={`p-2 border-bottom ${message.receiver[0]._id == accountId && message.seen == false ? "bg-info" : ""}`} onClick={() => handleShowMessageModal(message)} >
+                                                            <div onClick={closeMessage}>
+                                                                <a href="#!" className="d-flex justify-content-between">
+                                                                    <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
+                                                                        <div style={{ marginTop: "6px" }}>
+                                                                            <img
+                                                                                src={(message.receiver[0]._id == accountId) ? message.sender[0].avatar : message.receiver[0].avatar}
+                                                                                alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="45" height='45' />
+                                                                            <span className="badge bg-danger badge-dot"></span>
+                                                                        </div>
+                                                                        <div className="pt-1">
+                                                                            <p className="fw-bold mb-0">{(message.receiver[0]._id == accountId) ? message.sender[0].name : message.receiver[0].name}</p>
+                                                                            <p className="small">{message.content}</p>
+                                                                        </div>
                                                                     </div>
                                                                     <div className="pt-1">
-                                                                        <p className="fw-bold mb-0">Ashley Olsen</p>
-                                                                        <p className="small">Lorem ipsum dolor sit.</p>
+                                                                        <p className={cx('time-chat', 'text-muted')}>{message.time.substring(0, 10)}</p>
                                                                     </div>
-                                                                </div>
-                                                                <div className="pt-1">
-                                                                    <p className={cx('time-chat', 'text-muted')}>Yesterday</p>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    </li>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    ))}
                                                 </div>
                                             )}
                                             <li className={cx("nav-item")} onClick={toggleProfile}>
@@ -278,11 +371,11 @@ function DefaultLayout({ children }) {
                                             </li>
                                             {showProfile && (
                                                 <div className={cx("notification-popup-profile")} onClick={closeProfile}>
-                                                    <Link to="/profile" className={cx("d-flex", "justify-content-between", "nav-item", "border-bottom", "info")} >
+                                                    <Link to={getProfileLink(role)} className={cx("d-flex", "justify-content-between", "nav-item", "border-bottom", "info")}>
                                                         <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
                                                             <div style={{ marginTop: "6px" }}>
                                                                 <img
-                                                                    src={images.minh}
+                                                                    src={role === 'sponsor' ? profileInformation.avatar : images.minh}
                                                                     alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="35" height='35' />
                                                                 <span className="badge bg-danger badge-dot"></span>
                                                             </div>
