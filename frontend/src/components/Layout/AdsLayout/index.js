@@ -94,10 +94,10 @@ function AdsLayout({ children }) {
                                 </div>
                                 <ul className="navbar-nav ms-auto ">
                                     <li className="nav-item">
-                                        <Link className="nav-link mx-2 active" aria-current="page" to="/homepageAds">Home</Link>
+                                        <Link className="nav-link mx-2 active" aria-current="page" to="/homepage">Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link mx-2 " to="/articleAds">Article</Link>
+                                        <Link className="nav-link mx-2 " to="/article">Article</Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link mx-2 " to="/dashboardAds">Dashboard</Link>

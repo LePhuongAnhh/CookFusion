@@ -220,26 +220,6 @@ const Article = (props) => {
                                 <div className={cx('header_annous')} >
                                     <h5 className={cx('header_add_fl')}>Announs</h5>
                                 </div>
-                                {notification.length > 0 && notification.map((notifcation) => (
-                                    <div className={cx('right_info_card')}>
-                                        <div className={cx('show_info')}>
-                                            {/* <img src={images.Avt} /> */}
-                                            <div className={cx('show_name')}>
-                                                {/* <Link to="#" className={cx('name_account_cmt')}> Alice </Link>
-                                            has followed you */}
-                                                {notifcation.message} <span> at </span>
-                                                {notifcation.date}
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                ))}
-
-                            </div>
-                            <div className={cx('right_info')}>
-                                <div className={cx('header_annous')} >
-                                    <h5 className={cx('header_add_fl')}>Announs</h5>
-                                </div>
                                 <div className={cx('right_follow')}>
                                     <div className={cx('show_info')}>
                                     </div>

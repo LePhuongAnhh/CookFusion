@@ -159,13 +159,10 @@ function DashboardAds() {
                                                                     <div className="col-lg-5 grid-margin stretch-card" style={{ width: "100%" }}>
                                                                         <div className="card">
                                                                             <div className="card-body">
-
                                                                                 <LineChart />
-
                                                                             </div>
                                                                         </div>
                                                                     </div>
-
                                                                 </div>
                                                             </div>
                                                         </div>

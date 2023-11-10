@@ -116,14 +116,14 @@
 
 //SHOW MESSAGE
 .notification-popup {
+    margin-top: 6px;
     width: 330px;
     max-height: 450px;
     overflow-y: auto;
     position: absolute;
-    top: 50px; /* điều chỉnh vị trí theo yêu cầu */
-    right: 20px; /* điều chỉnh vị trí theo yêu cầu */
+    top: 50px;
+    right: 20px;
     background-color: #fff;
-    // border: 1px solid #ccc;
     box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-1);
     --shadow-1: rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -157,8 +157,57 @@
             background-color: #f9fafd;
         }
     }
+    .article {
+        margin: 15px 0px 6px 8px;
+    }
 }
 .time-chat {
     margin-right: 13px;
     font-size: 13px;
+}
+.show-message:hover {
+    color: black;
+}
+.nav-item-li {
+    flex: 1;
+}
+.article ul button.active {
+    color: #00f; /* Thay đổi màu sắc tùy ý */
+}
+
+.notification-popup-profile {
+    margin-top: 6px;
+    width: 225px;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: #fff;
+    box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-1);
+    --shadow-1: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 20000;
+    border-radius: 5px;
+    box-shadow: #ccc;
+    .info {
+        height: 55px;
+        &:hover {
+            background-color: #f9fafd;
+        }
+    }
+    .info1 {
+        padding-top: 4px;
+        height: 45px;
+        &:hover {
+            background-color: #f9fafd;
+        }
+        .icon {
+            margin-top: 3px;
+            margin-left: 5px;
+            svg {
+            }
+        }
+    }
+    .info1:not(:last-child) {
+        margin-top: 10px;
+    }
 }
