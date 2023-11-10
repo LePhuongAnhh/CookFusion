@@ -43,20 +43,15 @@ function DefaultLayout({ children }) {
         }
     }, []);
 
-    // State để điều khiển việc hiển thị dropdown thông báo
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-    // Function xử lý việc mở/đóng dropdown thông báo
+
+    //show info
+    const [showNotification, setShowNotification] = useState(false);
     const toggleNotification = () => {
-        setIsNotificationOpen(!isNotificationOpen);
+        setShowNotification(!showNotification);
     };
-    // Function để đóng dropdown thông báo khi click bất kỳ đâu bên ngoài dropdown
     const closeNotification = () => {
-        setIsNotificationOpen(false);
+        setShowNotification(false);
     };
-    useEffect(() => {
-        document.addEventListener("click", closeNotification);
-        return () => document.removeEventListener("click", closeNotification);
-    }, []);
 
     //CHAT
     const [showMessage, setShowMessage] = useState(false);
@@ -136,12 +131,35 @@ function DefaultLayout({ children }) {
                                     {/* Kiểm tra nếu đã đăng nhập, hiển thị icon thông báo, icon chat và avatar */}
                                     {isLoggedIn && (
                                         <>
-                                            <div className="nav-item">
-                                                <div className="nav-link mx-2 " onClick={toggleNotification}>
+                                            <li className={cx("nav-item")} onClick={toggleNotification}>
+                                                <div className="nav-link mx-2 " >
                                                     <i className="bi bi-bell"></i>
                                                 </div>
-                                                
-                                            </div>
+                                            </li>
+                                            {showNotification && (
+                                                <div className={cx("notification-popup")} onClick={closeNotification}>
+                                                    <div className={cx('header-info')}>Notification</div>
+                                                    <li className="p-2 border-bottom">
+                                                        <a href="#!" className="d-flex justify-content-between">
+                                                            <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
+                                                                <div style={{ marginTop: "6px" }}>
+                                                                    <img
+                                                                        src={images.minh}
+                                                                        alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="45" height='45' />
+                                                                    <span className="badge bg-danger badge-dot"></span>
+                                                                </div>
+                                                                <div className="pt-1">
+                                                                    <p className="fw-bold mb-0">Ashley Olsen</p>
+                                                                    <p className="small">Da like bai viet cua ban</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="pt-1">
+                                                                <p className={cx('time-chat', 'text-muted')}>Yesterday</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            )}
                                             <li className={cx("nav-item")} onClick={toggleMessage}>
                                                 <div className="nav-link mx-2 " >
                                                     <i className="bi bi-chat-dots"></i>
