@@ -116,6 +116,9 @@
 
 //SHOW MESSAGE
 .notification-popup {
+    width: 330px;
+    max-height: 450px;
+    overflow-y: auto;
     position: absolute;
     top: 50px; /* điều chỉnh vị trí theo yêu cầu */
     right: 20px; /* điều chỉnh vị trí theo yêu cầu */
@@ -127,4 +130,35 @@
     z-index: 20000;
     border-radius: 5px;
     box-shadow: #ccc;
+    .header-info {
+        margin-left: 7px;
+        font-weight: 700;
+        font-size: 19px;
+        margin-top: 7px;
+    }
+    .input-group-chat {
+        margin: 18px 5px 12px;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        .search-chat {
+            border-radius: 40px;
+            padding: 5px 10px;
+            width: 290px;
+            // border: 2px solid #ccc;
+            border: none;
+            background-color: #e7e7e7;
+        }
+    }
+    li {
+        border-radius: 5px;
+        &:hover {
+            background-color: #f9fafd;
+        }
+    }
+}
+.time-chat {
+    margin-right: 13px;
+    font-size: 13px;
 }
