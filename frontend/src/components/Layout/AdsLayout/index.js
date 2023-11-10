@@ -61,7 +61,6 @@ function AdsLayout({ children }) {
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 d-none d-lg-block d-md-block-d-sm-block d-xs-none text-end">
                                     <span className="me-3">
-
                                         <Link to="#" className={cx('nav_link')} onClick={handleModeChange}>
                                             {isDarkMode ? (
                                                 <i className="bi bi-moon-fill"></i>
@@ -69,7 +68,6 @@ function AdsLayout({ children }) {
                                                 <i className="bi bi-brightness-high-fill"></i>
                                             )}
                                         </Link>
-
                                     </span>
                                     <span className="me-3">
                                         <i className="fa-solid fa-file  text-muted me-2"></i><Link className="text-muted" to="#">Policy</Link>
@@ -143,7 +141,6 @@ function AdsLayout({ children }) {
                                                     </div>
                                                 </div>
                                             </li>
-
                                         </>
                                     )}
                                 </ul>

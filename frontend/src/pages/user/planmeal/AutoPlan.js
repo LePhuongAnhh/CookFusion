@@ -6,6 +6,7 @@ import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
+import axios from 'axios';
 
 const cx = classNames.bind(styles)
 const AutoPlan = () => {
@@ -19,7 +20,30 @@ const AutoPlan = () => {
     const handleSelectChangeMeal = (event) => {
         setSelectedOptionMeal(event.target.value);
     };
-
+    const [listActivity, setListActivity] = useState([])
+    const [userhealth, setUserHealth] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [activityMode, getuserHealth] = await Promise.all([
+                    axios.get(`${apiUrl}/activitymode/getall`),
+                    axios.get(`${apiUrl}/userhealth/get`, {
+                        headers: { Authorization: `Bearer ${accessToken}` }
+                    }),
+                ])
+                if (activityMode.data.success) {
+                    setListActivity(activityMode.data.data)
+                }
+                if (getuserHealth.data.success) {
+                    console.log(getuserHealth.data.data.data)
+                    setUserHealth(getuserHealth.data.data.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <div className={cx('auto_plan')}>
             <Navigation />
@@ -56,19 +80,33 @@ const AutoPlan = () => {
                             <div className={cx('while_block')}>
                                 <div className={cx('block_title')}>I'm</div>
                                 <div className={cx('while_block_wrapper')}>
-                                    <input min="0" type='number' name='weight' placeholder='0' className={cx('input_text')} /> &nbsp; kg
+                                    <input min="1" type='number' name='weight' value={(userhealth) ? userhealth.weight : 0} className={cx('input_text')} /> &nbsp; kg
                                 </div>
                             </div>
                             <div className={cx('while_block')}>
-                                <div className={cx('block_title')}>In</div>
+                                <div className={cx('block_title')}>with high</div>
                                 <div className={cx('while_block_wrapper')}>
-                                    <select value={selectedOptionMeal} onChange={handleSelectChangeMeal} className={cx('select_calorie')} placeholder="calories">
-                                        <option value="option1"> 1 meal </option>
-                                        <option value="option2"> 2 meals</option>
-                                        <option value="option3"> 3 meals</option>
-                                        <option value="option2"> 4 meals</option>
-                                        <option value="option3"> 5 meals</option>
+                                    <input min="1" type='number' name='high' value={(userhealth) ? userhealth.high : 0} className={cx('input_text')} /> &nbsp; cm
+                                </div>
+                            </div>
+                            <div className={cx('while_block')}>
+                                <div className={cx('block_title')}>and age</div>
+                                <div className={cx('while_block_wrapper')}>
+                                    <input min="1" type='number' name='age' value="1" className={cx('input_text')} /> &nbsp; years
+                                </div>
+                            </div>
+                            <div className={cx('while_block')}>
+                                <div className={cx('block_title')}>Your activity mode</div>
+                                <div className={cx('while_block_wrapper')}>
+                                    <select value={selectedOptionCalorie} onChange={handleSelectChangeCalorie} className={cx('select_calorie')} placeholder="calories">
+                                        {listActivity.length > 0 &&
+                                            listActivity.map((activity) => (
+                                                <option value={activity._id}>
+                                                    {activity.description}
+                                                </option>
+                                            ))}
                                     </select>
+
                                     {/* <p>Selected option: {selectedOption}</p> */}
                                 </div>
                             </div>
@@ -76,23 +114,20 @@ const AutoPlan = () => {
                                 <div className={cx('block_title')}>I want to eat</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <select value={selectedOptionCalorie} onChange={handleSelectChangeCalorie} className={cx('select_calorie')} placeholder="calories">
-                                        <option value="option1"> {'<'} 100 Calories </option>
-                                        <option value="option2"> 100 - 500 Calories</option>
-                                        <option value="option3"> 500 - 1000 Calories</option>
-                                        <option value="option2"> 1000 - 1500 Calories</option>
-                                        <option value="option3"> 1500 - 2000 Calories</option>
-                                        <option value="option1"> {'>'} 2000 Calories </option>
+                                        <option value="0"> Auto calculate calories </option>
+                                        <option value="500"> 500 Calories</option>
+                                        <option value="1000"> 1000 Calories</option>
+                                        <option value="1500"> 1500 Calories</option>
+                                        <option value="2000"> {'>'} 2000 Calories </option>
                                     </select>
                                     {/* <p>Selected option: {selectedOption}</p> */}
                                 </div>
                                 <div className={cx('block_title')}>In</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <select value={selectedOptionMeal} onChange={handleSelectChangeMeal} className={cx('select_calorie')} placeholder="calories">
-                                        <option value="option1"> 1 meal </option>
-                                        <option value="option2"> 2 meals</option>
-                                        <option value="option3"> 3 meals</option>
-                                        <option value="option2"> 4 meals</option>
-                                        <option value="option3"> 5 meals</option>
+                                        <option value="3"> 3 meals</option>
+                                        <option value="4"> 4 meals</option>
+                                        <option value="5"> 5 meals</option>
                                     </select>
                                     {/* <p>Selected option: {selectedOption}</p> */}
                                 </div>

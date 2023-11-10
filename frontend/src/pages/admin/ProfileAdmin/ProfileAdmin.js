@@ -26,7 +26,7 @@ function ProfileAdmin() {
         const fileInput = document.getElementById('fileInput');
         fileInput.click();
     };
-    
+
     const handleImageUpload = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
@@ -48,9 +48,8 @@ function ProfileAdmin() {
         formData.append('dob', updateProfileForm.dob);
         formData.append('gender', updateProfileForm.gender);
         formData.append('address', updateProfileForm.address);
-        formData.append('avatar', updateProfileForm.avatar);
+        formData.append('file', updateProfileForm.avatar);
 
-        console.log(formData)
         try {
             const response = await axios.patch(`${apiUrl}/user/updateProfile`, formData,
                 {
@@ -59,15 +58,13 @@ function ProfileAdmin() {
                     },
                 }
             );
+            console.log(response.data.data)
             if (response.data.success) {
-                profileInformation._id = updateProfileForm._id;
-                profileInformation.name = updateProfileForm.name;
-                profileInformation.username = updateProfileForm.username;
-                profileInformation.email = updateProfileForm.email;
-                profileInformation.dob = updateProfileForm.dob;
-                profileInformation.gender = updateProfileForm.gender;
-                profileInformation.address = updateProfileForm.address;
-                profileInformation.avatar = updateProfileForm.avatar;
+                profileInformation.name = response.data.name;
+                profileInformation.dob = new Date(response.data.dob).toISOString().substr(0, 10);
+                profileInformation.gender = response.data.gender;
+                profileInformation.address = response.data.address;
+                profileInformation.avatar = response.data.avatar;
 
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(profileInformation));
             }

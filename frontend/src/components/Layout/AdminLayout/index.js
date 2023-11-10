@@ -43,7 +43,6 @@ function AdminLayout({ children }) {
     const localStorageKey = 'darkMode';
     const initialMode = JSON.parse(localStorage.getItem(localStorageKey)) || false;
     const [isDarkMode, setIsDarkMode] = useState(initialMode);
-
     const saveToLocalStorage = (value) => {
         localStorage.setItem(localStorageKey, JSON.stringify(value));
     };

@@ -8,11 +8,14 @@ import images from '~/assets/images'
 
 import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import axios from 'axios';
+import { apiUrl, ACCESS_TOKEN, } from '~/constants/constants';
 
 // const cx = classNames.bind(styles)
 
 const cx = classNames.bind(styles)
 function PlanMealManagement() {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showDeletePlanModal, setShowDeletePlanModal] = useState(false);
 
     const handleDeleteIconClick = () => {
@@ -31,63 +34,27 @@ function PlanMealManagement() {
         {
             field: 'account',
             headerName: 'Account',
-            width: 110,
-            editable: true,
+            width: 200,
         },
         {
-            field: 'email',
-            headerName: 'Email',
-            type: 'email',
-            width: 110,
-            editable: true,
+            field: 'name',
+            headerName: 'Name',
+            width: 300,
         },
         {
-            field: 'phone',
-            headerName: 'Phone',
-            width: 110,
-            type: 'number',
-            editable: true,
+            field: 'category',
+            headerName: 'Category',
+            width: 200,
         },
         {
-            field: 'DoB',
-            headerName: 'Birthday',
+            field: 'days',
+            headerName: 'Days',
             width: 120,
-            editable: true,
         },
         {
-            field: 'gender',
-            headerName: 'Gender',
-            width: 60,
-            editable: true,
-        },
-        {
-            field: 'article',
-            headerName: 'Article',
-            type: 'number',
-            width: 90,
-            editable: true,
-        },
-        {
-            field: 'recipe',
-            headerName: 'Recipe',
-            type: 'number',
-            width: 90,
-            editable: true,
-        },
-        {
-            field: 'planmeal',
-            headerName: 'Plan meal',
-            type: 'number',
-            width: 90,
-            editable: true,
-        },
-        {
-            field: 'rating',
-            headerName: 'Rating',
-            type: 'number',
-            width: 110,
-            width: 3.5,
-            editable: true,
+            field: 'public',
+            headerName: 'Public',
+            width: 120,
         },
         {
             field: 'action',
@@ -104,22 +71,45 @@ function PlanMealManagement() {
     ];
 
     const rows = [
-        { id: 1, account: 'le thu', email: 'Snow@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 2, account: 'le thu', email: 'Lannister@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 3, account: 'le thu', email: 'Lannister@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 4, account: 'le thu', email: 'Stark@gmail.com', phone: '0936947367', DoB: null, gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 5, account: 'le thu', email: 'Targaryen@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 6, account: 'le thu', email: 'Melisandre@gmail.com', phone: null, DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 7, account: 'le thu', email: 'Clifford@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 8, account: 'le thu', email: 'Frances@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
-        { id: 9, account: 'le thu', email: 'Roxie@gmail.com', phone: '0936947367', DoB: "23/10/2002", gender: 'Male', article: '45', recipe: '63', planmeal: '21', rating: '4.2' },
+        { id: 1, account: 'le thu', name: 'Snow@gmail.com', category: '0936947367', days: "23/10/2002", public: 'Male' }
     ];
+    const [list, setList] = useState(rows)
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await axios.get(`${apiUrl}/mealplan/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                if (res.data.success) {
+                    console.log(res.data.data)
+                    let resList = []
+                    res.data.data.map((mealplan, index) => {
+                        const data = {
+                            account: mealplan.user[0].name,
+                            id: index,
+                            name: mealplan.name,
+                            category: mealplan.category[0],
+                            days: mealplan.days.length,
+                            public: mealplan.public
+                        }
+                        resList.push(data)
+                    })
+                    if (resList.length > 0) setList(resList)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <div className={cx('container-table')}>
             <div className={cx('row-table')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
-                        <h4 className={cx('page_title')}>Account: 234</h4>
+                        <h4 className={cx('page_title')}>Total: {list.length}</h4>
                         <p></p>
                     </div>
                 </div>
@@ -132,7 +122,7 @@ function PlanMealManagement() {
                             // border: '2px solid rgba(58, 53, 65, 0.1)'
                         }}>
                         <DataGrid
-                            rows={rows}
+                            rows={list}
                             columns={columns}
                             initialState={{
                                 pagination: {

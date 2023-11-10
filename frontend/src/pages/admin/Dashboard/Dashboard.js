@@ -20,21 +20,34 @@ const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
 const cx = classNames.bind(styles)
 const Dashboard = () => {
-    const [ratingDev, setRatingDev] = useState({ ratingDevUser: { currentMonth: 1, rate: 0 }, ratingDevRecipe: { currentMonth: 1, rate: 0 }, ratingDevArticle: { currentMonth: 1, rate: 0 } })
+    const [ratingDev, setRatingDev] = useState({
+        ratingDevUser: { currentMonth: 1, rate: 0 },
+        ratingDevRecipe: { currentMonth: 1, rate: 0 },
+        ratingDevArticle: { currentMonth: 1, rate: 0 },
+        ratingDevMealplan: { currentMonth: 1, rate: 0 }
+    })
     const [ratingCategory, setRatingCategory] = useState([])
     const [topTrending, setTopTrending] = useState([])
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`${apiUrl}/admin/getDashboard`, {
-                    headers: { Authorization: `Bearer ${accessToken}` }
-                });
-                console.log(response.data)
-                if (response.data.success) {
-                    setRatingDev(response.data.data)
-                    console.log(ratingDev)
+                const [response, mealplansResponse] = await Promise.all([
+                    axios.get(`${apiUrl}/admin/getDashboard`, {
+                        headers: { Authorization: `Bearer ${accessToken}` }
+                    }),
+                    axios.get(`${apiUrl}/mealplan/getalltostatistic`, {
+                        headers: { Authorization: `Bearer ${accessToken}` }
+                    })
+
+                ])
+                if (response.data.success && mealplansResponse.data.success) {
+                    const data = response.data.data
+                    data.ratingDevMealplan = mealplansResponse.data.data
+                    setRatingDev(data)
                     setRatingCategory(response.data.rating)
                     setTopTrending(response.data.recipes)
+
+
                 }
             } catch (error) {
                 console.log(error)
@@ -57,7 +70,7 @@ const Dashboard = () => {
                         <div className={cx('col-xxl-3', 'col-md-6')}>
                             <div className={cx('h-md-100', 'card')}>
                                 <div className={cx('pd-0', 'card-header')}>
-                                    <h6 className={cx('mb-0', 'mt-2')}>Total account</h6>
+                                    <h6 className={cx('mb-0', 'mt-2')}>Total account this month</h6>
                                 </div>
                                 <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                     <div className={cx('border-left')}>
@@ -81,7 +94,7 @@ const Dashboard = () => {
                     <div className={cx('col-xxl-3', 'col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total Recipe</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Recipe  this month</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -100,7 +113,7 @@ const Dashboard = () => {
                     <div className={cx('col-xxl-3', 'col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total Article</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Article this month</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -119,7 +132,7 @@ const Dashboard = () => {
                     <div className={cx('col-md-6')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <h6 className={cx('mb-0', 'mt-2')}>Total Plan meal</h6>
+                                <h6 className={cx('mb-0', 'mt-2')}>Total Plan meal this month</h6>
                             </div>
                             <div className={cx('d-flex', 'justify-content-between', 'align-items-end', 'card-body')}>
                                 <div className={cx('border-left')}>
@@ -127,11 +140,11 @@ const Dashboard = () => {
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                     </svg>
                                 </div>
-                                {/* <div className={cx('border-right')}>
-                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>24
+                                <div className={cx('border-right')}>
+                                    <h2 className={cx('mb-1', 'text-700', 'fw-normal', 'lh-1')}>{ratingDev.ratingDevMealplan.currentMonth}
                                     </h2>
-                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>+12%</div>
-                                </div> */}
+                                    <div className={cx('fs--2', 'badge', 'badge-soft-success', 'rounded-pill')}>{ratingDev.ratingDevMealplan.rate}%</div>
+                                </div>
                             </div>
                         </div>
                     </div>

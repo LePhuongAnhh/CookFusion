@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom"
 import { apiUrl, PROFILE_INFORMATION, ACCOUNT_ID, ROLE, ACCESS_TOKEN } from "~/constants/constants";
 import Search from '../Search';
+import images from '~/assets/images';
+import ChatModal from '~/components/Modal/ChatModal';
 
 const cx = classNames.bind(styles)
 function DefaultLayout({ children }) {
@@ -56,6 +58,16 @@ function DefaultLayout({ children }) {
         return () => document.removeEventListener("click", closeNotification);
     }, []);
 
+    //CHAT
+    const [showMessage, setShowMessage] = useState(false);
+    console.log("toggleMessage is called");
+    const toggleMessage = () => {
+        setShowMessage(!showMessage);
+    };
+
+    //modal chart
+    const [showMessageModal, setShowMessageModal] = useState(false);
+
     return (
         <body>
             <div>
@@ -91,15 +103,10 @@ function DefaultLayout({ children }) {
                     <nav className="navbar navbar-expand-lg bg-white sticky-top navbar-light shadow-sm,  { 'dark-mode': isDarkMode, 'light-mode': !isDarkMode }">
                         <div className="container">
                             <Link className="navbar-brand" to="#"><i className="fa-solid fa-shop me-2"></i> <strong className={cx('logo-text')}> GourmetFood</strong></Link>
-                            {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button> */}
-
                             <div className=" collapse navbar-collapse" id="navbarNavDropdown">
                                 <div className="ms-auto d-none d-lg-block" >
                                     <Search />
                                 </div>
-
                                 <ul className="navbar-nav ms-auto ">
                                     <li className="nav-item">
                                         <Link className="nav-link mx-2 active" aria-current="page" to="/homepage">Home</Link>
@@ -114,12 +121,11 @@ function DefaultLayout({ children }) {
                                         <Link className="nav-link mx-2 " to="/planmeal">Plan Meal</Link>
                                     </li>
                                 </ul>
-
                                 <ul className="navbar-nav ms-auto " style={{ display: 'flex', alignItems: 'center' }}>
                                     {/* Kiểm tra nếu chưa đăng nhập, hiển thị nút Login */}
                                     {!isLoggedIn && (
                                         <li className={cx("nav-item")}>
-                                            <Link className="nav-link mx-2 text-uppercase" to="/">
+                                            <Link className="nav-link mx-2" to="/">
                                                 Login
                                             </Link>
                                         </li>
@@ -129,7 +135,7 @@ function DefaultLayout({ children }) {
                                     {isLoggedIn && (
                                         <>
                                             <div className="nav-item">
-                                                <div className="nav-link mx-2 text-uppercase" onClick={toggleNotification}>
+                                                <div className="nav-link mx-2 " onClick={toggleNotification}>
                                                     <i className="bi bi-bell"></i>
                                                 </div>
                                                 {isNotificationOpen && (
@@ -138,11 +144,37 @@ function DefaultLayout({ children }) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <li className={cx("nav-item")}>
-                                                <div className="nav-link mx-2 text-uppercase" >
-                                                    <i class="bi bi-chat-dots"></i>
+                                            <li className={cx("nav-item")} onClick={toggleMessage}>
+                                                <div className="nav-link mx-2 " >
+                                                    <i className="bi bi-chat-dots"></i>
                                                 </div>
                                             </li>
+                                            {showMessage && (
+                                                <div className={cx("notification-popup")}>
+                                                    <div class="input-group rounded">
+                                                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                                    </div>
+                                                    <li className="p-2 border-bottom" onClick={() => setShowMessageModal(true)} >
+                                                        <a href="#!" className="d-flex justify-content-between">
+                                                            <div className="d-flex flex-row">
+                                                                <div>
+                                                                    <img
+                                                                        src={images.minh}
+                                                                        alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="45" height='45' />
+                                                                    <span className="badge bg-danger badge-dot"></span>
+                                                                </div>
+                                                                <div className="pt-1">
+                                                                    <p className="fw-bold mb-0">Ashley Olsen</p>
+                                                                    <p className="small text-muted">Lorem ipsum dolor sit.</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="pt-1">
+                                                                <p className="small text-muted mb-1">Yesterday</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            )}
                                             <li className={cx("nav-item")}>
                                                 <div className={cx("nav-link", "mx-2", "avatar-container")}>
                                                     <Link to="/profile">
@@ -168,6 +200,7 @@ function DefaultLayout({ children }) {
                 </div>
                 {/* <FooterForm /> */}
             </div >
+            {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal} />}
         </body >
     );
 }

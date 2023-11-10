@@ -113,3 +113,18 @@
     color: rgba(22, 24, 35, 0.5);
     font-size: 1.4rem;
 }
+
+//SHOW MESSAGE
+.notification-popup {
+    position: absolute;
+    top: 50px; /* điều chỉnh vị trí theo yêu cầu */
+    right: 20px; /* điều chỉnh vị trí theo yêu cầu */
+    background-color: #fff;
+    // border: 1px solid #ccc;
+    box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-1);
+    --shadow-1: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 20000;
+    border-radius: 5px;
+    box-shadow: #ccc;
+}
