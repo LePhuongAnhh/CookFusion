@@ -60,9 +60,11 @@ function DefaultLayout({ children }) {
 
     //CHAT
     const [showMessage, setShowMessage] = useState(false);
-    console.log("toggleMessage is called");
     const toggleMessage = () => {
         setShowMessage(!showMessage);
+    };
+    const closeMessage = () => {
+        setShowMessage(false);
     };
 
     //modal chart
@@ -138,11 +140,7 @@ function DefaultLayout({ children }) {
                                                 <div className="nav-link mx-2 " onClick={toggleNotification}>
                                                     <i className="bi bi-bell"></i>
                                                 </div>
-                                                {isNotificationOpen && (
-                                                    <div className={cx("notification-dropdown")} onClick={(e) => e.stopPropagation()}>
-                                                        <div className={cx("noti-gird")}> Hkoo </div>
-                                                    </div>
-                                                )}
+                                                
                                             </div>
                                             <li className={cx("nav-item")} onClick={toggleMessage}>
                                                 <div className="nav-link mx-2 " >
@@ -150,30 +148,11 @@ function DefaultLayout({ children }) {
                                                 </div>
                                             </li>
                                             {showMessage && (
-                                                <div className={cx("notification-popup")}>
+                                                <div className={cx("notification-popup")} onClick={closeMessage}>
                                                     <div className={cx('header-info')}>Message</div>
                                                     <div className={cx("input-group-chat")}>
                                                         <input type="search" className={cx('search-chat')} placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                                                     </div>
-                                                    <li className="p-2 border-bottom" onClick={() => setShowMessageModal(true)} >
-                                                        <a href="#!" className="d-flex justify-content-between">
-                                                            <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
-                                                                <div style={{ marginTop: "6px" }}>
-                                                                    <img
-                                                                        src={images.minh}
-                                                                        alt="avatar" className="d-flex align-self-center me-3 rounded-circle" width="45" height='45' />
-                                                                    <span className="badge bg-danger badge-dot"></span>
-                                                                </div>
-                                                                <div className="pt-1">
-                                                                    <p className="fw-bold mb-0">Ashley Olsen</p>
-                                                                    <p className="small">Lorem ipsum dolor sit.</p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="pt-1">
-                                                                <p className={cx('time-chat', 'text-muted')}>Yesterday</p>
-                                                            </div>
-                                                        </a>
-                                                    </li>
                                                     <li className="p-2 border-bottom" onClick={() => setShowMessageModal(true)} >
                                                         <a href="#!" className="d-flex justify-content-between">
                                                             <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
