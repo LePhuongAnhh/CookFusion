@@ -418,7 +418,7 @@ text h2 {
     border: none;
     transition: max-width 600ms ease;
     border-radius: 3em;
-    margin-top: 16px;
+    margin-top: 88px;
     width: 56px;
     height: 56px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.05) inset;
@@ -431,6 +431,12 @@ text h2 {
     padding: 15px;
     transition: color 200ms ease;
     display: inline-block;
+    .add-recipe-image {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        margin: -4px -2px 0px;
+    }
 }
 
 .button_save_recipe:hover {

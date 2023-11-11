@@ -30,29 +30,28 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    input{
+    input {
         border: none;
     }
-    button{
+    button {
         width: 90px;
-    height: 40px;
-    background: #f9f9fc;
-    border-radius: 8px;
-    cursor: pointer;
-    color: var(--main-text-color);
+        height: 40px;
+        background: #f9f9fc;
+        border-radius: 8px;
+        cursor: pointer;
+        color: var(--main-text-color);
     }
-    button:hover{
+    button:hover {
         background: #dadae2;
     }
 }
 .modal_title {
     font-size: 16px;
-    font-weight: 700;
-    color: #121320;
+    // font-weight: 700;
+    // color: #121320;
     width: 85%;
     margin: 0 0 32px;
-        padding: 5px;
-
+    padding: 5px;
 }
 .exit_cmt_modal {
     float: right;
@@ -84,24 +83,24 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    .choose-image{
+    .choose-image {
         width: 310px;
         height: 225px;
-        img{
+        img {
             width: 280px;
             height: 225px;
             margin-left: 35px;
             border-radius: 5px;
         }
-        div{
+        div {
             width: 280px;
             height: 225px;
             margin-left: 35px;
             border: 1px solid gray;
             border-radius: 5px;
             text-align: center;
-           p {
-            margin: 85px;
+            p {
+                margin: 85px;
             }
         }
     }
@@ -126,7 +125,7 @@
     margin-top: 0;
     background-color: transparent;
     display: flex;
-       select{
+    select {
         margin: 0 10px;
         cursor: pointer;
     }
@@ -163,7 +162,7 @@
     max-width: 100%;
     display: flex;
     justify-content: space-between;
-    .description{
+    .description {
         width: 295px;
         height: 108px;
         padding: 5px;
@@ -220,7 +219,7 @@
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 8px;
     margin-right: 8px;
-    input{
+    input {
         border: none;
         width: 75px;
         background: none;
@@ -308,15 +307,48 @@
 .right_column b {
     font-weight: bolder;
     color: #1b1e35;
-    input{
+    input {
         margin-left: 12px;
-        width: 60px;
+        width: 102px;
         border: none;
     }
 }
-.right_column textarea{
+.right_column textarea {
     width: 320px;
     resize: none;
     padding: 5px 0;
     border: 5px;
+}
+
+//hien thi anhr cho cacs buoc
+.choose-image-step {
+    p {
+        cursor: pointer;
+    }
+}
+.selected-file {
+    img,
+    video {
+        max-width: 355px;
+        height: 225px;
+        border-radius: 8px;
+    }
+    .remove-file {
+        margin-left: -19px;
+        &:hover {
+            color: blue;
+        }
+    }
+}
+
+.add-step {
+    margin: 10px 0 10px -1px;
+    border-radius: 5px;
+    background-color: #f9f9fc;
+    &:hover {
+        background-color: #e7e7e9;
+    }
+    svg {
+        color: #f46708;
+    }
 }

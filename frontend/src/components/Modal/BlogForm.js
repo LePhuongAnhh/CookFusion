@@ -394,10 +394,16 @@ const BlogForm = ({ }) => {
                                                         <span className={cx('view_cmt')}>
                                                             {comment.comment}
                                                         </span>
+                                                        {/* <div className={cx('delete-comment')} >
+                                                            <i class="bi bi-three-dots"></i>
+                                                        </div> */}
                                                     </p>
                                                     <div className={cx('reply_comment')}>
                                                         <Link to="#"> Like  </Link> •
                                                         <Link to="#"> Reply  </Link>• {formatTime(new Date(comment.timeComment))}
+
+                                                        &nbsp; <i class="bi bi-three-dots" title="Delete comment"></i>
+
                                                     </div>
                                                 </div>
                                             </div>

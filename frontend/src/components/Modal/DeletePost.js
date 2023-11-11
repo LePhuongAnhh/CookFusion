@@ -19,7 +19,7 @@ function DeletePost({ setShowDeletePostModal,postId,setListPost,setTotalPost, li
                 const updatedPosts = listPost.filter(article => article._id !== postId);
                 setTotalPost(updatedPosts.length)
                 setListPost(updatedPosts);
-                setShowDeletePostModal(false); // Ẩn modal sau khi xóa thành công
+                setShowDeletePostModal(false); 
             }
         } catch (error) {
             console.error("Lỗi xóa bài viết:", error);

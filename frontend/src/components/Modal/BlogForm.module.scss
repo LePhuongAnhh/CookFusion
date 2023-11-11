@@ -315,11 +315,14 @@ link {
 .view_cmt {
     margin-left: 0.25rem;
 }
-
+.delete-comment {
+    flex: 1;
+}
 .reply_comment {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     font-size: 13px;
+    cursor: pointer;
 }
 
 .reply_comment a,

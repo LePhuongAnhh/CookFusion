@@ -79,5 +79,6 @@ const images = {
     payment: require('~/assets/images/online-business.png'),
     header_logo: require('~/assets/images/5.png'),
     header_logo2: require('~/assets/images/2.png'),
+    add_recipe: require('~/assets/images/add-recope.png'),
 }
 export default images;
