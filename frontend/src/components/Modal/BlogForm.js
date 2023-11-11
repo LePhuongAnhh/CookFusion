@@ -79,43 +79,58 @@ const BlogForm = ({ }) => {
             console.log(error)
         }
     }
-
-    const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+    const handleSearchHashtag = async (hashtag) => {
+        await fetchData(hashtag)
+    }
+    const fetchData = async (hashtag) => {
+        try {
+            if (hashtag) {
+                const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
+                var response = await axios.get(uri, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                setChangeArticle(null);
-
-                if (response) {
-                    const articlesData = response.data.data.map(article => {
-                        const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
-                        const content = article.content;
-                        const hashtags = content.match(/#[^\s#]*/g);
-                        const articleId = article._id;
-                        // console.log('id bai viwt laf :', article._id)
-                        return { ...article, timeUpload, hashtags, articleId }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
-                    });
-                    // Lọc bài viết dựa trên trang hiện tại
-                    const isProfilePage = location.pathname === '/profile';
-                    const filtered = isProfilePage
-                        ? articlesData.filter(article => article.userUpload._id === profileInformation._id)
-                        : articlesData;
-                    // Sắp xếp bài viết theo thứ tự ngược lại
-                    const sortedArticles = filtered.slice().sort((a, b) => new Date(b.timeUpload) - new Date(a.timeUpload));
-                    const reversedArticles = sortedArticles.reverse();
-                    setFilteredArticles(reversedArticles);
-
-                }
-                console.log('Dữ liệu bài đăng: ', response.data.data);
-            } catch (error) {
-                console.log(error.response.data.message);
+            } else {
+                var response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
             }
-        };
+            setChangeArticle(null);
+
+            if (response) {
+                const articlesData = response.data.data.map(article => {
+
+                    const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
+                    const content = article.content;
+                    const regex = /#[^\s#]+/g;
+                    const hashtags = article.hashtag.match(regex) || [];
+                    if (hashtags.length > 0) console.log(hashtags)
+                    const articleId = article._id;
+                    // console.log('id bai viwt laf :', article._id)
+                    return { ...article, timeUpload, hashtags, articleId }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
+                });
+                // Lọc bài viết dựa trên trang hiện tại
+                const isProfilePage = location.pathname === '/profile';
+                const filtered = isProfilePage
+                    ? articlesData.filter(article => article.userUpload._id === profileInformation._id)
+                    : articlesData;
+                // Sắp xếp bài viết theo thứ tự ngược lại
+                const sortedArticles = filtered.slice().sort((a, b) => new Date(b.timeUpload) - new Date(a.timeUpload));
+                const reversedArticles = sortedArticles.reverse();
+                setFilteredArticles(reversedArticles);
+
+            }
+            console.log('Dữ liệu bài đăng: ', response.data.data);
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    };
+    const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
+    useEffect(() => {
+
         fetchData();
         socket.on('error', (message) => {
             return
@@ -141,14 +156,6 @@ const BlogForm = ({ }) => {
         setShowCommentBlogModal(true);
     };
 
-    //setting article
-    const [showSetting, setShowSetting] = useState(false);
-    const toggleSetting = () => {
-        setShowSetting(!showSetting);
-    };
-    const closeSetting = () => {
-        setShowSetting(false);
-    };
 
 
     //cmt
@@ -230,25 +237,20 @@ const BlogForm = ({ }) => {
                                         <div className={cx('post_setting')}>
                                             <button className={cx('btn_setting')}>
                                                 <div className={cx('dropdown')}>
-                                                    <button className={cx('dropdown_toggle')} onClick={toggleSetting}>
+                                                    <button className={cx('dropdown_toggle')}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    {showSetting && (
-                                                        <div className={cx("notification-popup")}>
-                                                            {(article.userUpload[0]._id === profileInformation._id) ? (
-                                                                <div className={cx('dropdown_content')}>
-                                                                    <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                                    <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
-                                                                </div>
-                                                            ) : <div className={cx('dropdown_content')}>
-                                                                <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
-                                                            </div>
-                                                            }
+                                                    {(article.userUpload[0]._id === profileInformation._id) ? (
+                                                        <div className={cx('dropdown_content')}>
+                                                            <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
+                                                            <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
                                                         </div>
-                                                    )}
-
+                                                    ) : <div className={cx('dropdown_content')}>
+                                                        <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
+                                                    </div>
+                                                    }
                                                 </div>
                                             </button>
                                         </div>
@@ -258,7 +260,14 @@ const BlogForm = ({ }) => {
                             <div className={cx('posts_body')}>
                                 <p>
                                     {article.content}
-                                    <p style={{ color: "blue" }}>{article.hashtags}</p>
+                                    <div>
+                                        {
+                                            article.hashtags.length > 0 && article.hashtags.map((hashtag) => (
+                                                <a style={{ color: "blue" }} onClick={() => handleSearchHashtag(hashtag)}>{hashtag}</a>
+                                            ))
+
+                                        }
+                                    </div>
                                 </p>
 
                                 <div className={cx('body_img')}>
@@ -394,16 +403,10 @@ const BlogForm = ({ }) => {
                                                         <span className={cx('view_cmt')}>
                                                             {comment.comment}
                                                         </span>
-                                                        {/* <div className={cx('delete-comment')} >
-                                                            <i class="bi bi-three-dots"></i>
-                                                        </div> */}
                                                     </p>
                                                     <div className={cx('reply_comment')}>
                                                         <Link to="#"> Like  </Link> •
                                                         <Link to="#"> Reply  </Link>• {formatTime(new Date(comment.timeComment))}
-
-                                                        &nbsp; <i class="bi bi-three-dots" title="Delete comment"></i>
-
                                                     </div>
                                                 </div>
                                             </div>

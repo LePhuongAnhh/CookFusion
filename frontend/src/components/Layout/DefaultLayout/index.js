@@ -16,6 +16,7 @@ import Search from '../Search';
 import images from '~/assets/images';
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function DefaultLayout({ children }) {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
@@ -24,9 +25,6 @@ function DefaultLayout({ children }) {
     const role = localStorage.getItem(ROLE);
     const [isLoggedIn, setIsLoggedIn] = useState(!!profileInformation);
     //Lấy thời gian
-    const formatTime = (date) => {
-        return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
-    };
 
     //logout
     const navigate = useNavigate();
@@ -188,7 +186,7 @@ function DefaultLayout({ children }) {
         return () => {
             socket.off('notification')
         }
-    }, [setListMessage])
+    }, [listMessage])
 
     //choose article or recipe
     const [activeTab, setActiveTab] = useState('credit-card');
@@ -341,7 +339,7 @@ function DefaultLayout({ children }) {
                                                     </div>
                                                     {listMessage.length > 0 && listMessage.map((message) => (
                                                         <li className={`p-2 border-bottom ${message.receiver[0]._id == accountId && message.seen == false ? "bg-info" : ""}`} onClick={() => handleShowMessageModal(message)} >
-                                                            <div onClick={closeMessage}>
+                                                            <div onClick={closeMessage} >
                                                                 <a href="#!" className="d-flex justify-content-between">
                                                                     <div className="d-flex flex-row" style={{ marginBottom: '-6px' }}>
                                                                         <div style={{ marginTop: "6px" }}>
@@ -352,7 +350,7 @@ function DefaultLayout({ children }) {
                                                                         </div>
                                                                         <div className="pt-1">
                                                                             <p className="fw-bold mb-0">{(message.receiver[0]._id == accountId) ? message.sender[0].name : message.receiver[0].name}</p>
-                                                                            <p className="small">{message.content}</p>
+                                                                            <p className="small">{sjcl.decrypt(message.sender[0]._id + "" + message.receiver[0]._id, message.content)}</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="pt-1">
@@ -417,7 +415,8 @@ function DefaultLayout({ children }) {
                     {children}
                 </div>
             </div >
-            {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal} />}
+            {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal}
+                chat={chat} receiver={otherUser} setListMessage={setListMessage} handleShowMessageModal={handleShowMessageModal} />}
         </body >
     );
 }

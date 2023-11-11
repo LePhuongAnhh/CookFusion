@@ -1,8 +1,8 @@
 // ipmpot tu ngoai thu vin
 import React, { useState, useEffect } from "react"
-
 //import ben trong thu vienm
 import images from '~/assets/images'
+
 import styles from './ChatModal.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
@@ -11,23 +11,19 @@ import axios from "axios"
 import { apiUrl, ACCOUNT_ID, ACCESS_TOKEN, PROFILE_INFORMATION } from "~/constants/constants";
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
-
+const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handleShowMessageModal }) {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    // const handleUnState = (state) => {
-    //     setChangeArticle(state.Article_id)
-    //     socket.emit('setheart', state)
-    // }
     const [list, setList] = useState(chat.sort((a, b) => new Date(a.time) - new Date(b.time)))
     const [index, setIndex] = useState(1)
     const [sendMessage, setSendMessage] = useState("")
     const handleSendMessage = () => {
         if (sendMessage.trim() != "") {
             //send message
-            const data = { sender_id: accountId, content: sendMessage, receiver_id: receiver._id }
+            const data = {sender_id:accountId,content:sjcl.encrypt(accountId+receiver._id, sendMessage),receiver_id:receiver._id}
             setSendMessage("")
             socket.emit('sendMessage', data)
         }
@@ -78,40 +74,50 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
                                 // </div> 
                                 // )
                                 (message.sender_id != accountId) ? (
+
+
                                     <div className={cx('d-flex', 'flex-row', 'justify-content-start', 'chat-box')}>
                                         {
-                                            (index > 1 && message.sender_id == list[index - 1].sender_id) ?
-                                                <div style={{ marginRight: "30px" }}></div> :
-                                                <img src={receiver.avatar} className="rounded-circle" width="30" height='30' />
+                                            (index == list.length - 1)||(message.sender_id !== list[index + 1].sender_id) ?
+                                            <img src={receiver.avatar} className="rounded-circle" width="30" height='30' />
+                                                :<div style={{ marginRight: "30px" }}></div> 
+                                               
                                         }
+
                                         <div style={{ marginRight: "20px" }}>
-                                            <p className={cx("content-chart", 'color')}>{message.content}</p>
+                                            <p className={cx("content-chart", 'color')}>{ sjcl.decrypt(message.sender_id+message.receiver_id,message.content )}</p>
                                             {
                                                 (index == list.length - 1 || list[index + 1].sender_id !== message.sender_id) && (
                                                     <p className={cx("content-chart", "time-chat")}>{message.time.substring(0, 10)}</p>
                                                 )
                                             }
+
                                         </div>
                                     </div>
+
                                 ) :
+
                                     <div className={cx("d-flex", "flex-row", "justify-content-end", "chat-box-right")}>
                                         <div style={{ marginLeft: "20px" }}>
-                                            <p className={cx('content-chat-right', 'background')}>{message.content}</p>
+                                            <p className={cx('content-chat-right', 'background')}>{ sjcl.decrypt(message.sender_id+message.receiver_id,message.content )}</p>
                                             {
                                                 (index == list.length - 1 || list[index + 1].sender_id !== message.sender_id) && (
                                                     <p className={cx('content-chat-right', 'time-chat-right')}>{message.time.substring(0, 10)}</p>
                                                 )
                                             }
                                         </div>
-                                        {
-                                            (index > 1 && message.sender_id == list[index - 1].sender_id) ?
-                                                <div style={{ marginLeft: "30px" }}></div> :
-                                                <img src={profileInformation.avatar} className="rounded-circle" width="30" height='30' />
-                                        }
+                                        {/* {
+                                            ((index == list.length - 1)||(message.sender_id !== list[index + 1].sender_id) ) ?
+                                            <img src={profileInformation.avatar} className="rounded-circle" width="30" height='30' />
+                                                : <div style={{ marginLeft: "30px" }}></div> 
+                                                
+                                        } */}
                                     </div>
+
                             ))}
                         </div>
                     </div>
+
                     <div className={cx('footer-chat')}>
                         <img src={profileInformation.avatar} className="rounded-circle" width="35" height='35' />
                         <input type="text" className={cx("input-text")} value={sendMessage}
