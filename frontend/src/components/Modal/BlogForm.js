@@ -23,6 +23,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { set } from "date-fns";
+import Loading from "../Layout/Loading";
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
@@ -82,6 +83,7 @@ const BlogForm = ({ }) => {
     const handleSearchHashtag = async (hashtag) => {
         await fetchData(hashtag)
     }
+
     const fetchData = async (hashtag) => {
         try {
             if (hashtag) {
@@ -109,8 +111,8 @@ const BlogForm = ({ }) => {
                     const hashtags = article.hashtag.match(regex) || [];
                     if (hashtags.length > 0) console.log(hashtags)
                     const articleId = article._id;
-                    // console.log('id bai viwt laf :', article._id)
-                    return { ...article, timeUpload, hashtags, articleId }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
+                    const comments = article.comments || [];
+                    return { ...article, timeUpload, hashtags, articleId, comments }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
                 });
                 // Lọc bài viết dựa trên trang hiện tại
                 const isProfilePage = location.pathname === '/profile';
@@ -156,8 +158,6 @@ const BlogForm = ({ }) => {
         setShowCommentBlogModal(true);
     };
 
-
-
     //cmt
     const [articleIdForComment, setArticleIdForComment] = useState(null);
     const [commentData, setCommentData] = useState({
@@ -174,9 +174,6 @@ const BlogForm = ({ }) => {
         }
     };
 
-
-    console.log("commentData: ", commentData);
-
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         try {
@@ -185,16 +182,35 @@ const BlogForm = ({ }) => {
             formData.append('Article_id', articleIdForComment);
             formData.append('userId', userId);
 
-            console.log("Form data before axios call: ", formData);
-            console.log("articl id", articleIdForComment)
-
             const response = await axios.post(`${apiUrl}/comment/addComment`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
             if (response.data.success) {
-                console.log('Bài viết đã được tạo thành công.', commentData);
+                const newComment = {
+                    _id: response.data.data._id,
+                    comment: response.data.data.comment,
+                    userId: response.data.data.userId,
+                    Article_id: response.data.data.Article_id,
+                };
+                // Tìm bài viết trong danh sách và thêm comment mới vào nó
+                setFilteredArticles(prevArticles => {
+                    return prevArticles.map(article => {
+                        if (article._id === articleIdForComment) {
+                            // Thêm mới comment vào danh sách comments của bài viết
+                            const updatedComments = [newComment, ...article.comments];
+                            // Trả về bài viết đã cập nhật
+                            return {
+                                ...article,
+                                comments: updatedComments,
+                            };
+                        }
+                        return article;
+                    });
+                });
+
+                // Reset dữ liệu comment form
                 setCommentData({
                     comment: '',
                     userId: userId,
@@ -207,6 +223,9 @@ const BlogForm = ({ }) => {
         }
     };
 
+    if (filteredArticles.length === 0) {
+        return <p className={cx('loading')}> <Loading /></p>;
+    }
 
     return (
         <>
@@ -280,7 +299,7 @@ const BlogForm = ({ }) => {
                                     <div className={cx('show_img_6')}>
                                         <Slider {...sliderSettings}>
                                             {article.files[0] && article.files[0].files.map((fileInfor, index) => {
-                                                if (fileInfor && fileInfor.type && typeof fileInfor.type === 'string' && fileInfor.type.startsWith("video")) {
+                                                if (fileInfor.isImage == false) {
                                                     // Hiển thị video
                                                     return (
                                                         <video key={index} controls className={cx('video_video')}>
@@ -314,8 +333,6 @@ const BlogForm = ({ }) => {
                                         </Slider>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
 

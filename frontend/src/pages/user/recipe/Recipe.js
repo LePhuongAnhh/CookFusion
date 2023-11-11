@@ -4,16 +4,70 @@ import { Link } from 'react-router-dom'
 import RecipeForm from './RecipeForm'
 import CreateRecipe from './CreateRecipe'
 import images from '~/assets/images'
+import Loading from '~/components/Layout/Loading'
 
 import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import axios from 'axios'
 import 'swiper/swiper-bundle.css'; // Import Swiper styles
-import { ACCESS_TOKEN } from '~/constants/constants'
+import { ACCESS_TOKEN, apiUrl } from '~/constants/constants'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles)
 const Recipe = () => {
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showCreateRecipeModal, setShowCreateRecipeModal] = useState(false);
+
+    //GET ALL RECIPE
+    const [recipeAllData, setAllRecipeData] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/recipe/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setAllRecipeData(response.data);
+                console.log(' all data recipe: ', response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, [apiUrl, accessToken]);
+
+    // Check if recipeAllData is an empty array
+    if (recipeAllData.length === 0) {
+        return <p className={cx('loading')}> <Loading /></p>;
+    }
+
+    //CHINH SLIDER
+    const NextArrow = (props) => (
+        <div {...props} className={cx('custom-arrow next-arrow')}>
+            <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+    );
+
+    const PrevArrow = (props) => (
+        <div {...props} className={cx('custom-arrow prev-arrow')}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+        </div>
+    );
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
+    };
 
     return (
         <div>
@@ -27,10 +81,6 @@ const Recipe = () => {
                                 onClick={() => setShowCreateRecipeModal(true)}
                             >
                                 <span className={cx('icon_save')} title="Create Recipe">
-                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                    </svg> */}
                                     <img className={cx('add-recipe-image')} src={images.add_recipe} />
                                 </span>
                             </button>
@@ -120,62 +170,52 @@ const Recipe = () => {
                             {/* <span className={cx('summary_readless')}>Read less</span> */}
                         </div>
                     </div>
-
-                    {/* INGRS  */}
-                    {/* <div className={cx('cate_contain')}>
-                        <div className={cx('cate_gird')}>
-                            <h2>Explore more</h2>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top2} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top3} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>Vegetable</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top4} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>Vegetable</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top2} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top2} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                            </div>
-                            <div className={cx('cate_img_block')}>
-                                <Link to="#" className={cx('cate_img')}>
-                                    <img src={images.Top2} />
-                                </Link>
-                                <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                            </div>
-                        </div>
-                    </div> */}
-
                     <div className={cx('blog')}>
                         <h1>Our<span>Blog</span></h1>
+                        <div className={cx('filter-cate')}>
+                            <div>Category</div>
+                        </div>
                         <div className={cx('blog_box')}>
-                            <RecipeForm />
-                            <RecipeForm />
-                            <RecipeForm />
+                            <Slider {...settings}>
+                                {recipeAllData.data.map((recipe, index) => (
+                                    <li className={cx('li-get-all')} key={recipe._id} >
+                                        <div className={cx('blog_card')}>
+                                            <div className={cx('blog_img')}>
+                                                <img src={recipe.image} alt={`Recipe ${index + 1}`} />
+                                            </div>
+                                            <div className={cx('blog_tag')}>
+                                                <div className={cx('blog_date')}>
+                                                    <p>
+                                                        <Link to="#" className={cx('recipe_rating')}>
+                                                            <span className="bi bi-star-fill"></span>
+                                                            <span className="bi bi-star-fill"></span>
+                                                            <span className="bi bi-star-fill"></span>
+                                                            <span className="bi bi-star-fill"></span>
+                                                            <span className="bi bi-star-half"></span>
+                                                            <span className={cx('count_rating')}>(123)</span>
+                                                        </Link>
+                                                    </p>
+                                                </div>
+                                                <h3 className={cx('blog_heading')}>
+                                                    {recipe.name}
+                                                </h3>
+                                                <hr />
+                                                <div className={cx('view_and_like')}>
+                                                    <div className={cx('view')}>
+                                                        {/* <p>15.3K Views</p> */}
+                                                        <p className={cx('b_comm')}>786 comments</p>
+                                                    </div>
+                                                    <div className={cx('like')}>
+                                                        <p>3K</p>
+                                                        <i className="bi bi-bookmark-heart"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </Slider>
+
                         </div>
                     </div>
                     {/* TOP ACCOUNT  */}

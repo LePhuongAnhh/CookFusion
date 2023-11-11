@@ -73,8 +73,7 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
     };
     console.log("input data:", articleData)
 
-
-
+    const [filteredArticles, setFilteredArticles] = useState([]);
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!isChecked) {
@@ -103,7 +102,14 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
                 },
             });
             if (response.data.success) {
-                console.log('Bài viết đã được tạo thành công.', articleData);
+                const newArticle = {
+                    // Tạo đối tượng bài viết mới dựa trên dữ liệu trả về từ API
+                    _id: response.data.data._id,
+                    title: response.data.data.title,
+                    content: response.data.data.content
+                };
+                // Cập nhật danh sách bài viết với bài viết mới
+                setFilteredArticles(prevArticles => [newArticle, ...prevArticles]);
                 setShowCreateBlogModal(false);
             }
         } catch (error) {
