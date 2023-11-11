@@ -314,7 +314,7 @@
     }
 }
 .right_column textarea {
-    width: 320px;
+    width: 330px;
     resize: none;
     padding: 5px 0;
     border: 5px;
@@ -322,7 +322,9 @@
 
 //hien thi anhr cho cacs buoc
 .choose-image-step {
+    display: flex;
     p {
+        flex: 1;
         cursor: pointer;
     }
 }
@@ -334,7 +336,8 @@
         border-radius: 8px;
     }
     .remove-file {
-        margin-left: -19px;
+        cursor: pointer;
+        float: right;
         &:hover {
             color: blue;
         }
@@ -351,4 +354,9 @@
     svg {
         color: #f46708;
     }
+}
+.remove-step {
+    margin: 10px 0 10px -1px;
+    border-radius: 5px;
+    background-color: #f9f9fc;
 }

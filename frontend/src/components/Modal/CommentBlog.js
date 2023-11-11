@@ -30,6 +30,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         slidesToShow: 1,
         slidesToScroll: 1
     };
+    const [listComment, setListComment] = useState(selectedArticle.comment)
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const userId = profileInformation._id
@@ -62,6 +63,9 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         setChangeArticle(state.Article_id)
         socket.emit('setheart', state)
     }
+    const handleGetNewComment = (comment) => {
+        socket.emit('add_article_comment', { _id: comment._id })
+    }
     const handleReport = async (_id) => {
         try {
             await axios.get(`${apiUrl}/report/article/${_id}`, {
@@ -90,7 +94,6 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         }
     };
 
-
     console.log("commentData: ", commentData);
 
     const handleSubmitComment = async (e) => {
@@ -106,7 +109,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                 },
             });
             if (response.data.success) {
-                console.log('Bài viết đã được tạo thành công.', commentData);
+                handleGetNewComment(response.data.data)
             }
         } catch (error) {
             console.log(error.response.data.message);
@@ -131,7 +134,21 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         // Gửi replyText đi sau khi người dùng hoàn thành việc nhập bình luận.
         // Xử lý logic gửi reply comment ở đây...
     };
+    useEffect(() => {
 
+        socket.on('addcomment', (comment) => {
+            if (selectedArticle._id == comment.comment[0].Article_id) {
+                let cmt = comment.comment[0]
+                cmt.usercomment = cmt.usercomment[0]
+                const newComment = [...listComment, cmt]
+                console.log(newComment)
+                setListComment(newComment)
+            }
+        })
+        return () => {
+            socket.off('addcomment')
+        }
+    }, [listComment, changeArticle]);
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
@@ -245,7 +262,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                             {selectedArticle.states.length} <span> loves  </span>
                         </Link>
                         <Link to="#" className={cx('count_like')}>
-                            {selectedArticle.comment.length} <span>   comments </span>
+                            {listComment.length} <span>   comments </span>
                         </Link>
                     </div>
                     <div className={cx('emotion')}>
@@ -310,8 +327,8 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                     </div>
                     <div>
                         {
-                            selectedArticle.comment && selectedArticle.comment.map((comment, index) => (
-                                index < 3 && (
+                            listComment && listComment.map((comment, index) => (
+                                (
                                     <div className={cx('read_comment')}>
                                         <Link to="#">
                                             <div className={cx('avatar_comment')}>

@@ -195,7 +195,13 @@ const BlogForm = ({ }) => {
             });
             if (response.data.success) {
                 console.log('Bài viết đã được tạo thành công.', commentData);
+                setCommentData({
+                    comment: '',
+                    userId: userId,
+                    Article_id: null,
+                });
             }
+
         } catch (error) {
             console.log(error.response.data.message);
         }
@@ -375,12 +381,12 @@ const BlogForm = ({ }) => {
                                         <input type="hidden" name="_id" value={article._id} />
                                         <input
                                             placeholder="Write a comment ..."
-                                            type='text'
+                                            type="text"
                                             className={cx('input_cmt')}
                                             name="comment"
+                                            value={commentData.comment} // Đặt giá trị của input thành biến state
                                             onChange={handleChangeComment}
                                         />
-                                        <button type="submit" hidden>Submit</button >
                                     </div>
                                 </form>
                             </div>
@@ -388,7 +394,8 @@ const BlogForm = ({ }) => {
                             <div>
                                 {
                                     article.comment && article.comment.map((comment, index) => (
-                                        index < 3 && (
+                                        index < 3 &&
+                                        (
                                             <div className={cx('read_comment')}>
                                                 <Link to="#">
                                                     <div className={cx('avatar_comment')}>
