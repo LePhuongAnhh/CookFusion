@@ -27,7 +27,6 @@ const RecipeForm = () => {
                     },
                 });
                 setAllRecipeData(response.data);
-                console.log(' all data recipe: ', response.data);
             } catch (error) {
                 console.log(error);
             }

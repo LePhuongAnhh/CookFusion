@@ -24,6 +24,10 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         setSelectedOption(event.target.value);
     };
 
+    //CATEGORY
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+
     // chon anh cho bìa
     const [selectedImage, setSelectedImage] = useState(null);
     const handleImageClick = () => {
@@ -37,18 +41,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         }
     };
 
-    //search nguyên liệu
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]); // Danh sách kết quả tìm kiếm
-
-    const handleSearchChange = (event) => {
-        const query = event.target.value;
-        setSearchQuery(query);
-    };
-
     //chon ảnh hoặc videl cho các bước
     const [steps, setSteps] = useState([]);
-    const [actionIndex, setActionIndex] = useState(null); // Track the index of the step being added or removed
+    const [actionIndex, setActionIndex] = useState(null);
     const maxSize = 10485760; // Dung lượng tối đa là 10 MB
 
     const onDropCook = (acceptedFiles, index) => {
@@ -88,6 +83,29 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         accept: 'image/*,video/*',
     });
 
+    //READ CATEGORY
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/category/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log('API Response:', response.data);
+                if (Array.isArray(response.data)) {
+                    setCategories(response.data);
+                }
+                console.log('Categories set successfully:', response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+        console.log('Categories state immediately after set:', categories);
+    }, [apiUrl, accessToken]);
+    console.log('Categories state:', categories);
+    console.log('Selected category state:', selectedCategory);
 
     //ADDCATE
     const [recipeData, setRecipeData] = useState({
@@ -97,8 +115,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         timeCook: '',
         timePrepare: '',
         nPerson: '',
-
-
         image: '',
         Category: '',
 
@@ -125,17 +141,16 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         formData.append('timePrepare', recipeData.timePrepare);
         formData.append('description', recipeData.description);
         formData.append('nPerson', recipeData.nPerson);
-
-
-
-
+        formData.append('Category', recipeData.Category);
     }
 
+    console.log('recipes:', categories);
+    console.log('selectedRecipe:', selectedCategory);
 
     return (
         <div className={cx('modalDeleteIdea')}>
             <form
-                
+
                 onSubmit={handleSubmit}
                 className={cx('modalContentDeleteIdea')}>
                 <div>
@@ -174,13 +189,13 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 <span className={cx('value_time')}>Category</span>
                                             </div>
                                             <select
-                                                value={selectedOption}
-                                                onChange={handleSelectChange}
+                                                value={selectedCategory}
+                                                onChange={(e) => setSelectedCategory(e.target.value)}
                                             >
-                                                <option value="">Select an option</option>
-                                                {options.map((option, index) => (
-                                                    <option key={index} value={option}>
-                                                        {option}
+                                                <option value="">Select a category</option>
+                                                {categories.map((category) => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
                                                     </option>
                                                 ))}
                                             </select>
@@ -245,24 +260,12 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                     placeholder="Search"
                                                     aria-label="Search"
                                                     aria-describedby="search-addon"
-                                                    value={searchQuery}
-                                                    onChange={handleSearchChange}
                                                 />
                                                 <span className="input-group-text border-0" id="search-addon">
                                                     <i className="bi bi-search-heart"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                        {/* Hiển thị kết quả tìm kiếm */}
-                                        {searchResults.length > 0 && (
-                                            <div className="search-results">
-                                                <ul>
-                                                    {searchResults.map((result, index) => (
-                                                        <li key={index}>{result}</li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                                 <div className={cx('bottom_card')}>
