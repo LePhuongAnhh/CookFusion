@@ -2,7 +2,8 @@ import styles from "./CreateRecipe.module.scss"
 import classNames from 'classnames/bind'
 import {
     apiUrl,
-    ACCESS_TOKEN
+    ACCESS_TOKEN,
+    PROFILE_INFORMATION
 } from "~/constants/constants";
 import images from '~/assets/images'
 
@@ -15,6 +16,7 @@ import axios from "axios";
 const cx = classNames.bind(styles)
 const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const User_id = localStorage.getItem(PROFILE_INFORMATION._id)
     const options = ["Cate 1", "Cate 2", "Cate 3"];
     const [selectedOption, setSelectedOption] = useState("");
 
@@ -55,7 +57,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             alert('Video quá lớn. Vui lòng chọn video có dung lượng nhỏ hơn 10MB.');
             return;
         }
-
         const updatedSteps = [...steps];
         updatedSteps[index] = { ...updatedSteps[index], cookFile: file };
         setSteps(updatedSteps);
@@ -87,14 +88,64 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         accept: 'image/*,video/*',
     });
 
+
+    //ADDCATE
+    const [recipeData, setRecipeData] = useState({
+        User_id: User_id,
+        name: '',
+        description: '',
+        timeCook: '',
+        timePrepare: '',
+        nPerson: '',
+
+
+        image: '',
+        Category: '',
+
+        nutrion: {},
+        ingredients: [],
+        steps: [],
+    });
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setRecipeData({
+            ...recipeData,
+            [name]: value,
+        });
+    };
+    console.log("input data:", recipeData)
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('userId', User_id);
+        formData.append('name', recipeData.name);
+        formData.append('timeCook', recipeData.timeCook);
+        formData.append('timePrepare', recipeData.timePrepare);
+        formData.append('description', recipeData.description);
+        formData.append('nPerson', recipeData.nPerson);
+
+
+
+
+    }
+
+
     return (
         <div className={cx('modalDeleteIdea')}>
-            <form className={cx('modalContentDeleteIdea')}>
+            <form
+                
+                onSubmit={handleSubmit}
+                className={cx('modalContentDeleteIdea')}>
                 <div>
                     <div className={cx('createIdeaHeader')}>
                         <input
+                            name='name'
                             className={cx('modal_title')}
                             placeholder="Name recipe ... "
+                            value={recipeData.name}
+                            onChange={handleInputChange}
                         />
                         <button>Create</button>
                         <div className={cx('exit_cmt_modal')} onClick={() => setShowCreateRecipeModal(false)} >
@@ -137,9 +188,12 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                         <div className={cx('meal_nutri_wrapper')}>
                                             <div className={cx('row_nutri')}>
                                                 <textarea
+                                                    name="description"
                                                     className={cx('description')}
                                                     row={4}
                                                     placeholder="Description"
+                                                    onChange={handleInputChange}
+                                                    value={recipeData.description}
                                                 />
                                             </div>
                                         </div>
@@ -147,6 +201,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                     <div className={cx('function_wrapper')}>
                                         {/* //input ảnh */}
                                         <input
+                                            name="image"
                                             type="file"
                                             accept="image/*"
                                             id="fileInput"
@@ -169,6 +224,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 min="1"
                                                 type="number"
                                                 placeholder="Serving"
+                                                name="nPerson"
+                                                onChange={handleInputChange}
+                                                value={recipeData.nPerson}
                                             />
                                         </div>
                                     </div>
@@ -217,10 +275,14 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                     min="1"
                                                     type="number"
                                                     placeholder="Input time"
+                                                    name="timePrepare"
+                                                    onChange={handleInputChange}
+                                                    value={recipeData.timePrepare}
                                                 />
                                                 <br />
                                             </b>
                                             <textarea
+
                                                 type="text"
                                                 rows={5}
                                                 placeholder="Input preparations .... "
@@ -229,9 +291,12 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                             {/* NẤU  */}
                                             <b>2. Cook
                                                 <input
+                                                    name="timeCook"
                                                     min="1"
                                                     type="number"
                                                     placeholder="Input time"
+                                                    onChange={handleInputChange}
+                                                    value={recipeData.timeCook}
                                                 />
                                                 <br />
                                             </b>

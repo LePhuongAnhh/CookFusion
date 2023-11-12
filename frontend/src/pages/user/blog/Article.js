@@ -20,6 +20,7 @@ import CommentBlog from "../../../components/Modal/CommentBlog"
 import CreateBlog from "../../../components/Modal/CreateBlog"
 import BlogForm from "../../../components/Modal/BlogForm"
 import UpdateBlog from "~/components/Modal/UpdateBlog";
+import SurveyUSer from "~/components/Modal/SurveyUser";
 
 const cx = classNames.bind(styles)
 const Article = (props) => {
@@ -43,6 +44,8 @@ const Article = (props) => {
     }
     const [notification, setNotification] = useState([])
     const [following, setFollowing] = useState([])
+
+    const [showSurveyModal, setShowSurveyModal] = useState(false)
     useEffect(() => {
         (async () => {
             try {
@@ -99,7 +102,7 @@ const Article = (props) => {
                                                     <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                                 </svg>
                                             </span>
-                                            <span className={cx('link_home_text')}>For you</span>
+                                            <span onClick={() => setShowSurveyModal(true)} className={cx('link_home_text')}>For you</span>
                                         </div>
                                     </Link>
                                 </li>
@@ -229,7 +232,7 @@ const Article = (props) => {
                     </div>
                 </div>
             </div>
-
+            {showSurveyModal && < SurveyUSer setShowSurveyModal={setShowSurveyModal} />}
 
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}

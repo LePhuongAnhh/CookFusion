@@ -9,6 +9,7 @@ import axios from "axios";
 import { io } from 'socket.io-client'
 import Loading from "~/components/Layout/Loading";
 import { useParams } from 'react-router-dom';
+import FooterForm from "~/components/Layout/DefaultLayout/Footer/FooterForm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as farStar, faStar as fasStar } from '@fortawesome/free-regular-svg-icons';
 
@@ -18,7 +19,7 @@ const cx = classNames.bind(styles)
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const userId = profileInformation._id
+    const Account_id = profileInformation._id
     const { id } = useParams();
     const scrollingImage = document.querySelector('.detail_left_gird');
     if (scrollingImage) {
@@ -41,7 +42,7 @@ function DetailRecipe() {
     const [recipeData, setRecipeData] = useState(null);
     const [commentData, setCommentData] = useState({
         comment: '',
-        userId: userId,
+        Account_id: Account_id,
         Recipe_id: null,
     });
 
@@ -116,8 +117,8 @@ function DetailRecipe() {
             const formData = new FormData();
             formData.append('comment', commentData.comment);
             formData.append('Recipe_id', recipeIdForComment);
-            formData.append('userId', userId);
-            const response = await axios.post(`${apiUrl}/addRecipeComment`, formData, {
+            formData.append('Account_id', Account_id);
+            const response = await axios.post(`${apiUrl}/comment/addRecipeComment`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -128,7 +129,7 @@ function DetailRecipe() {
             }
             setCommentData({
                 comment: '',
-                userId: userId,
+                Account_id: Account_id,
                 Recipe_id: null,
             });
         } catch (error) {
@@ -436,22 +437,7 @@ function DetailRecipe() {
                                         </div>
                                     </div>
 
-                                    <div className={cx('dropdown-content')}>
-                                        {/* Nội dung của dropdown */}
-                                        <div className={cx('action-comment')}>
-                                            <div className={cx('edit')}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                </svg> &nbsp; Edit
-                                            </div>
-                                            <div className={cx('edit')}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                </svg> &nbsp; Delete
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div className={cx('show_review')}>
                                         I tweaked this meal a little I added Knorr Rice Sides Cheddar Broccoli Rice 2 bags, 1 bag of x-small shrimp, bag of chopped onions, than for seasoning I only used three things Peppercorn, Onion Powered, Soy Sauce, and than Fiesta Cheese and my brother loved it
                                     </div>
@@ -471,10 +457,126 @@ function DetailRecipe() {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+                    <div className={cx('line-line')}>   End    </div>
+
+                    {/* ĐỀ XUẤT MÓN ĂN CÓ NGUYÊN LIỆU TƯƠNG TỰ */}
+                    {/* lấy 8 món ăn  */}
+
+                    <div className={cx('hint')}>
+                        <div className={cx('text-hint')}>
+                            <span>DE XUAT  MON AN</span>
+                        </div>
+                        <div className={cx('item-hint')}>
+                            <div className={cx('blog_card')}>
+                                <div className={cx('blog_img')}>
+                                    <img src={images.Background} />
+                                </div>
+                                <div className={cx('blog_tag')}>
+                                    <div className={cx('blog_date')}>
+                                        <p>
+                                            <Link to="#" className={cx('recipe_rating')}>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-half"></span>
+                                                <span className={cx('count_rating')}>(123)</span>
+                                            </Link>
+                                        </p>
+                                    </div>
+                                    <h3 className={cx('blog_heading')}>
+                                        teen mons awn
+                                    </h3>
+                                    <hr />
+                                    <div className={cx('view_and_like')}>
+                                        <div className={cx('view')}>
+                                            {/* <p>15.3K Views</p> */}
+                                            <p className={cx('b_comm')}>786 comments</p>
+                                        </div>
+                                        <div className={cx('like')}>
+                                            <p>3K</p>
+                                            <i className="bi bi-bookmark-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={cx('blog_card')}>
+                                <div className={cx('blog_img')}>
+                                    <img src={images.Background} />
+                                </div>
+                                <div className={cx('blog_tag')}>
+                                    <div className={cx('blog_date')}>
+                                        <p>
+                                            <Link to="#" className={cx('recipe_rating')}>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-half"></span>
+                                                <span className={cx('count_rating')}>(123)</span>
+                                            </Link>
+                                        </p>
+                                    </div>
+                                    <h3 className={cx('blog_heading')}>
+                                        teen mons awn
+                                    </h3>
+                                    <hr />
+                                    <div className={cx('view_and_like')}>
+                                        <div className={cx('view')}>
+                                            {/* <p>15.3K Views</p> */}
+                                            <p className={cx('b_comm')}>786 comments</p>
+                                        </div>
+                                        <div className={cx('like')}>
+                                            <p>3K</p>
+                                            <i className="bi bi-bookmark-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={cx('blog_card')}>
+                                <div className={cx('blog_img')}>
+                                    <img src={images.Background} />
+                                </div>
+                                <div className={cx('blog_tag')}>
+                                    <div className={cx('blog_date')}>
+                                        <p>
+                                            <Link to="#" className={cx('recipe_rating')}>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-fill"></span>
+                                                <span className="bi bi-star-half"></span>
+                                                <span className={cx('count_rating')}>(123)</span>
+                                            </Link>
+                                        </p>
+                                    </div>
+                                    <h3 className={cx('blog_heading')}>
+                                        teen mons awn
+                                    </h3>
+                                    <hr />
+                                    <div className={cx('view_and_like')}>
+                                        <div className={cx('view')}>
+                                            {/* <p>15.3K Views</p> */}
+                                            <p className={cx('b_comm')}>786 comments</p>
+                                        </div>
+                                        <div className={cx('like')}>
+                                            <p>3K</p>
+                                            <i className="bi bi-bookmark-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
+                {/* <FooterForm /> */}
             </div >
+
         </>
     )
 }

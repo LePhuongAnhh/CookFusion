@@ -84,7 +84,6 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
         formData.append('title', articleData.title);
         formData.append('content', articleData.content);
 
-        console.log('Form data before axios call:', formData);
 
         if (Array.isArray(articleData.files)) {
             articleData.files.forEach((file) => {
@@ -279,20 +278,5 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
 
 }
 
-// const ErrorModal = ({ isOpen, message, onClose }) => {
-//     if (!isOpen) {
-//         return null;
-//     }
-
-//     return (
-//         <div className="error-modal">
-//             <div className="error-modal-content">
-//                 <h2>Error</h2>
-//                 <p>{message}</p>
-//                 <button onClick={onClose}>Close</button>
-//             </div>
-//         </div>
-//     );
-// };
 
 export default CreateBlog

@@ -6,7 +6,6 @@ import styles from './HomepageForm.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
-import Button_save from '~/components/Botton/Button_save';
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
@@ -16,7 +15,6 @@ const HomepageForm = () => {
         <body>
             <div>
                 <div className={cx('home_body')}>
-                    <Button_save />
                     <div className={cx('home_container')}>
                         <section className={cx('home_gird')}>
                             {/* Slide  */}
