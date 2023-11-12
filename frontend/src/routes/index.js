@@ -49,7 +49,7 @@ const publicRoutes = [
     { path: "/homepage", component: HomepageForm },
     { path: "/recipe", component: Recipe },
     { path: "/aboutus", component: AboutUs },
-    { path: "/detail", component: DetailRecipe },
+    { path: "/detail/:id", component: DetailRecipe },
     { path: "/article", component: Article },
     { path: "/planmeal", component: PlanMeal },
     { path: "/autoplan", component: AutoPlan },

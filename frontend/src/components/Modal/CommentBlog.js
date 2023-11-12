@@ -13,8 +13,6 @@ import { set } from "date-fns";
 
 import styles from './BlogForm.module.scss'
 import classNames from 'classnames/bind'
-import BlogForm from "./BlogForm"
-import images from '~/assets/images'
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
 import DeleteBlog from "./DeleteBlog"
 import UpdateBlog from "./UpdateBlog"
@@ -30,6 +28,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         slidesToShow: 1,
         slidesToScroll: 1
     };
+
     const [listComment, setListComment] = useState(selectedArticle.comment)
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
@@ -85,16 +84,24 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
         userId: userId,
         Article_id: null,
     });
+    //sort
+    const [comments, setComments] = useState([]);
 
     const handleChangeComment = (e) => {
         const { name, value } = e.target;
         if (name === 'comment') {
             setArticleIdForComment(e.target.form.elements['_id'].value);
-            setCommentData({ ...commentData, [name]: value, Article_id: e.target.form.elements['_id'].value });
+            setCommentData({
+                ...commentData,
+                [name]: value,
+                Article_id: e.target.form.elements['_id'].value,
+            });
         }
     };
 
-    console.log("commentData: ", commentData);
+    const handleGetNewCommentSort = (newComment) => {
+        setComments((prevComments) => [...prevComments, newComment]);
+    };
 
     const handleSubmitComment = async (e) => {
         e.preventDefault();
@@ -110,7 +117,19 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
             });
             if (response.data.success) {
                 handleGetNewComment(response.data.data)
+                handleGetNewCommentSort(response.data.data)
             }
+            // Update the comments state and sort them
+            setComments((prevComments) =>
+                [...prevComments, response.data.data].sort(
+                    (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+                )
+            );
+            setCommentData({
+                comment: '',
+                userId: userId,
+                Article_id: null,
+            });
         } catch (error) {
             console.log(error.response.data.message);
         }
@@ -122,7 +141,6 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
 
     const handleReplyClick = (commentId) => {
         setReplyingToComment(commentId);
-        console.log("if comt:", commentId)
     };
 
     const handleChangeReply = (e) => {
@@ -131,11 +149,9 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
 
     const handleSubmitReply = async (e) => {
         e.preventDefault();
-        // Gửi replyText đi sau khi người dùng hoàn thành việc nhập bình luận.
-        // Xử lý logic gửi reply comment ở đây...
     };
+    //hiện cmt
     useEffect(() => {
-
         socket.on('addcomment', (comment) => {
             if (selectedArticle._id == comment.comment[0].Article_id) {
                 let cmt = comment.comment[0]
@@ -220,8 +236,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                             <div className={cx('show_img_6')}>
                                 <Slider {...sliderSettings}>
                                     {selectedArticle.files[0] && selectedArticle.files[0].files.map((fileInfor, index) => {
-                                        if (fileInfor && fileInfor.type && typeof fileInfor.type === 'string' && fileInfor.type.startsWith("video")) {
-                                            // Hiển thị video
+                                        if (fileInfor.isImage == false) {
                                             return (
                                                 <video key={index} controls className={cx('video_video')}>
                                                     <source src={fileInfor.url} type={fileInfor.type} />

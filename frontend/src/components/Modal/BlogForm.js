@@ -153,12 +153,13 @@ const BlogForm = ({ }) => {
 
     //detail
     const [selectedArticle, setSelectedArticle] = useState(null);
+    
     const handleCommentClick = (article) => {
         setSelectedArticle(article);
         setShowCommentBlogModal(true);
     };
 
-    //cmt
+    //ADD COMMENT
     const [articleIdForComment, setArticleIdForComment] = useState(null);
     const [commentData, setCommentData] = useState({
         comment: '',
@@ -387,26 +388,7 @@ const BlogForm = ({ }) => {
                                 </div>
                             </div>
 
-                            <div className={cx('posts_footer')}>
-                                <form onSubmit={handleSubmitComment}>
-                                    <div className={cx('write_comment')}>
-                                        <div className={cx('cmt_avt')}>
-                                            <div className={cx('avatar_comment')}>
-                                                <img className={cx('circle_avt')} src={article.userUpload[0].avatar} />
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="_id" value={article._id} />
-                                        <input
-                                            placeholder="Write a comment ..."
-                                            type="text"
-                                            className={cx('input_cmt')}
-                                            name="comment"
-                                            value={commentData.comment} // Đặt giá trị của input thành biến state
-                                            onChange={handleChangeComment}
-                                        />
-                                    </div>
-                                </form>
-                            </div>
+
 
                             <div>
                                 {

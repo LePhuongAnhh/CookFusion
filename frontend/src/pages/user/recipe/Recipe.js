@@ -67,6 +67,13 @@ const Recipe = () => {
         slidesToScroll: 1,
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
+        appendDots: (dots) => (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <PrevArrow />
+                {dots}
+                <NextArrow />
+            </div>
+        ),
     };
 
     return (
@@ -155,7 +162,6 @@ const Recipe = () => {
                         </div>
                     </div>
 
-
                     {/* Introduction of Recipe */}
                     <div className={cx('summary')}>
                         <div className={cx('summary_contain')}>
@@ -172,50 +178,8 @@ const Recipe = () => {
                     </div>
                     <div className={cx('blog')}>
                         <h1>Our<span>Blog</span></h1>
-                        <div className={cx('filter-cate')}>
-                            <div>Category</div>
-                        </div>
                         <div className={cx('blog_box')}>
-                            <Slider {...settings}>
-                                {recipeAllData.data.map((recipe, index) => (
-                                    <li className={cx('li-get-all')} key={recipe._id} >
-                                        <div className={cx('blog_card')}>
-                                            <div className={cx('blog_img')}>
-                                                <img src={recipe.image} alt={`Recipe ${index + 1}`} />
-                                            </div>
-                                            <div className={cx('blog_tag')}>
-                                                <div className={cx('blog_date')}>
-                                                    <p>
-                                                        <Link to="#" className={cx('recipe_rating')}>
-                                                            <span className="bi bi-star-fill"></span>
-                                                            <span className="bi bi-star-fill"></span>
-                                                            <span className="bi bi-star-fill"></span>
-                                                            <span className="bi bi-star-fill"></span>
-                                                            <span className="bi bi-star-half"></span>
-                                                            <span className={cx('count_rating')}>(123)</span>
-                                                        </Link>
-                                                    </p>
-                                                </div>
-                                                <h3 className={cx('blog_heading')}>
-                                                    {recipe.name}
-                                                </h3>
-                                                <hr />
-                                                <div className={cx('view_and_like')}>
-                                                    <div className={cx('view')}>
-                                                        {/* <p>15.3K Views</p> */}
-                                                        <p className={cx('b_comm')}>786 comments</p>
-                                                    </div>
-                                                    <div className={cx('like')}>
-                                                        <p>3K</p>
-                                                        <i className="bi bi-bookmark-heart"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </Slider>
-
+                            <RecipeForm />
                         </div>
                     </div>
                     {/* TOP ACCOUNT  */}
