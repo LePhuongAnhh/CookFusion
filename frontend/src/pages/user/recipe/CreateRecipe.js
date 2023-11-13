@@ -16,7 +16,9 @@ import axios from "axios";
 const cx = classNames.bind(styles)
 const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const User_id = localStorage.getItem(PROFILE_INFORMATION._id)
+    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    const User_id = profileInformation._id
+    console.log("id ne:", User_id)
     const options = ["Cate 1", "Cate 2", "Cate 3"];
     const [selectedOption, setSelectedOption] = useState("");
 

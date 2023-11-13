@@ -119,9 +119,6 @@ function DetailRecipe() {
         groupedIngredients.push(recipeData.data[0].ingredients.slice(i, i + itemsPerGroup));
     }
     //ADD COMMENT
-    const handleGetNewComment = (comment) => {
-        socket.emit('add_article_comment', { _id: comment._id })
-    }
     const handleChangeComment = (e) => {
         const { name, value } = e.target;
         if (name === 'comment') {
@@ -140,18 +137,22 @@ function DetailRecipe() {
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         try {
-            const formData = new FormData();
-            formData.append('comment', commentData.comment);
-            formData.append('Recipe_id', recipeIdForComment);
-            formData.append('Account_id', Account_id);
-            const response = await axios.post(`${apiUrl}/comment/addRecipeComment`, formData, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            console.log('tao thah cong', formData)
+            const requestData = {
+                comment: commentData.comment,
+                Recipe_id: recipeIdForComment,
+                Account_id: Account_id,
+            };
+            const response = await axios.post(
+                `${apiUrl}/comment/addRecipeComment`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
             if (response.data.success) {
-                console.log('tao thah cong', response.data)
+                console.log('Tạo thành công', response.data);
             }
             setCommentData({
                 comment: '',
@@ -407,6 +408,7 @@ function DetailRecipe() {
                                     <div className={cx('write_content')}>
                                         <input type="hidden" name="_id" value={recipeData.data[0]._id} />
                                         <input
+                                            value={commentData.comment}
                                             onChange={handleChangeComment}
                                             name="comment"
                                             // rows="6"
@@ -414,6 +416,7 @@ function DetailRecipe() {
                                             placeholder="Write your comment or review here..."
                                         />
                                     </div>
+                                    <button type="submit" hidden>Submit</button>
                                 </form>
                             </div>
 
@@ -492,9 +495,9 @@ function DetailRecipe() {
                                     </div>
 
 
-                                    <div className={cx('show_review')}>
-                                        I tweaked this meal a little I added Knorr Rice Sides Cheddar Broccoli Rice 2 bags, 1 bag of x-small shrimp, bag of chopped onions, than for seasoning I only used three things Peppercorn, Onion Powered, Soy Sauce, and than Fiesta Cheese and my brother loved it
-                                    </div>
+                                        <div className={cx('show_review')}>
+                                            I tweaked this meal a little I added Knorr Rice Sides Cheddar Broccoli Rice 2 bags, 1 bag of x-small shrimp, bag of chopped onions, than for seasoning I only used three things Peppercorn, Onion Powered, Soy Sauce, and than Fiesta Cheese and my brother loved it
+                                        </div>
                                     <div className={cx('emotion_review')}>
                                         <span className={cx('like_icon')} title="Like this review">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">

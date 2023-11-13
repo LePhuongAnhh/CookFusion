@@ -5,7 +5,7 @@ import classNames from 'classnames/bind'
 import images from '~/assets/images'
 import { useNavigate } from 'react-router-dom'
 import UpdateInfoSponsor from '~/components/Modal/UpdateInfoSponsor';
-import { Link,useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import PaymentModal from '~/components/Modal/PaymentModal';
 import { DataGrid, GridToolbar, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
@@ -28,9 +28,9 @@ function PackageAds() {
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
     };
-    const handleShowPaymentModal = (ads)=>{
+    const handleShowPaymentModal = (ads) => {
         localStorage.setItem(ADS, JSON.stringify(ads))
-        localStorage.setItem(ADS_PAYMENT,true)
+        localStorage.setItem(ADS_PAYMENT, true)
         navigate('/payment')
     }
     const columns = [
@@ -170,7 +170,7 @@ function PackageAds() {
                                     </div>
                                     <p className="text-gray-500 mt-4">
                                         {/* For most businesses that want to optimize the web series */}
-                                        </p>
+                                    </p>
                                     <div className="flex row-auto items-center mt-4">
                                         <i className="bi bi-check-circle text-info"></i>
                                         <span className="ml-3 text-gray-500">Display ads: {ads.ratingDes}</span>

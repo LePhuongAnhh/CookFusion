@@ -1,35 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import styles from "./ManualPlan.module.scss"
-import classNames from 'classnames/bind'
+import React, { useEffect, useRef, useState } from 'react';
+import styles from "./ManualPlan.module.scss";
+import classNames from 'classnames/bind';
+import { useDebounce } from '~/hooks';
+import { apiUrl, ACCESS_TOKEN } from '~/constants/constants';
+import axios from 'axios';
+import { Wrapper as PopperWrapper } from '~/components/popper';
 import BackButton from '~/components/button/BackButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
+const cx = classNames.bind(styles);
 
-const cx = classNames.bind(styles)
 function ManualPlan() {
-    //cập nhật nguyên liệu dị ứng
-    const [allergies, setAllergies] = useState([]);
-    const [currentAllergy, setCurrentAllergy] = useState('');
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && currentAllergy.trim() !== '') {
-            setAllergies([...allergies, currentAllergy]);
-            setCurrentAllergy('');
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const searchContainerRef = useRef(null);
+    const [recipeAllData, setAllRecipeData] = useState([]);
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const [showResult, setShowResult] = useState(true);
+    const [searchKeyWord, setSearchKeyWord] = useState('');
+    const [hasInput, setHasInput] = useState(false);
+
+    // chuyẻn từ ô serch ra 
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const handleRecipeClick = (recipe) => {
+        setSelectedRecipe(recipe);
+        setShowResult(true); // Show the search results again
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/recipe/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                if (response.data && 'data' in response.data) {
+                    const recipes = Array.isArray(response.data.data) ? response.data.data : [];
+                    setAllRecipeData(recipes);
+                    setFilteredRecipes(recipes);
+                } else {
+                    console.error('Invalid response format.');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, [apiUrl, accessToken]);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+                setShowResult(true);
+            }
+        };
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [searchContainerRef]);
+
+    const onSearchKeyWordChange = (event) => {
+        const keyword = event.target.value;
+        setSearchKeyWord(keyword);
+        setHasInput(!!keyword);
+        setShowResult(true); // Show results when typing
+    };
+
+    const handleEnterKey = (event) => {
+        if (event.key === 'Enter') {
+            setShowResult(false);
+            event.preventDefault();
+           
         }
     };
-    const handleRemoveAllergy = (index) => {
-        const newAllergies = [...allergies];
-        newAllergies.splice(index, 1);
-        setAllergies(newAllergies);
-    };
 
+
+    //sẻach
+    useEffect(() => {
+        if (Array.isArray(recipeAllData)) {
+            if (hasInput) {
+                // Limit the results to only the first 6 matching recipes
+                const filtered = recipeAllData
+                    .filter((recipe) => recipe.name.toLowerCase().includes(searchKeyWord.toLowerCase()))
+                    .slice(0, 5);
+
+                setFilteredRecipes(filtered);
+            } else {
+                setFilteredRecipes([]); // Clear results when there's no input
+            }
+        } else {
+            console.error('recipeAllData is not an array:', recipeAllData);
+        }
+    }, [recipeAllData, searchKeyWord, hasInput]);
 
     return (
         <div>
             <section className="vh-100">
-                <form>
-                    <div className={cx('contain-plan')}>
-                        <div className="row d-flex justify-content-center align-items-center h-100">
+                <div className={cx('contain-plan')}>
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="tab-content">
                             <div className="col">
                                 <div className="card" id="list1" style={{ borderRadius: '.75rem', backgroundColor: '#f2f2f9' }}>
                                     <div className="card-body py-4 px-4 px-md-5">
@@ -37,100 +109,73 @@ function ManualPlan() {
                                             <i className="fas fa-check-square me-1"></i>
                                             <u style={{ fontSize: '24px' }}>Create my plan meal</u>
                                         </p>
-                                        {/* SEARCH NGUYEN LIEU  */}
-                                        <div className="pb-2">
-                                            <div className="card">
-                                                <div className={cx("card-body")}>
-                                                    <div className="d-flex flex-row align-items-center">
-                                                        <input
-                                                            type="search"
-                                                            className={cx("form-control-search")}
-                                                            placeholder="Search..."
-                                                        />
-                                                        <div>
-                                                            <button type="button" className={cx("btn", "btn-primary", "btn-add")}>
-                                                                Add
-                                                            </button>
-                                                        </div>
+                                        {/* <div className={cx('header')}> */}
+                                        <div className={cx("d-flex", 'header')}>
+                                            <div className={cx("pb-2", "left")}>
+                                                <div className="card">
+                                                    <div className={cx("card-body")}>
+                                                        <form onSubmit={(e) => e.preventDefault()}>
+                                                            <div ref={searchContainerRef} className="d-flex flex-row align-items-center">
+                                                                <input
+                                                                    value={searchKeyWord}
+                                                                    onChange={(event) => onSearchKeyWordChange(event)}
+                                                                    onKeyDown={(e) => handleEnterKey(e)}
+                                                                    type="search"
+                                                                    className={cx("form-control-search")}
+                                                                    placeholder="Search..."
+                                                                />
+                                                                <div>
+                                                                    <button type="submit" className={cx("btn", "btn-primary", "btn-add")}>
+                                                                        Add
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                {showResult && Array.isArray(filteredRecipes) && filteredRecipes.length > 0 && (
+                                                    <div className={cx('search-result')}>
+                                                        <PopperWrapper>
+                                                            <ul className={cx('show-search')}>
+                                                                {filteredRecipes.map((recipe) => (
+                                                                    <li className={cx('show-item')} key={recipe.id}>
+                                                                        <div className={cx('show-recipe')}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                                                            </svg> &nbsp;
+                                                                            {recipe.name}
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </PopperWrapper>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={cx('right')}>
+                                                <div className={cx('card-right')}>
+                                                    <p>Hiển thị các công thức món ăn</p>
+                                                    <div>
+                                                        {/* Display the selected recipe name */}
+                                                        {selectedRecipe && (
+                                                            <div>
+                                                                <p>{selectedRecipe.name}</p>
+                                                                {/* Add more details or components for the selected recipe */}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        {/* </div> */}
+
                                         <hr className="my-4" />
-                                        {/* DI UNG  */}
-                                        <div className="d-flex flex-column pt-2 pb-3">
-                                            <div className={cx("d-flex", "align-items-center", "pt-2", "pb-3")}>
-                                                <p className={cx("mb-0", "me-2", "text-muted", "font-text")}>Allergy</p>
-                                                <input
-                                                    type="text"
-                                                    className={cx("input-allergy")}
-                                                    placeholder="You are allergic to ..."
-                                                    value={currentAllergy}
-                                                    onChange={(e) => setCurrentAllergy(e.target.value)}
-                                                    onKeyDown={handleKeyDown}
-                                                />
-                                            </div>
-                                            <div style={{ marginTop: '10px' }}>
-                                                {allergies.map((allergy, index) => (
-                                                    <span key={index} className={cx("me-2", "show-allergy")}>
-                                                        {allergy}
-                                                        <FontAwesomeIcon
-                                                            icon={faTimes}
-                                                            className="ms-1"
-                                                            style={{ cursor: 'pointer', margin: " 0 0 -1px 0" }}
-                                                            onClick={() => handleRemoveAllergy(index)}
-                                                        />
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-
-
-                                        {/* HIEN THI ADD NGUYEN LIEU  */}
-                                        <ul className="list-group list-group-horizontal rounded-0 bg-transparent">
-                                            <li className="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                                                <div className="form-check">
-                                                    <input className="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked1" aria-label="..." checked />
-                                                </div>
-                                            </li>
-                                            <li className="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                                                <p className={cx("lead", "fw-normal", "mb-0", "font-text")}>Buy groceries for next week</p>
-                                            </li>
-                                            {/* EDIT VA DELETE  */}
-                                            <li className="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                                                <div className="d-flex flex-row justify-content-end mb-1">
-                                                    <div className="text-info" data-mdb-toggle="tooltip" style={{ margin: " 0 10px", cursor: "pointer" }}>
-                                                        <i class="bi bi-pencil"></i>
-                                                    </div>
-                                                    <div className="text-danger" data-mdb-toggle="tooltip" style={{ cursor: 'pointer' }}>
-                                                        <i class="bi bi-trash"></i>
-                                                    </div>
-                                                </div>
-                                                <div className="text-end text-muted">
-                                                    <a href="#!" className="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                                                        <p className="mb-0">
-                                                            <i className="fas fa-info-circle me-2"></i>28th Jun 2020
-                                                        </p>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div className={cx('buttons_wrapper', 'd-flex')}>
-                                            <div>
-                                                < BackButton />
-                                            </div>
-                                            <div>
-                                                <button type="submit" className={cx('next_btn')}>
-                                                    Create
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </section>
         </div>
     );
