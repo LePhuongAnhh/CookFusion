@@ -1,8 +1,4 @@
-* {
-    box-sizing: border-box;
-}
 .plan_meal_contain {
-    margin-top: 90px;
     position: relative;
 }
 
@@ -31,14 +27,14 @@
     /* color: #3b3a3a;   */
     color: #ffffff;
     margin: 25px 300px;
-    /* text-align: justify; */
 }
 
 /* CREATE AUTO PLAN  */
 .create_auto_plan {
     display: grid;
     grid-template-columns: 70% 30%;
-    margin-top: 35px;
+    // margin-top: 35px;có ảnh
+    margin-top: 90px;
 }
 
 .plan_left {
@@ -139,20 +135,19 @@
 
 /* PHAI  */
 .meal_suggestions {
-    width: 270px;
-    height: 457px;
-    border-radius: 5px;
-    background-color: #f5e0ad;
-    margin: 0 auto;
+    width: 285px;
+    height: 435px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
 }
 .meal_suggestions img {
-    width: 270px;
-    margin-top: 2px;
+    width: 280px;
+    border-radius: 10px;
+    margin: 2px 0 20px 2.5px;
     height: 147px;
     object-fit: cover;
     background-size: cover;
     background-position: center center;
-    margin-bottom: 20px;
 }
 .suggestions_item {
     padding: 5px 20px;
@@ -161,14 +156,13 @@
     margin-bottom: 10px;
     padding-left: 20px;
     position: relative;
-    font-size: 1.4285714286em;
     line-height: 30px;
 }
 .suggestions_item p img {
-    width: 18px;
-    height: 18px;
-    left: -3px;
-    top: 7px;
+    width: 20px;
+    height: 20px;
+    left: -7px;
+    top: 2px;
     position: absolute;
 }
 
@@ -176,7 +170,7 @@
     padding-left: 0;
     transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
     text-decoration: none;
-    font-size: 20px;
+    font-size: 16px;
 }
 .item {
     font-weight: 400;

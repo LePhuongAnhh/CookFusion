@@ -150,7 +150,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     return (
         <div className={cx('modalDeleteIdea')}>
             <form
-
                 onSubmit={handleSubmit}
                 className={cx('modalContentDeleteIdea')}>
                 <div>

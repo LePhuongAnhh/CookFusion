@@ -17,6 +17,7 @@ import DetailRecipe from "~/pages/user/recipe/DetailRecipe";
 import PlanMeal from "~/pages/user/planmeal/PlanMeal";
 import AutoPlan from "~/pages/user/planmeal/AutoPlan";
 import Step2_auto from "~/pages/user/planmeal/Step2_auto";
+import ManualPlan from "~/pages/user/planmeal/ManualPlan";
 import ResultAuto from "~/pages/user/planmeal/ResultAuto";
 import ProfileAdmin from "~/pages/admin/ProfileAdmin/ProfileAdmin";
 import PostManagement from "~/pages/admin/PostManagement/PostManagement";
@@ -53,6 +54,7 @@ const publicRoutes = [
     { path: "/article", component: Article },
     { path: "/planmeal", component: PlanMeal },
     { path: "/autoplan", component: AutoPlan },
+    { path: "/manualPlan", component: ManualPlan },
     { path: "/step2", component: Step2_auto },
     { path: "/result_auto", component: ResultAuto },
     { path: "/profileAdmin", component: ProfileAdmin, layout: AdminLayout },
@@ -68,7 +70,6 @@ const publicRoutes = [
     { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
     { path: "/profile", component: Profile },
     { path: "/formArticle", component: BlogForm },
-
     { path: "/packageAds", component: PackageAds },
     { path: "/dashboardAds", component: DashboardAds },
     { path: "/profileSponsor", component: ProfileAds },

@@ -46,7 +46,6 @@ const AutoPlan = () => {
     }, [])
     return (
         <div className={cx('auto_plan')}>
-            <Navigation />
             <Helmet>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>

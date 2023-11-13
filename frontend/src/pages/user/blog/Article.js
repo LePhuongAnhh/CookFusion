@@ -20,7 +20,7 @@ import CommentBlog from "../../../components/Modal/CommentBlog"
 import CreateBlog from "../../../components/Modal/CreateBlog"
 import BlogForm from "../../../components/Modal/BlogForm"
 import UpdateBlog from "~/components/Modal/UpdateBlog";
-import SurveyUSer from "~/components/Modal/SurveyUser";
+import { set } from "date-fns";
 
 const cx = classNames.bind(styles)
 const Article = (props) => {
@@ -31,6 +31,7 @@ const Article = (props) => {
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
+    const [isHome, setIsHome] = useState(true) // check mode home/for you
 
     //Lấy thời gian
     const formatTime = (date) => {
@@ -44,12 +45,11 @@ const Article = (props) => {
     }
     const [notification, setNotification] = useState([])
     const [following, setFollowing] = useState([])
-
-    const [showSurveyModal, setShowSurveyModal] = useState(false)
+    const [ads, setAds] = useState([])
     useEffect(() => {
         (async () => {
             try {
-                const [resNotification, resFollowing] = await Promise.all([
+                const [resNotification, resFollowing, listads] = await Promise.all([
                     axios.get(`${apiUrl}/user/notification`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -59,19 +59,24 @@ const Article = (props) => {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
-                    })
+                    }),
+                    axios.get(`${apiUrl}/userpackage/getAds`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }),
                 ])
-                console.log(resFollowing.data)
-                if (resNotification.data.success && resFollowing.data.success) {
+                if (resNotification.data.success && resFollowing.data.success && listads.data.success) {
                     setNotification(resNotification.data.notifications.slice(0, 5))
                     setFollowing(resFollowing.data.following.slice(0, 5))
+                    setAds(listads.data.data)
                 }
             } catch (error) {
                 console.log(error)
             }
         }
         )()
-    }, [])
+    }, [isHome])
     return (
         <div className={cx('article_form')}>
             <div className={cx('article_container')}>
@@ -89,12 +94,12 @@ const Article = (props) => {
                                                     <path d="m14 9.293-6-6-6 6V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9.293Zm-6-.811c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.691 0-5.018Z" />
                                                 </svg>
                                             </span>
-                                            <Link to="#" className={cx('link_home_text')}>Home</Link>
+                                            <Link to="#" onClick={() => setIsHome(true)} className={cx('link_home_text')}>Home</Link>
                                         </div>
                                     </Link>
                                 </li>
                                 <li className={cx('nav_item')}>
-                                    <Link to="#" className={cx('nav_home')}>
+                                    <Link to="#" onClick={() => setIsHome(false)} className={cx('nav_home')}>
                                         <div className={cx('agile_item')}>
                                             <span className={cx('link_home_icon')}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-check-fill" viewBox="0 0 16 16">
@@ -102,7 +107,7 @@ const Article = (props) => {
                                                     <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                                 </svg>
                                             </span>
-                                            <span onClick={() => setShowSurveyModal(true)} className={cx('link_home_text')}>For you</span>
+                                            <span className={cx('link_home_text')}>For you</span>
                                         </div>
                                     </Link>
                                 </li>
@@ -212,16 +217,22 @@ const Article = (props) => {
                             </div>
                             {/* Bai dang  */}
                             <div className={cx('post-status')}>
-                                <BlogForm />
+                                <BlogForm isHome={isHome} />
                             </div>
                         </div>
 
 
                         {/* RIGHT */}
                         <div className={cx('gird_right')}>
-                            <div className={cx('right_info')}>
+                            <div >
                                 <div className={cx('header_annous')} >
-                                    <h5 className={cx('header_add_fl')}>Announs</h5>
+                                    <h5 className={cx('header_add_fl')}>Sponsored content</h5>
+                                    {ads.length > 0 && ads.map((ads) => (
+                                        <Link ><img height="50px" width="300px" src={ads.image}></img>
+                                            <p>{ads.title[0]}</p>
+                                            <p>Sponsored by {ads.user[0]}</p>
+                                        </Link>
+                                    ))}
                                 </div>
                                 <div className={cx('right_follow')}>
                                     <div className={cx('show_info')}>
@@ -232,7 +243,7 @@ const Article = (props) => {
                     </div>
                 </div>
             </div>
-            {showSurveyModal && < SurveyUSer setShowSurveyModal={setShowSurveyModal} />}
+
 
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}

@@ -12,10 +12,29 @@ import { useParams } from 'react-router-dom';
 import FooterForm from "~/components/Layout/DefaultLayout/Footer/FooterForm";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as farStar, faStar as fasStar } from '@fortawesome/free-regular-svg-icons';
+import { number } from 'prop-types';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
-
 const cx = classNames.bind(styles)
+const labels = {
+    0.5: 'Useless',
+    1: 'Useless+',
+    1.5: 'Poor',
+    2: 'Poor+',
+    2.5: 'Ok',
+    3: 'Ok+',
+    3.5: 'Good',
+    4: 'Good+',
+    4.5: 'Excellent',
+    5: 'Excellent+',
+};
+
+function getLabelText(value) {
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
@@ -45,6 +64,8 @@ function DetailRecipe() {
         Account_id: Account_id,
         Recipe_id: null,
     });
+    const [value, setValue] = useState(2);
+    const [hover, setHover] = useState(-1);
 
     const handleMouseEnter = () => {
         setDropdownOpen(true);
@@ -373,6 +394,8 @@ function DetailRecipe() {
                                 <span class="bi bi-star-fill"></span>
                                 <span class="bi bi-star-half"></span>
                             </div>
+
+                            {/* comment  */}
                             <div className={cx('write_reviews')}>
                                 <form onSubmit={handleSubmitComment}>
                                     <img src={profileInformation.avatar} />
@@ -389,8 +412,31 @@ function DetailRecipe() {
                                 </form>
                             </div>
 
-                            <div className={cx("d-block")} data-rater='{"starSize":32,"step":0.5}'></div>
-
+                            {/* đánh giá  */}
+                            <Box
+                                sx={{
+                                    width: 200,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Rating
+                                    name="hover-feedback"
+                                    value={value}
+                                    precision={0.5}
+                                    getLabelText={getLabelText}
+                                    onChange={(event, newValue) => {
+                                        setValue(newValue);
+                                    }}
+                                    onChangeActive={(event, newHover) => {
+                                        setHover(newHover);
+                                    }}
+                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                />
+                                {value !== null && (
+                                    <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                                )}
+                            </Box>
                             {/* HIEN COMMENT  */}
                             <div className={cx('read_review')}>
                                 <div className={cx('avt_read')}>
