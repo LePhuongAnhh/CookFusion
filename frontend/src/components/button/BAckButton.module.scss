@@ -1,0 +1,31 @@
+.back_btn,
+.next_btn {
+    border-radius: 16px;
+    min-width: 120px;
+    height: 50px;
+    padding: 0 33px;
+    object-fit: contain;
+    font-size: 17px;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+}
+.back_btn {
+    color: #1b1e35;
+    background: transparent;
+    border: 1px solid #a1a3b4;
+}
+.next_btn {
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.07);
+    background-color: #f46708;
+    border: 0;
+    color: #ffffff;
+}
+.back_btn:hover {
+    background-color: #a1a3b4;
+}

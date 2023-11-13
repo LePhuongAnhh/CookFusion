@@ -237,11 +237,14 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                             <input
                                                 min="1"
                                                 type="number"
-                                                placeholder="Serving"
+                                                placeholder=" Input serving"
                                                 name="nPerson"
                                                 onChange={handleInputChange}
                                                 value={recipeData.nPerson}
                                             />
+                                        </div>
+                                        <div className={cx('buttons')}>
+                                            show calorie
                                         </div>
                                     </div>
                                 </div>

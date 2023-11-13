@@ -35,6 +35,11 @@ const labels = {
 function getLabelText(value) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
+
+const CustomStarIcon = () => (
+    <StarIcon fontSize="inherit" />
+);
+
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
@@ -413,30 +418,33 @@ function DetailRecipe() {
                             </div>
 
                             {/* đánh giá  */}
-                            <Box
-                                sx={{
-                                    width: 200,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Rating
-                                    name="hover-feedback"
-                                    value={value}
-                                    precision={0.5}
-                                    getLabelText={getLabelText}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
+                            <div className={cx('rating-card')}>
+                                <Box
+                                    sx={{
+                                        width: 200,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        fontSize: '36px',
                                     }}
-                                    onChangeActive={(event, newHover) => {
-                                        setHover(newHover);
-                                    }}
-                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                />
-                                {value !== null && (
-                                    <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-                                )}
-                            </Box>
+                                >
+                                    <Rating
+                                        name="hover-feedback"
+                                        value={value}
+                                        precision={0.5}
+                                        getLabelText={getLabelText}
+                                        onChange={(event, newValue) => {
+                                            setValue(newValue);
+                                        }}
+                                        onChangeActive={(event, newHover) => {
+                                            setHover(newHover);
+                                        }}
+                                        emptyIcon={<CustomStarIcon />}
+                                    />
+                                    {value !== null && (
+                                        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                                    )}
+                                </Box>
+                            </div>
                             {/* HIEN COMMENT  */}
                             <div className={cx('read_review')}>
                                 <div className={cx('avt_read')}>

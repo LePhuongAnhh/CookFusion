@@ -140,7 +140,7 @@
     /* justify-content: flex-end; */
     width: 100%;
 }
-.back_btn,
+
 .next_btn {
     border-radius: 16px;
     min-width: 120px;
@@ -157,20 +157,14 @@
     outline: none;
     cursor: pointer;
 }
-.back_btn {
-    color: #1b1e35;
-    background: transparent;
-    border: 1px solid #a1a3b4;
-}
+
 .next_btn {
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.07);
     background-color: #f46708;
     border: 0;
     color: #ffffff;
 }
-.back_btn:hover {
-    background-color: #a1a3b4;
-}
+
 .next_btn:hover {
     background-color: #ac4602;
 }

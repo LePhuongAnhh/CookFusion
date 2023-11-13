@@ -17,7 +17,6 @@ const ResultAuto = () => {
     const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     return (
         <div className={cx('result')}>
-            <Navigation />
             <Helmet>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>

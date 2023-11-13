@@ -7,6 +7,7 @@ import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigati
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 import axios from 'axios';
+import BackButton from '~/components/button/BackButton';
 
 const cx = classNames.bind(styles)
 const AutoPlan = () => {
@@ -133,9 +134,7 @@ const AutoPlan = () => {
                             </div>
                         </div>
                         <div className={cx('buttons_wrapper')}>
-                            <Link to="/planmeal" >
-                                <button className={cx('back_btn')} >Back</button>
-                            </Link>
+                            <BackButton />
                             <Link to="/step2" >
                                 <button className={cx('next_btn')}>Next</button>
                             </Link>

@@ -1,15 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
-import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import images from '~/assets/images'
+import BackButton from '~/components/button/BackButton';
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const Step2_auto = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const navigate = useNavigate();
     const [divStyles, setDivStyles] = useState({
         div1: { backgroundColor: 'initial', color: 'initial' },
         div2: { backgroundColor: 'initial', color: 'initial' },
@@ -29,9 +30,16 @@ const Step2_auto = () => {
         // Cập nhật state với styles mới
         setDivStyles(newDivStyles);
     };
+    const handleBack = (e) => {
+        e.preventDefault();
+        clearData();
+        navigate(-1);
+    };
+    const clearData = () => {
+    };
+
     return (
         <div className={cx('auto_plan')}>
-            <Navigation />
             <Helmet>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>
@@ -103,9 +111,7 @@ const Step2_auto = () => {
                             </div>
                         </div>
                         <div className={cx('buttons_wrapper')}>
-                            <Link to="/autoplan" >
-                                <button className={cx('back_btn')} >Back</button>
-                            </Link>
+                            <BackButton />
                             <Link to="/result_auto" >
                                 <button className={cx('next_btn')}>Create</button>
                             </Link>
