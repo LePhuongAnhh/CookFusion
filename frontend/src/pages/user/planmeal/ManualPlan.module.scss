@@ -88,3 +88,17 @@
         }
     }
 }
+.displayed-recipes-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 7px 25px 0;
+    gap: 10px;
+    overflow: auto;
+}
+
+.displayed-recipe {
+    cursor: pointer;
+    height: 37px;
+    padding: 0px 0 0 11px;
+    min-width: 205px;
+}

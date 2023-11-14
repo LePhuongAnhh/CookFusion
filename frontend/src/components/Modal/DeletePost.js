@@ -3,11 +3,11 @@ import classNames from 'classnames/bind'
 import axios from 'axios'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants'
 const cx = classNames.bind(styles)
-function DeletePost({ setShowDeletePostModal,postId,setListPost,setTotalPost, listPost,isRecipe}) {
+function DeletePost({ setShowDeletePostModal, postId, setListPost, setTotalPost, listPost, isRecipe }) {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const handleDeletePost = async () => {
         try {
-            const api = (isRecipe) ? "deleteRecipe":"deleteArticle"
+            const api = (isRecipe) ? "deleteRecipe" : "deleteArticle"
             const response = await axios.delete(`${apiUrl}/admin/${api}/${postId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -19,7 +19,7 @@ function DeletePost({ setShowDeletePostModal,postId,setListPost,setTotalPost, li
                 const updatedPosts = listPost.filter(article => article._id !== postId);
                 setTotalPost(updatedPosts.length)
                 setListPost(updatedPosts);
-                setShowDeletePostModal(false); 
+                setShowDeletePostModal(false);
             }
         } catch (error) {
             console.error("Lỗi xóa bài viết:", error);

@@ -5,12 +5,12 @@ import classNames from 'classnames/bind'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants'
 
 const cx = classNames.bind(styles)
-const DeleteBlog = ({ setShowDeleteModal, articleId, setFilteredArticles, filteredArticles }) => {
+const DeleteBlog = ({ setShowDeleteModal, itemId, itemType, setFilteredItems, filteredItems }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
-    const handleDeleteArticle = async () => {
+    const handleDeleteItem = async () => {
         try {
-            const response = await axios.delete(`${apiUrl}/article/delete/${articleId}`, {
+            const response = await axios.delete(`${apiUrl}/article/delete/${itemId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -18,8 +18,8 @@ const DeleteBlog = ({ setShowDeleteModal, articleId, setFilteredArticles, filter
 
             if (response.data) {
                 console.log("Bài viết đã được xóa");
-                const updatedArticles = filteredArticles.filter(article => article._id !== articleId);
-                setFilteredArticles(updatedArticles);
+                const updatedArticles = filteredItems.filter(article => article._id !== itemId);
+                setFilteredItems(updatedArticles);
                 setShowDeleteModal(false); // Ẩn modal sau khi xóa thành công
             }
         } catch (error) {
@@ -41,7 +41,7 @@ const DeleteBlog = ({ setShowDeleteModal, articleId, setFilteredArticles, filter
                     <p>Are you sure you want to delete your idea?</p>
                 </div>
                 <div className={cx('footer-delete')}>
-                    <button className={cx('btn_delete')} onClick={handleDeleteArticle}>Delete</button>
+                    <button className={cx('btn_delete')} onClick={handleDeleteItem}>Delete</button>
                     <button className={cx('btn_cancle')} onClick={() => setShowDeleteModal(false)}>Cancel</button>
                 </div>
             </div>

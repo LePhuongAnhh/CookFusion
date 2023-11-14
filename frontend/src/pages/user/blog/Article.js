@@ -225,18 +225,17 @@ const Article = (props) => {
                         {/* RIGHT */}
                         <div className={cx('gird_right')}>
                             <div >
-                                <div className={cx('header_annous')} >
+                                <div className={cx('header_annous')}>
                                     <h5 className={cx('header_add_fl')}>Sponsored content</h5>
-                                    {ads.length > 0 && ads.map((ads) => (
-                                        <Link ><img height="50px" width="300px" src={ads.image}></img>
-                                            <p>{ads.title[0]}</p>
-                                            <p>Sponsored by {ads.user[0]}</p>
+                                    {ads.length > 0 && ads.map((ad) => (
+                                        <Link key={ad.id} className={cx('ad-link')}>
+                                            <div className={cx('ad-container')}>
+                                                <p className={cx('ad-title')}>{ad.title[0]}</p>
+                                                <p className={cx('ad-sponsor')}>Sponsored by {ad.user[0]}</p>
+                                                <img className={cx('show-imgage-sp')} src={ad.image} alt={ad.title[0]} />
+                                            </div>
                                         </Link>
                                     ))}
-                                </div>
-                                <div className={cx('right_follow')}>
-                                    <div className={cx('show_info')}>
-                                    </div>
                                 </div>
                             </div>
                         </div>

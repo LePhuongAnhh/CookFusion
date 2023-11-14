@@ -134,7 +134,7 @@ input:focus {
 /* CENTER  */
 .article_gird_center {
     flex: 0 0 auto;
-    width: 75%;
+    width: 70%;
     margin-left: 50px;
 }
 .post_status {
@@ -373,7 +373,7 @@ h5 {
     position: fixed;
     float: right;
     // right: 105px;
-    right: 20px;
+    right: 46px;
 }
 
 /* top  */
@@ -391,9 +391,6 @@ h5 {
     // height: 220px;
     height: 120px;
     overflow-y: auto;
-}
-.header_annous {
-    margin: 15px 14px 0;
 }
 
 .right_info_card {
@@ -618,6 +615,35 @@ h5 {
     border-bottom: 0 solid var(0, 0, 0, 0.125);
 }
 
+//qunag cao
+.header_annous {
+}
+
+.show-imgage-sp {
+    width: 248px;
+    height: 200px;
+    border-radius: 5px;
+}
+.ad-link {
+    text-decoration: none;
+    color: inherit; /* Optional: maintain the link color */
+}
+
+.ad-container {
+    position: relative;
+    margin: 0 0 15px;
+}
+
+.ad-title,
+.ad-sponsor {
+    position: absolute;
+    top: 0; /* Adjust this value based on your layout */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background color to make text more readable */
+    padding: 10px;
+}
 //responsive
 .nav-mobile {
     display: none;

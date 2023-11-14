@@ -158,7 +158,7 @@ const BlogForm = ({ }) => {
             socket.off('addheart')
             socket.off('deleteheart')
         }
-    }, [changeArticle]);
+    }, []);
 
 
     //detail
@@ -468,9 +468,10 @@ const BlogForm = ({ }) => {
             {showDeleteModal && (
                 <DeleteBlog
                     setShowDeleteModal={setShowDeleteModal}
-                    articleId={articleIdToDelete}
-                    setFilteredArticles={setFilteredArticles}
-                    filteredArticles={filteredArticles}
+                    itemId={articleIdToDelete}
+                    itemType="article"
+                    setFilteredItems={setFilteredArticles}
+                    filteredItems={filteredArticles}
                 />
             )}
 

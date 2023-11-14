@@ -33,7 +33,6 @@ function UpdateCategory({ setShowUpdateCategoryModal, categoryData, updateCatego
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            // Call the update function after a successful update
             updateCategoryList(response.data.updatedCategory);
             setShowUpdateCategoryModal(false);
         } catch (error) {

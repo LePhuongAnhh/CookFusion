@@ -77,6 +77,10 @@
     display: flex;
     align-items: center;
     font-size: 14px;
+    svg {
+        margin: -11px 0 0 3px;
+        cursor: pointer;
+    }
 }
 
 .blog_card .blog_tag .view_and_like .like i {
@@ -109,7 +113,7 @@
     display: flex; //sliler thif bor cais nayf ddi
     overflow-x: auto;
     white-space: nowrap;
-    height: 400px; //slider thif bor cais nagy ddi
+    height: 440px; //slider thif bor cais nagy ddi
 }
 
 .recipe-item-horizontal {
@@ -123,4 +127,55 @@
 
 .recipe-list-horizontal:hover {
     scrollbar-color: #888 #888; /* Màu thanh cuộn và thumb khi rê chuột vào */
+}
+
+//seting edit/ delete
+.review_action {
+    float: right;
+    color: #363b3f;
+    user-select: none;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    margin-left: -115px;
+    margin-top: -106px;
+}
+.edit {
+    cursor: pointer;
+    color: var(--main-text-color) !important;
+    margin: 10px auto;
+    width: 100px;
+    height: 35px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    line-height: 1.5;
+
+    &:hover {
+        background-color: #f7f7f7;
+    }
+
+    span {
+        margin-left: 5px; /* Khoảng cách giữa icon và văn bản */
+    }
+    svg {
+        margin: -4px 0 -6px 0;
+        padding: -3px 0 3px 0;
+    }
 }
