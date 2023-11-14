@@ -49,12 +49,11 @@ const EditComment = ({ comment, onSave, onCancel, recipeData }) => {
     const handleInputChange = (e) => {
         const newEditedComment = e.target.value;
         setEditedComment(newEditedComment);
-        console.log("Input value:", newEditedComment);
     };
 
     const handleSave = () => {
         console.log("Data to be saved:", {
-            commentId: comment._id,
+            _id: comment._id,
             Account_id: profileInformation._id,
             comment: editedComment,
             Recipe_id: recipeData.data[0]._id,
@@ -136,8 +135,8 @@ function DetailRecipe() {
     const [hover, setHover] = useState(-1);
 
     const [editingCommentId, setEditingCommentId] = useState(null);
-    const handleEditComment = (commentId) => {
-        setEditingCommentId(commentId);
+    const handleEditComment = (_id) => {
+        setEditingCommentId(_id);
     };
 
     const handleMouseEnter = () => {
@@ -235,6 +234,7 @@ function DetailRecipe() {
         }
     };
 
+
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         try {
@@ -264,47 +264,47 @@ function DetailRecipe() {
     };
 
     // ??DELETE
-    const handleDeleteComment = async (commentId) => {
+    const handleDeleteComment = async (_id) => {
         try {
-            const response = await axios.delete(`${apiUrl}/comment/deleteRecipeComment/${commentId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
+            const response = await axios.delete(
+                `${apiUrl}/comment/deleteRecipeComment`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json', // Thiết lập kiểu nội dung là JSON
+                    },
+                    data: {
+                        _id: _id,
+                    },
                 }
-            });
-            setComments((prevComments) => prevComments.filter(comment => comment._id !== commentId));
-            console.log("Bài viết đã được xóa");
+            );
+            setComments((prevComments) => prevComments.filter(comment => comment._id !== _id));
+            console.log("Bình luận đã được xóa");
         } catch (error) {
-            console.error("Lỗi xóa bài viết:", error);
+            console.error("Lỗi xóa bình luận:", error);
         }
     };
 
     //EDIT
-    const handleSaveComment = async (e) => {
-
+    const handleSaveComment = async (comment, editedComment, onSave) => {
         try {
-            const requestData = {
-                comment: commentData.comment,
-                Recipe_id: recipeIdForComment,
-                Account_id: Account_id,
-            };
-            const response = await axios.post(
+            const response = await axios.patch(
                 `${apiUrl}/comment/updateRecipeComment`,
-                requestData,
+                {
+                    _id: comment._id,
+                    Account_id: profileInformation._id,
+                    comment: editedComment,
+                    Recipe_id: recipeData.data[0]._id,
+                },
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 }
             );
-
-            setCommentData({
-                comment: '',
-                Account_id: Account_id,
-                Recipe_id: null,
-            });
-
-            // Log the response from the server
             console.log("Server response after saving comment:", response.data);
+            onSave();
+            onCloseModal();
         } catch (error) {
             console.log(error.response.data.message);
         }

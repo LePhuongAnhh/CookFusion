@@ -80,5 +80,7 @@ const images = {
     header_logo: require('~/assets/images/5.png'),
     header_logo2: require('~/assets/images/2.png'),
     add_recipe: require('~/assets/images/add-recope.png'),
+    add_recipe: require('~/assets/images/add-recope.png'),
+    header_planmeal: require('~/assets/images/header.png'),
 }
 export default images;

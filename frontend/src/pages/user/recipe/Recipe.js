@@ -22,30 +22,6 @@ const Recipe = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showCreateRecipeModal, setShowCreateRecipeModal] = useState(false);
 
-    //GET ALL RECIPE
-    const [recipeAllData, setAllRecipeData] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/recipe/getall`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setAllRecipeData(response.data);
-                console.log(' all data recipe: ', response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, [apiUrl, accessToken]);
-
-    // Check if recipeAllData is an empty array
-    if (recipeAllData.length === 0) {
-        return <p className={cx('loading')}> <Loading /></p>;
-    }
-
     //CHINH SLIDER
     const NextArrow = (props) => (
         <div {...props} className={cx('custom-arrow next-arrow')}>

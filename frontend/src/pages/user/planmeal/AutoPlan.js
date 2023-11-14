@@ -53,7 +53,7 @@ const AutoPlan = () => {
             <div className={cx('auto_plan_contain')}>
                 <div className={cx('auto_header')}>
                     <div className={cx('header_wrapper')}>
-                        <img src={images.auto_header} />
+                        <img src={images.header_planmeal} />
                         <div className={cx('deader_text')}></div>
                     </div>
                 </div>
