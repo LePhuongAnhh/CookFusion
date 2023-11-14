@@ -1,5 +1,5 @@
 //import từ thư viện bên ngoài
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import ErrorModal from "~/components/Modal/ErrorModal.js"
@@ -18,6 +18,9 @@ import classNames from 'classnames/bind'
 import styles from './LoginForm.module.scss'
 import images from '~/assets/images'
 import { Link } from 'react-router-dom'
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 
 const LoginForm = () => {
@@ -46,13 +49,27 @@ const LoginForm = () => {
         setErrors(errors); // Update the state with error messages
         return isValid;
     };
-
+    const handleLoginGoogle = async () => {
+        try {
+            window.location.href = `${apiUrl}/auth/google/callback`
+        } catch (error) {
+            setError(error.response.data.message);
+        }
+    }
+    const handleLoginFacebook = async () => {
+        try {
+            window.location.href = `${apiUrl}/auth/facebook/callback`
+        } catch (error) {
+            setError(error.response.data.message);
+        }
+    }
     const login = async event => {
         event.preventDefault();
         const isValid = checkValideInput();
         if (!isValid) {
             return;
         }
+
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, loginForm);
             console.log("hel", response.data.success);
@@ -77,6 +94,40 @@ const LoginForm = () => {
         }
     };
     const { username, password } = loginForm
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                localStorage.setItem(ACCESS_TOKEN, token);
+                const response = await axios.get(`${apiUrl}/auth/getinformation`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response.data.success) {
+                    localStorage.setItem(USERNAME, response.data.account.username);
+                    localStorage.setItem(ACCOUNT_ID, response.data.account._id)
+                    localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
+                    localStorage.setItem(ROLE, response.data.account.role);
+                    const role = response.data.account.role
+                    if (role === "653b77c46139d7a2604cedb5") {
+                        navigate("dashboard");
+                    } else if (role === "653b77c46139d7a2604cedb7") {
+                        navigate('/homepage');
+                    } else {
+                        navigate('/homepage')
+                    }
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        const searchParams = new URLSearchParams(window.location.search);
+        const token = searchParams.get('token')
+        if (token !== 'false') fetchData();
+        else setError("Please try again")
+    }, []);
 
     return (
         <>
@@ -129,8 +180,8 @@ const LoginForm = () => {
                         <h3>Or </h3>
                         <div className={cx('login_other')}>
                             <span> Sign up with </span>
-                            <img src={images.google} />
-                            {/* <img src={images.facebook} /> */}
+                            <img onClick={handleLoginGoogle} src={images.google} />
+                            <img onClick={handleLoginFacebook} src={images.facebook} />
                         </div>
                         <div className={cx('lb_register')}>
                             <label> Do you haven't an account? </label>

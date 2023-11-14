@@ -158,7 +158,7 @@ const BlogForm = ({ }) => {
             socket.off('addheart')
             socket.off('deleteheart')
         }
-    }, []);
+    }, [changeArticle]);
 
 
     //detail
@@ -471,7 +471,7 @@ const BlogForm = ({ }) => {
                     itemId={articleIdToDelete}
                     itemType="article"
                     setFilteredItems={setFilteredArticles}
-                    filteredItems={filteredArticles}
+                    filteredItem={filteredArticles}
                 />
             )}
 

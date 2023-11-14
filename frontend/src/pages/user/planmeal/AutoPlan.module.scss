@@ -30,22 +30,17 @@
     overflow: auto;
     height: auto;
     text-align: center;
-    overflow: auto;
 }
 .block_wrapper {
     margin-top: 50px;
     margin-bottom: 20px;
 }
 .block_title {
-    font-size: 20px;
-    /* font-weight: 500; */
-    color: #1b1e35;
-    text-align: center;
-    overflow: auto;
+    font-size: 17px;
 }
 
 .block_title:not(:last-child) {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 .gender_icon_wrapper {
     display: flex;
@@ -83,54 +78,45 @@
     cursor: pointer;
 }
 .gender_choose {
-    font-weight: 800;
-    font-size: 17px;
-    color: #1b1e35;
+    font-weight: 600;
 }
 
 .while_block {
     background-color: #ffffff;
     border-radius: 15px;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.07);
-    padding: 16px 100px 24px;
+    padding: 16px 100px 30px;
     margin-top: 35px;
     position: relative;
 }
 .while_block_wrapper {
-    display: flex;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 600;
     color: #f46708;
-    margin-top: 16px;
-    justify-content: center;
+    margin-top: 17px;
 }
 .input_text {
     height: 40px;
-    font-size: 22px;
+    width: 280px;
+    font-size: 16px;
     font-weight: 600;
     /* text-align: center; */
     color: #f46708;
-    padding: 8px 16px;
+    padding: 9px 16px;
     border-radius: 8px;
     border: 1px solid #dadada;
 }
-.while_block_wrapper input {
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.07);
-    width: 300px;
-    color: #f46708;
-}
 .select_calorie {
-    height: calc(2.25rem + 2px);
-    /* letter-spacing: 0.3px; */
     font-size: 16px;
     margin-top: -2px;
     margin-bottom: 2px;
     display: block;
     width: 100%;
     padding: 0.375rem 0.75rem;
-    color: #495057;
+    /* color: #495057; */
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 8px;
+    height: 38px;
 }
 
 .buttons_wrapper {
@@ -207,7 +193,7 @@
 
 .nav_item img {
     width: 55px;
-    height: 45px;
+    height: 55px;
 }
 
 /* choose allergy */

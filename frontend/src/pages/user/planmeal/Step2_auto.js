@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
 import images from '~/assets/images'
+import axios from 'axios';
 import BackButton from '~/components/button/BackButton';
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
@@ -11,6 +12,8 @@ const cx = classNames.bind(styles)
 const Step2_auto = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const navigate = useNavigate();
+
+    const location = useLocation();
     const [divStyles, setDivStyles] = useState({
         div1: { backgroundColor: 'initial', color: 'initial' },
         div2: { backgroundColor: 'initial', color: 'initial' },
@@ -29,14 +32,71 @@ const Step2_auto = () => {
         newDivStyles[clickedDiv] = { backgroundColor: '#007bff', color: 'white' };
         // Cập nhật state với styles mới
         setDivStyles(newDivStyles);
+        setSelectedDie(clickedDiv);
     };
-    const handleBack = (e) => {
-        e.preventDefault();
-        clearData();
-        navigate(-1);
+
+    // Access userData from the location state if it's defined
+    const userData = location?.state?.userData;
+    const [allergyInput, setAllergyInput] = useState('');
+    const [selectedDie, setSelectedDie] = useState('');
+
+    //selet DESEASE
+    const [selectedDisease, setSelectedDisease] = useState('bình thường ');
+    const diseaseOptions = [
+        { value: 'bình thường', label: 'Toi khoe manh' },
+        { value: 'Tim', label: 'Disease 2' },
+        { value: 'Gan', label: 'Disease 3' },
+    ];
+
+    // chọn giảm cân
+    const [selectedLosingWeight, setSelectedLosingWeight] = useState('');
+    const losingWeightOptions = [
+        { value: '0.5', label: '0.5kg' },
+        { value: '1', label: '1.0kg' },
+        { value: '1.5', label: '1.5kg' },
+        { value: '2.0', label: '2.0kg' },
+        { value: '2/5', label: '2.5kg' },
+    ];
+
+    useEffect(() => {
+        // Access userData from the location state if it's defined
+        const userData = location?.state?.userData;
+        console.log('Received data in Step2_auto:', userData);
+    }, [location]);
+
+    const handleCreateButtonClick = async () => {
+        // Combine user data from different steps
+        const combinedUserData = {
+            ...userData,
+            selectedDisease,
+            selectedLosingWeight,
+            allergyInput,
+            selectedDie
+        };
+        console.log('input ddc nhuwngx gif: ', combinedUserData)
+        try {
+            const response = await axios.post(
+                `${apiUrl}/mealplan/createAutoMealPlan`,
+                combinedUserData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            console.log("Server response after creating auto meal plan:", response.data);
+            // navigate('/result_auto');
+        } catch (error) {
+            console.error("Error creating auto meal plan:", error);
+        }
     };
-    const clearData = () => {
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleCreateButtonClick();
+        }
     };
+
 
     return (
         <div className={cx('auto_plan')}>
@@ -46,7 +106,7 @@ const Step2_auto = () => {
             <div className={cx('auto_plan_contain')}>
                 <div className={cx('auto_header')}>
                     <div className={cx('header_wrapper')}>
-                        <img src={images.auto_header} />
+                        <img src={images.header_planmeal} />
                         <div className={cx('deader_text')}></div>
                     </div>
                 </div>
@@ -102,19 +162,57 @@ const Step2_auto = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* item  */}
+                                <div className={cx('allergy_card')}>
+                                    <div className={cx('text_allergy')}>Disease</div>
+                                    <select
+                                        name='disease'
+                                        value={selectedDisease}
+                                        onChange={(e) => setSelectedDisease(e.target.value)}
+                                        className={cx('input_allergy')}
+                                    >
+                                        <option value=''>Select a </option>
+                                        {diseaseOptions.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+
+                                <div className={cx('allergy_card')}>
+                                    <div className={cx('text_allergy')}>Losing Weight / week</div>
+                                    <select
+                                        name='loseWeight'
+                                        value={selectedLosingWeight}
+                                        onChange={(e) => setSelectedLosingWeight(e.target.value)}
+                                        className={cx('input_allergy')}
+                                    >
+                                        <option value=''>Select an option</option>
+                                        {losingWeightOptions.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
                                 <div className={cx('allergy_card')}>
                                     <div className={cx('text_allergy')}>Allergy</div>
-                                    <input type='text' name='height' placeholder='0' className={cx('input_allergy')} />
+                                    <input
+                                        type='text'
+                                        name='blackFoodList'
+                                        placeholder='You are allergic to'
+                                        className={cx('input_allergy')}
+                                        value={allergyInput}
+                                        onChange={(e) => setAllergyInput(e.target.value)}
+                                    />
                                 </div>
-                                {/* item  */}
                             </div>
                         </div>
                         <div className={cx('buttons_wrapper')}>
                             <BackButton />
-                            <Link to="/result_auto" >
-                                <button className={cx('next_btn')}>Create</button>
-                            </Link>
+                            <button className={cx('next_btn')} onClick={handleCreateButtonClick} onKeyPress={handleKeyPress}>Create</button>
                         </div>
                     </div>
                 </div>

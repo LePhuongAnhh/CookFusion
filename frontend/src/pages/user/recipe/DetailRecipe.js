@@ -304,7 +304,7 @@ function DetailRecipe() {
             );
             console.log("Server response after saving comment:", response.data);
             onSave();
-            onCloseModal();
+            // onCloseModal();
         } catch (error) {
             console.log(error.response.data.message);
         }

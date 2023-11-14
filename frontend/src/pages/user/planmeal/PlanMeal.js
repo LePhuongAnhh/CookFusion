@@ -12,17 +12,12 @@ const PlanMeal = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     return (
         <div className={cx('plan_meal')}>
-            S            <Helmet>
+            <Helmet>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>
             <div className={cx('plan_meal_contain')}>
                 <div className={cx('plan_meal_contain')}>
                     <div className={cx('plan_header_wrapper')}>
-                        {/* <img src={images.background_top} />
-                        <div className={cx('plan_header_text')}>
-                            <h1> MEAL Planner</h1>
-                            <p>Gourmet Food creates personalized meal plans based on your food preferences and schedule. Reach your diet and nutritional goals with our calorie calculator, weekly meal plans, grocery lists and more. Create your meal plan right here in seconds.</p>
-                        </div> */}
                     </div>
                 </div>
 
