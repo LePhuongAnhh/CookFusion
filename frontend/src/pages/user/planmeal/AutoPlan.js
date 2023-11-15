@@ -119,7 +119,7 @@ const AutoPlan = () => {
             ActivityMode_id,
         };
         navigate('/step2', { state: { userData: combinedUserData } });
-        console.log('Data sent to Step2_auto:', combinedUserData);
+       
     };
 
     return (

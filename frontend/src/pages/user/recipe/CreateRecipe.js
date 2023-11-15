@@ -9,7 +9,7 @@ import images from '~/assets/images'
 
 //ngoài 
 import { useDropzone } from 'react-dropzone';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Helmet } from "react-helmet"
 
 import axios from "axios";
@@ -18,16 +18,141 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const User_id = profileInformation._id
-    const options = ["Cate 1", "Cate 2", "Cate 3"];
-    const [selectedOption, setSelectedOption] = useState("");
-
-    const handleSelectChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
 
     //CATEGORY
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
+
+    //CATEGORY CUA INGR, TÌM KIẾM 
+    //xáo nguyên liệu sau khi lấy nó ra từ
+    const searchInputRef = useRef(null);
+    const [categoriesData, setCategoriesData] = useState([
+        {
+            id: 1,
+            name: 'Meat',
+            ingredients: [
+                { id: 1, name: 'Chicken' },
+                { id: 2, name: 'Beef' },
+            ],
+        },
+        {
+            id: 2,
+            name: 'Vegetables',
+            ingredients: [
+                { id: 3, name: 'Carrot' },
+                { id: 4, name: 'Spinach' },
+            ],
+        },
+        {
+            id: 3,
+            name: 'thit',
+            ingredients: [
+                { id: 5, name: 'chuioi' },
+                { id: 6, name: 'dau phụ' },
+                { id: 7, name: 'khoia' },
+                { id: 8, name: 'san' },
+                { id: 9, name: 'ca chua' },
+                { id: 10, name: 'ca rot' },
+            ],
+        },
+        {
+            id: 4,
+            name: 'rau cu',
+            ingredients: [
+                { id: 11, name: 'Sắn' },
+                { id: 12, name: 'gao' },
+                { id: 13, name: 'vit' },
+                { id: 14, name: 'lợn' },
+                { id: 15, name: 'ngan' },
+                { id: 16, name: 'bo' },
+            ],
+        },
+
+    ]);
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedCategoryIngr, setSelectedCategoryIngr] = useState(null);
+    const [categorySelected, setCategorySelected] = useState(false);
+    const [selectedIngredient, setSelectedIngredient] = useState(null);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+
+    //hiện placeholder
+    const [inputPlaceholder, setInputPlaceholder] = useState("Search category of ingredient");
+    useEffect(() => {
+        if (categorySelected) {
+            setInputPlaceholder(`Search ingredients of ${selectedCategoryIngr}...`);
+        } else {
+            setInputPlaceholder("Search category of ingredient");
+        }
+    }, [categorySelected, selectedCategoryIngr]);
+
+
+    const handleSearchChange = (event) => {
+        const term = event.target.value;
+        setSearchTerm(term);
+        if (selectedCategoryIngr && categorySelected) {
+            const category = categoriesData.find(cat => cat.name === selectedCategoryIngr);
+            if (category) {
+                const results = performIngredientSearch(term, category.ingredients);
+                setSearchResults(results);
+            }
+        }
+    };
+
+    const handleCategorySelect = (category) => {
+        console.log('Selected Category:', category);
+        setSelectedCategoryIngr(category);
+        setCategorySelected(true);
+        setSearchTerm('');
+        setSearchResults([]);
+        // Focus vào ô search khi chọn category
+        searchInputRef.current.focus();
+    };
+
+    const handleIngredientSelect = (ingredient) => {
+        console.log('Selected Ingredient:', ingredient);
+
+        setSelectedIngredient(ingredient);
+        setSelectedIngredients([...selectedIngredients, ingredient]);
+        setSearchTerm('');
+        setSearchResults([]);
+
+        // Reset state để kết thúc quá trình tìm kiếm và bắt đầu một tìm kiếm mới
+        setSearchTerm('');
+        setSearchResults([]);
+        setSelectedCategoryIngr(null);
+        setCategorySelected(false);
+    };
+
+    const performIngredientSearch = (term, ingredients) => {
+        return ingredients.filter(ingredient =>
+            ingredient.name.toLowerCase().includes(term.toLowerCase())
+        );
+    };
+
+    // hiện kết ủa search cate
+    const limitedCategoryResults = searchTerm
+        ? categoriesData
+            .filter(cat => cat.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            .slice(0, 5)
+        : [];
+
+    const limitedIngredientResults = searchResults.slice(0, 5);
+
+
+    //xóa ingredient đc chọn
+    const handleRemoveIngredient = (ingredientToRemove) => {
+        const updatedIngredients = selectedIngredients.filter(
+            (ingredient) => ingredient.id !== ingredientToRemove.id
+        );
+        setSelectedIngredients(updatedIngredients);
+    };
+
+    //hết
+
+
 
     // chon anh cho bìa
     const [selectedImage, setSelectedImage] = useState(null);
@@ -43,7 +168,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             setSelectedImage(URL.createObjectURL(selectedFile));
         }
     };
-
     // các step
     const [result, setResult] = useState([])
     const handleSetDetailStep = (index, value) => {
@@ -138,7 +262,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                 if (response.data.success) {
                     setCategories(response.data.listCategory);
                 }
-                console.log('Categories set successfully:', response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -165,19 +288,29 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             [name]: value,
         });
     };
-    console.log("input data:", recipeData)
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(result)
+        const nPerson = parseInt(recipeData.nPerson, 10);
+        const timePrepare = parseInt(recipeData.timePrepare, 10);
+        const timeCook = parseInt(recipeData.timeCook, 10);
+        const updatedRecipeData = {
+            ...recipeData,
+            nPerson,
+            timePrepare,
+            timeCook,
+        };
+        console.log("input data:", updatedRecipeData);
         const formData = new FormData();
         formData.append('userId', User_id);
-        formData.append('name', recipeData.name);
-        formData.append('timeCook', recipeData.timeCook);
-        formData.append('timePrepare', recipeData.timePrepare);
-        formData.append('description', recipeData.description);
-        formData.append('nPerson', recipeData.nPerson);
-        formData.append('Category', recipeData.Category);
+        formData.append('name', updatedRecipeData.name);
+        formData.append('timeCook', updatedRecipeData.timeCook);
+        formData.append('timePrepare', updatedRecipeData.timePrepare);
+        formData.append('description', updatedRecipeData.description);
+        formData.append('nPerson', updatedRecipeData.nPerson);
+        formData.append('Category', updatedRecipeData.Category);
     }
 
     return (
@@ -282,6 +415,8 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* //SEARC TIM NGUYEN LIEU  */}
                             <div className={cx('bottom_section')}>
                                 <div className={cx('bottom_card')}>
                                     <h3 className={cx('column_title')}>Ingredients</h3>
@@ -289,10 +424,14 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                         <div className={cx('scale_tool')}>
                                             <div className="input-group rounded">
                                                 <input
+                                                    ref={searchInputRef} //// Thêm ref để có thể truy cập vào ô searc
                                                     type="search"
+                                                    placeholder={inputPlaceholder}
                                                     className="form-control rounded"
                                                     style={{ fontSize: '14px' }}
                                                     aria-describedby="search-addon"
+                                                    value={searchTerm}
+                                                    onChange={handleSearchChange}
                                                 />
                                                 <span className="input-group-text border-0" id="search-addon">
                                                     <i className="bi bi-search-heart"></i>
@@ -300,6 +439,47 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Hiển thị kết quả tìm kiếm Category */}
+                                    {!categorySelected && (
+                                        <div className="search-results">
+                                            <ul>
+                                                {limitedCategoryResults.map((category) => (
+                                                    <li key={category.id} onClick={() => handleCategorySelect(category.name)}>
+                                                        {category.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {/* hiện kết quae search ingredient của category đc chọn */}
+                                    {categorySelected && searchTerm && limitedIngredientResults.length > 0 && (
+                                        <div className="search-results">
+                                            <ul>
+                                                {limitedIngredientResults.map((result) => (
+                                                    <li key={result.id} onClick={() => handleIngredientSelect(result)}>
+                                                        {result.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {/* Hiển thị các ingredient đã chọn */}
+                                    {selectedIngredients.length > 0 && (
+                                        <div>
+                                            <h4>Selected Ingredients:</h4>
+                                            <ul>
+                                                {selectedIngredients.map((ingredient) => (
+                                                    <li key={ingredient.id}>
+                                                        {ingredient.name}
+                                                        <button onClick={() => handleRemoveIngredient(ingredient)}> x</button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className={cx('bottom_card')}>
                                     <h3 className={cx('column_title')}>Instructions</h3>

@@ -72,7 +72,6 @@ const Step2_auto = () => {
             allergyInput,
             selectedDie: selectedDie || 'Anything',
         };
-        console.log('input ddc nhuwngx gif: ', combinedUserData)
         try {
             const response = await axios.post(
                 `${apiUrl}/mealplan/createAutoMealPlan`,
