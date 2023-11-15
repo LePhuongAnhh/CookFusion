@@ -186,7 +186,7 @@ function DefaultLayout({ children }) {
         return () => {
             socket.off('notification')
         }
-    }, [listMessage])
+    }, [setListMessage])
 
     //choose article or recipe
     const [activeTab, setActiveTab] = useState('credit-card');
@@ -211,7 +211,8 @@ function DefaultLayout({ children }) {
     const allowedRoles = ['653b77c56139d7a2604cedb9', '653b77c46139d7a2604cedb7'];
     const menu = allowedRoles.includes(role) ? (role === '653b77c46139d7a2604cedb7' ? sponsorMenu : userMenu) : [];
     const getProfileLink = (role) => {
-        return role === '653b77c46139d7a2604cedb7' ? '/profileSponsor' : '/profile';
+        return role === '653b77c46139d7a2604cedb7' ? `/profileSponsor/${accountId}` : `/profile/${accountId}`;
+        // window.location.href = `http://localhost:3000${uri}`
     };
 
     return (

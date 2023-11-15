@@ -545,7 +545,7 @@ function DetailRecipe() {
                             <div className={cx('rating_average')}>
                                 {avg && (
                                     <div>
-                                        <span>{avg}</span>
+                                        {/* <span>{avg}</span> */}
                                         <span class={(avg >= 1) ?
                                             "bi bi-star-fill" : ((avg == 0) ? "bi bi-star" : "bi bi-star-half")}></span>
                                         <span class={(avg >= 2) ?

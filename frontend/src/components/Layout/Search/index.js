@@ -82,13 +82,19 @@ function Search() {
     }
     useEffect(() => {
         socket.on('history', (data) => {
-            if (data.data._id == userId) {
+            console.log(data)
+            if (data.success && data.data.history.length > 0 && data.data._id == userId) {
                 setListHistory(data.data)
+                // data.data.trend / history / hashtag
+                console.log(data.data)
             }
         })
         socket.on('search', (data) => {
-            if (data.data._id == userId) {
+            // console.log('result'.data)
+            if (data.success && data.data._id == userId) {
                 setSearchResult(data.data)
+                // data.data.users / articles/ recipes/ hashtags
+                console.log(data.data)
             }
         })
         return () => {

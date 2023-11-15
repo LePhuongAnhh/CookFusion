@@ -18,7 +18,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const User_id = profileInformation._id
-    console.log("id ne:", User_id)
     const options = ["Cate 1", "Cate 2", "Cate 3"];
     const [selectedOption, setSelectedOption] = useState("");
 
@@ -39,14 +38,34 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const handleImageUpload = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
+            const updateFile = files.map((file, i) => { return (i == 0) ? selectedFile : file })
+            setFiles(updateFile)
             setSelectedImage(URL.createObjectURL(selectedFile));
         }
     };
 
+    // các step
+    const [result, setResult] = useState([])
+    const handleSetDetailStep = (index, value) => {
+        const ste = { no: index + 1, detail: value, resources: 0 }
+        if (result.length == 0) {
+            const newSteps = []
+            newSteps.push(ste)
+            setResult(newSteps)
+        } else if (result.length < index + 1) {
+            const newSteps = [...result, ste]
+            setResult(newSteps)
+        }
+        else {
+            const update = result.map((dataStep, i) => { return (dataStep.no == ste.no) ? ste : dataStep })
+            setResult(update)
+        }
+    }
+
     //chon ảnh hoặc videl cho các bước
     const [steps, setSteps] = useState([]);
     const [actionIndex, setActionIndex] = useState(null);
-    const maxSize = 10485760; // Dung lượng tối đa là 10 MB
+    const maxSize = 104857600; // Dung lượng tối đa là 100 MB
 
     const onDropCook = (acceptedFiles, index) => {
         const file = acceptedFiles[0];
@@ -56,6 +75,18 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         }
         const updatedSteps = [...steps];
         updatedSteps[index] = { ...updatedSteps[index], cookFile: file };
+        //add to array file
+        let newfiles = []
+        if (files.length <= index + 1) {// ch co anh
+            newfiles = [...files]
+            newfiles.push(file)
+        } else {// change img of this step
+            newfiles = files.map((fileSteps, i) => { return (i == 0) ? file : fileSteps })
+        }
+        console.log(newfiles.length)
+        setFiles(newfiles)
+
+        handleGetResource(index, 1)
         setSteps(updatedSteps);
         setActionIndex(index);
     };
@@ -66,6 +97,12 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         setSteps(updatedSteps);
         setActionIndex(index);
     };
+
+    const handleGetResource = (index, rs) => {
+        console.log(rs, index)
+        const update = result.map((step, i) => { return (i == index && rs > 0) ? { ...step, resources: rs } : step })
+        setResult(update)
+    }
 
     const removeStep = (index) => {
         const updatedSteps = [...steps];
@@ -85,6 +122,10 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         accept: 'image/*,video/*',
     });
 
+    //
+    const [files, setFiles] = useState([null]);
+
+
     //READ CATEGORY
     useEffect(() => {
         const fetchData = async () => {
@@ -94,9 +135,8 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log('API Response:', response.data);
-                if (Array.isArray(response.data)) {
-                    setCategories(response.data);
+                if (response.data.success) {
+                    setCategories(response.data.listCategory);
                 }
                 console.log('Categories set successfully:', response.data);
             } catch (error) {
@@ -104,11 +144,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             }
         };
         fetchData();
-        console.log('Categories state immediately after set:', categories);
-    }, [apiUrl, accessToken]);
-    console.log('Categories state:', categories);
-    console.log('Selected category state:', selectedCategory);
-
+    }, []);
     //ADDCATE
     const [recipeData, setRecipeData] = useState({
         User_id: User_id,
@@ -117,14 +153,11 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         timeCook: '',
         timePrepare: '',
         nPerson: '',
-        image: '',
         Category: '',
-
         nutrion: {},
         ingredients: [],
         steps: [],
     });
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setRecipeData({
@@ -136,6 +169,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(result)
         const formData = new FormData();
         formData.append('userId', User_id);
         formData.append('name', recipeData.name);
@@ -145,9 +179,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         formData.append('nPerson', recipeData.nPerson);
         formData.append('Category', recipeData.Category);
     }
-
-    console.log('recipes:', categories);
-    console.log('selectedRecipe:', selectedCategory);
 
     return (
         <div className={cx('modalDeleteIdea')}>
@@ -261,8 +292,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                     type="search"
                                                     className="form-control rounded"
                                                     style={{ fontSize: '14px' }}
-                                                    placeholder="Search"
-                                                    aria-label="Search"
                                                     aria-describedby="search-addon"
                                                 />
                                                 <span className="input-group-text border-0" id="search-addon">
@@ -289,7 +318,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 <br />
                                             </b>
                                             <textarea
-
                                                 type="text"
                                                 rows={5}
                                                 placeholder="Input preparations .... "
@@ -313,6 +341,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                         <textarea
                                                             type="text"
                                                             rows={4}
+                                                            autoFocus
+                                                            onFocus={() => handleSetDetailStep(index, "")}
+                                                            onChange={(e) => handleSetDetailStep(index, e.target.value)}
                                                             placeholder={`Input preparations for step ${index + 1} .... `}
                                                         />
 

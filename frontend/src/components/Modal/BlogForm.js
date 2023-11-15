@@ -28,7 +28,7 @@ import Loading from "../Layout/Loading";
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
-const BlogForm = ({ }) => {
+const BlogForm = ({ idProfile }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -96,25 +96,35 @@ const BlogForm = ({ }) => {
 
     const fetchData = async (hashtag) => {
         try {
-            if (hashtag) {
-                const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
-                var response = await axios.get(uri, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-            } else {
-                var response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+            if (idProfile) {
+                var response = await axios.get(`${apiUrl}/article/getlistforprofile/${idProfile}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
             }
+            else {
+                if (hashtag) {
+                    const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
+                    var response = await axios.get(uri, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                } else {
+                    var response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                }
+            }
+
+            console.log(response.data, idProfile);
             setChangeArticle(null);
 
             if (response) {
                 const articlesData = response.data.data.map(article => {
-
                     const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
                     const content = article.content;
                     const regex = /#[^\s#]+/g;
@@ -129,11 +139,7 @@ const BlogForm = ({ }) => {
                 const filtered = isProfilePage
                     ? articlesData.filter(article => article.userUpload._id === profileInformation._id)
                     : articlesData;
-                // Sắp xếp bài viết theo thứ tự ngược lại
-                const sortedArticles = filtered.slice().sort((a, b) => new Date(b.timeUpload) - new Date(a.timeUpload));
-                const reversedArticles = sortedArticles.reverse();
-                setFilteredArticles(reversedArticles);
-
+                setFilteredArticles(filtered);
             }
             console.log('Dữ liệu bài đăng: ', response.data.data);
         } catch (error) {

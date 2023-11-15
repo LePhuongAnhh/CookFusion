@@ -67,6 +67,75 @@
 }
 
 // profile-article
+
+.row {
+    margin: 30px 50px;
+}
+.row-left {
+    flex: 0 0 auto;
+    width: 30%;
+    .row-gird {
+        width: auto;
+        height: 303px;
+        border-radius: 5px;
+        // margin: 0 40px;
+    }
+}
+.row-right {
+    flex: 0 0 auto;
+    width: 66%;
+    margin-left: 28px;
+}
+.header-show-info {
+    margin-top: 8px;
+    p {
+        text-align: center;
+        font-size: 23px;
+        font-weight: 600;
+    }
+}
+//left
+
+.card {
+    border: none;
+    height: 400px;
+}
+.cant {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.music {
+    padding: 8px;
+    margin-bottom: 10px;
+    margin: 2px 5px;
+}
+.music:hover {
+    background-color: #f7f7f7;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.edit {
+    height: 39px;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    width: 95%;
+    margin: 0 auto;
+    p {
+        margin-top: -3px;
+    }
+    &:hover {
+        background-color: #d8e2ef;
+    }
+}
+
+//RIGHT
+.header-right {
+    margin: 7px 0 7px 4px;
+}
+
 .article-profile {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     margin: 20px 0;
@@ -168,11 +237,104 @@
 .nav-item {
     cursor: pointer;
 }
-.nav-item div.active {
-    border-bottom: 2px solid #007bff; /* Màu xanh dương - bạn có thể thay đổi mã màu tùy thích */
+.nav-item.active {
+    color: #007bff; /* Màu xanh */
+    border-bottom: 2px solid #007bff; /* Gạch chân màu xanh */
 }
 .body-right {
     flex: 0 0 55%;
 }
-//MANAGEMNET
 
+//COLLECTION
+.add-collection {
+    h1 {
+        font-size: 18px;
+        line-height: 1.333333333333333;
+        font-family: europa-boldregular, sans-serif;
+        font-weight: 600;
+    }
+}
+.add-card {
+    &:hover {
+        color: #3a9691;
+    }
+}
+.account-bubble {
+    text-align: center;
+    display: inline-block;
+    width: 10em;
+    height: 10em;
+    margin: 1em 0.33em;
+    border: 0.3em solid #dadada;
+    border-radius: 6em;
+    position: relative;
+    cursor: pointer;
+    transition: all 600ms ease, opacity 1ms;
+    transition-delay: 0s;
+    font-size: 18px;
+    &:hover {
+        border: 0.3em solid #3a9691;
+    }
+    .action-add {
+        margin-left: 5px;
+        font-size: 7.4em;
+        font-weight: 100;
+        color: #3a9691;
+    }
+    .text-add {
+        margin-top: -12px;
+        text-transform: uppercase;
+        font-size: 16px;
+    }
+}
+.body-add {
+    margin: 12px 0;
+}
+
+@media (min-width: 57.625rem) {
+    .col-lg-9 {
+        flex: 0 0 auto;
+        width: 70%;
+    }
+}
+.collection-card.add-collection {
+    cursor: pointer;
+    height: 220px;
+    border-radius: 4px;
+    color: #3a9691;
+    background-color: #fff;
+    .inner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: auto;
+        text-align: center;
+        width: 220px;
+        z-index: 0;
+    }
+}
+.collection-card {
+    position: relative;
+    font-size: 1em;
+    cursor: pointer;
+    width: 220px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0.5em;
+    margin-bottom: 40px;
+    .content {
+        transition: width 50ms ease-in;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.18) inset;
+        border-radius: 8px;
+        overflow: hidden;
+        height: 0;
+        padding-bottom: 100%;
+    }
+}
+.content {
+    box-shadow: none;
+}
+.btn-add-collection {
+    color: #3a9691;
+}

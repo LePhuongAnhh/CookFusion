@@ -68,11 +68,11 @@ const publicRoutes = [
     { path: "/sponsormanagement", component: Sponsor, layout: AdminLayout },
     { path: "/category", component: Category, layout: AdminLayout },
     { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
-    { path: "/profile", component: Profile },
+    { path: "/profile/:id", component: Profile },
     { path: "/formArticle", component: BlogForm },
     { path: "/packageAds", component: PackageAds },
     { path: "/dashboardAds", component: DashboardAds },
-    { path: "/profileSponsor", component: ProfileAds },
+    { path: "/profileSponsor/:id", component: ProfileAds },
     { path: "/payment", component: PaymentModal },
     { path: "/managementArticleAds", component: ManageArticles },
 

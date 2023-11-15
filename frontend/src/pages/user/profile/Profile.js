@@ -1,20 +1,19 @@
 //import từ thư viện bên ngoài
 import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useNavigation, useParams, Link } from "react-router-dom"
 import axios from "axios"
-
 
 //import từ bên trong src
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
 import classNames from 'classnames/bind'
 import styles from './Profile.module.scss'
 import images from '~/assets/images'
-import { Link } from 'react-router-dom'
 import EditProfile from "./EditProfile"
 import CreateBlog from "~/components/Modal/CreateBlog"
 import UpdateBlog from "~/components/Modal/UpdateBlog"
 import DeleteBlog from "~/components/Modal/DeleteBlog"
 import CommentBlog from "~/components/Modal/CommentBlog"
+import FormBlogProfile from "./FormBlogProfile"
 import BlogForm from "~/components/Modal/BlogForm"
 
 const cx = classNames.bind(styles)
@@ -28,9 +27,18 @@ function Profile() {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [events, setEvents] = useState([])
+    const { id } = useParams();
     const updateNewArticle = (data) => {
         console.log('get data update post', data)
     }
+
+    //CHUYEN CAC TAB
+    const [activeTab, setActiveTab] = useState('article');
+    const handleTabChange = (tabId) => {
+        setActiveTab(tabId);
+    };
+    const navigator = useNavigate();
+
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>
@@ -61,70 +69,79 @@ function Profile() {
                                 </div>
                             </div>
                         </div>
-                        <div className="max-w-5xl h-full mx-auto">
-                            <div className="flex flex-col space-y-2 mt-3 items-center justify-center pb-3 border-b-2">
-                                <p
-                                    onClick={() => setShowUpdateProfileModal(true)}
-                                    className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'edit-profile')}
-                                >
-                                    Edit Profile
-                                </p>
-                                <p className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'name-account')}>{profileInformation.name}</p>
-                            </div>
-                            <div className="mt-1 flex items-center justify-between">
-
-                                <div className="flex items-center space-x-2">
-                                    <div className={cx("left")}>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-average")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> Average
-                                        </button>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-recipe")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> Like
-                                        </button>
-                                    </div>
-                                    <div className={cx("right")}>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-blog")} >
-                                            <i className="fas fa-plus-circle  mr-2"></i>comment
-                                        </button>"
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-plan")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> share
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className={("row")}>
+            <div className={("row")} style={{ margin: ' 30px 90px' }}>
                 {/* left  */}
-                <div className="col-lg-3 shadow">
-                    <div className="card mb-4">
-                        <div className="card-body text-center">
+                <div className={cx('row-left')}>
+                    <div className={cx('row-gird', 'card')}>
+                        <div className="p-3 card">
+                            <div className={cx('header-show-info')}>
+                                <p>Information</p>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house-door-fill" viewBox="0 0 16 16">
+                                        <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2"> Đến từ {profileInformation.address}</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2"> {profileInformation.email} </span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <i className="fa fa-music color"></i>
+                                    &nbsp; <span className="ml-2">Following 3 people  </span>
+                                </div>
+                            </div>
+                            <button className={cx("edit")} onClick={() => setShowUpdateProfileModal(true)}><p> Edit</p></button>
                         </div>
                     </div>
                 </div>
+
                 {/* right  */}
-                <div className="col-lg-9 shadow h-auto">
-                    <div className="card mb-4">
+                <div className={cx('row-right')}>
+                    <div className="mb-4">
                         <div className="card-body">
-                            <div>
-                                <ul className={cx("flex", "mb-2", "items-center", "space-x-2")}>
-                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                        <Link to="#"> Blog</Link>
+                            <div className={cx('header-right')}>
+                                <ul role="tablist" className="nav rounded mb-3">
+                                    <li className={cx("nav-item", { 'active': activeTab === 'article' })}>
+                                        <div onClick={() => handleTabChange('article')}>
+                                            Article
+                                        </div>
                                     </li>
-                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                        <Link to="#"> Recipe</Link>
+                                    <li className={cx("nav-item", { 'active': activeTab === 'recipe' })} style={{ marginLeft: "40px" }}>
+                                        <div onClick={() => handleTabChange('recipe')}>
+                                            Recipe
+                                        </div>
                                     </li>
-                                    <li className="py-3 px-2 hover:bg-gray-100 rounded-md font-semibold focus:outline-none">
-                                        <Link to="#"> Plan meal</Link>
+                                    <li className={cx("nav-item", { 'active': activeTab === 'planmeal' })} style={{ marginLeft: "40px" }}>
+                                        <div onClick={() => handleTabChange('planmeal')}>
+                                            Plan meal
+                                        </div>
+                                    </li>
+                                    <li className={cx("nav-item", { 'active': activeTab === 'collection' })} style={{ marginLeft: "40px" }}>
+                                        <div onClick={() => handleTabChange('collection')}>
+                                            Collection
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
-                            <div>
-                                <div className="max-w-6xl h-full mx-auto bg-white p-1">
-                                    {/* chôx tạo bài  */}
+                            {/* HIỂN THỊ TƯƠNG ỨNG */}
+
+                            {/* <div className="max-w-6xl h-full mx-auto bg-white p-1"> */}
+                            <div className="tab-content">
+                                {/* BLOG  */}
+                                <div id="article" className={`tab-pane fade ${activeTab === 'article' ? 'show active pt-3' : ''}`}>
                                     <div className={cx('post_status')}>
                                         <div className={cx('post_hearer')}>
                                             <div className={cx('header_item')}>
@@ -136,7 +153,6 @@ function Profile() {
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div className={cx('post_body')} >
                                             <form onClick={() => setShowCreateBlogModal(true)}>
                                                 <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
@@ -146,10 +162,61 @@ function Profile() {
                                     </div>
 
                                     <div className={cx('post_status')}>
-                                        <BlogForm />
+                                        <BlogForm idProfile={id} />
+                                    </div>
+                                </div>
+
+                                {/* RECIPE */}
+                                <div id="recipe" className={`tab-pane fade ${activeTab === 'recipe' ? 'show active pt-3' : ''}`}>
+                                    <div>
+                                        Các công thức món ăn
+                                    </div>
+                                </div>
+
+                                {/* PLAN MEAL  */}
+                                <div id="planmeal" className={`tab-pane fade ${activeTab === 'planmeal' ? 'show active pt-3' : ''}`}>
+                                    <div>
+                                        các plam meal
+                                    </div>
+                                </div>
+
+                                {/* COLLECTION  */}
+                                <div id="collection" className={`tab-pane fade ${activeTab === 'collection' ? 'show active pt-3' : ''}`}>
+                                    <div className={cx('collection-card')}>
+                                        <div className={cx('collection-add')}>
+                                            <h1> General Collection</h1>
+                                            <div className={cx('add-card')}>
+                                                <div className={cx('account-bubble')}>
+                                                    <div className={cx('body-add')}>
+                                                        <div className={cx('action-add', "bi bi-plus")}>
+                                                        </div>
+                                                        <div className={cx('text-add')}>
+                                                            Recipe
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className={cx('show-save')}>
+
+                                                </div>
+                                            </div>
+                                            <div className={cx("collection-card", "add-collection")}>
+                                                <div className={cx("content")}>
+                                                    <div className={cx("inner-content")}>
+                                                        <button title="New Collection" aria-label="New Collection" className={cx("button", "create-collection-button")}>
+                                                            <span className="icon y-icon" >
+                                                            </span>
+                                                            <span className={cx("create-collection-text", "font-bold")}>New Collection</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            {/* </div> */}
+
                         </div>
                     </div>
                 </div>

@@ -63,6 +63,7 @@ const RecipeForm = () => {
                     },
                 });
                 setAllRecipeData(response.data);
+                console.log(response.data)
             } catch (error) {
                 console.log(error);
             }
@@ -71,7 +72,6 @@ const RecipeForm = () => {
     }, []);
 
 
-    // Check if recipeAllData is an empty array
     if (!recipeAllData || !recipeAllData.data || recipeAllData.data.length === 0) {
         return <p className={cx('loading')}><Loading /> </p>;
     }
@@ -236,7 +236,7 @@ const RecipeForm = () => {
                         )}
                         {showUpdateRecipeModal && (
                             <EditRecipeModal
-                                setShowUpdateRecipeModal={setShowUpdateRecipeModal}                               
+                                setShowUpdateRecipeModal={setShowUpdateRecipeModal}
                             />
                         )}
                     </div>

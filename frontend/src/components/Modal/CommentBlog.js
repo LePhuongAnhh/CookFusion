@@ -20,7 +20,7 @@ import UpdateBlog from "./UpdateBlog"
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
-const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
+const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -116,8 +116,8 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                 },
             });
             if (response.data.success) {
-                handleGetNewComment(response.data.data)
-                handleGetNewCommentSort(response.data.data)
+                handleGetNewComment(response.data.data);
+                handleGetNewCommentSort(response.data.data);
             }
             // Update the comments state and sort them
             setComments((prevComments) =>
@@ -125,6 +125,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
                     (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
                 )
             );
+            // Clear the comment input after submitting
             setCommentData({
                 comment: '',
                 userId: userId,
@@ -134,6 +135,10 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
             console.log(error.response.data.message);
         }
     };
+
+
+    //article cho profile
+    const [articleDataProfile, setArticleDataProfile] = useState('');
 
     // comment reply
     const [replyingToComment, setReplyingToComment] = useState(null);
@@ -152,6 +157,7 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
     };
     //hiện cmt
     useEffect(() => {
+        new Promise(() => fetchData())
         socket.on('addcomment', (comment) => {
             if (selectedArticle._id == comment.comment[0].Article_id) {
                 let cmt = comment.comment[0]
@@ -165,6 +171,22 @@ const CommentBlog = ({ setShowCommentBlogModal, selectedArticle }) => {
             socket.off('addcomment')
         }
     }, [listComment, changeArticle]);
+
+    //apl article cho từng tài khoản đăng nhập
+    const fetchData = async () => {
+        try {
+            var response = await axios.get(`${apiUrl}/article/getlistforprofile/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setArticleDataProfile(response.data.data);
+            console.log('Dữ liệu bài đăng: ', response.data.data);
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    };
+
     return (
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
