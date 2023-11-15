@@ -61,7 +61,7 @@ const Step2_auto = () => {
     useEffect(() => {
         // Access userData from the location state if it's defined
         const userData = location?.state?.userData;
-       }, [location]);
+    }, [location]);
 
     const handleCreateButtonClick = async () => {
         // Combine user data from different steps
@@ -70,7 +70,7 @@ const Step2_auto = () => {
             selectedDisease,
             selectedLosingWeight,
             allergyInput,
-            selectedDie
+            selectedDie: selectedDie || 'Anything',
         };
         console.log('input ddc nhuwngx gif: ', combinedUserData)
         try {
