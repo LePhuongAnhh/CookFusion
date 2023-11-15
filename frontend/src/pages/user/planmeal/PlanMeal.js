@@ -18,9 +18,25 @@ const PlanMeal = () => {
             <div className={cx('plan_meal_contain')}>
                 <div className={cx('plan_meal_contain')}>
                     <div className={cx('plan_header_wrapper')}>
+                        helo
                     </div>
                 </div>
-
+                <div className={cx('advertisement')}>
+                    <div className={cx('advertisement_container')}>
+                        <div className={cx('advertisement_gird')}>
+                            <div className={cx('advertisement_carousel')}>
+                                {/* <img src={Background_slide} /> */}
+                            </div>
+                            <div className={cx('advertisement_box')}>
+                                <span>Introduction</span>
+                                <h3 className={cx('name_h1')}> Quang cao </h3>
+                                <span>
+                                    <Link to="#" className={cx('show_more')}> Show more</Link>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className={cx('create_auto_plan')}>
                     <div className={cx('plan_left')}>
                         <div className={cx('plan_wrapper')}>
@@ -75,6 +91,7 @@ const PlanMeal = () => {
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     )

@@ -20,6 +20,7 @@ const cx = classNames.bind(styles)
 function Profile() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    const Account_id = profileInformation._id
     const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
@@ -27,6 +28,8 @@ function Profile() {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [events, setEvents] = useState([])
+
+
     const { id } = useParams();
     const updateNewArticle = (data) => {
         console.log('get data update post', data)
@@ -38,6 +41,55 @@ function Profile() {
         setActiveTab(tabId);
     };
     const navigator = useNavigate();
+
+    //Add collection
+    const [collectionData, setCollectionData] = useState({
+        Account_id: Account_id,
+        name: '',
+    });
+    const handleChangeCollection = (e) => {
+        setCollectionData({
+            ...collectionData,
+            name: e.target.value,
+        });
+    }
+    //chỉnh sửa gaio diện trong add collection
+    const [isEditing, setIsEditing] = useState(false);
+    const handleAddCollectionClick = () => {
+        setIsEditing(true);
+    };
+    const handleCancelClick = () => {
+        setIsEditing(false);
+    };
+    const handleSaveClick = async (e) => {
+        e.preventDefault();
+        try {
+            const requestData = {
+                name: collectionData.name,
+                Account_id: Account_id,
+            };
+            const response = await axios.post(
+                `${apiUrl}/collection/addcollection`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            console.log(response.data)
+            setIsEditing(false);
+            setCollectionData({
+                name: '',
+                Account_id: Account_id,
+            });
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    };
+
+
+    //Read Collection
 
     return (
         <>
@@ -185,32 +237,61 @@ function Profile() {
                                     <div className={cx('collection-card')}>
                                         <div className={cx('collection-add')}>
                                             <h1> General Collection</h1>
-                                            <div className={cx('add-card')}>
-                                                <div className={cx('account-bubble')}>
-                                                    <div className={cx('body-add')}>
-                                                        <div className={cx('action-add', "bi bi-plus")}>
+                                            <ul className={cx("collection-card", "add-collection")}>
+                                                <li className={cx('mr')}>
+                                                    {isEditing ? (
+                                                        <div className={cx("content", "content-add")}>
+                                                            <div className={cx("inner-content")} style={{ margin: '70px 0' }}>
+                                                                <input
+                                                                    name="name"
+                                                                    className={cx('input-collection-name')}
+                                                                    type="text"
+                                                                    placeholder="Collection name"
+                                                                    value={collectionData.name}
+                                                                    onChange={handleChangeCollection}
+                                                                />
+                                                                <button style={{ color: "#3a9691" }} className={cx('btn-action')} onClick={handleSaveClick}>Save</button>
+                                                                <button className={cx('btn-action')} onClick={handleCancelClick}>Cancel</button>
+                                                            </div>
                                                         </div>
-                                                        <div className={cx('text-add')}>
-                                                            Recipe
+                                                    ) : (
+                                                        <div className={cx("content", "content-add")}>
+                                                            <div className={cx("inner-content")} >
+                                                                <button
+                                                                    title="New Collection"
+                                                                    aria-label="New Collection"
+                                                                    className={cx("btn-add-collection", "create-collection-button")}
+                                                                    onClick={handleAddCollectionClick}
+                                                                >
+                                                                    <div style={{ fontSize: '60px' }} className="bi bi-plus-circle"></div>
+                                                                    <div className={cx("create-collection-text", "font-bold")}>New Collection</div>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </li>
+                                                <li className={cx("content", "content-show", "mr")} >
+                                                    <div className={cx("inner-content")} >
+                                                        <img className={cx('image-collection')} src={images.Background} />
+                                                    </div>
+                                                    <div className={cx('name-collection')}>
+                                                        <div className={cx('name-text', 'name')}>mua thi trơi </div>
+                                                        <div className={cx('number-recipe', 'name')}>3 recipes</div>
+                                                    </div>
+                                                </li>
+
+                                                <li className={cx("content", "content-show", "mr")} >
+                                                    <div className={cx("inner-content")} >
+                                                        <img className={cx('image-collection')} src={images.Background} />
+                                                    </div>
+                                                    <div className="container">
+                                                        <div className={cx('name-collection')}>
+                                                            <div className={cx('name-text', 'name')}>Name</div>
+                                                            <div className={cx('number-recipe', 'name')}>3 recipes</div>
                                                         </div>
                                                     </div>
-                                                </div>
-
-                                                <div className={cx('show-save')}>
-
-                                                </div>
-                                            </div>
-                                            <div className={cx("collection-card", "add-collection")}>
-                                                <div className={cx("content")}>
-                                                    <div className={cx("inner-content")}>
-                                                        <button title="New Collection" aria-label="New Collection" className={cx("button", "create-collection-button")}>
-                                                            <span className="icon y-icon" >
-                                                            </span>
-                                                            <span className={cx("create-collection-text", "font-bold")}>New Collection</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

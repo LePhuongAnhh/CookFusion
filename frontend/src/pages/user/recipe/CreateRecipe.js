@@ -295,8 +295,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         });
     };
 
-
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const nPerson = parseInt(recipeData.nPerson, 10);

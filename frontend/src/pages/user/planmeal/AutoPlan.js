@@ -68,7 +68,6 @@ const AutoPlan = () => {
 
     //activityMode
     const [listActivity, setListActivity] = useState([])
-    const [userhealth, setUserHealth] = useState([])
     useEffect(() => {
         (async () => {
             try {
@@ -85,10 +84,14 @@ const AutoPlan = () => {
                         setSelectedActivity(activityMode.data.data[0]._id);
                     }
                 }
-                // if (getuserHealth.data.success) {
-
-                //     setUserHealth(getuserHealth.data.data.data)
-                // }
+                if (getuserHealth.data.success) {
+                    let oldUser = userInput
+                    oldUser.high = getuserHealth.data.data.data.high
+                    oldUser.weight = getuserHealth.data.data.data.weight
+                    setUserInput(oldUser)
+                    setSelectedOptionMeal(getuserHealth.data.data.data.meal)
+                    setSelectedActivity(getuserHealth.data.data.data.ActivityMode_id)
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -114,12 +117,12 @@ const AutoPlan = () => {
             high: parseInt(userInput.high, 10),
             weight: parseInt(userInput.weight, 10),
             isMale: userInput.isMale,
-            selectedOptionCalorie: parseInt(selectedOptionCalorie, 10),
+            calories: parseInt(selectedOptionCalorie, 10),
             meal: parseInt(meal, 10),
             ActivityMode_id,
         };
         navigate('/step2', { state: { userData: combinedUserData } });
-       
+
     };
 
     return (

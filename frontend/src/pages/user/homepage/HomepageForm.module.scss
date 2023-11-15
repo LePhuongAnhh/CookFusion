@@ -557,55 +557,6 @@ a {
     margin: 25px 535px;
 }
 
-/* ingredients  */
-.ingredients {
-    width: 100%;
-    display: flex;
-}
-
-.ingredients h2 {
-    text-transform: uppercase;
-    margin: 60px 0px 20px 33px;
-}
-
-.ingredients_card {
-    width: 160px;
-    height: 222px;
-    display: inline-block;
-    border-radius: 10px;
-    border: solid 1px #e1e1e1;
-    margin-left: 35px;
-}
-
-.ingredients_img img {
-    margin-top: 5px;
-    margin-left: 5px;
-    overflow: clip;
-    width: 150px;
-    height: 160px;
-    background-size: cover;
-    transition: transform 0.8s;
-}
-
-.ingredients_img:hover img {
-    transform: scale(1.05);
-}
-
-.ingredients_img_card {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-}
-
-.ingredients_link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* TRENDING NOW  */
 .content_show {
     display: flex;
@@ -949,114 +900,10 @@ a {
 }
 
 /*Review*/
-
-.review {
-    /* display: flex; */
-    width: 100%;
-    /* height: 100vh; */
-    padding: 70px 0;
-}
-
-.review h1 {
-    font-size: 55px;
-}
-
-.review h1 span {
-    margin-left: 15px;
-    color: #f46708;
-    font-family: mv boli;
-}
-
-.review h1 span::after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background: #f46708;
-    position: relative;
-    bottom: 15px;
-    display: block;
-}
-
-.review .review_box {
-    width: 95%;
-    margin: 70px auto;
-    display: flex;
-}
-
-.review .review_box .review_card {
-    width: 300px;
-    height: 400px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    padding: 8px 20px;
-    margin: 0 8px;
-}
-
-.review .review_box .review_card .review_profile {
-    display: block;
-}
-
-.review .review_box .review_card:hover .review_profile img {
-    transform: translateY(-60px);
-    transition: 0.4s;
-}
-
-.review .review_box .review_card:hover .review_profile .name {
-    transform: translateY(-45px);
-    transition: 0.3s;
-}
-.review .review_box .review_card:hover .review_profile .review_icon {
-    transform: translateY(-30px);
-    transition: 0.3s;
-}
-.review .review_box .review_card:hover .review_profile .review_social svg {
-    opacity: 1;
-    transform: translateY(-8px);
-    transition: 0.4s;
-}
-
-.review_profile img {
-    width: 150px;
-    height: 150px;
-    margin-left: 40px;
-    object-fit: cover;
-    /* object-position: center; */
-    border-radius: 50%;
-    border: 5px solid #cccccc;
-}
-
-.review_profile,
-.review h1,
-.name,
-.review_icon,
-.review_profile,
-.review_social {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.review_icon svg {
-    color: #f46708;
-    /* background-color: #f46708; */
-    /* background: #f46708; */
-}
-
-.review_social svg {
-    margin: 5px 3px;
-    font-size: 15px;
-    opacity: 0;
-    text-align: justify;
-    transition: 0.4s;
-}
-
-/*Team*/
-
+// * TOP ACCOUNT */
 .team {
     width: 100%;
-    /* height: 90vh; */
-    /* background-image: url(../../../image/avt.jpg); */
+    height: 90vh;
     background-size: cover;
     background-position: center;
 }
@@ -1069,25 +916,12 @@ a {
     margin-bottom: 30px;
 }
 
-.team h1 span {
-    color: #f46708;
-    margin-left: 15px;
-    /* font-family: mv boli; */
-}
-
-.team h1 span::after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background: #f46708;
-    display: block;
-    position: relative;
-    bottom: 15px;
+.name {
+    margin-top: -20px;
 }
 
 .team .team_box {
-    width: 95%;
-    margin: 0 auto;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1096,10 +930,10 @@ a {
 }
 
 .team .team_box .profile {
-    width: 320px;
-    height: 320px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
-    margin: 0 15px;
+    margin: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1109,13 +943,13 @@ a {
 }
 
 .team .team_box .profile:hover {
-    border-radius: 30px;
-    height: 320px;
+    border-radius: 20px;
+    height: 270px;
 }
 
 .team .team_box .profile img {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     object-position: center;
     border-radius: 50%;
@@ -1143,21 +977,26 @@ a {
 
 .team .team_box .profile .info .name {
     color: #f46708;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
+}
+.name {
+    margin-top: -30px;
 }
 
 .team .team_box .profile .info .bio {
-    width: 70%;
+    width: 100%;
+    display: flex;
     text-align: center;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 5px auto;
+    /* background-color: aqua; */
 }
 
-.team .team_box .profile .info .team_icon i {
-    margin: 10px 5px 5px 0;
+.team .team_box .profile .info .team_icon svg {
+    margin: 0px 5px 5px 5px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.team .team_box .profile .info .team_icon i:hover {
+.team .team_box .profile .info .team_icon svg:hover {
     color: #f46708;
 }

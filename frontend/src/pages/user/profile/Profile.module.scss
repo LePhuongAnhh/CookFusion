@@ -246,50 +246,6 @@
 }
 
 //COLLECTION
-.add-collection {
-    h1 {
-        font-size: 18px;
-        line-height: 1.333333333333333;
-        font-family: europa-boldregular, sans-serif;
-        font-weight: 600;
-    }
-}
-.add-card {
-    &:hover {
-        color: #3a9691;
-    }
-}
-.account-bubble {
-    text-align: center;
-    display: inline-block;
-    width: 10em;
-    height: 10em;
-    margin: 1em 0.33em;
-    border: 0.3em solid #dadada;
-    border-radius: 6em;
-    position: relative;
-    cursor: pointer;
-    transition: all 600ms ease, opacity 1ms;
-    transition-delay: 0s;
-    font-size: 18px;
-    &:hover {
-        border: 0.3em solid #3a9691;
-    }
-    .action-add {
-        margin-left: 5px;
-        font-size: 7.4em;
-        font-weight: 100;
-        color: #3a9691;
-    }
-    .text-add {
-        margin-top: -12px;
-        text-transform: uppercase;
-        font-size: 16px;
-    }
-}
-.body-add {
-    margin: 12px 0;
-}
 
 @media (min-width: 57.625rem) {
     .col-lg-9 {
@@ -299,42 +255,118 @@
 }
 .collection-card.add-collection {
     cursor: pointer;
-    height: 220px;
     border-radius: 4px;
-    color: #3a9691;
+    // color: #3a9691;
     background-color: #fff;
+    margin: 25px 0;
     .inner-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        margin: auto;
         text-align: center;
-        width: 220px;
-        z-index: 0;
     }
 }
 .collection-card {
     position: relative;
-    font-size: 1em;
     cursor: pointer;
-    width: 220px;
     box-sizing: border-box;
-    overflow: hidden;
-    margin: 0.5em;
+    display: flex;
+    // margin: 0.5em;
     margin-bottom: 40px;
     .content {
         transition: width 50ms ease-in;
-        box-shadow: 0 0 2px rgba(0, 0, 0, 0.18) inset;
         border-radius: 8px;
-        overflow: hidden;
-        height: 0;
-        padding-bottom: 100%;
+        width: 215px;
+        height: 215px;
+        box-shadow: none;
     }
 }
-.content {
-    box-shadow: none;
+.collection-add {
+    ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        margin-right: 20px; /* Để tạo khoảng cách giữa các li */
+    }
+
+    li:last-child {
+        margin-right: 0; /* Không có margin cho li cuối cùng */
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .content-add {
+        // margin-top: 70px; /* Khoảng cách giữa content và content-add */
+    }
+}
+
+.content-add {
+    border: 2px dashed #959898;
+}
+.content-show {
+    margin: 0 5px;
+}
+.mr {
+    margin-right: 25px;
 }
 .btn-add-collection {
     color: #3a9691;
+    margin: 45px 0;
+}
+.create-collection-text {
+    margin-top: 5px;
+}
+.input-collection-name {
+    border: none;
+    font-weight: 600;
+    padding: 9px 25px;
+    font-size: 20px;
+    height: 31px;
+    width: 100%;
+}
+.input-collection-name:focus {
+    color: #3a9691; /* Màu xanh khi focus */
+    font-weight: 400; /* Font đậm khi focus */
+}
+.btn-action {
+    font-size: 16px;
+    font-weight: 600;
+    color: #959898;
+    text-transform: uppercase;
+}
+
+//show-collection
+.image-collection {
+    width: 215px;
+    height: 215px;
+    border-radius: 8px;
+}
+.name-collection {
+    margin-top: 10px;
+    display: flex;
+    font-size: 16px;
+    &:hover {
+        color: #3a9691;
+    }
+}
+.name-collection {
+    display: flex;
+}
+
+.name {
+    font-size: 17px;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name-text {
+    margin-right: auto; /* Đẩy nó về bên trái */
+}
+
+.number-recipe {
+    margin-left: auto; /* Đẩy nó về bên phải */
 }

@@ -233,8 +233,6 @@ function DetailRecipe() {
             });
         }
     };
-
-
     const handleSubmitComment = async (e) => {
         e.preventDefault();
         try {
@@ -606,8 +604,7 @@ function DetailRecipe() {
                                     )}
                                 </Box>
                             </div>
-                            {/* HIEN COMMENT  */}
-                            {
+                            {/* HIEN COMMENT  */}                            {
                                 recipeData.data[0].comments.length > 0 && recipeData.data[0].comments.map((comment) => (
                                     <div className={cx('read_review')}>
                                         <div className={cx('avt_read')}>

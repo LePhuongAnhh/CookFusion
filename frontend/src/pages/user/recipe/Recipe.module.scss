@@ -143,7 +143,6 @@
     display: flex;
 }
 
-
 .loading {
     // margin: 200px 0;
 }
@@ -297,108 +296,6 @@ text h2 {
 /* NEW RECIPE  */
 .recipe_card h2 {
     margin-left: 35px;
-}
-
-/* TOP ACCOUNT  */
-
-.team {
-    width: 100%;
-    height: 90vh;
-    background-size: cover;
-    background-position: center;
-}
-
-.team h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 55px;
-    margin-bottom: 30px;
-}
-
-.name {
-    margin-top: -20px;
-}
-
-.team .team_box {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 13%;
-}
-
-.team .team_box .profile {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    margin: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    transition: 0.4s;
-}
-
-.team .team_box .profile:hover {
-    border-radius: 20px;
-    height: 270px;
-}
-
-.team .team_box .profile img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    z-index: 2;
-    transition: 0.4s;
-}
-
-.team .team_box .profile:hover img {
-    border-radius: 20px;
-    margin-top: -230px;
-}
-
-.team .team_box .profile .info {
-    position: absolute;
-    text-align: center;
-    top: 25%;
-    transition: 0.4s;
-}
-
-.team .team_box .profile:hover .info {
-    top: 60%;
-}
-
-.team .team_box .profile .info .name {
-    color: #f46708;
-    /* margin-bottom: 15px; */
-}
-.name {
-    margin-top: -30px;
-}
-
-.team .team_box .profile .info .bio {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    margin: 0 auto 5px auto;
-    /* background-color: aqua; */
-}
-
-.team .team_box .profile .info .team_icon svg {
-    margin: 0px 5px 5px 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.team .team_box .profile .info .team_icon svg:hover {
-    color: #f46708;
 }
 
 //create RECIPE

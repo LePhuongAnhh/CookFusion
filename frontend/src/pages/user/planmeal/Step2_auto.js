@@ -22,7 +22,7 @@ const Step2_auto = () => {
         div5: { backgroundColor: 'initial', color: 'initial' },
         div6: { backgroundColor: 'initial', color: 'initial' },
     });
-    const changeStyles = (clickedDiv) => {
+    const changeStyles = (clickedDiv, category) => {
         const newDivStyles = { ...divStyles };
         // Đặt màu nền và màu chữ của tất cả các div thành màu ban đầu
         for (let key in newDivStyles) {
@@ -32,7 +32,7 @@ const Step2_auto = () => {
         newDivStyles[clickedDiv] = { backgroundColor: '#007bff', color: 'white' };
         // Cập nhật state với styles mới
         setDivStyles(newDivStyles);
-        setSelectedDie(clickedDiv);
+        setSelectedDie(category);
     };
 
     // Access userData from the location state if it's defined
@@ -41,13 +41,13 @@ const Step2_auto = () => {
     const [selectedDie, setSelectedDie] = useState('');
 
     //selet DESEASE
-    const [selectedDisease, setSelectedDisease] = useState('bình thường ');
-    const diseaseOptions = [
-        { value: 'bình thường', label: 'Toi khoe manh' },
+    const [selectedDisease, setSelectedDisease] = useState({ value: 'Bth', label: 'Toi khoe manh' });
+    const [diseaseOptions, setDisease] = useState([
+        { value: 'Bth', label: 'Toi khoe manh' },
         { value: 'Tim', label: 'Disease 2' },
         { value: 'Gan', label: 'Disease 3' },
-    ];
-
+    ])
+    const [listCategories, setListCategories] = useState([])
     // chọn giảm cân
     const [selectedLosingWeight, setSelectedLosingWeight] = useState('');
     const losingWeightOptions = [
@@ -59,7 +59,25 @@ const Step2_auto = () => {
     ];
 
     useEffect(() => {
-        // Access userData from the location state if it's defined
+        const fetchData = async () => {
+            try {
+                const [listCategory, listDisease] = await Promise.all([
+                    axios.get(`${apiUrl}/mealplan/getallcategory`),
+                    axios.get(`${apiUrl}/disease/getall`),
+                ])
+                if (listCategory.data.success && listDisease.data.success) {
+                    setListCategories(listCategory.data.data)
+                    listDisease.data.data.data.map((disease, index) => {
+                        if (index != 4) diseaseOptions[index] = { value: disease._id, label: disease.name }
+                    })
+                    setDisease(diseaseOptions)
+                    setSelectedDisease({ value: listDisease.data.data.data[4]._id, label: listDisease.data.data.data[4].name })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        new Promise(() => fetchData())
         const userData = location?.state?.userData;
     }, [location]);
 
@@ -67,9 +85,9 @@ const Step2_auto = () => {
         // Combine user data from different steps
         const combinedUserData = {
             ...userData,
-            selectedDisease,
-            selectedLosingWeight,
-            allergyInput,
+            Disease_id: selectedDisease.value,
+            loseWeight: (!selectedLosingWeight) ? 0 : parseFloat(selectedLosingWeight),
+            blackFoodList: (!allergyInput) ? [] : allergyInput,
             selectedDie: selectedDie || 'Anything',
         };
         try {
@@ -82,8 +100,7 @@ const Step2_auto = () => {
                     },
                 }
             );
-            console.log("Server response after creating auto meal plan:", response.data);
-            // navigate('/result_auto');
+            navigate('/result_auto', { state: { data: response.data } });
         } catch (error) {
             console.error("Error creating auto meal plan:", error);
         }
@@ -117,45 +134,51 @@ const Step2_auto = () => {
                                     <div className={cx('die')}>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div1}
-                                            onClick={() => changeStyles('div1')}
+                                            onClick={() => changeStyles('div1', listCategories[0].name)}
                                         >
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Anything} /> Anything
+                                                <img src={images.Anything} />
+                                                {(listCategories && listCategories[0]) ? listCategories[0].name : 'Anything'}
                                             </a>
                                         </div>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div2}
-                                            onClick={() => changeStyles('div2')}>
+                                            onClick={() => changeStyles('div2', listCategories[5].name)}>
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Medi} /> Mediterranean
+                                                <img src={images.Medi} />
+                                                {(listCategories && listCategories[5]) ? listCategories[5].name : ' Mediterranean'}
                                             </a>
                                         </div>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div3}
-                                            onClick={() => changeStyles('div3')}>
+                                            onClick={() => changeStyles('div3', listCategories[1].name)}>
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Keto} /> Ketogenic
+                                                <img src={images.Keto} />
+                                                {(listCategories && listCategories[1]) ? listCategories[1].name : 'Ketogenic'}
                                             </a>
                                         </div>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div4}
-                                            onClick={() => changeStyles('div4')}>
+                                            onClick={() => changeStyles('div4', listCategories[2].name)}>
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Paleo} /> Paleo
+                                                <img src={images.Paleo} />
+                                                {(listCategories && listCategories[2]) ? listCategories[2].name : 'Paleo'}
                                             </a>
                                         </div>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div5}
-                                            onClick={() => changeStyles('div5')}>
+                                            onClick={() => changeStyles('div5', listCategories[4].name)}>
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Veget} /> Vegetarian
+                                                <img src={images.Veget} />
+                                                {(listCategories && listCategories[4]) ? listCategories[4].name : 'Vegetarian'}
                                             </a>
                                         </div>
                                         <div className={cx('nav_item')}
                                             style={divStyles.div6}
-                                            onClick={() => changeStyles('div6')}>
+                                            onClick={() => changeStyles('div6', listCategories[3].name)}>
                                             <a className={cx('nav_link')}>
-                                                <img src={images.Vegan} /> Vegan
+                                                <img src={images.Vegan} />
+                                                {(listCategories && listCategories[3]) ? listCategories[3].name : ' Vegan'}
                                             </a>
                                         </div>
                                     </div>
@@ -168,7 +191,7 @@ const Step2_auto = () => {
                                         onChange={(e) => setSelectedDisease(e.target.value)}
                                         className={cx('input_allergy')}
                                     >
-                                        <option value=''>Select a </option>
+                                        <option value={selectedDisease.value}>{selectedDisease.label}</option>
                                         {diseaseOptions.map((option) => (
                                             <option key={option.value} value={option.value}>
                                                 {option.label}
@@ -186,7 +209,7 @@ const Step2_auto = () => {
                                         onChange={(e) => setSelectedLosingWeight(e.target.value)}
                                         className={cx('input_allergy')}
                                     >
-                                        <option value=''>Select an option</option>
+                                        <option value=''>None</option>
                                         {losingWeightOptions.map((option) => (
                                             <option key={option.value} value={option.value}>
                                                 {option.label}
