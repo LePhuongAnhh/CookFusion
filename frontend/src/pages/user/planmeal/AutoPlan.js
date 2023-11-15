@@ -19,24 +19,27 @@ const AutoPlan = () => {
     const location = useLocation();
 
     //chọn calo
-    const [selectedOptionCalorie, setSelectedOptionCalorie] = useState('option1');
+    const [selectedOptionCalorie, setSelectedOptionCalorie] = useState('0');
     const handleSelectChangeCalorie = (event) => {
-        setSelectedOptionCalorie(event.target.value);
+        setSelectedOptionCalorie(event.target.value || '0');
     };
 
     //chọn bữa ăn
-    const [selectedOptionMeal, setSelectedOptionMeal] = useState('3');
+    const [meal, setSelectedOptionMeal] = useState('3');
     const handleSelectChangeMeal = (event) => {
         setSelectedOptionMeal(event.target.value);
     };
     //chon activity
-    const [selectedActivity, setSelectedActivity] = useState('');
+    const [ActivityMode_id, setSelectedActivity] = useState('');
     const handleActivityChange = (event) => {
         setSelectedActivity(event.target.value);
     };
 
     //chọn gender
     const [selectedGender, setSelectedGender] = useState('male');
+    //thong bao lỗi
+    const [errorAge, setErrorAge] = useState('');
+    const [errorHigh, setErrorHigh] = useState('');
 
     //
     const [userInput, setUserInput] = useState({
@@ -46,6 +49,7 @@ const AutoPlan = () => {
         weight: '',
         isMale: selectedGender === 'male',
     });
+
     const handleGenderChange = (gender) => {
         setSelectedGender(gender);
         setUserInput((prevUserInput) => ({
@@ -55,6 +59,7 @@ const AutoPlan = () => {
     };
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const numericValue = name === 'high' || name === 'weight' ? parseInt(value, 10) : value;
         setUserInput((prevUserInput) => ({
             ...prevUserInput,
             [name]: value,
@@ -75,11 +80,15 @@ const AutoPlan = () => {
                 ])
                 if (activityMode.data.success) {
                     setListActivity(activityMode.data.data)
+                    //Nếu danh sách không rỗng, đặt giá trị mặc định là ID của cái đầu tiên
+                    if (activityMode.data.data.length > 0) {
+                        setSelectedActivity(activityMode.data.data[0]._id);
+                    }
                 }
-                if (getuserHealth.data.success) {
-                    console.log(" cái gì đây: ", getuserHealth.data.data.data)
-                    setUserHealth(getuserHealth.data.data.data)
-                }
+                // if (getuserHealth.data.success) {
+
+                //     setUserHealth(getuserHealth.data.data.data)
+                // }
             } catch (error) {
                 console.log(error)
             }
@@ -89,24 +98,29 @@ const AutoPlan = () => {
 
     //chuyenqau trang sau
     const handleNextButtonClick = async () => {
+        setErrorAge('');
+        setErrorHigh('');
+        if (!userInput.high) {
+            setErrorHigh("Vui lòng nhập chiều cao trước khi chuyển tiếp.");
+            return;
+        }
+        if (!userInput.age) {
+            setErrorAge("Vui lòng nhập tuổi trước khi chuyển tiếp.");
+            return;
+        }
         const combinedUserData = {
             User_id,
-            age: userInput.age,
-            high: userInput.high,
-            weight: userInput.weight,
+            age: parseInt(userInput.age, 10),
+            high: parseInt(userInput.high, 10),
+            weight: parseInt(userInput.weight, 10),
             isMale: userInput.isMale,
-            selectedOptionCalorie,
-            selectedOptionMeal,
-            selectedActivity,
+            selectedOptionCalorie: parseInt(selectedOptionCalorie, 10),
+            meal: parseInt(meal, 10),
+            ActivityMode_id,
         };
         navigate('/step2', { state: { userData: combinedUserData } });
         console.log('Data sent to Step2_auto:', combinedUserData);
     };
-
-    // Inside AutoPlan component
-    console.log('User_id:', User_id);
-    console.log('Other variables:', userInput, selectedOptionCalorie, selectedOptionMeal, selectedActivity);
-
 
     return (
         <div className={cx('auto_plan')}>
@@ -172,10 +186,12 @@ const AutoPlan = () => {
                                     /> &nbsp; kg
                                 </div>
                             </div>
+
                             <div className={cx('while_block')}>
                                 <div className={cx('block_title')}>Chiều cao</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <input
+                                        required
                                         min="1"
                                         type='number'
                                         name='high'
@@ -187,10 +203,12 @@ const AutoPlan = () => {
                                     &nbsp; cm
                                 </div>
                             </div>
+                            {errorHigh && <div className={cx('error-message')}>{errorHigh}</div>}
                             <div className={cx('while_block')}>
                                 <div className={cx('block_title')}>Tuổi</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <input
+                                        required
                                         min="1"
                                         type="number"
                                         name="age"
@@ -201,11 +219,12 @@ const AutoPlan = () => {
                                     /> &nbsp; years
                                 </div>
                             </div>
+                            {errorAge && <div className={cx('error-message')}>{errorAge}</div>}
                             <div className={cx('while_block')}>
                                 <div className={cx('block_title')}>Your activity mode</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <select
-                                        value={selectedActivity}
+                                        value={ActivityMode_id}
                                         onChange={handleActivityChange}
                                         className={cx('select_calorie')}
                                         placeholder="calories">
@@ -231,7 +250,7 @@ const AutoPlan = () => {
                                 </div>
                                 <div className={cx('block_title')}>In</div>
                                 <div className={cx('while_block_wrapper')}>
-                                    <select value={selectedOptionMeal} onChange={handleSelectChangeMeal} className={cx('select_calorie')} placeholder="calories">
+                                    <select value={meal} onChange={handleSelectChangeMeal} className={cx('select_calorie')} placeholder="calories">
                                         <option value="3"> 3 meals</option>
                                         <option value="4"> 4 meals</option>
                                         <option value="5"> 5 meals</option>

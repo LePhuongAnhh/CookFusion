@@ -61,8 +61,7 @@ const Step2_auto = () => {
     useEffect(() => {
         // Access userData from the location state if it's defined
         const userData = location?.state?.userData;
-        console.log('Received data in Step2_auto:', userData);
-    }, [location]);
+       }, [location]);
 
     const handleCreateButtonClick = async () => {
         // Combine user data from different steps
