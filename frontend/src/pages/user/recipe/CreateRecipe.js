@@ -65,6 +65,12 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                 { id: 14, name: 'lợn' },
                 { id: 15, name: 'ngan' },
                 { id: 16, name: 'bo' },
+                { id: 17, name: 'Sắn' },
+                { id: 18, name: 'gao' },
+                { id: 19, name: 'vit' },
+                { id: 20, name: 'lợn' },
+                { id: 21, name: 'ngan' },
+                { id: 22, name: 'bo' },
             ],
         },
 
@@ -438,48 +444,65 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 </span>
                                             </div>
                                         </div>
+
+                                        {/* Hiển thị kết quả tìm kiếm Category */}
+                                        {!categorySelected && (
+                                            <div className={cx("search-results")}>
+                                                <ul>
+                                                    {limitedCategoryResults.map((category) => (
+                                                        <li key={category.id} onClick={() => handleCategorySelect(category.name)}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                                            </svg> &nbsp;
+                                                            {category.name}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                        {/* hiện kết quae search ingredient của category đc chọn */}
+                                        {categorySelected && searchTerm && limitedIngredientResults.length > 0 && (
+                                            <div className={cx("search-results")}>
+                                                <ul>
+                                                    {limitedIngredientResults.map((result) => (
+                                                        <li key={result.id} onClick={() => handleIngredientSelect(result)}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                                            </svg> &nbsp;
+                                                            {result.name}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                        {/* Hiển thị các ingredient đã chọn */}
+                                        {selectedIngredients.length > 0 && (
+                                            <div className={cx('ingredient-selected')}>
+                                                <h4>Selected Ingredients</h4>
+                                                <ul>
+                                                    {selectedIngredients.map((ingredient) => (
+                                                        <li key={ingredient.id} className={cx('show_ingrs')}>
+                                                            <div className={cx('type_add')}>
+                                                                <i className="bi bi-plus-circle" style={{ marginTop: '2px' }}></i>
+                                                            </div>
+                                                            <li className={cx('ingredient_line')}>
+                                                                <span className={cx('name_ingrs')}>{ingredient.name}</span> &nbsp;
+                                                                <span className={cx('amount_ingrs')}>
+                                                                    <button onClick={() => handleRemoveIngredient(ingredient)}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </span>
+                                                            </li>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
                                     </div>
-
-                                    {/* Hiển thị kết quả tìm kiếm Category */}
-                                    {!categorySelected && (
-                                        <div className="search-results">
-                                            <ul>
-                                                {limitedCategoryResults.map((category) => (
-                                                    <li key={category.id} onClick={() => handleCategorySelect(category.name)}>
-                                                        {category.name}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {/* hiện kết quae search ingredient của category đc chọn */}
-                                    {categorySelected && searchTerm && limitedIngredientResults.length > 0 && (
-                                        <div className="search-results">
-                                            <ul>
-                                                {limitedIngredientResults.map((result) => (
-                                                    <li key={result.id} onClick={() => handleIngredientSelect(result)}>
-                                                        {result.name}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {/* Hiển thị các ingredient đã chọn */}
-                                    {selectedIngredients.length > 0 && (
-                                        <div>
-                                            <h4>Selected Ingredients:</h4>
-                                            <ul>
-                                                {selectedIngredients.map((ingredient) => (
-                                                    <li key={ingredient.id}>
-                                                        {ingredient.name}
-                                                        <button onClick={() => handleRemoveIngredient(ingredient)}> x</button>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
                                 </div>
                                 <div className={cx('bottom_card')}>
                                     <h3 className={cx('column_title')}>Instructions</h3>
