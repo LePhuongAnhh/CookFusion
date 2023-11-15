@@ -148,6 +148,20 @@ const ResultAuto = () => {
                             <div className={cx('day_header')}>
                                 <div className={cx('day_title')}>Today's Meal Plan</div>
                             </div>
+
+                            <form>
+                                <div className="form-group">
+                                    <label className="sr-only">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        required=""
+                                        id="nameNine"
+                                        placeholder="Name plan meal" />
+                                </div>
+                                <button type="submit" className="btn text-center btn-blue">Send Message</button>
+                            </form>
+
                             <div className={cx('single_day')}>
                                 <div>
                                     <div></div>
