@@ -13,8 +13,8 @@ import CreateBlog from "~/components/Modal/CreateBlog"
 import UpdateBlog from "~/components/Modal/UpdateBlog"
 import DeleteBlog from "~/components/Modal/DeleteBlog"
 import CommentBlog from "~/components/Modal/CommentBlog"
-import FormBlogProfile from "./FormBlogProfile"
 import BlogForm from "~/components/Modal/BlogForm"
+import RecipeForm from "../recipe/RecipeForm"
 
 const cx = classNames.bind(styles)
 function Profile() {
@@ -31,8 +31,8 @@ function Profile() {
 
 
     const { id } = useParams();
+
     const updateNewArticle = (data) => {
-        console.log('get data update post', data)
     }
 
     //CHUYEN CAC TAB
@@ -220,8 +220,11 @@ function Profile() {
 
                                 {/* RECIPE */}
                                 <div id="recipe" className={`tab-pane fade ${activeTab === 'recipe' ? 'show active pt-3' : ''}`}>
-                                    <div>
-                                        Các công thức món ăn
+                                    <div className={cx('header-recipe')}>
+                                        <span> Wow, you have created 43 recipes</span>
+                                    </div>
+                                    <div className={cx('body-recipe')}>
+                                        <RecipeForm idProfile={id} />
                                     </div>
                                 </div>
 

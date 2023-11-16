@@ -133,12 +133,16 @@ const Article = (props) => {
                                                     </div>
                                                 </Link>
                                                 <div className={cx('show_name')}>
-                                                    <h6>
+                                                    {/* <h6>
                                                         <Link to="#">{following.following_id}</Link>
-                                                    </h6>
-                                                    <div className={cx('btn_follow1')}>
+                                                    </h6> */}
+                                                    <Link to={`/profile/${encodeURIComponent(following.following_id)}`} className={cx('btn_follow1')}>
                                                         <span className={cx('follow')}>{following.followingName}</span>
-                                                    </div>                                                                                    </div>
+                                                    </Link>
+                                                    <p>
+                                                        <div className={cx('count-follower')}> 3 follower</div>
+                                                    </p>
+                                                </div>
                                             </div>
                                         ))}
 
@@ -230,8 +234,11 @@ const Article = (props) => {
                                     {ads.length > 0 && ads.map((ad) => (
                                         <Link key={ad.id} className={cx('ad-link')}>
                                             <div className={cx('ad-container')}>
-                                                <p className={cx('ad-title')}>{ad.title[0]}</p>
-                                                <p className={cx('ad-sponsor')}>Sponsored by {ad.user[0]}</p>
+                                                <p className={cx('ad-title')}>
+                                                    <div className={cx('sp-title')}>{ad.title[0]}</div>
+                                                    <div className={cx('sp-user')}> {ad.user[0]}</div>
+                                                </p>
+                                                {/* <p className={cx('ad-sponsor')}>Sponsored by {ad.user[0]}</p> */}
                                                 <img className={cx('show-imgage-sp')} src={ad.image} alt={ad.title[0]} />
                                             </div>
                                         </Link>

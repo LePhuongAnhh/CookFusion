@@ -180,6 +180,8 @@ input:focus {
 .follow-box {
     overflow: auto;
     max-height: 340px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .show_info1 {
@@ -417,7 +419,7 @@ h5 {
     flex: 1;
     margin-left: 1.2rem;
     margin-top: 3px;
-    color: var(--main-text-color);
+    font-weight: 0;
 }
 .header_add_follow {
     border-radius: 2px;
@@ -495,10 +497,6 @@ h5 {
     margin-right: 4px;
 }
 
-.follow {
-    font-size: 12px;
-}
-
 .border_line {
     margin: 10px 0;
     border-bottom: 1px dashed #d8e2ef;
@@ -563,17 +561,15 @@ h5 {
 }
 .follow {
     margin-bottom: 2px;
+    font-size: 15px;
 }
-
+.count-follower {
+    font-size: 14px;
+}
 .info_adver2 {
     /* color: rgba(35, 46, 60, 1); */
     margin-bottom: 2px;
 }
-.follow,
-.info_adver3 {
-    color: #5e6e82;
-}
-
 .right_footer {
     border-radius: 0 0 2px 2px;
     background-color: rgba(249, 250, 253, 1);
@@ -620,30 +616,61 @@ h5 {
 }
 
 .show-imgage-sp {
-    width: 248px;
-    height: 200px;
+    width: 235px;
+    height: 180px;
     border-radius: 5px;
-}
-.ad-link {
-    text-decoration: none;
-    color: inherit; /* Optional: maintain the link color */
+    margin-bottom: 27px;
 }
 
 .ad-container {
     position: relative;
-    margin: 0 0 15px;
+    overflow: hidden;
 }
 
-.ad-title,
-.ad-sponsor {
-    position: absolute;
-    top: 0; /* Adjust this value based on your layout */
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background color to make text more readable */
-    padding: 10px;
+.ad-container:hover .ad-sponsor {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
+
+.ad-title {
+    position: absolute;
+    top: 40%;
+    color: #363636;
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.275), rgba(255, 255, 255, 0.8));
+    padding: 10px;
+    opacity: 0;
+    width: 100%;
+    height: 100px;
+    transition: transform 0.5s, opacity 0.5s;
+}
+.sp-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+.sp-user {
+    color: black;
+    font-size: 15px;
+}
+
+.ad-container:hover .ad-title {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.show-image-sp {
+    width: 100%;
+    display: block;
+    transition: filter 0.3s ease;
+}
+
+.ad-container:hover .show-image-sp {
+    filter: brightness(70%);
+}
+
 //responsive
 .nav-mobile {
     display: none;

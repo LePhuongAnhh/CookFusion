@@ -204,7 +204,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
                         <div className={cx('post_hearer_between')}>
                             <div className={cx('post_img_left')}>
                                 <div className={cx('d_flex')}>
-                                    <Link to="#" className={cx('d_flex')}>
+                                    <Link to={`/profile/${encodeURIComponent(selectedArticle.userUpload[0]._id)}`} className={cx('d_flex')}>
                                         <div className={cx('header_avatar')}>
                                             <img
                                                 className={cx('circle_avt1')}
@@ -214,7 +214,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
                                     </Link>
                                     <div className={cx('name_account')}>
                                         <p className={cx('name_user')}>
-                                            <Link to="#" className={cx('post_name_account')}>{selectedArticle.userUpload[0].name}&nbsp;</Link>
+                                            <Link to={`/profile/${encodeURIComponent(selectedArticle.userUpload[0]._id)}`} className={cx('post_name_account')}>{selectedArticle.userUpload[0].name}&nbsp;</Link>
                                             <span className={cx('share_album')}>
                                                 share post {selectedArticle.title}
                                             </span>
@@ -367,14 +367,14 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
                             listComment && listComment.map((comment, index) => (
                                 (
                                     <div className={cx('read_comment')}>
-                                        <Link to="#">
+                                        <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`}>
                                             <div className={cx('avatar_comment')}>
                                                 <img className={cx('circle_avt')} src={comment.usercomment.avatar} />
                                             </div>
                                         </Link>
                                         <div className={cx('read_cmt')}>
                                             <p className={cx('content_cmt')}>
-                                                <Link className={cx('name_account_cmt')}>
+                                                <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`} className={cx('name_account_cmt')}>
                                                     {comment.usercomment.name}
                                                 </Link>
                                                 <span className={cx('view_cmt')}>

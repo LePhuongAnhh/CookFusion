@@ -347,7 +347,7 @@ function DetailRecipe() {
                                                 <Link to="" className={cx('source_link')}>{recipeData.data[0].Category}</Link>
                                             </span>
                                             <div className={cx('recipe_rating')}>
-                                                Author: <Link to="" className={cx('source_link')}>{recipeData.data[0].user[0].name}</Link>
+                                                Author: <Link to={`/profile/${encodeURIComponent(recipeData.data[0].user[0]._id)}`} className={cx('source_link')}>{recipeData.data[0].user[0].name}</Link>
                                                 <span className={cx('count_rating')}>{recipeData.data[0].timeUpload.substring(0, 10)}</span>
                                             </div>
                                         </div>
@@ -608,13 +608,13 @@ function DetailRecipe() {
                                 recipeData.data[0].comments.length > 0 && recipeData.data[0].comments.map((comment) => (
                                     <div className={cx('read_review')}>
                                         <div className={cx('avt_read')}>
-                                            <Link to="#" className={cx('avt_read_review')}>
+                                            <Link to={`/profile/${encodeURIComponent(comment.userComment._id)}`}>
                                                 <img src={comment.userComment.avatar} />
                                             </Link>
                                         </div>
                                         <div className={cx('review_content_cmt')}>
                                             <div className={cx('review_name')}>
-                                                <Link to="#">{comment.userComment.name}</Link>
+                                                <Link to={`/profile/${encodeURIComponent(comment.userComment._id)}`}>{comment.userComment.name}</Link>
                                                 <span className={cx('time_review')}>{comment.timeComment.substring(0, 10)}</span>
                                             </div>
                                             <div className={cx('review_rating')}>

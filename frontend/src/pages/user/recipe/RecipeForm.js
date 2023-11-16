@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles)
-const RecipeForm = () => {
+const RecipeForm = (idProfile) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const Account_id = profileInformation._id;
@@ -52,10 +52,17 @@ const RecipeForm = () => {
         setRecipeIdToDelete(recipeId);
         setShowDeleteRecipeModal(true);
     };
-    const [changeRecipe, setChangeRecipe] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
+            // if (idProfile) {
+            //     // var response = await axios.get(`${apiUrl}/article/getlistforprofile/${idProfile}`, {
+            //     //     headers: {
+            //     //         Authorization: `Bearer ${accessToken}`,
+            //     //     },
+            //     // });
+            // }
+            // else {
             try {
                 const response = await axios.get(`${apiUrl}/recipe/getall`, {
                     headers: {
@@ -67,6 +74,7 @@ const RecipeForm = () => {
             } catch (error) {
                 console.log(error);
             }
+            // }
         };
         fetchData();
     }, []);
