@@ -224,7 +224,7 @@ function Profile() {
                                         <span> Wow, you have created 43 recipes</span>
                                     </div>
                                     <div className={cx('body-recipe')}>
-                                        <RecipeForm idProfile={id} />
+
                                     </div>
                                 </div>
 
@@ -233,81 +233,110 @@ function Profile() {
                                     <div>
                                         các plam meal
                                     </div>
-                                </div>
 
-                                {/* COLLECTION  */}
-                                <div id="collection" className={`tab-pane fade ${activeTab === 'collection' ? 'show active pt-3' : ''}`}>
-                                    <div className={cx('collection-card')}>
-                                        <div className={cx('collection-add')}>
-                                            <h1> General Collection</h1>
-                                            <ul className={cx("collection-card", "add-collection")}>
-                                                <li className={cx('mr')}>
-                                                    {isEditing ? (
-                                                        <div className={cx("content", "content-add")}>
-                                                            <div className={cx("inner-content")} style={{ margin: '70px 0' }}>
-                                                                <input
-                                                                    name="name"
-                                                                    className={cx('input-collection-name')}
-                                                                    type="text"
-                                                                    placeholder="Collection name"
-                                                                    value={collectionData.name}
-                                                                    onChange={handleChangeCollection}
-                                                                />
-                                                                <button style={{ color: "#3a9691" }} className={cx('btn-action')} onClick={handleSaveClick}>Save</button>
-                                                                <button className={cx('btn-action')} onClick={handleCancelClick}>Cancel</button>
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <div className={cx("content", "content-add")}>
-                                                            <div className={cx("inner-content")} >
-                                                                <button
-                                                                    title="New Collection"
-                                                                    aria-label="New Collection"
-                                                                    className={cx("btn-add-collection", "create-collection-button")}
-                                                                    onClick={handleAddCollectionClick}
-                                                                >
-                                                                    <div style={{ fontSize: '60px' }} className="bi bi-plus-circle"></div>
-                                                                    <div className={cx("create-collection-text", "font-bold")}>New Collection</div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </li>
-                                                <li className={cx("content", "content-show", "mr")} >
-                                                    <div className={cx("inner-content")} >
-                                                        <img className={cx('image-collection')} src={images.Background} />
+                                    <div className={("container-fluid d-flex justify-content-center")}>
+                                        <div className={cx("list", "list-row", "card")} id="sortable" data-sortable-id="0" aria-dropeffect="move">
+                                            <div className={cx('card-planmeal')}>
+                                                <div className={cx("list-item")} data-id="13" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" >
+                                                    <div>
+                                                        <a href="#" data-abc="true">
+                                                            <span className={cx("w-40", "avatar", "gd-primary")}>P</span>
+                                                        </a>
                                                     </div>
-                                                    <div className={cx('name-collection')}>
-                                                        <div className={cx('name-text', 'name')}>mua thi trơi </div>
-                                                        <div className={cx('number-recipe', 'name')}>3 recipes</div>
+                                                    <div className={cx("flex")}>
+                                                        <a href="#" className={cx("item-author", "text-color")} data-abc="true">Ten Plan meal</a>
                                                     </div>
-                                                </li>
+                                                    <div className={cx("no-wrap")}>
+                                                        <div className={("item-date", "text-muted", "text-sm", "d-none", "d-md-block")}>3 weeks ago
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
 
-                                                <li className={cx("content", "content-show", "mr")} >
-                                                    <div className={cx("inner-content")} >
-                                                        <img className={cx('image-collection')} src={images.Background} />
-                                                    </div>
-                                                    <div className="container">
-                                                        <div className={cx('name-collection')}>
-                                                            <div className={cx('name-text', 'name')}>Name</div>
-                                                            <div className={cx('number-recipe', 'name')}>3 recipes</div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                </div>
+
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* COLLECTION  */}
+                            <div id="collection" className={`tab-pane fade ${activeTab === 'collection' ? 'show active pt-3' : ''}`}>
+                                <div className={cx('collection-card')}>
+                                    <div className={cx('collection-add')}>
+                                        <h1> General Collection</h1>
+                                        <ul className={cx("collection-card", "add-collection")}>
+                                            <li className={cx('mr')}>
+                                                {isEditing ? (
+                                                    <div className={cx("content", "content-add")}>
+                                                        <div className={cx("inner-content")} style={{ margin: '70px 0' }}>
+                                                            <input
+                                                                name="name"
+                                                                className={cx('input-collection-name')}
+                                                                type="text"
+                                                                placeholder="Collection name"
+                                                                value={collectionData.name}
+                                                                onChange={handleChangeCollection}
+                                                            />
+                                                            <button style={{ color: "#3a9691" }} className={cx('btn-action')} onClick={handleSaveClick}>Save</button>
+                                                            <button className={cx('btn-action')} onClick={handleCancelClick}>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className={cx("content", "content-add")}>
+                                                        <div className={cx("inner-content")} >
+                                                            <button
+                                                                title="New Collection"
+                                                                aria-label="New Collection"
+                                                                className={cx("btn-add-collection", "create-collection-button")}
+                                                                onClick={handleAddCollectionClick}
+                                                            >
+                                                                <div style={{ fontSize: '60px' }} className="bi bi-plus-circle"></div>
+                                                                <div className={cx("create-collection-text", "font-bold")}>New Collection</div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </li>
+                                            <li className={cx("content", "content-show", "mr")} >
+                                                <div className={cx("inner-content")} >
+                                                    <img className={cx('image-collection')} src={images.Background} />
+                                                </div>
+                                                <div className={cx('name-collection')}>
+                                                    <div className={cx('name-text', 'name')}>mua thi trơi </div>
+                                                    <div className={cx('number-recipe', 'name')}>3 recipes</div>
+                                                </div>
+                                            </li>
+
+                                            <li className={cx("content", "content-show", "mr")} >
+                                                <div className={cx("inner-content")} >
+                                                    <img className={cx('image-collection')} src={images.Background} />
+                                                </div>
+                                                <div className="container">
+                                                    <div className={cx('name-collection')}>
+                                                        <div className={cx('name-text', 'name')}>Name</div>
+                                                        <div className={cx('number-recipe', 'name')}>3 recipes</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
                             </div>
                             {/* </div> */}
 
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
 
-            {showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />}
+            {showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />
+            }
             {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
