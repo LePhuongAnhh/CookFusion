@@ -51,7 +51,7 @@ const RecipeBarChart = () => {
     };
 
     return (
-        <div style={{ height: '300px', width: '450px' }}>
+        <div style={{ height: '296px', width: "750px" }}>
             <Bar data={data} options={options} />
         </div>
     );

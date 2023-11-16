@@ -76,8 +76,12 @@ export default function AdBarsChart() {
         )()
     }, [])
     return (
-        <div>
-            <div style={{ height: '327px', width: '600px' }}>
+        <div style={{
+            height: " 250px",
+            width: " 494px",
+            marginTop: '51px'
+        }}>
+            <div style={{ height: '250px', width: '494px' }}>
                 <Bar data={data} options={config} />
             </div>
         </div>

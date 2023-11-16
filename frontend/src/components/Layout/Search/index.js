@@ -28,6 +28,11 @@ function Search() {
     const [isSearchInputFocused, setIsSearchInputFocused] = useState(false);
 
     const [isSearchInputEmpty, setIsSearchInputEmpty] = useState(true);
+    const [isSearchResultsVisible, setIsSearchResultsVisible] = useState(false);
+
+    const handleSearchResultClick = () => {
+        setIsSearchResultsVisible(false);
+    };
 
     //Cập nhật sự kiện onChange của ô tìm kiếm để cập nhật trạng thái isSearchInputEmpty
     const onChange = (e) => {
@@ -169,7 +174,7 @@ function Search() {
                                 <>
                                     <h5 className={cx('title-history')}>Other</h5>
                                     {searchResult.users.slice(0, MAX_RESULTS_PER_CATEGORY).map((user) => (
-                                        <Link to={`/profile/${user._id}`} key={user._id} className={cx('wrapper')}>
+                                        <Link to={`/profile/${user._id}`} key={user._id} className={cx('wrapper')} onClick={handleSearchResultClick}>
                                             <img className={cx('avatar')} src=' {user.avatar}' />
                                             <div className={cx('info')}>
                                                 <h4 className={cx('name')}>

@@ -99,8 +99,9 @@ function AdminLayout({ children }) {
                     < div className={cx('logo_box')} >
                         <Link to="#" className={cx('logo_center')}>
                             <span className={cx('logo_lg')}>
-                                <img className={cx("main-logo")} src={images.logoAdmin} alt="logo" />
-                                <img className={cx("second-logo")} src={images.secondLogo} alt="logo" />
+                                {/* <img className={cx("main-logo")} src={images.logoAdmin} alt="logo" />
+                                <img className={cx("second-logo")} src={images.secondLogo} alt="logo" /> */}
+                                GourmetFood
                             </span>
                         </Link>
                     </ div >

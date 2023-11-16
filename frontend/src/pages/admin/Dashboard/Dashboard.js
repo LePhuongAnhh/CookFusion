@@ -169,11 +169,11 @@ const Dashboard = () => {
                     <div className={cx('col-lg-6')}>
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
-                                <div className={cx('align-items-center', 'row')}>
+                                <div className={cx('align-items-center', 'row')} style={{ margin: "0 20px 0 39px" }}>
                                     <h6 className={cx('mb-0')}>The chart shows the growth of the account</h6>
                                 </div>
                             </div>
-                            <div className={cx('card-body')}>
+                            <div className={cx('card-body')} style={{ padding: "0 120px " }}>
                                 <RecipeBarChart />
                             </div>
                         </div>
@@ -183,20 +183,20 @@ const Dashboard = () => {
                 {/* top trending recipe  */}
                 <div className={cx('g-3', 'mb-3', 'row')}>
                     <div className={cx('col-xl-8', 'col-lg-7')}>
-                        <div className={cx('h-lg-100', 'overflow-hidden', 'card')}>
+                        <div className={cx('h-lg-100', 'overflow-hidden', 'card')} style={{ height: "450px" }}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
                                     <h6 className={cx('mb-0')}>The chart shows the number of recipes and ratings</h6>
                                 </div>
                             </div>
                             {/* //duoi */}
-                            <div className={cx('card-body-mix')}>
+                            <div className={cx('card-body-mix')} style={{ width: '560px', height: '350px' }}>
                                 <MixChart ratingCategory={ratingCategory} />
                             </div>
                         </div>
                     </div>
                     <div className={cx('col-xl-4', 'col-lg-4')}>
-                        <div className={cx('h-lg-100', 'card')}>
+                        <div className={cx('h-lg-100', 'card', "card-gird")}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
                                     <h6 className={cx('mb-0')}>Top trending recipe</h6>
@@ -211,12 +211,12 @@ const Dashboard = () => {
                                             </div>
                                             <div className={cx('ms-3', 'flex-shrink-1', 'flex-grow-1')}>
                                                 <h6 className={cx('mb-1')}>
-                                                    <Link to="#" className={cx('stretched-link', 'text-900', 'fw-semi-bold')}>{recipe.name}</Link>
+                                                    <Link to="#" className={cx('stretched-link', 'text-900')}>{recipe.name}</Link>
                                                 </h6>
-                                                <span className={cx('fw-semi-bold')}>Rating:{recipe.ratings}</span>
+                                                <span className={cx('rating')}>Rating:{recipe.ratings}</span>
                                                 <div className={cx('fs--1')}>
                                                     <span className={cx('fw-semi-bold')}>{recipe.user[0].name}</span>
-                                                    <span className={cx('fw-medium', 'text-600', 'ms-2')}>Just Now</span>
+                                                    {/* <span className={cx('fw-medium', 'text-600', 'ms-2')}>Just Now</span> */}
                                                 </div>
                                             </div>
                                         </div>
@@ -231,23 +231,9 @@ const Dashboard = () => {
 
                 {/* ******  */}
                 <div className={cx('g-3', 'row')}>
-                    {/* trai  */}
-                    {/* <div className={cx('col-xxl-3', 'col-sm-6')}>
-                        <div className={cx('h-100', 'card')}>
-                            <div className={cx('py-2', 'bg-light', 'card-header')}>
-                                <div className={cx('align-items-center', 'row')}>
-                                    <h6 className={cx('mb-0')}>Hi!</h6>
-                                </div>
-                            </div>
-                            <div className={cx('card-body-chart')}>
-
-                            </div>
-                        </div>
-                    </div> */}
-
                     {/* phai  */}
                     <div className={cx('order-xxl-1', 'col-xxl-3', 'col-sm-6')}>
-                        <div className={cx('h-100', 'card')}>
+                        <div className={cx('h-100', 'card')} style={{ width: " 330p", marginLeft: "12px" }}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
                                     <h6 className={cx('mb-0')}>Rating Recipe</h6>

@@ -50,7 +50,7 @@ const MixChart = ({ ratingCategory }) => {
 
     return (
         <div>
-            <div style={{ height: '350px', width: '600px' }}>
+            <div style={{ height: '350px', width: '570px' }}>
                 <Bar data={data} options={options} />
             </div>
         </div>
