@@ -18,7 +18,18 @@ const ResultAuto = () => {
     const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     const location = useLocation();
     const data = location?.state?.data;
-    const [mealdata, setMealdata] = useState([])
+    const [mealdata, setMealdata] = useState([]);
+    const [dataSave, setDataSave] = useState({
+        name: '',
+    })
+
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setDataSave({
+            ...dataSave,
+            [name]: value
+        })
+    }
     const [nutrion, setNutrion] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0 })
     const handleRefreshBf = async () => {
         try {
@@ -46,7 +57,6 @@ const ResultAuto = () => {
             if (data.success) {
                 if (isDinner) var updateMeal = { ...mealdata, dinner: main.data.data }
                 else var updateMeal = { ...mealdata, lunch: main.data.data }
-                // console.log(updateMeal)
                 setMealdata(updateMeal)
             }
         } catch (error) {
@@ -136,6 +146,25 @@ const ResultAuto = () => {
         calculate(newData)
 
     }, [mealdata, setMealdata])
+
+    const handleSaveAutoPlan = async (e) => {
+        e.preventDefault();
+        const requestDataSave = {
+            name: dataSave.name
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/mealplan/saveAutoMealPlan`, requestDataSave, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data) {
+                setDataSave(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className={cx('result')}>
             <Helmet>
@@ -153,13 +182,16 @@ const ResultAuto = () => {
                                 <div className="form-group">
                                     <label className="sr-only">Name</label>
                                     <input
+                                        value={dataSave.name}
+                                        onChange={(e) => handleOnChange(e)}
                                         type="text"
                                         className="form-control"
                                         required=""
                                         id="nameNine"
+                                        name='name'
                                         placeholder="Name plan meal" />
                                 </div>
-                                <button type="submit" className="btn text-center btn-blue">Send Message</button>
+                                <button onClick={handleSaveAutoPlan} type="submit" className="btn text-center btn-blue">Save</button>
                             </form>
 
                             <div className={cx('single_day')}>

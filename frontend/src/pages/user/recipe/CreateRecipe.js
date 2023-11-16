@@ -11,8 +11,10 @@ import images from '~/assets/images'
 import { useDropzone } from 'react-dropzone';
 import React, { useEffect, useState, useRef } from 'react';
 import { Helmet } from "react-helmet"
-
+import { io } from 'socket.io-client'
 import axios from "axios";
+
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
@@ -97,14 +99,18 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
 
     const handleSearchChange = (event) => {
         const term = event.target.value;
+        console.log(term)
         setSearchTerm(term);
         if (selectedCategoryIngr && categorySelected) {
-            const category = categoriesData.find(cat => cat.name === selectedCategoryIngr);
-            if (category) {
-                const results = performIngredientSearch(term, category.ingredients);
-                setSearchResults(results);
-            }
+            socket.emit('searchfood', { _id: User_id, keyword: term, category: selectedCategoryIngr })
         }
+        // if (selectedCategoryIngr && categorySelected) {
+        //     const category = categoriesData.find(cat => cat.name === selectedCategoryIngr);
+        //     if (category) {
+        //         const results = performIngredientSearch(term, category.ingredients);
+        //         setSearchResults(results);
+        //     }
+        // }
     };
 
     const handleCategorySelect = (category) => {
@@ -119,9 +125,10 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
 
     const handleIngredientSelect = (ingredient) => {
         console.log('Selected Ingredient:', ingredient);
-
-        setSelectedIngredient(ingredient);
-        setSelectedIngredients([...selectedIngredients, ingredient]);
+        console.log(ingredient)
+        let ingre = { name: ingredient.name, quantitative: 10, quantitativeUnit: 'grams' }
+        setSelectedIngredient(ingre);
+        setSelectedIngredients([...selectedIngredients, ingre]);
         setSearchTerm('');
         setSearchResults([]);
 
@@ -145,7 +152,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             .slice(0, 5)
         : [];
 
-    const limitedIngredientResults = searchResults.slice(0, 5);
+    const limitedIngredientResults = (searchResults.length > 5) ? searchResults.slice(0, 5) : searchResults;
 
 
     //xóa ingredient đc chọn
@@ -268,11 +275,32 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                 if (response.data.success) {
                     setCategories(response.data.listCategory);
                 }
+                console.log(response)
+                socket.emit('getcategories', { _id: User_id })
             } catch (error) {
                 console.log(error);
             }
         };
-        fetchData();
+        new Promise(() => fetchData());
+        socket.on('categories', (data) => {
+            if (data.success && data._id == User_id) {
+                let categories = data.data
+                categories = categories.map((category, index) => {
+                    return { id: index + 1, name: category }
+                })
+                setCategoriesData(categories)
+            }
+        })
+        socket.on('searchfood', (data) => {
+            if (data.success && data._id == User_id) {
+                console.log(data.data)
+                setSearchResults(data.data)
+            }
+        })
+        return () => {
+            socket.off('categories')
+        }
+
     }, []);
     //ADDCATE
     const [recipeData, setRecipeData] = useState({
@@ -306,15 +334,34 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             timePrepare,
             timeCook,
         };
-        console.log("input data:", updatedRecipeData);
+        // console.log("input data:", updatedRecipeData);
         const formData = new FormData();
-        formData.append('userId', User_id);
+        // formData.append('userId', User_id);
         formData.append('name', updatedRecipeData.name);
         formData.append('timeCook', updatedRecipeData.timeCook);
         formData.append('timePrepare', updatedRecipeData.timePrepare);
         formData.append('description', updatedRecipeData.description);
         formData.append('nPerson', updatedRecipeData.nPerson);
-        formData.append('Category', updatedRecipeData.Category);
+        formData.append('Category', selectedCategory);
+        formData.append('ingredientsString', JSON.stringify(selectedIngredients))
+        formData.append('stepsString', JSON.stringify(result))
+        if (Array.isArray(files)) {
+            files.forEach((file) => {
+                formData.append('files', file);
+            });
+        } else {
+            formData.append('files', files[0]);
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/recipe/addnew`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data.success) window.location.href = `http://localhost:3000/detail/${response.data.recipe._id}`
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (

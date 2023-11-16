@@ -88,9 +88,9 @@ function Search() {
             <Tippy
                 interactive
                 placement='bottom-start'
-                // visible={searchResult.length > 0 || Object.keys(listHistory).length > 0}
+                visible={searchResult.length > 0 || Object.keys(listHistory).length > 0}
                 // visible={isSearchInputFocused && !isSearchInputEmpty && (searchResult.length > 0 || Object.keys(listHistory).length > 0)}
-                visible={isSearchInputFocused && (searchResult.length > 0 || Object.keys(listHistory).length > 0)}
+                // visible={isSearchInputFocused && (searchResult.length > 0 || Object.keys(listHistory).length > 0)}
                 render={(attrs) => (
                     <div className={cx('search-result')} tabIndex="1"{...attrs}>
                         <PopperWrapper style={{ marginLeft: "0px" }}>
