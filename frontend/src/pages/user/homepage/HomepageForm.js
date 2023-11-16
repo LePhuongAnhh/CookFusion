@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Carousel from 'react-bootstrap/Carousel';
 import images from '~/assets/images'
 import styles from './HomepageForm.module.scss'
 import classNames from 'classnames/bind'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const HomepageForm = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const [listCategories, setListCategories] = useState([])
+    const [topTrending, setTopTrending] = useState([])
+    const [categoryRating, setRatingCategory] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [response] = await Promise.all([
+                    axios.get(`${apiUrl}/recipe/gettoptrendingrecipe`)
+                ])
+                if (response.data.success) {
+                    setListCategories(response.data.listCategory)
+                    setTopTrending(response.data.topTrending)
+                    const cateRate = response.data.categoryRating
+                    response.data.categoryRating.map((cate, index) => (
+                        response.data.listCategory.map((categoryWithImg) => {
+                            if (cate.category == categoryWithImg.name) cateRate[index] = { ...cate, image: categoryWithImg.image }
+                        })
+                    ))
+                    console.log(cateRate)
+                    setRatingCategory(cateRate)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <body>
             <div>
@@ -146,45 +174,37 @@ const HomepageForm = () => {
                                     <div className={cx('feature_article')}>
                                         <div className={cx('small_lists_article')}>
                                             <h3 className={cx('article_news')}>What's news</h3>
-                                            <Link to="#" className={cx('small_feature_article')}>
-                                                <div className={cx('img_wrapper')}>
-                                                    <img src={images.article} />
-                                                </div>
-                                                <div className={cx('small_article_blurb')}>
-                                                    <p className={cx('category_article')}>Recipe roundup</p>
-                                                    <h3 className={cx('article_title')}>15 Ways to Satisfy a Chocolate Craving in 15 Minutes</h3>
-                                                </div>
-                                            </Link>
-                                            <Link to="#" className={cx('small_feature_article')}>
-                                                <div className={cx('img_wrapper')}>
-                                                    <img src={images.article2} />
-                                                </div>
-                                                <div className={cx('small_article_blurb')}>
-                                                    <p className={cx('category_article')}>Recipe roundup</p>
-                                                    <h3 className={cx('article_title')}>15 Ways to Satisfy a Chocolate Craving in 15 Minutes</h3>
-                                                </div>
-                                            </Link>
-                                            <Link to="#" className={cx('small_feature_article')}>
-                                                <div className={cx('img_wrapper')}>
-                                                    <img src={images.article3} />
-                                                </div>
-                                                <div className={cx('small_article_blurb')}>
-                                                    <p className={cx('category_article')}>Recipe roundup</p>
-                                                    <h3 className={cx('article_title')}>15 Ways to Satisfy a Chocolate Craving in 15 Minutes</h3>
-                                                </div>
-                                            </Link>
+                                            {topTrending.length > 0 && topTrending.map((recipe, index) => (
+                                                index > 0 && (
+                                                    <Link to={`/detail/${recipe._id}`} className={cx('small_feature_article')}>
+                                                        <div className={cx('img_wrapper')}>
+                                                            <img src={recipe.image} />
+                                                        </div>
+                                                        <div className={cx('small_article_blurb')}>
+                                                            <p className={cx('category_article')}>{recipe.Category}</p>
+                                                            <h3 className={cx('article_title')}>{recipe.name}</h3>
+                                                        </div>
+                                                    </Link>
+                                                )
+                                            ))}
+
                                         </div>
                                         <div className={cx('article_left')}>
-                                            <Link to="#" className={cx('article_hidden_description')}>
-                                                <div className={cx('img_wrapper')}>
-                                                    <img className={cx('feature_article_image')} src={images.Background} />
-                                                </div>
-                                                <div className={cx('article_blurb')}>
-                                                    <p className={cx('category_article')}>Recipe roundup</p>
-                                                    <h2 className={cx('article_title')}>Thready, Set, Go! A Saffron Guide</h2>
-                                                    <p></p>
-                                                </div>
-                                            </Link>
+                                            {
+                                                topTrending.length > 0 && (
+                                                    <Link to={`/detail/${topTrending[0]._id}`} className={cx('article_hidden_description')}>
+                                                        <div className={cx('img_wrapper')}>
+                                                            <img className={cx('feature_article_image')} src={topTrending[0].image} />
+                                                        </div>
+                                                        <div className={cx('article_blurb')}>
+                                                            <p className={cx('category_article')}>{topTrending[0].Category}</p>
+                                                            <h2 className={cx('article_title')}>{topTrending[0].name}</h2>
+                                                            <p></p>
+                                                        </div>
+                                                    </Link>
+                                                )
+                                            }
+
                                         </div>
                                     </div>
                                 </div>
@@ -259,30 +279,18 @@ const HomepageForm = () => {
                             <div className={cx('cate_contain')}>
                                 <div className={cx('cate_gird')}>
                                     <h2>Explore more</h2>
-                                    <div className={cx('cate_img_block')}>
-                                        <Link to="#" className={cx('cate_img')}>
-                                            <img src={images.Top} />
-                                        </Link>
-                                        <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                                    </div>
-                                    <div className={cx('cate_img_block')}>
-                                        <Link to="#" className={cx('cate_img')}>
-                                            <img src={images.Top2} />
-                                        </Link>
-                                        <Link to="#" className={cx('cate_title')}>INTERNATIONAL EATS</Link>
-                                    </div>
-                                    <div className={cx('cate_img_block')}>
-                                        <Link to="#" className={cx('cate_img')}>
-                                            <img src={images.Top3} />
-                                        </Link>
-                                        <Link to="#" className={cx('cate_title')}>Vegetable</Link>
-                                    </div>
-                                    <div className={cx('cate_img_block')}>
-                                        <Link to="#" className={cx('cate_img')}>
-                                            <img src={images.Top4} />
-                                        </Link>
-                                        <Link to="#" className={cx('cate_title')}>Vegetable</Link>
-                                    </div>
+                                    {listCategories.length > 0 && listCategories.map((category, index) => (
+                                        index < 5 && (
+                                            <div className={cx('cate_img_block')}>
+                                                <Link to="#" className={cx('cate_img')}>
+                                                    <img src={category.image} />
+                                                </Link>
+                                                <Link to="#" className={cx('cate_title')}>{category.name}</Link>
+                                            </div>
+                                        )
+
+                                    ))}
+
                                 </div>
                             </div>
                             <div className={cx('line')}></div>
@@ -325,160 +333,60 @@ const HomepageForm = () => {
                                     <div className={cx('recipe_card')}>
                                         <h2>trending now</h2>
                                         <ul className={cx('img_carousel')}>
-                                            <li className={cx('img_carousel_item')}>
-                                                <div className={cx('recipe_card_info')}>
-                                                    <div className={cx('card_in')}>
-                                                        <Link className={cx('card_')} to="#">
-                                                            <div className={cx('card_box_in')}>
-                                                                <div className={cx('recipe_card_img')}>
-                                                                    <img src={images.Recipe} />
-                                                                    <div className={cx('btn_save')}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                                                            <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                                                        </svg>
+                                            {categoryRating.length > 0 && categoryRating.map((category) => (
+                                                <li className={cx('img_carousel_item')}>
+                                                    <div className={cx('recipe_card_info')}>
+                                                        <div className={cx('card_in')}>
+                                                            <Link className={cx('card_')} to="#">
+                                                                <div className={cx('card_box_in')}>
+                                                                    <div className={cx('recipe_card_img')}>
+                                                                        <img src={category.image} />
+                                                                        <div className={cx('btn_save')}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                                                                <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                                                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                                                            </svg>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </Link>
-                                                        <div className={cx('card_info_wrapper')}>
-                                                            <div className={cx('card_name')}>
-                                                                <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                                <span className={cx('card_source')}>
-                                                                    <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={cx('review_stars')}>
-                                                                    <span className={cx('icon_stars')}>
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
+                                                            </Link>
+                                                            <div className={cx('card_info_wrapper')}>
+                                                                <div className={cx('card_name')}>
+                                                                    <Link className={cx('card_title')} to="#">{category.category}</Link>
+                                                                    <span className={cx('card_source')}>
+                                                                        <Link className={cx('card_source_link')} to="#"></Link>
                                                                     </span>
-                                                                    <span className={cx('count_rate')}> (134)</span>
-                                                                </Link>
-                                                            </div>
-
-
-                                                        </div>
-                                                        <div className={cx('cook')}>
-                                                            <button> Cook now
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className={cx('img_carousel_item')}>
-                                                <div className={cx('recipe_card_info')}>
-                                                    <div className={cx('card_in')}>
-                                                        <Link className={cx('card_')} to="#">
-                                                            <div className={cx('card_box_in')}>
-                                                                <div className={cx('recipe_card_img')}>
-                                                                    <img src={images.Background} />
+                                                                    <Link to="#" className={cx('review_stars')}>
+                                                                        <span className={cx('icon_stars')}>
+                                                                            <div>
+                                                                                {/* <span>{avg}</span> */}
+                                                                                <span class={(category.avg >= 1) ?
+                                                                                    "bi bi-star-fill text-warning" : ((category.avg == 0) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                                                <span class={(category.avg >= 2) ?
+                                                                                    "bi bi-star-fill text-warning" : ((category.avg == 1 || category.avg < 1) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                                                <span class={(category.avg >= 3) ?
+                                                                                    "bi bi-star-fill text-warning" : ((category.avg == 2 || category.avg < 2) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                                                <span class={(category.avg >= 4) ?
+                                                                                    "bi bi-star-fill text-warning" : ((category.avg == 3 || category.avg < 3) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                                                <span class={(category.avg == 5) ?
+                                                                                    "bi bi-star-fill text-warning" : ((category.avg == 4 || category.avg < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                                            </div>
+                                                                        </span>
+                                                                        <span className={cx('count_rate')}> - {category.ratingCount} votes</span>
+                                                                    </Link>
                                                                 </div>
-                                                            </div>
-                                                        </Link>
-                                                        <div className={cx('card_info_wrapper')}>
-                                                            <div className={cx('card_name')}>
-                                                                <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                                <span className={cx('card_source')}>
-                                                                    <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={cx('review_stars')}>
-                                                                    <span className={cx('icon_stars')}>
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                    </span>
-                                                                    <span className={cx('count_rate')}> (134)</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                        <div className={cx('cook')}>
-                                                            <button> Cook now
 
-                                                            </button>
+
+                                                            </div>
+                                                            <div className={cx('cook')}>
+                                                                <button> Cook now
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li className={cx('img_carousel_item')}>
-                                                <div className={cx('recipe_card_info')}>
-                                                    <div className={cx('card_in')}>
-                                                        <Link className={cx('card_')} to="#">
-                                                            <div className={cx('card_box_in')}>
-                                                                <div className={cx('recipe_card_img')}>
-                                                                    <img src={images.Recipe} />
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        <div className={cx('card_info_wrapper')}>
-                                                            <div className={cx('card_name')}>
-                                                                <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                                <span className={cx('card_source')}>
-                                                                    <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={cx('review_stars')}>
-                                                                    <span className={cx('icon_stars')}>
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                    </span>
-                                                                    <span className={cx('count_rate')}> (134)</span>
-                                                                </Link>
-                                                            </div>
+                                                </li>
+                                            ))}
 
-
-                                                        </div>
-                                                        <div className={cx('cook')}>
-                                                            <button> Cook now
-
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className={cx('img_carousel_item')}>
-                                                <div className={cx('recipe_card_info')}>
-                                                    <div className={cx('card_in')}>
-                                                        <Link className={cx('card_')} to="#">
-                                                            <div className={cx('card_box_in')}>
-                                                                <div className={cx('recipe_card_img')}>
-                                                                    <img src={images.Recipe} />
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                        <div className={cx('card_info_wrapper')}>
-                                                            <div className={cx('card_name')}>
-                                                                <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                                <span className={cx('card_source')}>
-                                                                    <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                                </span>
-                                                                <Link to="#" className={cx('review_stars')}>
-                                                                    <span className={cx('icon_stars')}>
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-                                                                        <img src={images.stars} />
-
-                                                                    </span>
-                                                                    <span className={cx('count_rate')}> (134)</span>
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                        <div className={cx('cook')}>
-                                                            <button> Cook now
-
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>

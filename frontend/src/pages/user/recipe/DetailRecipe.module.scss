@@ -1059,6 +1059,12 @@ text h2 {
     background-color: #c3bcbc;
 }
 
+.circle_avt {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 3px 0 0 0;
+}
 //responsive
 @media (max-width: 62.5em) {
     .title_step {

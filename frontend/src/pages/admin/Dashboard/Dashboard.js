@@ -20,6 +20,7 @@ const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
 const cx = classNames.bind(styles)
 const Dashboard = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [ratingDev, setRatingDev] = useState({
         ratingDevUser: { currentMonth: 1, rate: 0 },
         ratingDevRecipe: { currentMonth: 1, rate: 0 },

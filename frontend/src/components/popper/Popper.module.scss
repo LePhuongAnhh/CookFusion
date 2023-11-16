@@ -11,12 +11,14 @@
 // }
 .wrapper {
     width: 100%;
-    max-height: min(4hv - 60px, 734px);
+    max-height: 450px;
     min-height: 100px;
     background-color: rgb(255, 255, 255);
     box-shadow: rgb(231, 228, 228) 0px 2px 12px;
     border-radius: 5px;
     padding: 6px 0;
     min-width: 225px;
-    margin-left: -26px;
+    margin-left: 0;
+    overflow-y: auto;
+    // -26px
 }

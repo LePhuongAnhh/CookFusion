@@ -197,7 +197,7 @@ function DetailRecipe() {
             socket.off('create_Or_Update_Rating')
             socket.off('add_recipe_comment')
         }
-    }, []);
+    }, [isChange]);
     // Check if recipeData is not undefined and has at least one item
     if (recipeData === null) {
         return <p><Loading /></p>;
@@ -604,13 +604,18 @@ function DetailRecipe() {
                                     )}
                                 </Box>
                             </div>
-                            {/* HIEN COMMENT  */}                            {
+                            {/* HIEN COMMENT  */}
+                            {
                                 recipeData.data[0].comments.length > 0 && recipeData.data[0].comments.map((comment) => (
                                     <div className={cx('read_review')}>
                                         <div className={cx('avt_read')}>
                                             <Link to={`/profile/${encodeURIComponent(comment.userComment._id)}`}>
-                                                <img src={comment.userComment.avatar} />
+                                                <img className={cx('circle_avt')} src={comment.userComment.avatar} />
                                             </Link>
+
+                                            {/* <div className={cx('avatar_comment')}>
+                                                    <img className={cx('circle_avt')} src={comment.usercomment.avatar} />
+                                                </div> */}
                                         </div>
                                         <div className={cx('review_content_cmt')}>
                                             <div className={cx('review_name')}>
