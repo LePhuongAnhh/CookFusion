@@ -324,13 +324,8 @@ function DetailRecipe() {
                             <span className={cx('breadcrumb_link')}>
                                 <Link to="/homepage">Home</Link>
                             </span>
-                            <span className={cx('breadcrumb_separator')}>/</span>
-                            <span className={cx('breadcrumb_link')}>
-                                <div onClick={handleBack}>
-                                    Back
-                                </div>
-                            </span>
-                            <span className={cx('breadcrumb_separator')}>/</span>
+                            {/* <span className={cx('breadcrumb_separator')} onClick={handleBack}>/ &nbsp;  &nbsp; Back</span> */}
+                            <span className={cx('breadcrumb_separator')}> /</span>
                             <span className={cx('breadcrumb_current')}>{recipeData.data[0].name}</span>
                         </nav>
                         {/* phan ben tren  */}

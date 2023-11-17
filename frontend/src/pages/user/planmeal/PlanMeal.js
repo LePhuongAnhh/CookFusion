@@ -92,6 +92,10 @@ const PlanMeal = () => {
                         </div>
                     </div>
                 </div>
+
+                <div className={cx('show-result')}>
+
+                </div>
             </div>
         </div>
     )
