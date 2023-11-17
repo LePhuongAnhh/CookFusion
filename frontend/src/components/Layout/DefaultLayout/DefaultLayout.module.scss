@@ -208,16 +208,6 @@
 }
 
 .text-info {
-    // position: absolute;
-    // top: 0;
-    // /* right: 6px; */
-    // /* background-color: red; */
-    // /* color: white; */
-    // padding: 0px 7px;
-    // border-radius: 50%;
-    // /* font-size: 0.8rem; */
-    // margin: 0 0 0px -16px;
-    // height: 23px;
     position: absolute;
     top: 0;
     color: #fff;
@@ -280,4 +270,7 @@
 
 .search-result {
     z-index: 100000;
+}
+.background-body {
+    background-color: var(--main-background-light);
 }

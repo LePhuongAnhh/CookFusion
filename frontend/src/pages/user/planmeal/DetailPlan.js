@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import styles from "./ResultAuto.module.scss"
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { format } from 'date-fns';
 import classNames from 'classnames/bind'
-import ShowRecipe from "../../../components/Modal/ShowRecipePlan";
+import ShowRecipePlan from "../../../components/Modal/ShowRecipePlan";
 import images from '~/assets/images'
 import Loading from '~/components/Layout/Loading';
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
@@ -26,16 +27,16 @@ const DetailPlan = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log('mot plan me', response.data);
                 setPlanMealData(response.data)
             } catch (error) {
                 console.error("Error fetching Meal Plans:", error);
             }
         };
         fetchData();
-    }, [accessToken]);
-    console.log('tem ne', planMealData.data[0].name);
-    if (!planMealData) {
+    }, []);
+
+    const caloriesEachDay = Math.round(planMealData.data?.[0]?.caloriesEachDay || 0);
+    if (!planMealData || !planMealData.data) {
         return <p> <Loading /></p>;
     }
     return (
@@ -48,100 +49,74 @@ const DetailPlan = () => {
                     <div className={cx('result_left')}>
                         <div className={cx('result_row')}>
                             <div className={cx('day_header')}>
-                                <div className={cx('day_title')}> </div>
+                                <div className={cx('day_title')}>
+                                    {planMealData.data[0].name} - {planMealData.data[0].nPerson} people
+                                </div>
                             </div>
                             <div className={cx('single_day')}>
                                 <div>
-                                    <div></div>
                                     <div className={cx('workspace_area')}>
                                         <div className={cx('workspace_stats')}>
                                             <div className={cx('plan_stats')}>
                                                 <img src={images.Pie_chart} />
-                                                <div className={cx('show_calories')}> Calories</div>
+                                                <div className={cx('show_calories')}>{caloriesEachDay}  Calories for {planMealData.data[0].days.length} day(s)</div>
                                             </div>
                                         </div>
+
                                         <div className={cx('result_row')}>
-                                            {/* breakfast  */}
-                                            <div className={cx('meal_list')}>
-                                                <div className={cx('meal_header')}>
-                                                    <div className={cx('header_left')}>
-                                                        <span className={cx('breakfast')}>Breakfast</span>
-                                                        <span className={cx('calories')}> Calories</span>
-                                                    </div>
-                                                    <div className={cx('header_right')}>
-                                                        <div className={cx('meal_setting')} title='Refresh this meal'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {/* body  */}
-                                                <div className={cx('meal_content')}>
-                                                    <div className={cx('row_meal_foods')}>
-                                                        <div className={cx('show_info1')}>
-                                                            <Link to="#">
-                                                                <div className={cx('avt_follow')} onClick={() => setShowDetailRecipeModal(true)} >
-                                                                    <img className={cx('circle_avt')} src={images.minh} />
+                                            {planMealData.data[0].detailDay.map((detailDay, indexDay) => {
+                                                return (
+                                                    <div key={indexDay}>
+                                                        {detailDay.meals.map((meal) => {
+                                                            return (
+                                                                <div key={meal._id} className={cx('meal_list')}>
+                                                                    <div className={cx('meal_header')}>
+                                                                        <div className={cx('header_left')}>
+                                                                            <span className={cx('breakfast')}>{meal.name}</span>
+                                                                            <span className={cx('calories')}> {Math.ceil(meal.calories)} Calories</span>
+                                                                        </div>
+                                                                        <div className={cx('header_right')}>
+                                                                            <div className={cx('meal_setting')} title='Refresh this meal'>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots" viewBox="0 0 16 16">
+                                                                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                                                                </svg>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={cx('meal_content')}>
+                                                                        {meal.recipes.map((recipe) => (
+                                                                            <div key={recipe._id} className={cx('row_meal_foods')}>
+                                                                                <div className={cx('show_info1')}>
+                                                                                    <Link to={`/detail/${recipe._id}`}>
+                                                                                        <div className={cx('avt_follow')} >
+                                                                                            <img className={cx('circle_avt')} src={recipe.image} alt="Recipe Image" />
+                                                                                        </div>
+                                                                                    </Link>
+                                                                                    <div className={cx('show_name')}>
+                                                                                        <h6 >
+                                                                                            <Link to={`/detail/${recipe._id}`}>{recipe.name}</Link>
+                                                                                        </h6>
+                                                                                        <div className={cx('btn_follow1')}>
+                                                                                            <span className={cx('follow')}>{recipe.Category}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
                                                                 </div>
-                                                            </Link>
-                                                            <div className={cx('show_name')}>
-                                                                <h6 onClick={() => setShowDetailRecipeModal(true)} >
-                                                                    <Link to="#">Dessert</Link>
-                                                                </h6>
-                                                                <div className={cx('btn_follow1')}>
-                                                                    <span className={cx('follow')}>serving</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                                            );
+                                                        })}
                                                     </div>
-                                                </div>
-                                            </div>
-                                            {/* Lunch  */}
-                                            <div className={cx('meal_list')}>
-                                                <div className={cx('meal_header')}>
-                                                    <div className={cx('header_left')}>
-                                                        <span className={cx('breakfast')}>Breakfast</span>
-                                                        <span className={cx('calories')}> Calories</span>
-                                                    </div>
-                                                    <div className={cx('header_right')}>
-                                                        <div className={cx('meal_setting')} title='Refresh this meal'>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                                                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {/* body  */}
-                                                <div className={cx('meal_content')}>
-                                                    <div className={cx('row_meal_foods')}>
-                                                        <div className={cx('show_info1')}>
-                                                            <Link to="#">
-                                                                <div className={cx('avt_follow')} onClick={() => setShowDetailRecipeModal(true)} >
-                                                                    <img className={cx('circle_avt')} src={images.minh} />
-                                                                </div>
-                                                            </Link>
-                                                            <div className={cx('show_name')}>
-                                                                <h6 onClick={() => setShowDetailRecipeModal(true)} >
-                                                                    <Link to="#">Dessert</Link>
-                                                                </h6>
-                                                                <div className={cx('btn_follow1')}>
-                                                                    <span className={cx('follow')}>serving</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* Dinner  */}
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className={cx('result_right')}>
                         <div className={cx('nutrition_value')}>
                             <h3 className={cx('title_value')}>Nutrition value</h3>
@@ -149,7 +124,7 @@ const DetailPlan = () => {
                                 <div className={cx('table_row')}>
                                     <th className={cx('th_nutri')}>Calories</th>
                                     <td className={cx('text_right')}>
-                                        <span> kcal</span>
+                                        <span>{caloriesEachDay} kcal</span>
                                     </td>
                                 </div>
                                 <div className={cx('table_row1')}>
@@ -194,8 +169,7 @@ const DetailPlan = () => {
                     </div>
                 </div>
             </div>
-            {showDetailRecipeModal && <ShowRecipe setShowDetailRecipeModal={setShowDetailRecipeModal} />}
-        </div>
+        </div >
     )
 }
 

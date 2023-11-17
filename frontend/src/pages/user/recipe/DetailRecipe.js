@@ -1,7 +1,7 @@
 import styles from "./DetailRecipe.module.scss"
 import classNames from 'classnames/bind'
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl, PROFILE_INFORMATION } from "~/constants/constants";
@@ -9,14 +9,9 @@ import axios from "axios";
 import { io } from 'socket.io-client'
 import Loading from "~/components/Layout/Loading";
 import { useParams } from 'react-router-dom';
-import FooterForm from "~/components/Layout/DefaultLayout/Footer/FooterForm";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as farStar, faStar as fasStar } from '@fortawesome/free-regular-svg-icons';
-import { number } from 'prop-types';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-import User from "~/pages/admin/AccountManagement/User";
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
@@ -115,6 +110,11 @@ function DetailRecipe() {
             }
         });
     }
+    const navigate = useNavigate();
+    const handleBack = (e) => {
+        e.preventDefault();
+        navigate(-1);
+    };
 
     const [comments, setComments] = useState([]);
     //lấy dữ liệu dựa vào id cụ thể
@@ -326,7 +326,9 @@ function DetailRecipe() {
                             </span>
                             <span className={cx('breadcrumb_separator')}>/</span>
                             <span className={cx('breadcrumb_link')}>
-                                <Link to="/recipe" title>Recipe</Link>
+                                <div onClick={handleBack}>
+                                    Back
+                                </div>
                             </span>
                             <span className={cx('breadcrumb_separator')}>/</span>
                             <span className={cx('breadcrumb_current')}>{recipeData.data[0].name}</span>

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import styles from "./ResultAuto.module.scss"
 import axios from 'axios';
 import classNames from 'classnames/bind'
-import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 // import Pie_chart from "../../../image/pie-chart.png"
 import ShowRecipe from "../../../components/Modal/ShowRecipePlan";
 // import minh from "../../../image/article.webp"
@@ -18,7 +17,7 @@ const ResultAuto = () => {
     const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     const location = useLocation();
     const data = location?.state?.data;
-    const navigate = { Navigate };
+    const navigate = Navigate;
     const [mealdata, setMealdata] = useState([]);
     const [dataSave, setDataSave] = useState({
         name: '',
@@ -161,7 +160,7 @@ const ResultAuto = () => {
             });
             if (response.data) {
                 setDataSave(response.data);
-                navigate('/planmeal')
+                navigate('/result')
             }
         } catch (error) {
             console.log(error);

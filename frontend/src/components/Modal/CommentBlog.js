@@ -172,7 +172,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
         }
     }, [listComment, changeArticle]);
 
-    //apl article cho từng tài khoản đăng nhập
+    //api article cho từng tài khoản đăng nhập
     const fetchData = async () => {
         try {
             var response = await axios.get(`${apiUrl}/article/getlistforprofile/${id}`, {

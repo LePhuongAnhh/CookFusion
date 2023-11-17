@@ -46,7 +46,6 @@ function PlanmealForm() {
         }
         return true;
     })
-    console.log('lay dữ liệu:', resultPlanData)
     return (
         <>
             <div className={cx('result-save-planmeal')}>
@@ -133,7 +132,9 @@ function PlanmealForm() {
                                     {filteredPlans.map((plan, index) => (
                                         <tr key={plan._id}>
                                             <td>{index + 1}</td>
-                                            <td>{plan.name}</td>
+                                            <td>
+                                                <Link to={`/detailPlan/${plan._id}`}>{plan.name}</Link>
+                                            </td>
                                             <td>{Math.ceil(plan.caloriesEachDay)}</td>
                                             <td>
                                                 {plan.category.map((category, catIndex) => (
@@ -155,7 +156,7 @@ function PlanmealForm() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
