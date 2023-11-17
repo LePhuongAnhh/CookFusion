@@ -1,0 +1,26 @@
+.body-search {
+    position: relative;
+}
+
+.card-header{
+
+}
+
+.row-right {
+    flex: 0 0 auto;
+    width: 66%;
+    margin-left: 28px;
+}
+.header-right {
+    margin: 7px 0 7px 4px;
+}
+.nav-item {
+    cursor: pointer;
+}
+.nav-item.active {
+    color: #007bff; /* Màu xanh */
+    border-bottom: 2px solid #007bff; /* Gạch chân màu xanh */
+}
+.body-right {
+    flex: 0 0 55%;
+}

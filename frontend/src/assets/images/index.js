@@ -82,5 +82,7 @@ const images = {
     add_recipe: require('~/assets/images/add-recope.png'),
     add_recipe: require('~/assets/images/add-recope.png'),
     header_planmeal: require('~/assets/images/header.png'),
+    beforeLike: require('~/assets/images/cook.png'),
+    afterLike: require('~/assets/images/cooking.png'),
 }
 export default images;

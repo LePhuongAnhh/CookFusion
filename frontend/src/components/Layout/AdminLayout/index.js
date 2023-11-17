@@ -76,10 +76,7 @@ function AdminLayout({ children }) {
                             </Link>
                         </li>
 
-                        <li className={cx('notification_list')}>
-                            {/* thông báo  */}
-                            <ShowInfor />
-                        </li >
+
                         <li className={cx('notification_list')}>
                             <li onClick={logout} className={cx('notification_list')}>
                                 <Link to="#" className={cx('nav_link')}>

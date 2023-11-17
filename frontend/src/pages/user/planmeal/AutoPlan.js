@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
+import PlanmealForm from './PlanMealForm';
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl, PROFILE_INFORMATION } from '~/constants/constants';
@@ -268,7 +269,7 @@ const AutoPlan = () => {
                         </div>
                     </div>
                 </div>
-
+                
             </div>
         </div>
 

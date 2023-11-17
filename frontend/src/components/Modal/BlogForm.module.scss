@@ -176,7 +176,7 @@ link {
 .dropdown:hover .dropdown_content {
     padding: 8px;
     display: inline-block;
-    color: #333;
+    // color: #333;
     text-decoration: none;
     border-radius: 7px;
 }
@@ -202,13 +202,12 @@ link {
     padding: 1rem 1.75rem;
 }
 .total_like {
-    border-color: rgba(237, 242, 249, 1);
+    // border-color: rgba(237, 242, 249, 1);
     font-size: 0.8333333333rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #d8e2ef;
 }
 .count_like {
-    color: rgba(94, 110, 130, 1);
+    // color: rgba(94, 110, 130, 1);
     margin-right: 0.25rem;
 }
 
@@ -216,10 +215,10 @@ link {
     text-align: center;
     font-weight: 600;
     font-size: 0.8333333333rem;
-    padding: 16px 0;
     display: flex;
     flex-wrap: wrap;
     border-bottom: 1px solid #d8e2ef;
+    justify-content: space-between;
 }
 
 .emotion_item {
@@ -466,17 +465,6 @@ link {
     border-radius: 5px;
 }
 
-// .input_cmt {
-//     flex: 1;
-//     margin: 0 10px;
-//     padding: 8px;
-//     border: 1px solid #ccc;
-//     border-radius: 4px;
-//     outline: none;
-// }
-
-//setting article
-
 .write_comment button[type='submit'] {
     background-color: #4285f4;
     color: white;
@@ -489,4 +477,9 @@ link {
 
 .write_comment button[type='submit']:hover {
     background-color: #357ae8;
+}
+.ing-emotion {
+    width: 35px;
+    height: 29px;
+    margin: -10px 0 0 0;
 }

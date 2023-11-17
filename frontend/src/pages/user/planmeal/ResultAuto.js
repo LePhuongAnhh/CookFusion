@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Navigate } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./ResultAuto.module.scss"
@@ -18,6 +18,7 @@ const ResultAuto = () => {
     const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     const location = useLocation();
     const data = location?.state?.data;
+    const navigate = { Navigate };
     const [mealdata, setMealdata] = useState([]);
     const [dataSave, setDataSave] = useState({
         name: '',
@@ -160,6 +161,7 @@ const ResultAuto = () => {
             });
             if (response.data) {
                 setDataSave(response.data);
+                navigate('/planmeal')
             }
         } catch (error) {
             console.log(error);

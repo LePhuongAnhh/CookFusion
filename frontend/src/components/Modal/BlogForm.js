@@ -103,6 +103,7 @@ const BlogForm = ({ idProfile }) => {
                     },
                 });
             }
+
             else {
                 if (hashtag) {
                     const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
@@ -357,57 +358,53 @@ const BlogForm = ({ idProfile }) => {
                         </div>
 
                         <div className={cx('posts_footer')}>
-                            <div className={cx('total_like')}>
-                                <Link to="#" className={cx('count_like')}>
-                                    {article.states.length} <span> loves  </span>
-                                </Link>
-                                <Link to="#" className={cx('count_like')}>
-                                    {article.comment.length} <span>   comments </span>
-                                </Link>
-                            </div>
                             <div className={cx('emotion')}>
-                                <div className={cx('emotion_item')}>
-                                    {article.states && (
-                                        (article.states.find(state => state.Account_id === authorIdToDisplay)) ? (
-                                            article.states.map((state) => (
-                                                state.Account_id == authorIdToDisplay && (
-                                                    <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                        </svg>
-                                                        <span className={cx('like_icon')}>Love</span>
-                                                    </div>
-                                                )
-                                            ))
-                                        ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(article._id)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                <div style={{ display: "flex" }}>
+                                    <div className={cx('emotion_item')}>
+                                        {article.states && (
+                                            (article.states.find(state => state.Account_id === authorIdToDisplay)) ? (
+                                                article.states.map((state) => (
+                                                    state.Account_id == authorIdToDisplay && (
+                                                        <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
+                                                            <img className={cx('ing-emotion')} src={images.afterLike} />
+                                                            <span className={cx('like_icon')}></span>
+                                                        </div>
+                                                    )
+                                                ))
+                                            ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(article._id)}>
+                                                <img className={cx('ing-emotion')} src={images.beforeLike} />
+                                                <span className={cx('like_icon')}></span>
+                                            </div>
+                                        )}
+
+
+                                    </div>
+                                    <div className={cx('emotion_item')}>
+                                        <div className={cx('emotion_gird')} onClick={() => handleCommentClick(article)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
+                                                <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
                                             </svg>
-                                            <span className={cx('like_icon')}>Love</span>
+                                            <span className={cx('like_icon')}></span>
                                         </div>
-                                    )}
-
-
-                                </div>
-                                <div className={cx('emotion_item')}>
-                                    <div className={cx('emotion_gird')} onClick={() => handleCommentClick(article)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-heart-fill" viewBox="0 0 16 16">
-                                            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15Zm0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z" />
-                                        </svg>
-                                        <span className={cx('like_icon')}  >Comment</span>
                                     </div>
+                                    {/* <div className={cx('emotion_item')}>
+                                        <div className={cx('emotion_gird')}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                                            </svg>
+                                            <span className={cx('like_icon')}></span>
+                                        </div>
+                                    </div> */}
                                 </div>
-                                <div className={cx('emotion_item')}>
-                                    <div className={cx('emotion_gird')}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                            <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
-                                        </svg>
-                                        <span className={cx('like_icon')}>Share</span>
-                                    </div>
+                                <div className={cx('total_like')}>
+                                    <Link to="#" className={cx('count_like')}>
+                                        {article.states.length} <span> loves  </span>
+                                    </Link>
+                                    <Link to="#" className={cx('count_like')}>
+                                        {article.comment.length} <span>   comments </span>
+                                    </Link>
                                 </div>
                             </div>
-
-
 
                             <div>
                                 {

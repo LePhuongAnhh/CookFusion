@@ -116,7 +116,7 @@ function Profile() {
                                         className="rounded-circle img-fluid"
                                         src={profileInformation.avatar}
                                         alt="avatar "
-                                        style={{ marginTop: "18rem", width: "150px" }}
+                                        style={{ marginTop: "18rem", width: "165px", height: "165px" }}
                                     />
                                 </div>
                             </div>
@@ -224,7 +224,7 @@ function Profile() {
                                         <span> Wow, you have created 43 recipes</span>
                                     </div>
                                     <div className={cx('body-recipe')}>
-
+                                        <RecipeForm idProfile={id} />
                                     </div>
                                 </div>
 

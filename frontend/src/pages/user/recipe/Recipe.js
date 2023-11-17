@@ -51,7 +51,23 @@ const Recipe = () => {
             </div>
         ),
     };
-
+    const [topTrending, setTopTrending] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [response] = await Promise.all([
+                    axios.get(`${apiUrl}/recipe/gettoptrendingrecipe`)
+                ])
+                if (response.data.success) {
+                    setTopTrending(response.data.topTrending)
+                    console.log(response.data.topTrending)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     return (
         <div>
             <div className={cx('browse')}>
@@ -89,54 +105,57 @@ const Recipe = () => {
                     </div>
 
                     {/* ben duwoi  */}
-                    <div className={cx('gird')}>
-                        <div className={cx('gallery')}>
-                            <div className={cx('card_top')}>
-                                <Link to="/detail" className={cx('figure')}>
-                                    <img src={images.breakfast} />
-                                    <div className={cx('figcaption')}>
-                                        <div className={cx('content_in')}>
-                                            <p>Hello</p>
-                                            <h2>Title recipe</h2>
+                    {topTrending.length > 0 && (
+                        <div className={cx('gird')}>
+                            <div className={cx('gallery')}>
+                                <div className={cx('card_top')}>
+                                    <Link to={`/detail/${topTrending[0]._id}`} className={cx('figure')}>
+                                        <img src={topTrending[0].image} />
+                                        <div className={cx('figcaption')}>
+                                            <div className={cx('content_in')}>
+                                                <p>{topTrending[0].Category}</p>
+                                                <h2>{topTrending[0].name}</h2>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
-                        <div className={cx('gallery1')}>
-                            <div className={cx('g_card')}>
-                                <Link to="/detail" className={cx('figure')}>
-                                    <img src={images.thikhtao} />
-                                    <div className={cx('figcaption')}>
-                                        <div className={cx('content_in')}>
-                                            <p>Hello</p>
-                                            <h2>Title recipe</h2>
+                            <div className={cx('gallery1')}>
+                                <div className={cx('g_card')}>
+                                    <Link to={`/detail/${topTrending[1]._id}`} className={cx('figure')}>
+                                        <img src={topTrending[1].image} />
+                                        <div className={cx('figcaption')}>
+                                            <div className={cx('content_in')}>
+                                                <p>{topTrending[1].Category}</p>
+                                                <h2>{topTrending[1].name}</h2>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className={cx('g_card')}>
-                                <Link to="/detail" className={cx('figure')}>
-                                    <img src={images.thikhtao} />
-                                    <div className={cx('figcaption')}>
-                                        <div className={cx('content_in')}>
-                                            <p>Hello</p>
-                                            <h2>Title recipe</h2>
+                                    </Link>
+                                </div>
+                                <div className={cx('g_card')}>
+                                    <Link to={`/detail/${topTrending[2]._id}`} className={cx('figure')}>
+                                        <img src={topTrending[2].image} />
+                                        <div className={cx('figcaption')}>
+                                            <div className={cx('content_in')}>
+                                                <p>{topTrending[2].Category}</p>
+                                                <h2>{topTrending[2].name}</h2>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
-                        <div className={cx('gallery_text')}>
-                            <div className={cx('text')}>
-                                <h2> Breakfast on the go</h2>
+                            <div className={cx('gallery_text')}>
+                                <div className={cx('text')}>
+                                    <h2> Breakfast on the go</h2>
 
+                                </div>
+                                <p>
+                                    Check out one of my absolute favorite recipes right now! Full recipe on the blog.
+                                </p>
                             </div>
-                            <p>
-                                Check out one of my absolute favorite recipes right now! Full recipe on the blog.
-                            </p>
                         </div>
-                    </div>
+                    )}
+
 
                     {/* Introduction of Recipe */}
                     <div className={cx('summary')}>

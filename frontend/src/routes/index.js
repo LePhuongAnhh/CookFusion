@@ -36,6 +36,9 @@ import DashboardAds from "~/pages/packgakeAds/DashboardAds";
 import ProfileAds from "~/pages/packgakeAds/ProfileAds";
 import ManageArticles from "~/pages/packgakeAds/ManageArticles";
 import PaymentModal from "~/components/Modal/PaymentModal";
+import SearchResults from "~/components/Layout/Search/SearchResults";
+import PlanmealForm from "~/pages/user/planmeal/PlanMealForm";
+import DetailPlan from "~/pages/user/planmeal/DetailPlan";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -75,6 +78,10 @@ const publicRoutes = [
     { path: "/profileSponsor/:id", component: ProfileAds },
     { path: "/payment", component: PaymentModal },
     { path: "/managementArticleAds", component: ManageArticles },
+    { path: "/searchResult", component: SearchResults },
+    { path: "/result", component: PlanmealForm },
+    { path: "/detailPlan/:id", component: DetailPlan },
+
 
 ];
 const privateRoutes = [];

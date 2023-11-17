@@ -5,6 +5,7 @@ import styles from "./PlanMeal.module.scss"
 import classNames from 'classnames/bind'
 import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import images from '~/assets/images'
+import PlanmealForm from './PlanMealForm';
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
@@ -91,7 +92,6 @@ const PlanMeal = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     )

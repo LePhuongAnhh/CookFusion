@@ -93,11 +93,6 @@ const EditComment = ({ comment, onSave, onCancel, recipeData }) => {
 
 
 
-
-
-
-
-
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
