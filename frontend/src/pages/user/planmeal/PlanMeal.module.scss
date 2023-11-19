@@ -32,14 +32,9 @@
 /* CREATE AUTO PLAN  */
 .create_auto_plan {
     display: grid;
-    grid-template-columns: 70% 30%;
-    // margin-top: 35px;có ảnh
-    margin: 50px 0 50px;
+    margin: 50px 20px 20px;
 }
 
-.plan_left {
-    width: 889px;
-}
 .plan_wrapper {
     display: flex;
     text-align: center;
@@ -48,16 +43,12 @@
     margin: 0 auto;
 }
 
-.automatic_plan:not(:last-child) {
-    margin-right: 75px;
-}
 .automatic_plan,
 .manual_plan {
     position: relative;
     display: flex;
     flex-direction: column;
-    /* word-wrap: break-word; */
-    /* background-clip: border-box; */
+    margin: 0 42px;
     width: 320px;
     align-items: center;
     padding: 10px 33px 32px;
@@ -100,10 +91,10 @@
     margin-bottom: 18px;
 }
 .intro_text {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.71;
     text-align: center;
-    color: #a1a3b4;
+    /* color: #a1a3b4; */
     margin-bottom: 24px;
     display: flex;
 }
@@ -126,7 +117,7 @@
 }
 
 .choose_btn:hover {
-    background-color: #fac031;
+    background-color: #f38e4b;
 }
 
 .choose_btn1:hover {
@@ -159,7 +150,7 @@
     line-height: 30px;
 }
 .suggestions_item p img {
-    width: 20px;
+    width: 30px;
     height: 20px;
     left: -7px;
     top: 2px;
@@ -188,7 +179,7 @@
     height: 300px;
     background-color: #242424;
     border-radius: 10px;
-    margin: 60px 0 0;
+    margin: 80px 0 0;
 }
 
 .advertisement_gird {
@@ -216,4 +207,258 @@
     border: solid 1px #e1e1e1;
     margin-top: 33px;
     padding: 15px 25px;
+}
+//chuyen trang
+.form-save {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+.form-group {
+    width: 140px;
+    text-align: center;
+}
+.next-page {
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+}
+.btn-next-page {
+    height: 45px;
+    width: 160px;
+    padding: 11px 0px;
+}
+
+//footer
+.show-result-container {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    flex-direction: column;
+}
+.title-footer {
+    // font-family: Poppins;
+    /* font-style: normal; */
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 54px;
+    margin-top: 31px;
+    text-align: center;
+}
+.result-content {
+    display: block;
+}
+.category-content {
+    display: flex;
+    margin-bottom: 24px;
+}
+.icon-step {
+    width: 48px;
+    height: 48px;
+}
+.text-step {
+    margin-top: -17px;
+    margin-left: 12px;
+    h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 16px 0 0;
+    }
+    p {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+        margin: 12px 0;
+    }
+}
+
+.img-show {
+    display: flex;
+    justify-content: center;
+}
+.inner-show {
+    img {
+        width: 500px;
+        height: 360px;
+    }
+}
+
+//future
+
+.future-container {
+    margin-top: 0;
+    z-index: 10;
+}
+.future-intr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 60px;
+}
+.sub-header {
+    font-style: normal;
+    font-weight: 700;
+    line-height: 54px;
+}
+.sub-title {
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 400;
+    margin: 0px 25px 25px;
+}
+.show-result-plan {
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.sub-title1 {
+    font-style: normal;
+    line-height: 54px;
+    font-size: 33px;
+}
+
+//ressponsive
+@media (min-width: 45rem) and (max-width: 75rem) {
+    .result-content {
+        padding: 0 24px;
+    }
+}
+@media (min-width: 75rem) {
+    .result-content {
+        display: flex;
+        padding: 0 6.5%;
+        margin: 25px 0;
+    }
+    .step-content {
+        // margin-right: 48px;
+    }
+
+    .sub-header {
+        margin-top: 0;
+        padding-top: 0;
+        font-size: 21px;
+    }
+}
+@media (max-width: 47.5rem) {
+    .plan_wrapper {
+        display: flex;
+        flex-direction: column; /* Xếp các con theo chiều dọc */
+        align-items: center; /* Căn giữa theo chiều ngang */
+        justify-content: center; /* Căn giữa theo chiều dọc */
+    }
+    .step-content {
+        margin: 0 50px;
+    }
+    .automatic_plan {
+        margin-bottom: 20px;
+        width: 420px;
+    }
+    .sub-title {
+        margin: 0;
+    }
+}
+
+// result - show planmeal
+/* Assuming .news_name is the class for your ul */
+.card-gird {
+    margin: 0 88px;
+}
+
+.news_name {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.news_gird {
+    display: contents;
+}
+.news_element {
+    margin-bottom: 25px;
+}
+
+.news_card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 1.1s ease-in-out;
+}
+
+.news_card .news_card_img {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.news_card .news_img_background img {
+    width: 264px;
+    height: 202px;
+}
+
+.news_card:hover .plan-cate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.plan-cate {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(14, 14, 14, 0) 100%);
+    color: #fff;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    transform: translateY(100%);
+}
+
+.plan-cate:hover {
+    opacity: 1;
+}
+
+.news_card img {
+    width: 100%;
+    height: auto;
+}
+
+.news_card_content {
+    padding: 10px;
+}
+
+.news_bottom {
+    margin-top: 10px;
+}
+
+.news_cate {
+    font-size: 14px;
+    color: #888;
+}
+
+.news_title {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.news_view {
+    /* Your styles for the view element */
+}
+
+.news_detail {
+    /* Your styles for the detail link */
+}
+
+/* Media query for responsive layout */
+@media (max-width: 48rem) {
+    .news_name {
+        grid-template-columns: repeat(2, 1fr); /* Display 2 columns on smaller screens */
+    }
 }

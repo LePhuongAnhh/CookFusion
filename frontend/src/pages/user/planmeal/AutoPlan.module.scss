@@ -76,6 +76,7 @@
     height: 100px;
     margin: 0 20px 8px;
     cursor: pointer;
+    border-radius: 5px;
 }
 .gender_choose {
     font-weight: 600;
@@ -129,19 +130,9 @@
 
 .next_btn {
     border-radius: 16px;
-    min-width: 120px;
-    height: 50px;
     padding: 0 33px;
-    object-fit: contain;
     font-size: 17px;
     font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    outline: none;
-    cursor: pointer;
 }
 
 .next_btn {
@@ -225,3 +216,25 @@
     border-radius: 8px;
     border: 1px solid #dadada;
 }
+
+@media (max-width: 47.5rem) {
+    .die {
+        display: flex;
+        flex-direction: column; /* Xếp các con theo chiều dọc */
+        align-items: center; /* Căn giữa theo chiều ngang */
+        justify-content: center; /* Căn giữa theo chiều dọc */
+        width: 100%;
+        .nav_link {
+            width: 100%;
+        }
+    }
+    .buttons_wrapper {
+        justify-content: center;
+        width: 100%;
+        margin-left: 0px;
+
+        .next_btn {
+        }
+    }
+}
+

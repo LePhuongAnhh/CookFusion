@@ -84,5 +84,13 @@ const images = {
     header_planmeal: require('~/assets/images/header.png'),
     beforeLike: require('~/assets/images/cook.png'),
     afterLike: require('~/assets/images/cooking.png'),
+    backgroundResultPlan: require('~/assets/images/backgrod-result-plan.png'),
+    calender: require('~/assets/images/calendar-1.1s-200px.png'),
+    img_planmeal: require('~/assets/images/ima-planmeal.png'),
+    congraduate: require('~/assets/images/firework.png'),
+    icon_calo: require('~/assets/images/calories.png'),
+    ic_serving: require('~/assets/images/cloche.png'),
+
+
 }
 export default images;

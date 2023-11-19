@@ -58,7 +58,7 @@ const RecipeForm = ({ idProfile }) => {
         const fetchData = async () => {
             try {
                 if (idProfile) {
-                    const response = await axios.get(`${apiUrl}/recipe/getallbyuser/${idProfile}`, {
+                    const response = await axios.get(`${apiUrl}/recipe/getallbyuser`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },

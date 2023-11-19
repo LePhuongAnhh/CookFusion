@@ -1,0 +1,63 @@
+.form-text {
+    padding: 5px 9px;
+    font-size: 15px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-save {
+    display: flex;
+    align-items: center;
+    margin: 15px 0 0;
+    button {
+        padding: 6px 20px;
+        color: white;
+    }
+}
+
+.btn {
+    margin-right: 0.5rem !important;
+}
+
+.btn {
+    padding: 0px 10px;
+    border-radius: 5px;
+    background: #f46708;
+    margin: 7px 16px;
+    &:hover {
+        background: #f29e67;
+    }
+}
+.color {
+    background: #f46708;
+    padding: 10px 0;
+}
+
+.toast {
+    transition: 0.32s all ease-in-out;
+}
+
+.toast-container--fade {
+    right: 0;
+    bottom: 0;
+}
+
+.toast-container--fade .toast-wrapper {
+    display: inline-block;
+}
+
+.toast.fade-init {
+    opacity: 0;
+}
+
+.toast.fade-show {
+    opacity: 1;
+}
+
+.toast.fade-hide {
+    opacity: 0;
+}
+.error-message {
+    display: block;
+}

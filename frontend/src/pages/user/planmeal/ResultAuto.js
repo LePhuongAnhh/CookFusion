@@ -1,27 +1,43 @@
-import { Link, useLocation, Navigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./ResultAuto.module.scss"
 import axios from 'axios';
+import BackButton from '~/components/button/BackButton';
 import classNames from 'classnames/bind'
 // import Pie_chart from "../../../image/pie-chart.png"
 import ShowRecipe from "../../../components/Modal/ShowRecipePlan";
 // import minh from "../../../image/article.webp"
-import ShowRecipePlan from '../../../components/Modal/ShowRecipePlan';
+import 'animate.css';
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
 
 const cx = classNames.bind(styles)
 const ResultAuto = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const [showDetailRecipeModal, setShowDetailRecipeModal] = useState(false)
     const location = useLocation();
     const data = location?.state?.data;
-    const navigate = Navigate;
+    const navigate = useNavigate();
     const [mealdata, setMealdata] = useState([]);
     const [dataSave, setDataSave] = useState({
         name: '',
     })
+
+    //animation
+    const [isBouncing, setIsBouncing] = useState(false);
+    const [isNameEmpty, setIsNameEmpty] = useState(false);
+    const handleBounceButtonClick = () => {
+        if (dataSave.name === '') {
+            setIsNameEmpty(true);
+        } else {
+            setIsBouncing(false);
+            setIsNameEmpty(false);
+        }
+        setIsBouncing(true);
+        setTimeout(() => {
+            setIsBouncing(false);
+        }, 2000);
+    };
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -29,7 +45,32 @@ const ResultAuto = () => {
             ...dataSave,
             [name]: value
         })
+        setIsNameEmpty(e.target.value === '');
     }
+    const checkName = () => {
+        const plan_name = dataSave.name;
+        setIsNameEmpty(plan_name === '' || plan_name === null);
+    };
+    const handleSaveAutoPlan = async (e) => {
+        e.preventDefault();
+        const requestDataSave = {
+            name: dataSave.name
+        }
+        try {
+            const response = await axios.post(`${apiUrl}/mealplan/saveAutoMealPlan`, requestDataSave, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data) {
+                setDataSave(response.data);
+                navigate('/result')
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const [nutrion, setNutrion] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0 })
     const handleRefreshBf = async () => {
         try {
@@ -147,53 +188,71 @@ const ResultAuto = () => {
 
     }, [mealdata, setMealdata])
 
-    const handleSaveAutoPlan = async (e) => {
-        e.preventDefault();
-        const requestDataSave = {
-            name: dataSave.name
-        }
-        try {
-            const response = await axios.post(`${apiUrl}/mealplan/saveAutoMealPlan`, requestDataSave, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            if (response.data) {
-                setDataSave(response.data);
-                navigate('/result')
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
     return (
         <div className={cx('result')}>
             <Helmet>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Helmet>
             <div className={cx('result_contain')}>
+                <div className={cx('header-card')}>
+                    <div className={cx('heder-gird')}>
+                        <span>Plan Meal</span>
+                        <span> / </span>
+                        <span>Result Plan </span>
+                    </div>
+                </div>
                 <div className={cx('result_row')}>
                     <div className={cx('result_left')}>
                         <div className={cx('result_row')}>
-                            <div className={cx('day_header')}>
-                                <div className={cx('day_title')}>Today's Meal Plan</div>
+                            <div>
+                                <div className={cx('day_header')}>
+                                    <div className={cx('day_title')}>Today's Meal Plan</div>
+                                </div>
+                                <div className={cx('form-save')}>
+                                    <div className="form-group">
+                                        {/* <label className="sr-only">Name your plan</label> */}
+                                        <input
+                                            value={dataSave.name}
+                                            onChange={(e) => handleOnChange(e)}
+                                            type="text"
+                                            className={cx("form-text")}
+                                            id='txt-full-name'
+                                            name='name'
+                                            placeholder="Name plan meal" />
+                                    </div>
+                                    <div className={cx('page-content', 'page-container')} id="page-content">
+                                        <div
+                                            className={cx('btn', 'color', 'animate__animated', {
+                                                'animate__bounce': isBouncing,
+                                            })}
+                                        >
+                                            <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                                <button onClick={handleSaveAutoPlan} type="submit" className=" text-center btn-blue">Save</button>
+                                            </div>
+
+                                            {/* </div> */}
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
 
-                            <form>
-                                <div className="form-group">
-                                    <label className="sr-only">Name</label>
-                                    <input
-                                        value={dataSave.name}
-                                        onChange={(e) => handleOnChange(e)}
-                                        type="text"
-                                        className="form-control"
-                                        required=""
-                                        id="nameNine"
-                                        name='name'
-                                        placeholder="Name plan meal" />
-                                </div>
-                                <button onClick={handleSaveAutoPlan} type="submit" className="btn text-center btn-blue">Save</button>
-                            </form>
+
+                            <div>
+                                {isNameEmpty &&
+                                    <div className={cx('error-message')}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                        </svg> &nbsp;
+                                        <i>Please enter a name for the plan</i>
+                                    </div>
+                                }
+                            </div>
 
                             <div className={cx('single_day')}>
                                 <div>
@@ -203,7 +262,21 @@ const ResultAuto = () => {
                                             <div className={cx('plan_stats')}>
                                                 <img src={images.Pie_chart} />
                                                 <div className={cx('show_calories')}>{Math.floor(nutrion.calories)} Calories</div>
+                                                {/* <div className={cx('header_right')}> */}
+                                                <div className={cx('meal_refresh')} title='Save collection plan meal'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16" title='Save collection plan meal'>
+                                                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                                    </svg>
+                                                </div>
+                                                {/* </div> */}
                                             </div>
+
+                                            {/* <div className={cx('btn-collection', 'color')} >
+                                                <div className={cx("")}>
+                                                    <button type="submit" className=" text-center btn-blue">Collection</button>
+                                                </div>
+                                            </div> */}
+
                                         </div>
                                         <div className={cx('result_row')}>
                                             {/* breakfast  */}
@@ -230,25 +303,18 @@ const ResultAuto = () => {
                                                 <div className={cx('meal_content')}>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
-                                                            <Link to="#">
-                                                                <div className={cx('avt_follow')} onClick={() => setShowDetailRecipeModal(true)} >
+                                                            <Link >
+                                                                <div className={cx('avt_follow')}>
                                                                     <img className={cx('circle_avt')} src={((mealdata.bf)) ? mealdata.bf.dessert.data.image : images.minh} />
                                                                 </div>
                                                             </Link>
                                                             <div className={cx('show_name')}>
-                                                                <h6 onClick={() => setShowDetailRecipeModal(true)} >
+                                                                <h6  >
                                                                     <Link to="#">{((mealdata.bf)) ? mealdata.bf.dessert.data.name : 'Dessert'}</Link>
                                                                 </h6>
                                                                 <div className={cx('btn_follow1')}>
                                                                     <span className={cx('follow')}>{((mealdata.bf)) ? mealdata.bf.dessert.data.nPerson : '1'} serving</span>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -269,13 +335,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -294,13 +354,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -329,12 +383,12 @@ const ResultAuto = () => {
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
                                                             <Link to="#">
-                                                                <div className={cx('avt_follow')} onClick={() => setShowDetailRecipeModal(true)} >
+                                                                <div className={cx('avt_follow')} >
                                                                     <img className={cx('circle_avt')} src={((mealdata.lunch)) ? mealdata.lunch.dessert.data.image : images.minh} />
                                                                 </div>
                                                             </Link>
                                                             <div className={cx('show_name')}>
-                                                                <h6 onClick={() => setShowDetailRecipeModal(true)} >
+                                                                <h6 >
                                                                     <Link to="#">{(mealdata.lunch) ? mealdata.lunch.dessert.data.name : 'Dessert'}</Link>
                                                                 </h6>
                                                                 <div className={cx('btn_follow1')}>
@@ -342,13 +396,7 @@ const ResultAuto = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -367,13 +415,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -392,13 +434,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -417,13 +453,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -453,12 +483,12 @@ const ResultAuto = () => {
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
                                                             <Link to="#">
-                                                                <div className={cx('avt_follow')} onClick={() => setShowDetailRecipeModal(true)} >
+                                                                <div className={cx('avt_follow')} >
                                                                     <img className={cx('circle_avt')} src={(mealdata.dinner) ? mealdata.dinner.dessert.data.image : images.minh} />
                                                                 </div>
                                                             </Link>
                                                             <div className={cx('show_name')}>
-                                                                <h6 onClick={() => setShowDetailRecipeModal(true)} >
+                                                                <h6 >
                                                                     <Link to="#">{(mealdata.dinner) ? mealdata.dinner.dessert.data.name : 'Dessert'}</Link>
                                                                 </h6>
                                                                 <div className={cx('btn_follow1')}>
@@ -466,13 +496,7 @@ const ResultAuto = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -491,13 +515,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -516,13 +534,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className={cx('row_meal_foods')}>
                                                         <div className={cx('show_info1')}>
@@ -541,13 +553,7 @@ const ResultAuto = () => {
                                                             </div>
 
                                                         </div>
-                                                        <div className={cx('header_right_hide')}>
-                                                            <div className={cx('meal_refresh')} title='Refresh this meal'>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                                                                    <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -559,6 +565,10 @@ const ResultAuto = () => {
                             </div>
                         </div>
                     </div>
+
+
+
+
                     <div className={cx('result_right')}>
                         <div className={cx('nutrition_value')}>
                             <h3 className={cx('title_value')}>Nutrition value</h3>
@@ -610,10 +620,21 @@ const ResultAuto = () => {
                             </div>
                         </div>
                     </div>
+                    <div className={cx('result_left')}>
+                        <div className={cx('result_row')}>
+                            <div className={cx('buttons_wrapper')}>
+                                <BackButton />
+                                <Link to="/planmeal" className={cx('card-next')}>
+                                    <button className={cx('next_btn')}>Create Plan </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {showDetailRecipeModal && <ShowRecipe setShowDetailRecipeModal={setShowDetailRecipeModal} />}
-        </div>
+
+
+        </div >
     )
 }
 

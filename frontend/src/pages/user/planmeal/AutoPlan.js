@@ -3,8 +3,6 @@ import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
 import styles from "./AutoPlan.module.scss"
 import classNames from 'classnames/bind'
-import PlanmealForm from './PlanMealForm';
-import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl, PROFILE_INFORMATION } from '~/constants/constants';
 import axios from 'axios';
@@ -40,7 +38,6 @@ const AutoPlan = () => {
     const [selectedGender, setSelectedGender] = useState('male');
     //thong bao lỗi
     const [errorAge, setErrorAge] = useState('');
-    const [errorHigh, setErrorHigh] = useState('');
 
     //
     const [userInput, setUserInput] = useState({
@@ -103,13 +100,8 @@ const AutoPlan = () => {
     //chuyenqau trang sau
     const handleNextButtonClick = async () => {
         setErrorAge('');
-        setErrorHigh('');
-        if (!userInput.high) {
-            setErrorHigh("Vui lòng nhập chiều cao trước khi chuyển tiếp.");
-            return;
-        }
         if (!userInput.age) {
-            setErrorAge("Vui lòng nhập tuổi trước khi chuyển tiếp.");
+            setErrorAge("Please enter your age before forwarding.");
             return;
         }
         const combinedUserData = {
@@ -177,7 +169,7 @@ const AutoPlan = () => {
                             </div>
 
                             <div className={cx('while_block')}>
-                                <div className={cx('block_title')}>Cân nặng</div>
+                                <div className={cx('block_title')}>Your weight</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <input
                                         placeholder="Enter your weight"
@@ -192,7 +184,7 @@ const AutoPlan = () => {
                             </div>
 
                             <div className={cx('while_block')}>
-                                <div className={cx('block_title')}>Chiều cao</div>
+                                <div className={cx('block_title')}>Your high</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <input
                                         required
@@ -207,9 +199,8 @@ const AutoPlan = () => {
                                     &nbsp; cm
                                 </div>
                             </div>
-                            {errorHigh && <div className={cx('error-message')}>{errorHigh}</div>}
                             <div className={cx('while_block')}>
-                                <div className={cx('block_title')}>Tuổi</div>
+                                <div className={cx('block_title')}>Age</div>
                                 <div className={cx('while_block_wrapper')}>
                                     <input
                                         required
@@ -223,7 +214,11 @@ const AutoPlan = () => {
                                     /> &nbsp; years
                                 </div>
                             </div>
-                            {errorAge && <div className={cx('error-message')}>{errorAge}</div>}
+                            {errorAge && <div className={cx('error-message')}> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                            </svg> &nbsp;
+                                <i> {errorAge}</i></div>}
                             <div className={cx('while_block')}>
                                 <div className={cx('block_title')}>Your activity mode</div>
                                 <div className={cx('while_block_wrapper')}>
@@ -263,13 +258,12 @@ const AutoPlan = () => {
                             </div>
                         </div>
                         <div className={cx('buttons_wrapper')}>
-
                             <BackButton />
                             <button onClick={handleNextButtonClick} className={cx('next_btn')} >Next</button>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
