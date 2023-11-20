@@ -28,7 +28,7 @@ const RegisterForm = () => {
 
     const handleCancel = () => {
         setShowRoleModal(false);
-        navigate('/'); // Quay lại trang login khi bấm Cancel
+        navigate('/login'); // Quay lại trang login khi bấm Cancel
     };
 
     const handleOK = () => {
@@ -253,7 +253,7 @@ const RegisterForm = () => {
                         </div>
                         <div className={cx('lb_login', 'd-flex', 'justify-content-center', 'align-items-center')}>
                             <label> Already register? </label>
-                            <Link to='/'> &nbsp;  Sign in </Link>
+                            <Link to='/login'> &nbsp;  Sign in </Link>
                         </div>
                     </form>
                 </div>

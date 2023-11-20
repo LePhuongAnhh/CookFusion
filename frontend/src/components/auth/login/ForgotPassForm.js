@@ -33,7 +33,7 @@ const ForgotPassForm = () => {
                             </div>
                             <div className={cx('lb_forgot_password')}>
                                 <label> Back to </label>
-                                <Link to='/'> &nbsp;  Sign in </Link>
+                                <Link to='/login'> &nbsp;  Sign in </Link>
                                 <p> &nbsp; or</p>
                                 <Link to='/register'> &nbsp;  Create an account </Link>
                             </div>

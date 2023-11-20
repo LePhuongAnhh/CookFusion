@@ -1,6 +1,6 @@
 
 // layout
-import { AdminLayout, AdsLayout } from "~/components/Layout";
+import { AdminLayout } from "~/components/Layout";
 
 import LoginForm from "~/components/auth/login/LoginForm";
 import RegisterForm from "~/components/auth/login/RegisterForm";
@@ -43,14 +43,14 @@ import DetailPlan from "~/pages/user/planmeal/DetailPlan";
 import BlogForm from "~/components/Modal/BlogForm";
 
 const publicRoutes = [
-    { path: '/', component: LoginForm, layout: null },
+    { path: '/login', component: LoginForm, layout: null },
     { path: "/register", component: RegisterForm, layout: null },
     { path: "/verify", component: VerifyEmail, layout: null },
     { path: "/chooserole", component: RoleModal, layout: null },
     { path: "/forgotpassword", component: ForgotPassForm, layout: null },
     { path: "/forgotpassword2", component: ForgotPassForm2, layout: null },
     { path: "/forgotpassword3", component: ForgotPassForm3, layout: null },
-    { path: "/homepage", component: HomepageForm },
+    { path: "/", component: HomepageForm },
     { path: "/recipe", component: Recipe },
     { path: "/aboutus", component: AboutUs },
     { path: "/detail/:id", component: DetailRecipe },

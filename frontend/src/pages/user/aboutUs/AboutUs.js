@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import styles from "./AboutUs.module.scss"
 import classNames from 'classnames/bind'
-import Navigation from '../../../components/Layout/DefaultLayout/Header/Navigation'
+
 // import Main from "../../../image/main_img.png"
 // import About from "../../../image/about.png"
 import images from '~/assets/images'
@@ -12,7 +12,6 @@ const cx = classNames.bind(styles)
 function AboutUs() {
     return (
         <div>
-            <Navigation />
             <div className={cx('about_us')}>
                 <div className={cx('about_us_contain')}>
                     {/* MAIN  */}

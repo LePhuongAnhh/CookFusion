@@ -1,6 +1,3 @@
-* {
-    letter-spacing: 0.3px;
-}
 .home_body {
     display: flex;
     min-height: 100vh;
@@ -39,79 +36,63 @@
     padding: 44px 74px;
 }
 
-/* TOP RECIPE */
+// 1 TOP AREA
 
-.recipe_contain_box {
-    padding: 0 25px;
+/* TOP RECIPE */
+.recipe_contain {
+    width: 100%;
+    position: relative;
 }
 .img_carousel {
     display: flex;
     width: 100%;
-    margin-left: -25px;
     justify-content: center;
     text-align: center;
+    margin-left: -12px;
+}
+.recipe_card {
+    margin: 65px 25px;
 }
 
 .img_carousel_item_first {
     position: relative;
+    // border: 1px solid;
     width: 390px;
     height: 370px;
-    list-style: none;
-    margin-left: 40px;
-    border-radius: 10px;
+    min-height: 277px;
+    margin: 10px 7px;
     display: flex;
+    // flex-grow: 1;
 }
-
-.img_carousel_item_first > div {
-    height: 100%;
-}
-
-.card_box_in {
+.card_info_wrapper {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
+.recipe_card_img:hover .title_box,
+.recipe_card_img:hover .card_ingredients {
+    transform: translateY(0);
+}
 .recipe_card_img {
     position: relative;
-    border-radius: 3px;
     img {
-        height: 278px;
+        width: 100%;
+        transition: 0.5s ease;
+        height: 277px;
+        min-height: 277px;
     }
 }
 
-.recipe_card_img:hover img {
-    // transform: scale(1.1);
+.card_name {
+    display: inline-block;
+    margin-top: 13px;
 }
-
-.recipe_card_img img {
-    border-radius: 4px;
-    width: 100%;
-    margin-top: 20px;
-    transition: 0.5s ease;
-    object-fit: cover;
-}
-
-/*  */
-
-.card_info_wrapper {
-    margin: 15px 0px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .card_title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 1.1;
-    font-size: 25.5px;
-    color: #1d1d1d;
-    vertical-align: baseline;
+    text-align: justify;
+    font-size: 24px;
+    font-weight: 600;
 }
-
 .card_source {
     display: flex;
     justify-content: center;
@@ -119,15 +100,43 @@
 }
 
 .card_source_link {
-    margin: 20px 0;
-    color: #646464;
+    margin-top: 10px;
+    // color: #646464;
 }
 
-.card_source_link:hover {
-    color: rgb(23, 37, 32);
+.card_source_link:hover,
+.card_title:hover {
+    color: var(--main-text-website);
 }
 
-/* MAIN  */
+.img_carousel_item_first > div {
+    height: 100%;
+    margin: 0px 32px;
+}
+
+.card_box_in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+@media (max-width: 70em) {
+    .img_carousel {
+        flex-wrap: wrap;
+    }
+    .img_carousel_item_first {
+        width: 35%;
+        // margin: 0 7px;
+    }
+}
+
+@media (max-width: 50em) {
+    .img_carousel_item_first {
+        width: calc(60% - 30px);
+        min-width: 300px;
+        // margin: 0 7px;
+    }
+}
+//   -------------------END--------------------
 
 .home_home {
     width: 100%;
@@ -151,7 +160,7 @@
 }
 
 .home_home .main .main_text h1 span {
-    color: #f46708;
+    color: var(--main-text-website);
     font-family: polo;
 }
 
@@ -169,7 +178,7 @@
 .home_home .main .main_text .btn {
     color: #000;
     text-decoration: none;
-    border: 2px solid #f46708;
+    border: 2px solid var(--main-text-website);
     padding: 10px 20px;
     position: relative;
     top: 70px;
@@ -188,7 +197,7 @@
     left: 0;
     width: 0;
     height: 100%;
-    background: #f46708;
+    background: var(--main-text-website);
     z-index: -1;
     transition: 0.3s;
 }
@@ -205,8 +214,7 @@
 }
 
 /* WHAT'S NEW */
-.home_wrapper,
-.news_container {
+.home_wrapper {
     margin: 70px 36px;
 }
 
@@ -220,15 +228,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.small_lists_article {
-    /* width: 44%; */
     /* background-color: #707070; */
 }
 
 .article_news {
-    color: #242424;
+    // color: #242424;
     margin-bottom: 20px;
     transition: color 400ms ease;
     font-weight: 700;
@@ -266,7 +270,7 @@
 }
 
 .article_title {
-    color: #242424;
+    // color: #242424;
     margin-bottom: 10px;
     overflow: hidden;
     font-size: 16px;
@@ -358,31 +362,34 @@ a {
 
 .news_container {
     width: 100%;
+    position: relative;
+    margin: 50px 0px 50px 30px;
+    h2 {
+        margin-left: 15px;
+    }
 }
 
 .recipe_card h2 {
-    margin: 20px 36px;
+    margin: 20px 50px;
     text-transform: uppercase;
 }
 
 .news_name {
-    width: 97%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    margin-left: -15px;
+    text-align: center;
 }
 
 .news_gird {
-    text-align: center;
-    width: 31%;
+    width: 354px;
     display: inline-block;
-    margin: 0 20px;
+    margin: 10px 25px;
 }
 .news_element,
 .news_element1,
 .news_element2 {
     width: 100%;
-    height: 588px;
+    height: 480px;
     margin-left: -33px;
     margin-top: 20px;
     display: inline-block;
@@ -406,7 +413,7 @@ a {
 }
 
 .news_card_img {
-    padding-top: 100%;
+    padding-top: 85%;
     height: 0;
     position: relative;
     overflow: hidden;
@@ -416,7 +423,6 @@ a {
 .news_gird img {
     width: 370px;
     height: 300px;
-    object-fit: cover;
     transition: transform 0.8s;
 }
 
@@ -426,7 +432,7 @@ a {
 
 .news_img_background {
     position: absolute;
-    top: 35px;
+    top: 0px;
     z-index: 0;
     overflow: hidden;
 }
@@ -435,18 +441,23 @@ a {
     display: block;
     padding-top: 25px;
 }
-
+.news_cate:hover,
+.news_title:hover {
+    color: var(--main-text-website);
+}
 .news_detail {
-    margin-top: 35px;
+    margin-top: 20px;
+    font-size: 17px;
     padding: 13px 110px;
     display: inline-block;
-    border: 1px solid black;
+    border: 1px solid var(--main-text-website);
     border-radius: 30px;
+    // color: var(--main-text-website);
 }
 .news_detail:hover,
 .btn_view:hover {
     color: white;
-    background-color: #1d1d1d;
+    background-color: var(--main-text-website);
 }
 
 .news_cate {
@@ -455,32 +466,36 @@ a {
 }
 
 .news_title {
-    margin-top: 20px;
-    font-size: 36px;
+    // margin-top: 20px;
+    font-size: 24px;
     line-height: 34px;
 }
 
-/* EXPLORE MORE */
+/* EXPLORE MORE - CATEGORY */
 .cate_contain {
-    margin-top: 5px;
-    display: flex;
-    margin-left: 20px;
+    position: relative;
+    width: 100%;
 }
 
-.cate_gird h2 {
-    margin-left: 15px;
+.cate_gird {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 70px;
+    justify-content: center;
+    margin: 0 50px;
+}
+
+.cate_contain h2 {
+    margin: 30px 45px;
     text-transform: uppercase;
 }
 
 .cate_img_block {
-    margin: 25px 0 0 90px;
-    width: 185px;
-    display: inline-block;
+    position: relative;
+    text-align: center;
+    margin-bottom: -25px;
 }
 
-.cate_img_block a {
-    height: 50px;
-}
 .cate_img img {
     overflow: clip;
     width: 160px;
@@ -490,19 +505,11 @@ a {
 }
 
 .cate_title {
-    display: block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-align: center;
     font-weight: 700;
     font-size: 16px;
     line-height: 24px;
-    --current-line-height: 24px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-inline-end: 24px;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
+    margin: 10px;
 }
 
 .cate_title:hover {
@@ -513,7 +520,7 @@ a {
     padding: 13px 0;
     background-color: #f2f2f2;
     width: 94%;
-    margin: 45px 36px;
+    margin: 85px 36px 45px;
 }
 
 .contain_fullwidth {
@@ -561,6 +568,12 @@ a {
 .content_show {
     display: flex;
     flex-wrap: wrap;
+    .recipe_card {
+        h2 {
+            margin: 20px;
+            text-transform: uppercase;
+        }
+    }
 }
 
 .content_show .box {
@@ -568,20 +581,15 @@ a {
     position: relative;
 }
 
-.img_carousel {
-    display: flex;
-    width: 97%;
-    margin-bottom: 40px;
-    margin: 0;
-}
-
 .img_carousel_item {
     position: relative;
-    height: 507px;
+    height: 470px;
     list-style: none;
-    margin-left: 7px;
+    /* margin-left: 7px; */
     border-radius: 10px;
     border: solid 1px #e1e1e1;
+    /* margin-bottom: 24px; */
+    margin: 0px 3px 24px;
 }
 
 .img_carousel_item > div {
@@ -594,10 +602,22 @@ a {
     gap: 10px;
 }
 
-.recipe_card_img {
+.recipe_card_top {
     position: relative;
     border-radius: 3px;
     overflow: hidden;
+    width: 285px;
+    transition: 0.5s ease;
+    height: 240px;
+    min-height: 277px;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+.recipe_card_top:hover .title_box,
+.recipe_card_top:hover .card_ingredients {
+    transform: translateY(0);
 }
 
 .btn_save {
@@ -612,18 +632,11 @@ a {
 }
 
 .btn_save svg {
-    color: #f46708;
+    color: var(--main-text-website);
 }
 
 .recipe_card_img:hover img {
     transform: scale(0.9);
-}
-
-.recipe_card_img img {
-    border-radius: 10px 10px 0 0;
-    margin: 0px 0 7px 0;
-    transition: 0.5s ease;
-    object-fit: cover;
 }
 
 .title_box {
@@ -651,44 +664,6 @@ a {
     cursor: pointer;
 }
 
-.recipe_card_img:hover .title_box,
-.recipe_card_img:hover .card_ingredients {
-    transform: translateY(0);
-}
-
-.card_info_wrapper {
-    margin: 12px 0px;
-    width: 100%;
-    display: flex;
-}
-
-.card_name {
-    display: inline-block;
-    margin: 10px 25px;
-}
-.card_title {
-    line-height: 1.1;
-    font-size: 25.5px;
-    text-align: justify;
-    color: #1d1d1d;
-    vertical-align: baseline;
-}
-
-.card_source {
-    display: inline-block;
-    width: 100%;
-    padding: 1em 0px;
-}
-
-.card_source_link {
-    margin: 20px 0;
-    color: #646464;
-}
-
-.card_source_link:hover {
-    color: rgb(47, 183, 138);
-}
-
 .icon_stars {
     position: relative;
     display: inline-block;
@@ -697,7 +672,7 @@ a {
 
 .review_stars {
     cursor: pointer;
-    color: #646464;
+    // color: #646464;
 }
 
 .icon_stars img {
@@ -709,14 +684,26 @@ a {
 .count_rate {
     margin-left: 5px;
 }
+.card_name_cate {
+    margin-top: 30px;
+}
+.card_title_cate {
+    text-align: justify;
+    font-size: 20px;
+    font-weight: 600;
+    &:hover {
+        color: var(--main-text-website);
+    }
+}
 
 .cook {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 .cook button {
-    color: #1d1d1d;
+    color: var(--main-text-website);
     background-color: transparent;
     width: 80%;
     height: 45px;
@@ -731,18 +718,12 @@ a {
 
 .cook button:hover {
     color: white;
-    background-color: #1d1d1d;
+    background-color: var(--main-text-website);
 }
 
 .card_box {
     position: relative;
     float: right;
-}
-
-/* MORE IDEAS */
-
-.recipe_card {
-    margin: 65px 0;
 }
 
 /* TOP ACCOUNT */
@@ -812,7 +793,7 @@ a {
 
 .gallary h1 span {
     margin-left: 15px;
-    color: #f46708;
+    color: var(--main-text-website);
     font-family: mv boli;
 }
 
@@ -820,7 +801,7 @@ a {
     content: '';
     width: 100%;
     height: 2px;
-    background: #f46708;
+    background: var(--main-text-website);
     display: block;
     position: relative;
     bottom: 15px;
@@ -854,7 +835,7 @@ a {
     position: absolute;
     font-size: 35px;
     margin-bottom: 130px;
-    color: #f46708;
+    color: var(--main-text-website);
     font-family: polo;
     z-index: 5;
     opacity: 0;
@@ -885,7 +866,7 @@ a {
     position: absolute;
     margin-top: 180px;
     color: #000;
-    background: #f46708;
+    background: var(--main-text-website);
     padding: 7px 25px;
     text-decoration: none;
     opacity: 0;
@@ -976,7 +957,7 @@ a {
 }
 
 .team .team_box .profile .info .name {
-    color: #f46708;
+    color: var(--main-text-website);
     /* margin-bottom: 15px; */
 }
 .name {
@@ -998,5 +979,7 @@ a {
 }
 
 .team .team_box .profile .info .team_icon svg:hover {
-    color: #f46708;
+    color: var(--main-text-website);
 }
+
+// RESPONSIVE
