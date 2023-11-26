@@ -3,15 +3,12 @@
 }
 
 .blog_card {
-    position: relative;
-    margin: 0 auto;
-    width: 275px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .blog_card .blog_img {
-    height: 225px;
+    height: 210px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -23,11 +20,13 @@
     object-position: center;
 }
 
+.blog_tag {
+    margin: -35px 0 0 0;
+}
+
 .blog_card .blog_tag .blog_date {
-    width: 100%;
     color: #f46708;
-    padding: 15px 0 0 20px;
-    font-size: 14px;
+    padding: 0px 0 0 20px;
 }
 
 .blog_card .blog_tag .blog_date i {
@@ -37,8 +36,11 @@
 }
 
 .blog_card .blog_tag .blog_heading {
-    padding: 0px 20px 5px;
+    padding: 5px 20px;
     font-size: 18px;
+    &:hover {
+        color: #f46708;
+    }
 }
 
 .blog_card .blog_tag .blog_text {
@@ -46,10 +48,13 @@
     text-align: justify;
     line-height: 21px;
 }
+.cursor {
+    cursor: pointer;
+}
 
 .blog_card .blog_tag hr {
     width: 95%;
-    margin: 0 auto;
+    margin: -20px auto 0;
     height: 1px;
     border: 0;
     background: #f46708;
@@ -57,7 +62,7 @@
 }
 
 .blog_card .blog_tag .view_and_like {
-    padding: 15px 20px 5px 20px;
+    padding: 6px 20px 0px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -81,12 +86,19 @@
         margin: -11px 0 0 3px;
         cursor: pointer;
     }
+    p {
+        cursor: pointer;
+        margin-left: 5px;
+        margin-top: 6px;
+        font-size: 14px;
+    }
 }
 
 .blog_card .blog_tag .view_and_like .like i {
     cursor: pointer;
     margin-left: 5px;
-    margin-top: -14px;
+    margin-top: -12px;
+    font-size: 18px;
 }
 
 .horizontal-scroll-container {
@@ -98,35 +110,33 @@
 }
 
 .category-container {
-    margin-bottom: 30px; /* Khoảng cách giữa các danh mục */
+    margin-bottom: 55px; /* Khoảng cách giữa các danh mục */
 }
 
 .filter-cate {
     margin: 0px 4px 15px 14px;
     div {
-        font-size: 17px;
+        font-size: 18px;
         text-transform: uppercase;
+        font-weight: 600;
     }
 }
 
 .recipe-list-horizontal {
-    display: flex; //sliler thif bor cais nayf ddi
-    overflow-x: auto;
-    white-space: nowrap;
-    height: 440px; //slider thif bor cais nagy ddi
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjust as needed */
+    gap: 30px 20px; /* Adjust as needed */
 }
 
 .recipe-item-horizontal {
-    margin-left: 8px;
+    width: 95%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    margin: 0 11px;
 }
-
-.recipe-list-horizontal {
-    scrollbar-width: 1px;
-    scrollbar-color: transparent transparent; /* Màu thanh cuộn và thumb */
-}
-
-.recipe-list-horizontal:hover {
-    scrollbar-color: #888 #888; /* Màu thanh cuộn và thumb khi rê chuột vào */
+@media (max-width: 48em) {
+    .recipe-list-horizontal {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Single column for small screens */
+    }
 }
 
 //seting edit/ delete
@@ -178,4 +188,27 @@
         margin: -4px 0 -6px 0;
         padding: -3px 0 3px 0;
     }
+}
+
+.action-readmore {
+    color: var(--main-text-color);
+    cursor: pointer;
+    margin: 10px 0 0 15px;
+    &:hover {
+        color: #f46708;
+    }
+}
+
+//imag
+.blogImg {
+    overflow: hidden;
+    position: relative;
+}
+
+.blogImg img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.blogImg:hover img {
+    transform: scale(1.1);
 }

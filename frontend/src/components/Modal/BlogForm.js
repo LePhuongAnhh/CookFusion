@@ -249,7 +249,7 @@ const BlogForm = ({ idProfile }) => {
         <>
             <div className={cx('post_status')}>
                 {filteredArticles.map((article) => (
-                    <li key={article._id}>
+                    <li className={cx("box-card")} key={article._id}>
                         <div className={cx('post_status')}>
                             <div className={cx('post_hearer')}>
                                 <div className={cx('post_hearer_between')}>
@@ -387,14 +387,6 @@ const BlogForm = ({ idProfile }) => {
                                             <span className={cx('like_icon')}></span>
                                         </div>
                                     </div>
-                                    {/* <div className={cx('emotion_item')}>
-                                        <div className={cx('emotion_gird')}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
-                                            </svg>
-                                            <span className={cx('like_icon')}></span>
-                                        </div>
-                                    </div> */}
                                 </div>
                                 <div className={cx('total_like')}>
                                     <Link to="#" className={cx('count_like')}>

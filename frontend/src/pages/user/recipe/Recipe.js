@@ -163,7 +163,7 @@ const Recipe = () => {
                             <span>
                                 <h2 className={cx('summary_title')}>Introduction of Recipe</h2>
                                 <p>
-                                    People cook for many reasons. At Yummly, we do it for the love of food, and we want to help you and other home cooks discover and demystify dishes that pique your culinary curiosities -- whatever the driving force behind cooking is for you. Whether your economic strategy is motivated by gastronomic delights or your dietary restrictions are guiding your kitchen creations,  there are thousands of recipes to explore.
+                                    People cook for many reasons. At GourmetFoodie, we do it for the love of food, and we want to help you and other home cooks discover and demystify dishes that pique your culinary curiosities -- whatever the driving force behind cooking is for you. Whether your economic strategy is motivated by gastronomic delights or your dietary restrictions are guiding your kitchen creations,  there are thousands of recipes to explore.
                                 </p>
                                 <p className={cx('summary_add')}>We've broken down the elements of cooking to make it simple…
                                 </p>
