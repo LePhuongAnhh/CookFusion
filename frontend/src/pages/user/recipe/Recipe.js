@@ -172,7 +172,7 @@ const Recipe = () => {
                         </div>
                     </div>
                     <div className={cx('blog')}>
-                        <h1>Our<span>Blog</span></h1>
+                        <h1>Our<span>Recipe</span></h1>
                         <div className={cx('blog_box')}>
                             <RecipeForm />
                         </div>

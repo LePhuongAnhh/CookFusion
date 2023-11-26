@@ -314,7 +314,9 @@ function DefaultLayout({ children }) {
                                     </svg>
                                 </label>
                             </div>
-                            <Link className="navbar-brand" to="#"><i className="fa-solid fa-shop me-2"></i> <strong className={cx('logo-text')}> GourmetFood</strong></Link>
+                            <Link className="navbar-brand" to="#">
+                                <strong className={cx('logo-text')}> GourmetFood</strong>
+                            </Link>
 
                             {/* SEARCH + MENU + INFO  */}
                             <div className={cx("navbar-collapse")} id="navbarNavDropdown">

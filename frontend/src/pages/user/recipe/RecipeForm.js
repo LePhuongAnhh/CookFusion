@@ -22,32 +22,37 @@ const RecipeForm = ({ idProfile }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const Account_id = profileInformation._id;
-
-    // UPDATE RECIPE
     const [recipeAllData, setAllRecipeData] = useState([]);
     const [showUpdateRecipeModal, setShowUpdateRecipeModal] = useState(false)
     const [selectedUpdateRecipe, setSelectedUpdateRecipe] = useState(null);
     const [showAll, setShowAll] = useState(false);
+    const [isSaved, setIsSaved] = useState(false); // Trạng thái xác định xem recipe đã được lưu hay chưa
+    const [showCollections, setShowCollections] = useState(false);
+    const [collectionData, setCollectionData] = useState([]);
+    const [currentRecipeId, setCurrentRecipeId] = useState(null);
+
+
+
+    const handleButtonClick = (e, recipe) => {
+        e.preventDefault();
+        setShowCollections(!showCollections);
+        setCurrentRecipeId(recipe._id); // Set the current recipe ID
+    };
+
+    //READ MORE
     const toggleShowAll = () => {
         setShowAll(!showAll);
     };
-
-    const handleRecipeUpdateClick = (recipe) => {
-        setSelectedUpdateRecipe(recipe);
-        setShowUpdateRecipeModal(true);
-    };
-
-
     //horver setting
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const handleMouseEnter = () => {
         setDropdownOpen(true);
+
     };
     const handleMouseLeave = () => {
         setDropdownOpen(false);
+
     };
-
-
     //delete recipe
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const [showDeleteRecipeModal, setShowDeleteRecipeModal] = useState(false);
@@ -56,6 +61,24 @@ const RecipeForm = ({ idProfile }) => {
         setRecipeIdToDelete(recipeId);
         setShowDeleteRecipeModal(true);
     };
+
+    //GOI COLLECTION CUA MINH TAO
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/collection/getcollection`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                const userCollections = response.data.collections.filter(collection => collection.Account_id === Account_id);
+                setCollectionData(userCollections);
+            } catch (error) {
+                console.error("Error fetching Meal Plans:", error);
+            }
+        };
+        fetchData();
+    }, [accessToken, Account_id]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -80,29 +103,31 @@ const RecipeForm = ({ idProfile }) => {
                             },
                         }),
                     ]);
-
                     console.log(recommend.data); // recommend data with 4 recipes => list recommend category
                     setAllRecipeData(response.data); // get first 4 recipes to display => list new category
-                }
 
+                    // Lấy danh sách công thức đã lưu
+                    const savedRecipes = response.data.savedRecipes;
+
+                    // Cập nhật trạng thái lưu cho từng công thức
+                    const updatedRecipes = response.data.map((recipe) => {
+                        return {
+                            ...recipe,
+                            isSaved: savedRecipes.includes(recipe._id),
+                        };
+                    });
+
+                    setAllRecipeData(updatedRecipes);
+                }
             } catch (error) {
                 console.log(error);
             }
         };
-
         fetchData();
     }, [idProfile, accessToken]); // Thêm idProfile và accessToken vào dependency array để tránh warning và cập nhật khi chúng thay đổi
-
-
-
-
     if (!recipeAllData || !recipeAllData.data || recipeAllData.data.length === 0) {
         return <p className={cx('loading')}><Loading /> </p>;
     }
-
-
-
-
     //NHÓM RECIPE THEO CATEGORY
     const recipesByCategory = {};
     recipeAllData.data.forEach((recipe) => {
@@ -113,18 +138,40 @@ const RecipeForm = ({ idProfile }) => {
         recipesByCategory[category].push(recipe);
     });
 
-    //detail
+    //SAVE COLLECTION
+    // SAVE COLLECTION
+    const handleCollectionClick = async (e, _id, collection, nameRecipe) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                `${apiUrl}/collection/saveRecipeCollection`,
+                { _id, Collection_id: collection._id, isRecipe: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            console.log(`Clicked on collection for recipe: ${nameRecipe}`);
+            if (response.data) {
+                setIsSaved(true); // Cập nhật trạng thái đã lưu
+                console.log('response.data:', response.data);
+            }
+        } catch (error) {
+            console.error('Error saving recipe to collection:', error);
+        }
+    };
+
     return (
         <>
             <div className={cx('horizontal-scroll-container')} >
                 {Object.entries(recipesByCategory).map(([category, recipes]) => (
                     <div key={category} className={cx('category-container')}>
-
                         <div className={cx('filter-cate')}>
                             <div>{category}</div>
                         </div>
                         <div className={cx('recipe-list-horizontal')}>
-                            {/* <Slider {...settings}> */}
                             {recipes.slice(0, showAll ? recipes.length : 4).map((recipe, index) => (
                                 <div key={recipe._id} className={cx('recipe-item-horizontal')}>
                                     <div className={cx('blog_card')}>
@@ -137,8 +184,7 @@ const RecipeForm = ({ idProfile }) => {
                                             </div>
                                         </Link>
                                         <div className={cx('blog_tag')}>
-                                            <Link
-                                                to={`/detail/${recipe._id}`}
+                                            <Link to="#"
                                                 className={cx('recipe-item-horizontal')}
                                             >
                                                 <div className={cx('blog_date')}>
@@ -158,6 +204,19 @@ const RecipeForm = ({ idProfile }) => {
 
                                                         &nbsp; <span className={cx('count_rating')}>({recipe.ratings})</span>
                                                     </Link>
+                                                    <button onClick={(e) => handleButtonClick(e, recipe)}>
+                                                        {isSaved ? (
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f46708" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                                <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                                <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                            </svg>
+                                                        )}
+                                                    </button>
 
                                                 </div>
                                                 <h3 className={cx('blog_heading')}>
@@ -171,8 +230,23 @@ const RecipeForm = ({ idProfile }) => {
                                                     <p className={cx('b_comm', "cursor")}>{recipe.comments} comments</p>
                                                 </div>
                                                 <div className={cx('like')}>
-                                                    <p className={cx('count-save')}>{recipe.collections}</p>
-                                                    <i className="bi bi-bookmark-heart"></i>
+                                                    {/* <p className={cx('count-save')}>{recipe.collections}</p> */}
+                                                    {showCollections && currentRecipeId === recipe._id && (
+                                                        <div className={cx('notification-popup')}>
+                                                            {/* Nội dung của dropdown */}
+                                                            <div className={cx('card-list')}>
+                                                                <div className={cx('card-item')}>
+                                                                    <span>Add to a collection </span>
+                                                                    {collectionData.map((collection) => (
+                                                                        <div className={cx('list-item')} key={collection._id} onClick={(e) => handleCollectionClick(e, recipe._id, collection, recipe.name)}>
+                                                                            {collection.name}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
                                                     <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
                                                             <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
@@ -181,14 +255,6 @@ const RecipeForm = ({ idProfile }) => {
                                                             <div className={cx('dropdown-content')}>
                                                                 {/* Nội dung của dropdown */}
                                                                 <div className={cx('action-comment')}>
-                                                                    {recipe.User_id === Account_id && (
-                                                                        <div className={cx('edit')} onClick={() => handleRecipeUpdateClick(recipe._id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
-                                                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                                            </svg> &nbsp; Edit
-                                                                        </div>
-
-                                                                    )}
                                                                     {recipe.User_id === Account_id && (
                                                                         <div className={cx('edit')} onClick={() => handleDeleteIconClick(recipe._id)} >
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
@@ -236,7 +302,6 @@ const RecipeForm = ({ idProfile }) => {
                                                             </div>
                                                         )}
                                                     </span>
-
                                                 </div>
                                             </div>
                                         </div>

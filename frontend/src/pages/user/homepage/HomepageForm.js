@@ -61,8 +61,8 @@ const HomepageForm = () => {
                                             alt="Image One"
                                         />
                                         <Carousel.Caption>
-                                            <h3>Label for first slide</h3>
-                                            <p>Prepare Meals</p>
+                                            <p className={cx('carousel-text')}>A meal is not just a gathering; it's a practical plan for innovation and creativity in the kitchen.</p>
+                                            <h3 className={cx('carousel')} >Prepare Meals</h3>
                                         </Carousel.Caption>
                                     </Carousel.Item>
                                     <Carousel.Item interval={500}>
@@ -72,8 +72,8 @@ const HomepageForm = () => {
                                             alt="Image Two"
                                         />
                                         <Carousel.Caption>
-                                            <h3>Label for second slide</h3>
-                                            <p>Prepare Meals</p>
+                                            <p className={cx('carousel-text')}>Ingredients are my notes, the kitchen is my stage, and I am the composer of exquisite flavors</p>
+                                            <h3 className={cx('carousel')}>Create Recipe</h3>
                                         </Carousel.Caption>
                                     </Carousel.Item>
                                 </Carousel>

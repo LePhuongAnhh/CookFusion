@@ -25,9 +25,15 @@
 
 .home_slideshow img {
     width: 100%;
-    height: 430px;
+    height: 350px;
     background-size: cover;
     object-fit: cover;
+}
+.carousel-text {
+    font-size: 20px;
+}
+.carousel {
+    font-size: 42px;
 }
 
 /* home content */
@@ -885,10 +891,40 @@ a {
 .team {
     width: 100%;
     height: 90vh;
-    background-size: cover;
-    background-position: center;
+    margin-top: -20px;
+}
+.blog {
+    width: 100%;
+    height: auto;
+    padding: 30px 0;
+}
+.blog h1 {
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
 }
 
+.blog h1 span,
+.team h1 span {
+    color: #f46708;
+    font-family: mv boli;
+    margin-left: 15px;
+    font-size: 32px;
+    margin-top: 18px;
+}
+
+.blog h1 span::after,
+.team h1 span::after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #f46708;
+    display: block;
+    position: relative;
+    // bottom: 15px;
+}
 .team h1 {
     display: flex;
     align-items: center;

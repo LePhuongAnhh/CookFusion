@@ -40,6 +40,9 @@ function Profile() {
     const [showItemCollectionData, setShowItemCollectionData] = useState([]);
     const updateNewArticle = (data) => {
     }
+    //Thêm một state để lưu trữ danh sách collection
+    const [collections, setCollections] = useState([]);
+
 
     const [getAge, setGetAge] = useState({
         dob: profileInformation.dob,
@@ -555,7 +558,7 @@ function Profile() {
                                                     </div>
                                                     <div className={cx('name-collection')}>
                                                         <Link to="/"> <div className={cx('name-text', 'name')}>{collection.name}</div></Link>
-                                                        <div className={cx('number-recipe', 'name')}>3 recipes</div>
+                                                        {/* <div className={cx('number-recipe', 'name')}>3 recipes</div> */}
                                                     </div>
                                                 </li>
                                             ))}

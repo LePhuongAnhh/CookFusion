@@ -179,6 +179,8 @@ text h2 {
     color: #f46708;
     font-family: mv boli;
     margin-left: 15px;
+    font-size: 32px;
+    margin-top: 18px;
 }
 
 .blog h1 span::after,
@@ -189,7 +191,7 @@ text h2 {
     background: #f46708;
     display: block;
     position: relative;
-    bottom: 15px;
+    // bottom: 15px;
 }
 .blog .blog_box {
     width: 95%;
@@ -346,3 +348,5 @@ text h2 {
     transform: scale(1.1);
     transition: 200ms ease;
 }
+
+
