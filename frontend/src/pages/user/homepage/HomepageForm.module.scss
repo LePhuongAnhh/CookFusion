@@ -901,13 +901,16 @@ a {
     margin-top: -20px;
 }
 
-.team .team_box {
+.team_box {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     top: 13%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 60px;
 }
 
 .team .team_box .profile {
@@ -983,3 +986,17 @@ a {
 }
 
 // RESPONSIVE
+@media (max-width: 54.25em) {
+    .team .team_box .profile {
+        margin: 0 10px;
+    }
+    .img_carousel_item {
+        // margin: 0px 91px 0 -15px;
+    }
+}
+
+@media (max-width: 48.875em) {
+    .team_box {
+        // display: inline !important;
+    }
+}

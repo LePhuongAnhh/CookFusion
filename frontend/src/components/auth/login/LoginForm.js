@@ -81,8 +81,8 @@ const LoginForm = () => {
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
                 localStorage.setItem(ROLE, response.data.account.role);
                 const role = response.data.account.role
-                if (role === "653b77c46139d7a2604cedb5") {
-                    navigate("dashboard");
+                if (role === "653b77c46139d7a2604cedb5") { //role admin
+                    navigate("/dashboard");
                 } else if (role === "653b77c46139d7a2604cedb7") {
                     navigate('/');
                 } else {
@@ -111,7 +111,7 @@ const LoginForm = () => {
                     localStorage.setItem(ROLE, response.data.account.role);
                     const role = response.data.account.role
                     if (role === "653b77c46139d7a2604cedb5") {
-                        navigate("dashboard");
+                        navigate("/dashboard");
                     } else if (role === "653b77c46139d7a2604cedb7") {
                         navigate('/homepage');
                     } else {

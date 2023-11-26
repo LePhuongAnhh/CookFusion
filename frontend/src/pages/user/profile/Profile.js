@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate, useNavigation, useParams, Link } from "react-router-dom"
 import axios from "axios"
-
+import { io } from 'socket.io-client'
 //import từ bên trong src
-import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants"
+import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN, ACCOUNT_ID } from "~/constants/constants"
 import classNames from 'classnames/bind'
 import styles from './Profile.module.scss'
 import images from '~/assets/images'
+import { format } from 'date-fns';
 import EditProfile from "./EditProfile"
 import CreateBlog from "~/components/Modal/CreateBlog"
 import UpdateBlog from "~/components/Modal/UpdateBlog"
@@ -15,7 +16,11 @@ import DeleteBlog from "~/components/Modal/DeleteBlog"
 import CommentBlog from "~/components/Modal/CommentBlog"
 import BlogForm from "~/components/Modal/BlogForm"
 import RecipeForm from "../recipe/RecipeForm"
+import ChatModal from "~/components/Modal/ChatModal"
 
+
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function Profile() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
@@ -28,12 +33,17 @@ function Profile() {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [events, setEvents] = useState([])
-
-
     const { id } = useParams();
-
+    const accountId = localStorage.getItem(ACCOUNT_ID);
+    const [resultPlanData, setResultPlanData] = useState([]);
+    const [showCollectionData, setShowCollectionData] = useState([]);
+    const [showItemCollectionData, setShowItemCollectionData] = useState([]);
     const updateNewArticle = (data) => {
     }
+
+    const [getAge, setGetAge] = useState({
+        dob: profileInformation.dob,
+    });
 
     //CHUYEN CAC TAB
     const [activeTab, setActiveTab] = useState('article');
@@ -88,8 +98,202 @@ function Profile() {
         }
     };
 
+    //HIỆN COLLECTION
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/collection/getcollection`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                const userCollections = response.data.collections.filter(collection => collection.Account_id === Account_id);
 
-    //Read Collection
+                setShowCollectionData(userCollections);
+                // setShowCollectionData(response.data.collections);               
+            } catch (error) {
+                console.error("Error fetching Meal Plans:", error);
+            }
+        };
+        fetchData();
+    }, [accessToken, Account_id]);
+
+    //COLLECTION + LIST DUWX LIEEUJ TRONG COLLECTION
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/collection/getbycollection`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setShowItemCollectionData(response.data);
+            } catch (error) {
+                console.error("Error fetching Meal Plans:", error);
+            }
+        };
+        fetchData();
+    }, [accessToken, Account_id]);
+
+
+    //SHOW CHAT
+    const [showMessage, setShowMessage] = useState(false);
+    const toggleMessage = () => {
+        setShowMessage(!showMessage);
+    };
+    const closeMessage = () => {
+        setShowMessage(false);
+    };
+
+    //Logic
+    const [chat, setChat] = useState([])
+    const [otherUser, setOtherUSer] = useState([])
+    const handleShowMessageModal = async (message, chating) => {
+        try {
+            if (!chating) setShowMessageModal(false)
+            await axios.get(`${apiUrl}/message/seen/${message._id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            const newlist = listMessage.map((messag) => {
+                if (messag._id === message._id) {
+                    return { ...messag, seen: true };
+                }
+                return messag;
+            })
+            setListMessage(newlist)
+            setOtherUSer((message.sender[0]._id == accountId) ? message.receiver[0] : message.sender[0])
+            var _id = (message.sender[0]._id == accountId) ? message.receiver[0]._id : message.sender[0]._id
+            const res = await axios.get(`${apiUrl}/message/getmessage/${_id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            if (res.data.success) {
+                setChat(res.data.data)
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+        setShowMessageModal(true)
+    }
+    //modal chart
+    const [showMessageModal, setShowMessageModal] = useState(false);
+    const [listMessage, setListMessage] = useState([])
+    const [listNotifications, setListNotifications] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [message, notifications] = await Promise.all([
+                    axios.get(`${apiUrl}/message/getall`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }),
+                    axios.get(`${apiUrl}/user/notification`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    })
+                ])
+
+                if (message.data.success && notifications.data.success) {
+                    setListMessage(message.data.data)
+                    setListNotifications(notifications.data.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+        socket.on('notification', (notification) => {
+            console.log(notification)
+            if (accountId == notification.userId) {
+                //push new notification
+                setListNotifications((prevList) => [notification, ...prevList])
+            }
+        })
+        return () => {
+            socket.off('notification')
+        }
+    }, [setListMessage])
+
+
+    //tinh tuoi
+    useEffect(() => {
+        // Tính tuổi từ ngày sinh
+        const calculateAge = (dob) => {
+            const today = new Date();
+            const birthDate = new Date(dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        };
+
+        // Cập nhật state với tuổi tính được
+        setGetAge((prevInfo) => ({
+            ...prevInfo,
+            age: calculateAge(prevInfo.dob),
+        }));
+    }, [getAge.dob]);
+
+
+    //PLAN MEAL
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/mealplan/getonebyuser`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setResultPlanData(response.data.data)
+            } catch (error) {
+                console.error("Error fetching Meal Plans:", error);
+            }
+        };
+        fetchData();
+    }, [accessToken]);
+    const filteredPlanMeals = resultPlanData.filter((plan) => plan.category.length > 0);
+    // Đếm số lượng planmeal thỏa điều kiện
+    const countPlanMealsWithCategory = filteredPlanMeals.length;
+
+
+    const gender = profileInformation.gender
+    // Hàm để chọn icon dựa trên giới tính
+    const getGenderIcon = (gender) => {
+        if (gender === 'Male' || gender === 'male') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gender-male" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8" />
+                </svg>
+            );
+        } else if (gender === 'female' || gender === 'Female') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gender-female" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5" />
+                </svg>
+            );
+        }
+        // Nếu giới tính không phải male hoặc female, bạn có thể xử lý tùy thuộc vào yêu cầu cụ thể của bạn
+        return null;
+    };
+
+    const [isBouncing, setIsBouncing] = useState(false);
+    const handleBounceButtonClick = () => {
+        setIsBouncing(true);
+        setTimeout(() => {
+            setIsBouncing(false);
+        }, 2000);
+    };
+
+
 
     return (
         <>
@@ -116,16 +320,41 @@ function Profile() {
                                         className="rounded-circle img-fluid"
                                         src={profileInformation.avatar}
                                         alt="avatar "
-                                        style={{ marginTop: "18rem", width: "165px", height: "165px" }}
+                                        style={{ marginTop: "15rem", width: "190px", height: "190px" }}
                                     />
+                                </div>
+                            </div>
+
+                            <div className={cx('message-bnt')}>
+                                <div className={cx('page-content', 'page-container')} id="page-content">
+                                    <div
+                                        className={cx('btn', 'color', 'animate__animated', {
+                                            'animate__bounce': isBouncing,
+                                        })}
+                                    >
+                                        <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                            <button type="submit" className={cx('text-color')}>Follow</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={cx('page-content', 'page-container')} id="page-content">
+                                    <div
+                                        className={cx('btn', 'color', 'animate__animated')}
+                                    >
+                                        <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                            <button type="submit" className={cx('text-color')}>Message</button>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <div className={("row")} style={{ margin: ' 30px 90px' }}>
+            <div className={("row")} style={{ margin: ' 70px 90px 30px' }}>
                 {/* left  */}
                 <div className={cx('row-left')}>
                     <div className={cx('row-gird', 'card')}>
@@ -138,7 +367,21 @@ function Profile() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house-door-fill" viewBox="0 0 16 16">
                                         <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
                                     </svg> &nbsp;
-                                    <span className="ml-2"> Đến từ {profileInformation.address}</span>
+                                    <span className="ml-2">  {profileInformation.address}</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    {getGenderIcon(profileInformation.gender)} &nbsp;
+                                    <span className="ml-2">{profileInformation.gender}</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cake" viewBox="0 0 16 16">
+                                        <path d="m7.994.013-.595.79a.747.747 0 0 0 .101 1.01V4H5a2 2 0 0 0-2 2v3H2a2 2 0 0 0-2 2v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a2 2 0 0 0-2-2h-1V6a2 2 0 0 0-2-2H8.5V1.806A.747.747 0 0 0 8.592.802l-.598-.79ZM4 6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.414a.911.911 0 0 1-.646-.268 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0A.911.911 0 0 1 4 6.414zm0 1.414c.49 0 .98-.187 1.354-.56a.914.914 0 0 1 1.292 0c.748.747 1.96.747 2.708 0a.914.914 0 0 1 1.292 0c.374.373.864.56 1.354.56V9H4zM1 11a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.793l-.354.354a.914.914 0 0 1-1.293 0 1.914 1.914 0 0 0-2.707 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0L1 11.793zm11.646 1.854a1.915 1.915 0 0 0 2.354.279V15H1v-1.867c.737.452 1.715.36 2.354-.28a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.708 0a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.707 0a.914.914 0 0 1 1.293 0Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2">  {getAge.age} years old</span>
                                 </div>
                             </div>
                             <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
@@ -230,33 +473,36 @@ function Profile() {
 
                                 {/* PLAN MEAL  */}
                                 <div id="planmeal" className={`tab-pane fade ${activeTab === 'planmeal' ? 'show active pt-3' : ''}`}>
-                                    <div>
-                                        các plam meal
+
+                                    <div className={cx('planMeal-text-header')}>
+                                        {profileInformation.name} has created {countPlanMealsWithCategory} plans meal &nbsp;
+                                        <img width='20px' height='21px' style={{ marginTop: '-5px' }} src={images.congraduate} /> &nbsp;
+                                        <img width='20px' height='21px' style={{ marginTop: '-5px' }} src={images.congraduate} /> &nbsp;
+                                        <img width='20px' height='21px' style={{ marginTop: '-5px' }} src={images.congraduate} /> &nbsp;
                                     </div>
 
                                     <div className={("container-fluid d-flex justify-content-center")}>
-                                        <div className={cx("list", "list-row", "card")} id="sortable" data-sortable-id="0" aria-dropeffect="move">
+                                        <div className={cx("list-row")} id="sortable" data-sortable-id="0">
                                             <div className={cx('card-planmeal')}>
-                                                <div className={cx("list-item")} data-id="13" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" >
-                                                    <div>
-                                                        <a href="#" data-abc="true">
-                                                            <span className={cx("w-40", "avatar", "gd-primary")}>P</span>
-                                                        </a>
-                                                    </div>
-                                                    <div className={cx("flex")}>
-                                                        <a href="#" className={cx("item-author", "text-color")} data-abc="true">Ten Plan meal</a>
-                                                    </div>
-                                                    <div className={cx("no-wrap")}>
-                                                        <div className={("item-date", "text-muted", "text-sm", "d-none", "d-md-block")}>3 weeks ago
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                            </svg>
+                                                {filteredPlanMeals.map((plan) => (
+                                                    <div key={plan._id} className={cx("list-item")} data-id="13" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" >
+                                                        <div>
+                                                            <a href="#" data-abc="true">
+                                                                <span className={cx("w-40", "avatar", "gd-primary")}>P</span>
+                                                            </a>
+                                                        </div>
+                                                        <div className={cx("name")}>
+                                                            <Link to={`/detailPlan/${plan._id}`} className={cx("text-name")} data-abc="true">{plan.name}</Link>
+                                                        </div>
+                                                        <div className={cx("no-wrap")}>
+                                                            <div className={("item-date", "text-muted", "text-sm", "d-none", "d-md-block")}>{format(new Date(plan.createAt), 'MM/dd/yyyy')}
+                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                                    </svg> */}
+                                                            </div>
                                                         </div>
                                                     </div>
-
-                                                </div>
-
-
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +514,7 @@ function Profile() {
                                 <div className={cx('collection-card')}>
                                     <div className={cx('collection-add')}>
                                         <h1> General Collection</h1>
-                                        <ul className={cx("collection-card", "add-collection")}>
+                                        <ul className={cx("collection-card", "add-collection", "flex-container")}>
                                             <li className={cx('mr')}>
                                                 {isEditing ? (
                                                     <div className={cx("content", "content-add")}>
@@ -301,27 +547,18 @@ function Profile() {
                                                     </div>
                                                 )}
                                             </li>
-                                            <li className={cx("content", "content-show", "mr")} >
-                                                <div className={cx("inner-content")} >
-                                                    <img className={cx('image-collection')} src={images.Background} />
-                                                </div>
-                                                <div className={cx('name-collection')}>
-                                                    <div className={cx('name-text', 'name')}>mua thi trơi </div>
-                                                    <div className={cx('number-recipe', 'name')}>3 recipes</div>
-                                                </div>
-                                            </li>
-
-                                            <li className={cx("content", "content-show", "mr")} >
-                                                <div className={cx("inner-content")} >
-                                                    <img className={cx('image-collection')} src={images.Background} />
-                                                </div>
-                                                <div className="container">
+                                            {/* SHOW COLLECTION  */}
+                                            {showCollectionData.map(collection => (
+                                                <li key={collection._id} className={cx("content", "content-show", "mr")} >
+                                                    <div className={cx("inner-content")} >
+                                                        <img className={cx('image-collection')} src={images.Background} />
+                                                    </div>
                                                     <div className={cx('name-collection')}>
-                                                        <div className={cx('name-text', 'name')}>Name</div>
+                                                        <Link to="/"> <div className={cx('name-text', 'name')}>{collection.name}</div></Link>
                                                         <div className={cx('number-recipe', 'name')}>3 recipes</div>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
@@ -333,9 +570,12 @@ function Profile() {
                     </div>
                 </div>
             </div >
+            {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal}
+                chat={chat} receiver={otherUser} setListMessage={setListMessage} handleShowMessageModal={handleShowMessageModal} />
+            }
 
-
-            {showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />
+            {
+                showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />
             }
             {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}

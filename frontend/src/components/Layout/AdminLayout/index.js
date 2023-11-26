@@ -23,7 +23,7 @@ function AdminLayout({ children }) {
         localStorage.removeItem(ACCOUNT_ID)
         localStorage.removeItem(ROLE)
         localStorage.removeItem(PROFILE_INFORMATION)
-        navigate("/")
+        navigate("/login")
     }
     const { t, i18n } = useTranslation();
 
@@ -85,19 +85,17 @@ function AdminLayout({ children }) {
                             </li>
                         </li>
                         <li className={cx('notification_list')}>
-                            <a className={cx('nav_link_dropdown_toggle')} data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                            <Link to="/profileAdmin" className={cx('nav_link_dropdown_toggle')} data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <img src={images.phanh} alt="user-image" className={cx('rounded_circle')} />
                                 <span className={cx('ml_1')}>Phanh
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                     </ul >
                     {/* LOGO  */}
                     < div className={cx('logo_box')} >
                         <Link to="#" className={cx('logo_center')}>
                             <span className={cx('logo_lg')}>
-                                {/* <img className={cx("main-logo")} src={images.logoAdmin} alt="logo" />
-                                <img className={cx("second-logo")} src={images.secondLogo} alt="logo" /> */}
                                 GourmetFood
                             </span>
                         </Link>
@@ -108,7 +106,7 @@ function AdminLayout({ children }) {
                         <li>
                             <button className={cx("button-menu-mobile")}>
                                 <label htmlFor="navInput">
-                                    <i class="bi bi-list"></i>
+                                    <i style={{ fontSize: '21px' }} class="bi bi-list"></i>
                                 </label>
                             </button>
                         </li>
@@ -160,13 +158,6 @@ function AdminLayout({ children }) {
                                     <Link to="/dashboard" className={cx('active')}>
                                         <i class="bi bi-terminal-dash"></i>
                                         <span>Dashboard</span>
-                                    </Link>
-                                </li>
-                                <li >
-                                    <Link to="/profileAdmin" className={cx('active')}>
-                                        <i className="bi bi-gear"></i>
-                                        <span>Account Setting </span>
-                                        <span className={cx('menu_arrow')}></span>
                                     </Link>
                                 </li>
                                 <li className={cx('menu_title')}>More</li>

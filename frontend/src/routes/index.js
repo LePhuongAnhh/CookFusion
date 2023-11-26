@@ -12,6 +12,7 @@ import HomepageForm from "~/pages/user/homepage/HomepageForm";
 import AboutUs from "~/pages/user/aboutUs/AboutUs";
 import Recipe from "~/pages/user/recipe/Recipe";
 import Article from "~/pages/user/blog/Article";
+import Detail from "~/pages/user/blog/Detail";
 import RoleModal from "~/components/Modal/RoleModal";
 import DetailRecipe from "~/pages/user/recipe/DetailRecipe";
 import PlanMeal from "~/pages/user/planmeal/PlanMeal";
@@ -39,6 +40,7 @@ import PaymentModal from "~/components/Modal/PaymentModal";
 import SearchResults from "~/components/Layout/Search/SearchResults";
 import PlanmealForm from "~/pages/user/planmeal/PlanMealForm";
 import DetailPlan from "~/pages/user/planmeal/DetailPlan";
+import DetailCollection from "~/pages/user/profile/DetailCollection";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -73,6 +75,7 @@ const publicRoutes = [
     { path: "/packageAdsMagagement", component: PackageAdsManagement, layout: AdminLayout },
     { path: "/profile/:id", component: Profile },
     { path: "/formArticle", component: BlogForm },
+    { path: "/articles", component: Detail, layout: null },
     { path: "/packageAds", component: PackageAds },
     { path: "/dashboardAds", component: DashboardAds },
     { path: "/profileSponsor/:id", component: ProfileAds },
@@ -81,6 +84,7 @@ const publicRoutes = [
     { path: "/searchResult", component: SearchResults },
     { path: "/result", component: PlanmealForm },
     { path: "/detailPlan/:id", component: DetailPlan },
+    { path: "/detailCollection", component: DetailCollection },
 
 
 ];

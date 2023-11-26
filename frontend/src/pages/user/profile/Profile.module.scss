@@ -112,14 +112,14 @@
     margin: 2px 5px;
 }
 .music:hover {
-    background-color: #f7f7f7;
+    background-color: var(--main-background-website);
     border-radius: 3px;
     cursor: pointer;
 }
 
 .edit {
     height: 39px;
-    background-color: #f7f7f7;
+    background-color: var(--main-background-website);
     border-radius: 5px;
     width: 95%;
     margin: 0 auto;
@@ -127,7 +127,8 @@
         margin-top: -3px;
     }
     &:hover {
-        background-color: #d8e2ef;
+        background-color: var(--main-text-website);
+        color: #ffffff;
     }
 }
 
@@ -142,7 +143,6 @@
 }
 .post_status {
     margin-bottom: 1rem;
-    box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -245,6 +245,10 @@
     flex: 0 0 55%;
 }
 
+//PLANMEAL
+.planMeal-text-header {
+    margin: 0 0 7px 7px;
+}
 //COLLECTION
 
 @media (min-width: 57.625rem) {
@@ -256,7 +260,6 @@
 .collection-card.add-collection {
     cursor: pointer;
     border-radius: 4px;
-    // color: #3a9691;
     background-color: #fff;
     margin: 25px 0;
     .inner-content {
@@ -265,19 +268,26 @@
 }
 .collection-card {
     position: relative;
-    cursor: pointer;
     box-sizing: border-box;
-    display: flex;
-    // margin: 0.5em;
-    margin-bottom: 40px;
+    flex-wrap: wrap;
     .content {
         transition: width 50ms ease-in;
         border-radius: 8px;
         width: 215px;
         height: 215px;
         box-shadow: none;
+        margin-bottom: 60px;
     }
 }
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.content-show {
+    width: calc(33.33% - 20px); /* Đảm bảo 3 li trên mỗi hàng */
+    margin-right: 20px; /* Khoảng cách giữa các li */
+}
+
 .collection-add {
     ul {
         display: flex;
@@ -285,7 +295,7 @@
         padding: 0;
     }
     li {
-        margin-right: 20px; /* Để tạo khoảng cách giữa các li */
+        margin-right: 10px;
     }
 
     li:last-child {
@@ -345,10 +355,10 @@
 }
 .name-collection {
     margin-top: 10px;
-    display: flex;
+    // display: flex;
     font-size: 16px;
     &:hover {
-        color: #3a9691;
+        color: var(--main-text-website);
     }
 }
 .name-collection {
@@ -372,7 +382,11 @@
 }
 
 //PLAMEAL
-
+.text-name {
+    &:hover {
+        color: var(--main-text-website);
+    }
+}
 .flex {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
@@ -470,15 +484,10 @@
     background: #448bff linear-gradient(45deg, #448bff, #44e9ff);
 }
 
-.flex {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    width: 200px;
-}
-
-.text-color {
-    color: #5e676f;
+.name {
+    // flex: 1 1 auto;
+    // width: 200px;
+    font-size: 15px;
 }
 
 .text-sm {
@@ -488,13 +497,19 @@
 .h-1x {
     height: 1.25rem;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
 }
 
 .no-wrap {
     white-space: nowrap;
+}
+.list-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-clip: border-box;
+    background-color: rgb(249, 250, 253);
+    border-radius: 0.25rem;
+    width: 100%;
 }
 
 .list-row .list-item {
@@ -502,11 +517,12 @@
     flex-direction: row;
     -ms-flex-align: center;
     align-items: center;
-    padding: 0.75rem 0.625rem;
-    padding: 1rem 1.625rem;
+    // padding: 0.75rem 0.625rem;
+    padding: 1rem;
 }
 
 .list-item {
+    width: 100%;
     position: relative;
     display: -ms-flexbox;
     display: flex;
@@ -530,5 +546,65 @@ a:hover {
     text-decoration: none;
 }
 .card-planmeal {
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+// BTN MESSAGE
+
+.message-bnt {
+    // width: 125px;
+    display: flex;
+    // justify-self: center;
+    justify-content: center;
+}
+
+.page-content {
+    margin: -80px 125px;
+}
+
+.btn {
+    margin-right: 0.5rem !important;
+}
+
+.btn {
+    border-radius: 35px;
+    background: var(--main-background-website);
+    margin: 7px 16px;
+    &:hover {
+        background: #f29e67;
+    }
+}
+.color {
+    background: var(--main-background-website);
+}
+
+.toast {
+    transition: 0.32s all ease-in-out;
+}
+
+.toast-container--fade {
+    right: 0;
+    bottom: 0;
+}
+
+.toast-container--fade .toast-wrapper {
+    display: inline-block;
+}
+
+.toast.fade-init {
+    opacity: 0;
+}
+
+.toast.fade-show {
+    opacity: 1;
+}
+
+.toast.fade-hide {
+    opacity: 0;
+}
+.text-color {
+    color: var(--main-text-website);
+    &:hover {
+        color: #ffffff;
+    }
 }

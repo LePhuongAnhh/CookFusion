@@ -342,7 +342,6 @@ const HomepageForm = () => {
                                 <div className={cx('team_box')}>
                                     {topUser.length > 0 && topUser.map((user) => (
                                         <div className={cx('profile')}>
-
                                             <img onClick={() => handleLoadUser(user.user[0]._id)} src={user.user[0].avatar} />
                                             <div className={cx('info')}>
                                                 <h2 className={cx('name')}>{user.user[0].name}</h2>

@@ -53,7 +53,6 @@ const RecipeForm = ({ idProfile }) => {
         setShowDeleteRecipeModal(true);
     };
 
-    console.log('id ne', idProfile)
     useEffect(() => {
         const fetchData = async () => {
             try {

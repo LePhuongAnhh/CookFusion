@@ -121,7 +121,7 @@ const BlogForm = ({ idProfile }) => {
                 }
             }
 
-            console.log(response.data, idProfile);
+
             setChangeArticle(null);
 
             if (response) {
@@ -142,7 +142,7 @@ const BlogForm = ({ idProfile }) => {
                     : articlesData;
                 setFilteredArticles(filtered);
             }
-            console.log('Dữ liệu bài đăng: ', response.data.data);
+
         } catch (error) {
             console.log(error.response.data.message);
         }

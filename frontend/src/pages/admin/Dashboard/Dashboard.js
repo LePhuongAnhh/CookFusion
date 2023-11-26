@@ -68,7 +68,7 @@ const Dashboard = () => {
             <div div className={cx('content')} >
                 <div className={cx('g-3', 'mb-3', 'row')}>
                     {ratingDev && (
-                        <div className={cx('col-xxl-3', 'col-md-6')}>
+                        <div className={cx('col-md-6', "mr")}>
                             <div className={cx('h-md-100', 'card')}>
                                 <div className={cx('pd-0', 'card-header')}>
                                     <h6 className={cx('mb-0', 'mt-2')}>Total account this month</h6>
@@ -92,7 +92,7 @@ const Dashboard = () => {
                         </div>
                     )}
 
-                    <div className={cx('col-xxl-3', 'col-md-6')}>
+                    <div className={cx('col-md-6', 'mr')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <h6 className={cx('mb-0', 'mt-2')}>Total Recipe  this month</h6>
@@ -111,7 +111,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('col-xxl-3', 'col-md-6')}>
+                    <div className={cx('col-md-6', 'mr')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <h6 className={cx('mb-0', 'mt-2')}>Total Article this month</h6>
@@ -130,7 +130,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('col-md-6')}>
+                    <div className={cx('col-md-6', 'mr')}>
                         <div className={cx('h-md-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <h6 className={cx('mb-0', 'mt-2')}>Total Plan meal this month</h6>

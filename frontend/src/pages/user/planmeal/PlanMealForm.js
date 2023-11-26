@@ -57,15 +57,6 @@ function PlanmealForm() {
                 <div className={cx('header-card', "header_wrapper")}>
                     <img className={cx('img-avatar')} src={images.header_planmeal} />
                 </div>
-                {/* <div className={cx('header-card')}>
-                    <div className={cx('heder-gird')}>
-                        <span>Plan Meal </span>
-                        <span> / </span>
-                        <span><Link to="/result">Result</Link> </span>
-                        <span> / </span>
-                        <span> Detail  </span>
-                    </div>
-                </div> */}
                 <div className={cx("container", "main")}>
                     <div className={cx("container-card")}>
                         <div className={cx("row")}>
