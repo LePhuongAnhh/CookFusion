@@ -45,16 +45,13 @@
 .register_box {
     width: 500px;
     height: 500px;
-    form{
+    form {
         margin-top: 25px;
     }
 }
 
-
 .login_box h2 {
     margin: -18px 0 30px 0;
-    
-
 }
 
 .login_box h2,
@@ -105,11 +102,11 @@
     font-size: 16px;
 }
 
-.lb_forgot_password{
+.lb_forgot_password {
     display: inline;
     color: var(--main-text-color);
 }
-.remember{
+.remember {
     display: inline-block;
     color: var(--main-text-color);
 }
@@ -128,16 +125,16 @@
 .lb_login a:hover,
 .lb_forgot_password a:hover,
 .term:hover {
-    color: var( --span-text-color);
+    color: var(--span-text-color);
 }
 
-.lb_login label{
+.lb_login label {
     color: var(--main-text-color);
 }
 
-.term_condition{
+.term_condition {
     margin-top: -18px;
-    label{
+    label {
         color: var(--main-text-color);
     }
 }
@@ -172,7 +169,7 @@ form .login_btn1 {
     font-weight: 600;
 }
 .login_btn input,
-.login_btn button{
+.login_btn button {
     background: none;
     border: none;
 }
@@ -190,7 +187,7 @@ form .login_btn1 {
 }
 
 .login_btn span,
-.login_btn1 span{
+.login_btn1 span {
     position: absolute;
     display: block;
 }
@@ -224,7 +221,7 @@ form a,
     color: var(--main-text-color);
 }
 
-.login_other{
+.login_other {
     width: 100%;
     border: 1px solid orange;
     border-radius: 50px;
@@ -232,9 +229,8 @@ form a,
     margin: 0 auto;
     color: var(--main-text-color);
     cursor: pointer;
- 
 }
-.login_other:hover{
+.login_other:hover {
     background: orange;
 }
 
@@ -254,7 +250,7 @@ form a,
 
 .lb_register {
     margin-top: 48px;
-    label{
+    label {
         color: var(--main-text-color);
     }
 }
@@ -285,8 +281,7 @@ form a,
     }
 }
 
-.login_btn span:nth-child(2)
-.login_btn1 span:nth-child(2) {
+.login_btn span:nth-child(2) .login_btn1 span:nth-child(2) {
     top: -100%;
     right: 0;
     width: 2px;
@@ -306,8 +301,7 @@ form a,
     }
 }
 
-.login_btn span:nth-child(3)
-.login_btn1 span:nth-child(3) {
+.login_btn span:nth-child(3) .login_btn1 span:nth-child(3) {
     bottom: 0;
     right: -100%;
     width: 100%;
@@ -362,8 +356,6 @@ form a,
     height: 80px;
 }
 
-
-
 /* forgotpass3 */
 .forgotpass_box3 {
     width: 500px;
@@ -378,7 +370,6 @@ form a,
     display: flex;
     margin-top: 13px;
 }
-
 
 .correct_inform img {
     width: 40px;
@@ -397,15 +388,17 @@ form a,
 }
 
 //error
-.warning, .disableAccountMessage {
+.warning,
+.disableAccountMessage {
     text-align: center;
     color: #ff4081;
-  }
+}
 
-  .txt-red, .txt-red-password{
-    color:var(--main-text-color);
-  }
-  .txt-red-password{
-    margin:  10px 0;
+.txt-red,
+.txt-red-password {
+    color: var(--main-text-color);
+}
+.txt-red-password {
+    margin: 10px 0;
+}
 
-  }
