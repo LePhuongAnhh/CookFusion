@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import AccountItem from '~/components/AccountItem';
-import { Wrapper as PopperWrapper } from '~/components/popper';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { io } from 'socket.io-client'
 import {
     PROFILE_INFORMATION
