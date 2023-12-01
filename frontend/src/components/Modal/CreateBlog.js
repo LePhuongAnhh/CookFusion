@@ -28,7 +28,8 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
         setIsChecked(!isChecked);
         setShowAgreementMessage(false); // Reset lại trạng thái thông báo
     };
-
+    const [errors, setErrors] = useState({}); // State to manage error messages
+    const [error, setError] = useState(null);
     //chọn và hiển thị ảnh
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleImageClick = () => {
@@ -46,7 +47,6 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
             files: filesArray, // Update files in articleData
         });
     };
-
     // xóa file 
     const handleRemoveFile = (index) => {
         const updatedFiles = [...selectedFiles];
@@ -63,7 +63,6 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
         files: [],
     });
 
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setArticleData({
@@ -71,9 +70,9 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
             [name]: value,
         });
     };
-    console.log("input data:", articleData)
 
-    const [filteredArticles, setFilteredArticles] = useState([]);
+
+    //ADD article
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!isChecked) {
@@ -83,8 +82,6 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
         const formData = new FormData();
         formData.append('title', articleData.title);
         formData.append('content', articleData.content);
-
-
         if (Array.isArray(articleData.files)) {
             articleData.files.forEach((file) => {
                 formData.append('files', file);
@@ -101,18 +98,13 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
                 },
             });
             if (response.data.success) {
-                const newArticle = {
-                    // Tạo đối tượng bài viết mới dựa trên dữ liệu trả về từ API
-                    _id: response.data.data._id,
-                    title: response.data.data.title,
-                    content: response.data.data.content
-                };
-                // Cập nhật danh sách bài viết với bài viết mới
-                setFilteredArticles(prevArticles => [newArticle, ...prevArticles]);
+                // Thêm sự kiện thông báo cho component cha
+                const event = new Event('newArticleAdded');
+                window.dispatchEvent(event);
                 setShowCreateBlogModal(false);
             }
         } catch (error) {
-            alert(error.response.data.message);
+            setError(error.response.data.message);
         }
     };
 
@@ -273,6 +265,7 @@ const CreateBlog = ({ setShowCreateBlogModal }) => {
                     </form >
                 </div >
             </div >
+            {error && <ErrorModal message={error} onClose={() => setError(null)} />}
         </div >
     )
 

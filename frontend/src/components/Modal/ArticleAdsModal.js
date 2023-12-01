@@ -20,7 +20,7 @@ import UpdateBlog from "./UpdateBlog"
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
-const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType }) => {
+const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,

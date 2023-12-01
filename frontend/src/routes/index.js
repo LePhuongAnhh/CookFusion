@@ -12,7 +12,7 @@ import HomepageForm from "~/pages/user/homepage/HomepageForm";
 import AboutUs from "~/pages/user/aboutUs/AboutUs";
 import Recipe from "~/pages/user/recipe/Recipe";
 import Article from "~/pages/user/blog/Article";
-import Detail from "~/pages/user/blog/Detail";
+import Detail from "~/components/Modal/ArticleAdsModal";
 import RoleModal from "~/components/Modal/RoleModal";
 import DetailRecipe from "~/pages/user/recipe/DetailRecipe";
 import PlanMeal from "~/pages/user/planmeal/PlanMeal";

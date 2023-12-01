@@ -618,6 +618,7 @@ bi-star-fill {
     border: none;
     outline: none;
     resize: none;
+    padding: 0 0 0 12px;
     color: #707070;
     transition: all 400ms ease;
     overflow: hidden;
@@ -666,7 +667,6 @@ bi-star-fill {
 }
 .review_action {
     float: right;
-    color: #363b3f;
     user-select: none;
 }
 .dropdown {
@@ -1044,6 +1044,7 @@ text h2 {
     padding: 7px 15px;
     border-radius: 5px;
     margin: 0px 8px;
+    cursor: pointer;
 }
 .btn_delete {
     background-color: #9155fd;

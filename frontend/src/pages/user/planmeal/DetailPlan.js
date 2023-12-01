@@ -51,7 +51,7 @@ const DetailPlan = () => {
                         <span> / </span>
                         {/* <span><Link to="/result">Result</Link> </span> */}
                         {/* <span> / </span> */}
-                        <span> Detail  </span>
+                        <span><Link to="/result">Back </Link> </span>
                     </div>
                 </div>
                 <div className={cx('result_row')}>
@@ -150,38 +150,38 @@ const DetailPlan = () => {
                                 <div className={cx('table_row1')}>
                                     <th className={cx('th_nutri')}>Protein</th>
                                     <td className={cx('text_right')}>
-                                        <span className={cx('green')}> g</span>
+                                        <span className={cx('green')}> 111.07g</span>
                                     </td>
                                 </div>
                                 <div className={cx('table_row1')}>
                                     <th className={cx('th_nutri')}>Carbs</th>
                                     <td className={cx('text_right')}>
-                                        <span className={cx('orange')}> g</span>
+                                        <span className={cx('orange')}> 129.86g</span>
                                     </td>
                                 </div>
                                 <div className={cx('table_row1')}>
                                     <th className={cx('th_nutri')}>Fats</th>
                                     <td className={cx('text_right')}>
-                                        <span className={cx('purple')}> g</span>
+                                        <span className={cx('purple')}> 72.52g</span>
                                     </td>
                                 </div>
 
                                 <div className={cx('table_row2')}>
                                     <th className={cx('th_nutri')}>Sugars</th>
                                     <td className={cx('text_right1')}>
-                                        <span className={cx('subcribed')}> g</span>
+                                        <span className={cx('subcribed')}> 76.32</span>
                                     </td>
                                 </div>
                                 <div className={cx('table_row2')}>
                                     <th className={cx('th_nutri')}>Fiber</th>
                                     <td className={cx('text_right1')}>
-                                        <span className={cx('subcribed')}>g</span>
+                                        <span className={cx('subcribed')}>29.83g</span>
                                     </td>
                                 </div>
                                 <div className={cx('table_row2')}>
                                     <th className={cx('th_nutri')}>Sodium</th>
                                     <td className={cx('text_right1')}>
-                                        <span className={cx('subcribed')}> g</span>
+                                        <span className={cx('subcribed')}> 6,61g</span>
                                     </td>
                                 </div>
                             </div>

@@ -1,8 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Helmet } from "react-helmet"
 import React, { useEffect, useState } from 'react';
-import styles from "./ResultAuto.module.scss"
+
+
 import axios from 'axios';
+import styles from "./ResultAuto.module.scss"
 import BackButton from '~/components/button/BackButton';
 import classNames from 'classnames/bind'
 // import Pie_chart from "../../../image/pie-chart.png"

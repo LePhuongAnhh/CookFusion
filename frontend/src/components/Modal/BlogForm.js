@@ -1,28 +1,29 @@
-////import từ thư viện bên ngoài
+
 import React, { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { io } from 'socket.io-client'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { enUS } from 'date-fns/locale';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
+
 import {
     apiUrl,
     ACCESS_TOKEN,
     PROFILE_INFORMATION
 } from "~/constants/constants"
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import { enUS } from 'date-fns/locale';
-// import { io } from 'socket.io-client'
 import images from '~/assets/images'
 import styles from './BlogForm.module.scss'
 import classNames from 'classnames/bind'
-import { Link } from 'react-router-dom'
 import DeleteBlog from "./DeleteBlog"
 import CommentBlog from "./CommentBlog"
 import UpdateBlog from "./UpdateBlog";
-import { io } from 'socket.io-client'
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { set } from "date-fns";
 import Loading from "../Layout/Loading";
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
@@ -47,6 +48,7 @@ const BlogForm = ({ idProfile }) => {
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false)
     //setting comment
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [filteredArticles, setFilteredArticles] = useState([]);
 
     const handleMouseEnter = () => {
         setIsDropdownOpen(true);
@@ -94,6 +96,18 @@ const BlogForm = ({ idProfile }) => {
         await fetchData(hashtag)
     }
 
+    //Read data
+    useEffect(() => {
+        const handleNewArticleAdded = async () => {
+            await fetchData();
+        };
+
+        window.addEventListener('newArticleAdded', handleNewArticleAdded);
+
+        return () => {
+            window.removeEventListener('newArticleAdded', handleNewArticleAdded);
+        };
+    }, []);
     const fetchData = async (hashtag) => {
         try {
             if (idProfile) {
@@ -120,34 +134,23 @@ const BlogForm = ({ idProfile }) => {
                     });
                 }
             }
-
-
-            setChangeArticle(null);
-
             if (response) {
                 const articlesData = response.data.data.map(article => {
-                    const timeUpload = formatTime(new Date(article.timeUpload)); // Định dạng thời gian tải lên của bài viết thông qua hàm formatTime
+                    const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
                     const content = article.content;
                     const regex = /#[^\s#]+/g;
                     const hashtags = article.hashtag.match(regex) || [];
-                    if (hashtags.length > 0) console.log(hashtags)
                     const articleId = article._id;
                     const comments = article.comments || [];
-                    return { ...article, timeUpload, hashtags, articleId, comments }; // Sao chép vào một đối tượng mới và thêm thuộc tính articleId
+                    return { ...article, timeUpload, hashtags, articleId, comments };
                 });
-                // Lọc bài viết dựa trên trang hiện tại
-                const isProfilePage = location.pathname === '/profile';
-                const filtered = isProfilePage
-                    ? articlesData.filter(article => article.userUpload._id === profileInformation._id)
-                    : articlesData;
-                setFilteredArticles(filtered);
+                setFilteredArticles(articlesData);
             }
 
         } catch (error) {
             console.log(error.response.data.message);
         }
     };
-    const [filteredArticles, setFilteredArticles] = useState([]); // Thêm state để lưu bài viết đã lọc
     useEffect(() => {
 
         fetchData();
@@ -170,74 +173,41 @@ const BlogForm = ({ idProfile }) => {
 
     //detail
     const [selectedArticle, setSelectedArticle] = useState(null);
-
     const handleCommentClick = (article) => {
         setSelectedArticle(article);
         setShowCommentBlogModal(true);
     };
 
-    //ADD COMMENT
-    const [articleIdForComment, setArticleIdForComment] = useState(null);
-    const [commentData, setCommentData] = useState({
-        comment: '',
-        userId: userId,
-        Article_id: null,
-    });
-
-    const handleChangeComment = (e) => {
-        const { name, value } = e.target;
-        if (name === 'comment') {
-            setArticleIdForComment(e.target.form.elements['_id'].value);
-            setCommentData({ ...commentData, [name]: value, Article_id: e.target.form.elements['_id'].value });
-        }
-    };
-
-    const handleSubmitComment = async (e) => {
-        e.preventDefault();
+    //delete comment
+    const handleDeleteComment = async (_id) => {
         try {
-            const formData = new FormData();
-            formData.append('comment', commentData.comment);
-            formData.append('Article_id', articleIdForComment);
-            formData.append('userId', userId);
-
-            const response = await axios.post(`${apiUrl}/comment/addComment`, formData, {
+            await axios.delete(`${apiUrl}/comment/deleteComment`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
+                data: {
+                    _id: _id,
+                },
             });
-            if (response.data.success) {
-                const newComment = {
-                    _id: response.data.data._id,
-                    comment: response.data.data.comment,
-                    userId: response.data.data.userId,
-                    Article_id: response.data.data.Article_id,
-                };
-                // Tìm bài viết trong danh sách và thêm comment mới vào nó
-                setFilteredArticles(prevArticles => {
-                    return prevArticles.map(article => {
-                        if (article._id === articleIdForComment) {
-                            // Thêm mới comment vào danh sách comments của bài viết
-                            const updatedComments = [newComment, ...article.comments];
-                            // Trả về bài viết đã cập nhật
-                            return {
-                                ...article,
-                                comments: updatedComments,
-                            };
-                        }
-                        return article;
-                    });
+
+            setFilteredArticles((prevArticles) => {
+                // Lọc bỏ comment đã bị xóa
+                const updatedArticles = prevArticles.map((article) => {
+                    // Kiểm tra xem bài viết có comment đang xóa không
+                    const updatedComments = article.comments.filter(
+                        (comment) => comment._id !== _id
+                    );
+                    // Trả về bài viết mới sau khi loại bỏ comment
+                    return {
+                        ...article,
+                        comments: updatedComments,
+                    };
                 });
 
-                // Reset dữ liệu comment form
-                setCommentData({
-                    comment: '',
-                    userId: userId,
-                    Article_id: null,
-                });
-            }
-
+                return updatedArticles;
+            });
         } catch (error) {
-            console.log(error.response.data.message);
+            console.error("Lỗi xóa bình luận:", error);
         }
     };
 
@@ -377,7 +347,6 @@ const BlogForm = ({ idProfile }) => {
                                             </div>
                                         )}
 
-
                                     </div>
                                     <div className={cx('emotion_item')}>
                                         <div className={cx('emotion_gird')} onClick={() => handleCommentClick(article)}>
@@ -393,7 +362,7 @@ const BlogForm = ({ idProfile }) => {
                                         {article.states.length} <span> loves  </span>
                                     </Link>
                                     <Link to="#" className={cx('count_like')}>
-                                        {article.comment.length} <span>   comments </span>
+                                        {article.comment.length} <span> comments </span>
                                     </Link>
                                 </div>
                             </div>
@@ -414,40 +383,39 @@ const BlogForm = ({ idProfile }) => {
                                                         <p className={cx('content_cmt')}>
                                                             <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`} className={cx('name_account_cmt')}>
                                                                 {comment.usercomment.name}
-
                                                             </Link>
                                                             <span className={cx('view_cmt')}>
                                                                 {comment.comment}
                                                             </span>
                                                         </p>
                                                         <div className={cx('reply_comment')}>
-                                                            <Link to="#"> Like  </Link> •
-                                                            <Link to="#"> Reply  </Link>• {formatTime(new Date(comment.timeComment))}
+                                                            {formatTime(new Date(comment.timeComment))}
                                                         </div>
                                                     </div>
                                                     <div className={cx('setting-comment')}>
-                                                        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                            </svg>
+                                                        <div className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                                            <span className={cx('like_icon')}>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                                </svg>
+                                                            </span>
+
                                                             {isDropdownOpen && (
                                                                 <div className={cx('dropdown-content')}>
-                                                                    {/* Dropdown content */}
-                                                                    <div className={cx('action-comment')}>
-                                                                        <div className={cx('edit')}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
-                                                                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                                            </svg> &nbsp; Edit
+                                                                    {comment.usercomment._id === userId && (
+                                                                        <div className={cx('action-comment')}>
+                                                                            <div className={cx('edit')} onClick={() => handleDeleteComment(comment._id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                                                                </svg> &nbsp; Delete
+                                                                            </div>
                                                                         </div>
-                                                                        <div className={cx('edit')}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                                            </svg> &nbsp; Delete
-                                                                        </div>
-                                                                    </div>
+                                                                    )}
                                                                 </div>
                                                             )}
+
+
                                                         </div>
                                                     </div>
                                                 </div>

@@ -68,20 +68,12 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
                     <div className={cx('body-chat')}>
                         <div className={cx('body-card')}>
                             {list.length > 0 && list.map((message, index) => (
-                                // message.time.substring(0,10) == new Date().toString().substring(0,10) && (
-                                // <div className={cx("divider", "d-flex", "align-items-center", "mb-4")}>
-                                //    <p className={cx("text-center", "mx-3", "mb-0")}>Today</p>
-                                // </div> 
-                                // )
                                 (message.sender_id != accountId) ? (
-
-
                                     <div className={cx('d-flex', 'flex-row', 'justify-content-start', 'chat-box')}>
                                         {
                                             (index == list.length - 1)||(message.sender_id !== list[index + 1].sender_id) ?
                                             <img src={receiver.avatar} className="rounded-circle" width="30" height='30' />
                                                 :<div style={{ marginRight: "30px" }}></div> 
-                                               
                                         }
 
                                         <div style={{ marginRight: "20px" }}>
@@ -94,9 +86,7 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
 
                                         </div>
                                     </div>
-
                                 ) :
-
                                     <div className={cx("d-flex", "flex-row", "justify-content-end", "chat-box-right")}>
                                         <div style={{ marginLeft: "20px" }}>
                                             <p className={cx('content-chat-right', 'background')}>{ sjcl.decrypt(message.sender_id+message.receiver_id,message.content )}</p>
@@ -105,15 +95,8 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
                                                     <p className={cx('content-chat-right', 'time-chat-right')}>{message.time.substring(0, 10)}</p>
                                                 )
                                             }
-                                        </div>
-                                        {/* {
-                                            ((index == list.length - 1)||(message.sender_id !== list[index + 1].sender_id) ) ?
-                                            <img src={profileInformation.avatar} className="rounded-circle" width="30" height='30' />
-                                                : <div style={{ marginLeft: "30px" }}></div> 
-                                                
-                                        } */}
+                                        </div>                                      
                                     </div>
-
                             ))}
                         </div>
                     </div>
