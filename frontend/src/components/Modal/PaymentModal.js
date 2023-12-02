@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styles from './PaymentModal.module.scss'
 import { Link,useNavigate } from 'react-router-dom'
-// import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalButton } from "react-paypal-button-v2";
 import classNames from 'classnames/bind'
 import images from "~/assets/images"
 
@@ -84,18 +84,18 @@ function PaymentModal({}) {
                                         <h5 className={cx("title")}>How will you pay for advertising?</h5>
                                         <p className={cx("description")}>You need a payment method to advertise. Of course, we'll only charge you when your ads start running.</p>
                                         <div className={cx("row")}>
-                                            {/* {sdk == true && (
-                                                // <PayPalButton
-                                                //     amount={(ads)?ads.cost:0}
-                                                //     onSuccess={(details, data) => {
-                                                //         alert("Transaction completed by " + details.payer.name.given_name);
-                                                //         handleAddUserPackage(details)
-                                                //     }}
-                                                //     onError={() => {
-                                                //         alert("Số dư không đủ hoặc xảy ra lỗi")
-                                                //     }}
-                                                // />
-                                            )} */}
+                                            {sdk == true && (
+                                                <PayPalButton
+                                                    amount={(ads)?ads.cost:0}
+                                                    onSuccess={(details, data) => {
+                                                        alert("Transaction completed by " + details.payer.name.given_name);
+                                                        handleAddUserPackage(details)
+                                                    }}
+                                                    onError={() => {
+                                                        alert("Số dư không đủ hoặc xảy ra lỗi")
+                                                    }}
+                                                />
+                                            )}
                                         </div>
                                         <div className={cx("text-center", "mt-30")}>
                                             <div id="close-modal"><Link to="/packageAds">Not Now</Link></div>
