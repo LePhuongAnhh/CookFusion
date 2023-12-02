@@ -7,7 +7,7 @@ import { apiUrl, ACCESS_TOKEN } from '~/constants/constants';
 import axios from 'axios';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Wrapper as PopperWrapper } from '~/components/popper';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
