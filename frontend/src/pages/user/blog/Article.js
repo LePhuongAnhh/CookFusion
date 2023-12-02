@@ -32,11 +32,14 @@ const Article = (props) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [isHome, setIsHome] = useState(true) // check mode home/for you
-
-    //Lấy thời gian
-    const formatTime = (date) => {
-        return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
+    const [selectedAd, setSelectedAd] = useState(null);
+    const handleCommentClick = (content, contentType) => {
+        if (contentType === "ad") {
+            setSelectedAd(content);
+        }
+        setShowCommentBlogModal(true);
     };
+
     const createNewArticle = (data) => {
         console.log('check data in service', data)
     }
@@ -230,10 +233,10 @@ const Article = (props) => {
                         <div className={cx('gird_right')}>
                             <div >
                                 <div className={cx('header_annous')}>
-                                    <h5 className={cx('header_add_fl')}>Sponsored content</h5>
+                                    <h5 className={cx('header_add_fl')}> Advertisement</h5>
                                     {ads.length > 0 && ads.map((ad) => (
                                         <Link key={ad.id} className={cx('ad-link')}>
-                                            <div className={cx('ad-container')}>
+                                            <div className={cx('ad-container')} onClick={() => handleCommentClick(ad, "ad")}>
                                                 <p className={cx('ad-title')}>
                                                     <div className={cx('sp-title')}>{ad.title[0]}</div>
                                                     <div className={cx('sp-user')}> {ad.user[0]}</div>
@@ -253,8 +256,14 @@ const Article = (props) => {
 
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
             {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
-            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
-
+            {showCommentBlogModal && (
+                <CommentBlog
+                    setShowCommentBlogModal={setShowCommentBlogModal}
+                    // selectedArticle={selectedArticle}
+                    selectedContent={selectedAd}
+                    contentType="ad"
+                />
+            )}
             {showCreateBlogModal && <CreateBlog createNewArticle={createNewArticle} setShowCreateBlogModal={setShowCreateBlogModal} />}
         </div>
 

@@ -24,62 +24,15 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     //CATEGORY
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
-
     //CATEGORY CUA INGR, TÌM KIẾM 
-    //xáo nguyên liệu sau khi lấy nó ra từ
+    //xoá nguyên liệu sau khi lấy nó ra từ
     const searchInputRef = useRef(null);
-    const [categoriesData, setCategoriesData] = useState([
-        {
-            id: 1,
-            name: 'Meat',
-            ingredients: [
-                { id: 1, name: 'Chicken' },
-                { id: 2, name: 'Beef' },
-            ],
-        },
-        {
-            id: 2,
-            name: 'Vegetables',
-            ingredients: [
-                { id: 3, name: 'Carrot' },
-                { id: 4, name: 'Spinach' },
-            ],
-        },
-        {
-            id: 3,
-            name: 'thit',
-            ingredients: [
-                { id: 5, name: 'chuioi' },
-                { id: 6, name: 'dau phụ' },
-                { id: 7, name: 'khoia' },
-                { id: 8, name: 'san' },
-                { id: 9, name: 'ca chua' },
-                { id: 10, name: 'ca rot' },
-            ],
-        },
-        {
-            id: 4,
-            name: 'rau cu',
-            ingredients: [
-                { id: 11, name: 'Sắn' },
-                { id: 12, name: 'gao' },
-                { id: 13, name: 'vit' },
-                { id: 14, name: 'lợn' },
-                { id: 15, name: 'ngan' },
-                { id: 16, name: 'bo' },
-                { id: 17, name: 'Sắn' },
-                { id: 18, name: 'gao' },
-                { id: 19, name: 'vit' },
-                { id: 20, name: 'lợn' },
-                { id: 21, name: 'ngan' },
-                { id: 22, name: 'bo' },
-            ],
-        },
+    const [categoriesData, setCategoriesData] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
-    ]);
 
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+
     const [selectedCategoryIngr, setSelectedCategoryIngr] = useState(null);
     const [categorySelected, setCategorySelected] = useState(false);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
@@ -104,13 +57,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         if (selectedCategoryIngr && categorySelected) {
             socket.emit('searchfood', { _id: User_id, keyword: term, category: selectedCategoryIngr })
         }
-        // if (selectedCategoryIngr && categorySelected) {
-        //     const category = categoriesData.find(cat => cat.name === selectedCategoryIngr);
-        //     if (category) {
-        //         const results = performIngredientSearch(term, category.ingredients);
-        //         setSearchResults(results);
-        //     }
-        // }
     };
 
     const handleCategorySelect = (category) => {
@@ -207,7 +153,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const onDropCook = (acceptedFiles, index) => {
         const file = acceptedFiles[0];
         if (file.type.startsWith('video/') && file.size > maxSize) {
-            alert('Video quá lớn. Vui lòng chọn video có dung lượng nhỏ hơn 10MB.');
+            alert('Video is too large. Please choose a video smaller than 100MB.');
             return;
         }
         const updatedSteps = [...steps];
@@ -300,9 +246,10 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         return () => {
             socket.off('categories')
         }
-
     }, []);
-    //ADDCATE
+
+
+    //ADDRecipe
     const [recipeData, setRecipeData] = useState({
         User_id: User_id,
         name: '',
@@ -315,6 +262,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         ingredients: [],
         steps: [],
     });
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setRecipeData({
@@ -322,6 +270,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             [name]: value,
         });
     };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -334,9 +283,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             timePrepare,
             timeCook,
         };
-        // console.log("input data:", updatedRecipeData);
         const formData = new FormData();
-        // formData.append('userId', User_id);
         formData.append('name', updatedRecipeData.name);
         formData.append('timeCook', updatedRecipeData.timeCook);
         formData.append('timePrepare', updatedRecipeData.timePrepare);

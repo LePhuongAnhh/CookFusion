@@ -20,7 +20,7 @@ import UpdateBlog from "./UpdateBlog"
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
-const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType }) => {
+const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -38,7 +38,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
         setIsDropdownOpen(false);
     };
 
-    const [listComment, setListComment] = useState(selectedArticle.comment)
+    const [listComment, setListComment] = useState(selectedContent.comment)
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const userId = profileInformation._id
@@ -188,7 +188,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
     useEffect(() => {
         new Promise(() => fetchData())
         socket.on('addcomment', (comment) => {
-            if (selectedArticle._id == comment.comment[0].Article_id) {
+            if (selectedContent._id == comment.comment[0].Article_id) {
                 let cmt = comment.comment[0]
                 cmt.usercomment = cmt.usercomment[0]
                 const newComment = [...listComment, cmt]
@@ -220,7 +220,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
         <div className={cx('modalDeleteIdea')}>
             <div className={cx('modalContentDeleteIdea')}>
                 <div className={cx('createIdeaHeader')}>
-                    <h1 className={cx('createIdea')}>{selectedArticle.userUpload[0].name}'s Article</h1>
+                    <h1 className={cx('createIdea')}>{selectedContent.userUpload[0].name}'s Article</h1>
                     <div className={cx('exit_cmt_modal')} onClick={() => setShowCommentBlogModal(false)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -233,23 +233,23 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                         <div className={cx('post_hearer_between')}>
                             <div className={cx('post_img_left')}>
                                 <div className={cx('d_flex')}>
-                                    <Link to={`/profile/${encodeURIComponent(selectedArticle.userUpload[0]._id)}`} className={cx('d_flex')}>
+                                    <Link to={`/profile/${encodeURIComponent(selectedContent.userUpload[0]._id)}`} className={cx('d_flex')}>
                                         <div className={cx('header_avatar')}>
                                             <img
                                                 className={cx('circle_avt1')}
-                                                src={selectedArticle.userUpload[0].avatar}
+                                                src={selectedContent.userUpload[0].avatar}
                                             />
                                         </div>
                                     </Link>
                                     <div className={cx('name_account')}>
                                         <p className={cx('name_user')}>
-                                            <Link to={`/profile/${encodeURIComponent(selectedArticle.userUpload[0]._id)}`} className={cx('post_name_account')}>{selectedArticle.userUpload[0].name}&nbsp;</Link>
+                                            <Link to={`/profile/${encodeURIComponent(selectedContent.userUpload[0]._id)}`} className={cx('post_name_account')}>{selectedContent.userUpload[0].name}&nbsp;</Link>
                                             <span className={cx('share_album')}>
-                                                share post {selectedArticle.title}
+                                                share post {selectedContent.title}
                                             </span>
                                         </p>
                                         <p className={cx('date_time')}>
-                                            {selectedArticle.timeUpload}
+                                            {selectedContent.timeUpload}
                                         </p>
                                     </div>
                                 </div>
@@ -263,13 +263,13 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                                                     <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                 </svg>
                                             </button>
-                                            {(selectedArticle.userUpload[0]._id === profileInformation._id) ? (
+                                            {(selectedContent.userUpload[0]._id === profileInformation._id) ? (
                                                 <div className={cx('dropdown_content')}>
                                                     <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                    <Link to="#" onClick={() => handleDeleteIconClick(selectedArticle._id)}>Delete</Link>
+                                                    <Link to="#" onClick={() => handleDeleteIconClick(selectedContent._id)}>Delete</Link>
                                                 </div>
                                             ) : <div className={cx('dropdown_content')}>
-                                                <Link to="#" onClick={() => handleReport(selectedArticle._id)}>Report</Link>
+                                                <Link to="#" onClick={() => handleReport(selectedContent._id)}>Report</Link>
                                             </div>
                                             }
                                         </div>
@@ -280,13 +280,13 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                     </div>
                     <div className={cx('posts_body')}>
                         <p>
-                            {selectedArticle.content}
-                            <p style={{ color: "blue" }}>{selectedArticle.hashtags}</p>
+                            {selectedContent.content}
+                            <p style={{ color: "blue" }}>{selectedContent.hashtags}</p>
                         </p>
                         <div className={cx('body_img')}>
                             <div className={cx('show_img_6')}>
                                 <Slider {...sliderSettings}>
-                                    {selectedArticle.files[0] && selectedArticle.files[0].files.map((fileInfor, index) => {
+                                    {selectedContent.files[0] && selectedContent.files[0].files.map((fileInfor, index) => {
                                         if (fileInfor.isImage == false) {
                                             return (
                                                 <video key={index} controls className={cx('video_video')}>
@@ -305,7 +305,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                                                                 <i class="bi bi-chevron-compact-left"></i>
                                                             </button>
                                                         )}
-                                                        {index < selectedArticle.files[0].files.length - 1 && ( // Hiển thị button chuyển đến ảnh tiếp theo nếu không phải ảnh cuối cùng
+                                                        {index < selectedContent.files[0].files.length - 1 && ( // Hiển thị button chuyển đến ảnh tiếp theo nếu không phải ảnh cuối cùng
                                                             <button className={cx('next-button')} onClick={() => this.slider.slickNext()}>
                                                                 <i class="bi bi-chevron-compact-right"></i>
                                                             </button>
@@ -325,7 +325,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                 <div className={cx('posts_footer')}>
                     <div className={cx('total_like')}>
                         <Link to="#" className={cx('count_like')}>
-                            {selectedArticle.states.length} <span> loves  </span>
+                            {selectedContent.states.length} <span> loves  </span>
                         </Link>
                         <Link to="#" className={cx('count_like')}>
                             {listComment.length} <span>   comments </span>
@@ -333,9 +333,9 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                     </div>
                     <div className={cx('emotion')}>
                         <div className={cx('emotion_item')}>
-                            {selectedArticle.states && (
-                                (selectedArticle.states.find(state => state.Account_id === authorIdToDisplay)) ? (
-                                    selectedArticle.states.map((state) => (
+                            {selectedContent.states && (
+                                (selectedContent.states.find(state => state.Account_id === authorIdToDisplay)) ? (
+                                    selectedContent.states.map((state) => (
                                         state.Account_id == authorIdToDisplay && (
                                             <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -345,7 +345,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                                             </div>
                                         )
                                     ))
-                                ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(selectedArticle._id)}>
+                                ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(selectedContent._id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                     </svg>
@@ -377,10 +377,10 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedArticle, contentType
                             <div className={cx('write_comment')}>
                                 <div className={cx('cmt_avt')}>
                                     <div className={cx('avatar_comment')}>
-                                        <img className={cx('circle_avt')} src={selectedArticle.userUpload[0].avatar} />
+                                        <img className={cx('circle_avt')} src={selectedContent.userUpload[0].avatar} />
                                     </div>
                                 </div>
-                                <input type="hidden" name="_id" value={selectedArticle._id} />
+                                <input type="hidden" name="_id" value={selectedContent._id} />
                                 <input
                                     placeholder="Write a comment ..."
                                     type='text'

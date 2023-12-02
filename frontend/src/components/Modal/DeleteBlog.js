@@ -17,11 +17,10 @@ const DeleteBlog = ({ setShowDeleteModal, itemId, itemType, setFilteredItems, fi
             });
 
             if (response.data) {
-                console.log("Bài viết đã được xóa");
                 const updatedArticles = filteredItems.filter(article => article._id !== itemId);
                 setFilteredItems(updatedArticles);
-                setShowDeleteModal(false); // Ẩn modal sau khi xóa thành công
             }
+            setShowDeleteModal(false);
         } catch (error) {
             console.error("Lỗi xóa bài viết:", error);
         }

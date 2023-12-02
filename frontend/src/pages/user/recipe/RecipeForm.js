@@ -11,11 +11,7 @@ import EditRecipeModal from './EditRecipeModal'
 import { useState, useEffect } from 'react'
 import axios from "axios";
 import { Link } from 'react-router-dom'
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+
 
 const cx = classNames.bind(styles)
 const RecipeForm = ({ idProfile }) => {
