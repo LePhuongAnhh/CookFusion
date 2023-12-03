@@ -74,6 +74,7 @@ const Article = (props) => {
                     setFollowing(resFollowing.data.following.slice(0, 5))
                     setAds(listads.data.data)
                 }
+                console.log("data ads:", listads.data.data)
             } catch (error) {
                 console.log(error)
             }

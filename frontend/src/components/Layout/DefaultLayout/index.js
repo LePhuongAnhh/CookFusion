@@ -17,6 +17,7 @@ import ChatModal from '~/components/Modal/ChatModal';
 import styles from "./DefaultLayout.module.scss"
 import Search from '../Search';
 import images from '~/assets/images';
+import ChangePassWord from '~/components/Modal/ChangePassword';
 
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const sjcl = require('sjcl');
@@ -27,6 +28,7 @@ function DefaultLayout({ children }) {
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const role = localStorage.getItem(ROLE);
     const [isLoggedIn, setIsLoggedIn] = useState(!!profileInformation);
+    const [showChangePassWordModal, setShowChangePassWordModal] = useState(false);
     //Lấy thời gian
 
     //logout
@@ -472,7 +474,7 @@ function DefaultLayout({ children }) {
                                                             </svg>
                                                         </div>
                                                         <div className="pt-1">
-                                                            <p className=" mb-0" style={{ marginLeft: '10px' }}>Change Password</p>
+                                                            <p className=" mb-0" style={{ marginLeft: '10px' }} onClick={() => setShowChangePassWordModal(true)}  >Change Password</p>
                                                         </div>
                                                     </div>
                                                     <div className={cx("d-flex", "nav-item", "info1")} onClick={logout} >
@@ -549,6 +551,7 @@ function DefaultLayout({ children }) {
 
             {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal}
                 chat={chat} receiver={otherUser} setListMessage={setListMessage} handleShowMessageModal={handleShowMessageModal} />}
+            {showChangePassWordModal && < ChangePassWord setShowChangePassWordModal={setShowChangePassWordModal} />}
         </body >
     );
 }

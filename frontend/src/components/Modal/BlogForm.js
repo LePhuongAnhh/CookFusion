@@ -173,10 +173,6 @@ const BlogForm = ({ idProfile }) => {
 
     //detail
     const [selectedArticle, setSelectedArticle] = useState(null);
-    // const handleCommentClick = (article) => {
-    //     setSelectedArticle(article);
-    //     setShowCommentBlogModal(true);
-    // };
     const handleCommentClick = (content, contentType) => {
         if (contentType === "article") {
             setSelectedArticle(content);
