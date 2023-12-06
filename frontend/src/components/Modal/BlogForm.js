@@ -250,7 +250,8 @@ const BlogForm = ({ idProfile, fetchMoreData }) => {
     return (
         <>
             <div className={cx('post_status')}>
-                {filteredArticles.map((article) => (
+                {/* {filteredArticles.map((article) => ( */}
+                {filteredArticles.slice(0, loadedPosts).map((article) => (
                     <li className={cx("box-card")} key={article._id}>
                         <div className={cx('post_status')}>
                             <div className={cx('post_hearer')}>
