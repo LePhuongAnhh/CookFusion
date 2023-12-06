@@ -105,7 +105,7 @@ const Recipe = () => {
                     </div>
 
                     {/* ben duwoi  */}
-                    {topTrending.length > 0 && (
+                    {topTrending.length > 2 && (
                         <div className={cx('gird')}>
                             <div className={cx('gallery')}>
                                 <div className={cx('card_top')}>

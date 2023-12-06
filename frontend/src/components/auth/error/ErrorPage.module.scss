@@ -1,0 +1,67 @@
+.login_background {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  // background-image: url('../../../assets/images/background-logo');
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  // height: 320px;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.login_box {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  padding: 50px;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.text-404 {
+  span {
+    font-size: 223px;
+    font-weight: 700;
+  }
+}
+.text-wrong {
+  margin: 32px 0px 18px;
+  display: flex;
+  justify-content: center;
+}
+.text-show {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 45px;
+}
+.text-detail {
+}
+.btn-back {
+}
+.text-back {
+}
+
+.link-back {
+  padding: 12px 25px;
+  border-radius: 13px;
+  font-weight: 500;
+}
+.go-home {
+  margin-right: 117px;
+  background-color: white;
+}
+.go-back {
+  background-color: orangered;
+  color: white;
+}

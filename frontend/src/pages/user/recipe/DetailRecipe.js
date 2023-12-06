@@ -53,7 +53,7 @@ const EditComment = ({ comment, onSave, onCancel, recipeData }) => {
             comment: editedComment,
             Recipe_id: recipeData.data[0]._id,
         });
-        onSave(comment._id, profileInformation._id, editedComment, comment.Recipe_id);
+        onSave(comment, profileInformation._id, editedComment);
     };
 
     return (
@@ -81,12 +81,9 @@ const EditComment = ({ comment, onSave, onCancel, recipeData }) => {
                     </div>
                 </div>
             </div>
-
         </div >
     );
 };
-
-
 
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
@@ -263,8 +260,7 @@ function DetailRecipe() {
                 `${apiUrl}/comment/deleteRecipeComment`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json', // Thiết lập kiểu nội dung là JSON
+                        Authorization: `Bearer ${accessToken}`,                        
                     },
                     data: {
                         _id: _id,
@@ -272,15 +268,15 @@ function DetailRecipe() {
                 }
             );
             setComments((prevComments) => prevComments.filter(comment => comment._id !== _id));
-            console.log("Bình luận đã được xóa");
         } catch (error) {
-            console.error("Lỗi xóa bình luận:", error);
+            console.error(error.response.data.message);
         }
     };
 
     //EDIT
     const handleSaveComment = async (comment, editedComment, onSave) => {
         try {
+            console.log("Before axios.patch");
             const response = await axios.patch(
                 `${apiUrl}/comment/updateRecipeComment`,
                 {
@@ -296,12 +292,14 @@ function DetailRecipe() {
                 }
             );
             console.log("Server response after saving comment:", response.data);
-            onSave();
+            onSave(comment, editedComment);
             // onCloseModal();
         } catch (error) {
-            console.log(error.response.data.message);
+            console.log("Error:", error.response?.data?.message || error.message);
         }
     };
+
+
 
     const handleCancelEdit = () => {
         setEditingCommentId(null);
@@ -336,7 +334,7 @@ function DetailRecipe() {
                                         <div className={cx('gird_text')}>
                                             <h1 className={cx('title_recipe')}> {recipeData.data[0].name}</h1>
                                             <span className={cx('atribution')}>
-                                                <Link to="" className={cx('source_link')}>{recipeData.data[0].Category}</Link>
+                                                <Link to="" className={cx('source_link', 'uppercase')}>{recipeData.data[0].Category}</Link>
                                             </span>
                                             <div className={cx('recipe_rating')}>
                                                 Author: <Link to={`/profile/${encodeURIComponent(recipeData.data[0].user[0]._id)}`} className={cx('source_link')}>{recipeData.data[0].user[0].name}</Link>
@@ -346,7 +344,7 @@ function DetailRecipe() {
                                     </div>
                                     <div className={cx('description')}>
                                         <div className={cx('review_content')}>
-                                            <span className={cx('description_sp')}></span>"{recipeData.data[0].description}"
+                                            <span className={cx('description_sp')}></span> <b>Description: </b>{recipeData.data[0].description}
                                         </div>
                                     </div>
                                     <div className={cx('count_material')}>

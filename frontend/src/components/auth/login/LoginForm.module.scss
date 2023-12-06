@@ -181,7 +181,7 @@ form .login_btn1 {
 }
 
 form .login_btn1 {
-  margin-top: 5px;
+  margin-top: 45px;
 }
 
 .login_btn:hover,
@@ -259,6 +259,18 @@ form a,
   margin-top: 48px;
   label {
     color: var(--main-text-color);
+  }
+}
+
+.btn-submit {
+  border: none;
+  background: none;
+  color: #b79726;
+  font-weight: 500;
+  text-transform: uppercase;
+  animation: btn_anim1 1s linear infinite;
+  &:hover {
+    color: rgb(41, 41, 41);
   }
 }
 
@@ -350,10 +362,9 @@ form a,
 }
 
 /* Forgot Password */
-
 .forgotpass_box p {
-  margin: 31px 0px;
-  text-align: justify;
+  margin: 30px 0px 20px;
+  text-align: center;
 }
 .send_email {
   margin: 10px 0 -5px 0;
@@ -363,6 +374,27 @@ form a,
   height: 80px;
 }
 
+//forgotpass2
+.verify-code {
+  text-align: center;
+}
+.send-code {
+  margin-top: 5px;
+  .btn-resend {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.count-down {
+  margin: -25px 0 17px 0;
+}
+
+.btn-link {
+  display: flex;
+  align-items: center;
+}
+
 /* forgotpass3 */
 .forgotpass_box3 {
   width: 500px;
@@ -370,7 +402,7 @@ form a,
 }
 
 .inform_forgotpass3 {
-  margin: 25px 0;
+  margin: 10px 0 37px;
 }
 
 .inform {

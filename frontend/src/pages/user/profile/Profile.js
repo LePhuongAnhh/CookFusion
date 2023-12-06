@@ -41,12 +41,19 @@ function Profile() {
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const [resultPlanData, setResultPlanData] = useState([]);
     const [showCollectionData, setShowCollectionData] = useState([]);
-    const [showItemCollectionData, setShowItemCollectionData] = useState([]);
+    const [notification, setNotification] = useState(null);
     const updateNewArticle = (data) => {
+    }
+
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const handleMouseEnter = () => {
+        setDropdownOpen(true);
+    };
+    const handleMouseLeave = () => {
+        setDropdownOpen(false);
     }
     //Thêm một state để lưu trữ danh sách collection
     const [collections, setCollections] = useState([]);
-
 
     const [getAge, setGetAge] = useState({
         dob: profileInformation.dob,
@@ -57,7 +64,6 @@ function Profile() {
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
     };
-    const navigator = useNavigate();
 
     //Add collection
     const [collectionData, setCollectionData] = useState({
@@ -78,6 +84,27 @@ function Profile() {
     const handleCancelClick = () => {
         setIsEditing(false);
     };
+
+    //HIỆN COLLECTION
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/collection/getcollection`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const userCollections = response.data.collections.filter(collection => collection.Account_id === Account_id);
+            console.log("Dữ liệu từ userCollections: ", userCollections);
+            setShowCollectionData(userCollections);
+        } catch (error) {
+            console.error("Error fetching collections:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [accessToken, Account_id]);
+
     const handleSaveClick = async (e) => {
         e.preventDefault();
         try {
@@ -94,54 +121,40 @@ function Profile() {
                     },
                 }
             );
-            console.log(response.data)
+            console.log(response.data);
             setIsEditing(false);
             setCollectionData({
                 name: '',
                 Account_id: Account_id,
             });
+            fetchData();
         } catch (error) {
             console.log(error.response.data.message);
         }
     };
 
-    //HIỆN COLLECTION
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/collection/getcollection`, {
+    // Delete collection
+    const handleDeleteCollection = async (_id, Account_id) => {
+        try {
+            const response = await axios.delete(
+                `${apiUrl}/collection/deletecollection`,
+                {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                });
-                const userCollections = response.data.collections.filter(collection => collection.Account_id === Account_id);
-
-                setShowCollectionData(userCollections);
-                // setShowCollectionData(response.data.collections);               
-            } catch (error) {
-                console.error("Error fetching Meal Plans:", error);
-            }
-        };
-        fetchData();
-    }, [accessToken, Account_id]);
-
-    //COLLECTION + LIST DUWX LIEEUJ TRONG COLLECTION
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/collection/getbycollection`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                    data: {
+                        _id: _id,
+                        Account_id: Account_id,
                     },
-                });
-                setShowItemCollectionData(response.data);
-            } catch (error) {
-                console.error("Error fetching Meal Plans:", error);
+                }
+            );
+            if (response.data.success) {
+                fetchData();
             }
-        };
-        fetchData();
-    }, [accessToken, Account_id]);
-
+        } catch (error) {
+            console.error(error.response.data.message);
+        }
+    };
 
     //SHOW CHAT
     const [showMessage, setShowMessage] = useState(false);
@@ -288,7 +301,6 @@ function Profile() {
                 </svg>
             );
         }
-        // Nếu giới tính không phải male hoặc female, bạn có thể xử lý tùy thuộc vào yêu cầu cụ thể của bạn
         return null;
     };
 
@@ -409,6 +421,7 @@ function Profile() {
                         </div>
                     </div>
                 </div>
+
 
                 {/* right  */}
                 <div className={cx('row-right')}>
@@ -561,8 +574,42 @@ function Profile() {
                                                         <img className={cx('image-collection')} src={images.Background} />
                                                     </div>
                                                     <div className={cx('name-collection')}>
-                                                        <Link to="/"> <div className={cx('name-text', 'name')}>{collection.name}</div></Link>
-                                                        {/* <div className={cx('number-recipe', 'name')}>3 recipes</div> */}
+                                                        {/* <Link to={`/detailCollection/${collection._id}`}> */}
+                                                        <Link to='/detailCollection'>
+                                                            <div className={cx('name-text', 'name')}>{collection.name}</div>
+                                                        </Link>
+                                                        <div className={cx('dropdown', 'review_action', 'number-recipe')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
+                                                            <div className={cx('like_icon')}>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                                                </svg>
+                                                            </div>
+                                                            {isDropdownOpen && (
+                                                                <div className={cx('dropdown-content')}>
+                                                                    <div className={cx('action-comment')}>
+                                                                        <div className={cx('edit-btn')}>
+                                                                            {/* Nút Edit */}
+                                                                            <span>
+                                                                                <svg style={{ margin: '-5px 4px 0 -20px' }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
+                                                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                            <span> Edit</span>
+                                                                        </div>
+                                                                        <div className={cx('edit-btn')} onClick={() => handleDeleteCollection(collection._id, Account_id)} >
+                                                                            {/* Nút Delete */}
+                                                                            <span>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                                                                </svg>
+                                                                            </span>
+                                                                            <span> Delete</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </li>
                                             ))}
@@ -576,7 +623,9 @@ function Profile() {
                         </div>
                     </div>
                 </div>
+                {/* {notification && <div className={cx('notification')}>{notification}</div>} */}
             </div >
+
             {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal}
                 chat={chat} receiver={otherUser} setListMessage={setListMessage} handleShowMessageModal={handleShowMessageModal} />
             }

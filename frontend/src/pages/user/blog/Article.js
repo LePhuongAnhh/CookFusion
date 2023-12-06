@@ -33,6 +33,10 @@ const Article = (props) => {
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [isHome, setIsHome] = useState(true) // check mode home/for you
     const [selectedAd, setSelectedAd] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1);
+
     const handleCommentClick = (content, contentType) => {
         if (contentType === "ad") {
             setSelectedAd(content);
@@ -81,6 +85,40 @@ const Article = (props) => {
         }
         )()
     }, [isHome])
+
+
+
+    //LOAD trang
+    const fetchMoreData = async () => {
+        try {
+            const response = await axios.get(`/api/posts?page=${pageNumber}`); //api
+            setPosts((prevPosts) => [...prevPosts, ...response.data]);
+            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        } catch (error) {
+            console.error("Error fetching more posts:", error);
+        }
+    };
+
+    const handleScroll = () => {
+        // Kiểm tra nếu cuộn đến cuối trang thì gọi fetchMoreData.
+        if (
+            window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
+        ) {
+            fetchMoreData();
+        }
+    };
+    useEffect(() => {
+        // Lắng nghe sự kiện cuộn trang.
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            // Dọn dẹp listener khi component bị unmount.
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [fetchMoreData]);
+
+
+
     return (
         <div className={cx('article_form')}>
             <div className={cx('article_container')}>
@@ -223,9 +261,10 @@ const Article = (props) => {
                                     </form>
                                 </div>
                             </div>
+                            
                             {/* Bai dang  */}
                             <div className={cx('post-status')}>
-                                <BlogForm isHome={isHome} />
+                                <BlogForm isHome={isHome} fetchMoreData={fetchMoreData} />
                             </div>
                         </div>
 

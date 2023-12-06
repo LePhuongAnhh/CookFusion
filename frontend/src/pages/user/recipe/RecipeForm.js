@@ -32,7 +32,7 @@ const RecipeForm = ({ idProfile }) => {
     const handleButtonClick = (e, recipe) => {
         e.preventDefault();
         setShowCollections(!showCollections);
-        setCurrentRecipeId(recipe._id); // Set the current recipe ID
+        setCurrentRecipeId(recipe._id);
     };
 
     //READ MORE
@@ -85,7 +85,6 @@ const RecipeForm = ({ idProfile }) => {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     });
-                    console.log("bai cua t ne", response.data);
                 } else {
                     const [response, recommend] = await Promise.all([
                         axios.get(`${apiUrl}/recipe/getall`, {

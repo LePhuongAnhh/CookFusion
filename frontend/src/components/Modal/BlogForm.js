@@ -29,7 +29,7 @@ import Loading from "../Layout/Loading";
 const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
-const BlogForm = ({ idProfile }) => {
+const BlogForm = ({ idProfile, fetchMoreData }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -96,18 +96,8 @@ const BlogForm = ({ idProfile }) => {
         await fetchData(hashtag)
     }
 
-    //Read data
-    useEffect(() => {
-        const handleNewArticleAdded = async () => {
-            await fetchData();
-        };
 
-        window.addEventListener('newArticleAdded', handleNewArticleAdded);
 
-        return () => {
-            window.removeEventListener('newArticleAdded', handleNewArticleAdded);
-        };
-    }, []);
     const fetchData = async (hashtag) => {
         try {
             if (idProfile) {
@@ -151,24 +141,63 @@ const BlogForm = ({ idProfile }) => {
             console.log(error.response.data.message);
         }
     };
+    //Read data
     useEffect(() => {
+        const handleNewArticleAdded = async () => {
+            await fetchData();
+        };
 
-        fetchData();
-        socket.on('error', (message) => {
-            return
-        })
-        socket.on('addheart', (state) => {
-            setChangeArticle(true)
-        })
-        socket.on('deleteheart', (state) => {
-            setChangeArticle(true)
-        })
+        window.addEventListener('newArticleAdded', handleNewArticleAdded);
+
         return () => {
-            socket.off('error')
-            socket.off('addheart')
-            socket.off('deleteheart')
-        }
-    }, [changeArticle]);
+            window.removeEventListener('newArticleAdded', handleNewArticleAdded);
+        };
+    }, [fetchData, fetchMoreData]);
+
+    // State cho việc theo dõi số lượng bài viết đã tải
+    const [loadedPosts, setLoadedPosts] = useState(10);
+
+    const handleLoadMore = () => {
+        fetchMoreData(loadedPosts);  // Gọi hàm fetchMoreData từ prop
+        setLoadedPosts((prev) => prev + 10);  // Tăng số lượng bài viết đã tải lên
+    };
+    // useEffect(() => {
+    //     fetchData();
+    //     socket.on('error', (message) => {
+    //         return
+    //     })
+    //     socket.on('addheart', (state) => {
+    //         setChangeArticle(true)
+    //     })
+    //     socket.on('deleteheart', (state) => {
+    //         setChangeArticle(true)
+    //     })
+    //     return () => {
+    //         socket.off('error')
+    //         socket.off('addheart')
+    //         socket.off('deleteheart')
+    //     }
+    // }, [changeArticle, fetchData]);
+    useEffect(() => {
+        const fetchDataAndSocketListeners = async () => {
+            await fetchData();
+            socket.on('error', (message) => {
+                return;
+            });
+            socket.on('addheart', (state) => {
+                setChangeArticle(true);
+            });
+            socket.on('deleteheart', (state) => {
+                setChangeArticle(true);
+            });
+        };
+        fetchDataAndSocketListeners();
+        return () => {
+            socket.off('error');
+            socket.off('addheart');
+            socket.off('deleteheart');
+        };
+    }, [changeArticle, fetchData]);
 
 
     //detail
@@ -432,6 +461,12 @@ const BlogForm = ({ idProfile }) => {
                     </li>
                 ))}
             </div>
+            {/* Nút "Load more" */}
+            {loadedPosts < filteredArticles.length && (
+                <button className={cx('load-more-btn')} onClick={handleLoadMore}>
+                    Load more
+                </button>
+            )}
 
             {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} />}
 

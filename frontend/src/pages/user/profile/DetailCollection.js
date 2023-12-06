@@ -3,9 +3,39 @@ import images from '~/assets/images'
 import React, { useState, useEffect } from "react"
 import styles from './DetailCollection.module.scss'
 import classNames from 'classnames/bind'
+import { apiUrl, ACCESS_TOKEN, PROFILE_INFORMATION } from '~/constants/constants'
+import axios from "axios";
+import { useParams, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles)
+
 function DetailCollection() {
+    const { id } = useParams();
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    const Account_id = profileInformation._id
+
+    const [collectionData, setCollectionData] = useState(null);
+    const [notification, setNotification] = useState(null);
+    const navigate = useNavigate();
+    //get one collection
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/collection/getbycollection/65639d1a03df8928ea72d44c`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("data one collection nay:", response.data.collections)
+                setCollectionData(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        console.log("Fetching data for id:", id);
+        fetchData();
+    }, [id]);
     return (
         <>
             <div className={cx('detail')}>

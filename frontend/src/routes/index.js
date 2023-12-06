@@ -41,6 +41,7 @@ import SearchResults from "~/components/Layout/Search/SearchResults";
 import PlanmealForm from "~/pages/user/planmeal/PlanMealForm";
 import DetailPlan from "~/pages/user/planmeal/DetailPlan";
 import DetailCollection from "~/pages/user/profile/DetailCollection";
+import ErrorPage from "~/components/auth/error/ErrorPage";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -85,6 +86,7 @@ const publicRoutes = [
     { path: "/result", component: PlanmealForm },
     { path: "/detailPlan/:id", component: DetailPlan },
     { path: "/detailCollection", component: DetailCollection },
+    { path: "/errorpage", component: ErrorPage, layout: null },
 
 
 ];

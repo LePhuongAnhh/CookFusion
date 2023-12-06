@@ -202,7 +202,7 @@ const PlanMeal = () => {
 
                 {/* show public plan meal  */}
                 <div className={cx('show-result-plan')}>
-                    <p className={cx('sub-header')}> Manual Plan Meal </p>
+                    <p className={cx('sub-header')}>Plan Meal </p>
                     <div className={cx('card-gird')}>
                         <div className={cx('news_container')}>
                             {planPublicData.map((planPublic, index) => (

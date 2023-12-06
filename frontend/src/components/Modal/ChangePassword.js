@@ -1,6 +1,6 @@
 import styles from './ChangePassword.module.scss'
 import classNames from 'classnames/bind'
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import images from '~/assets/images'
 import { ACCESS_TOKEN, apiUrl, PROFILE_INFORMATION } from '~/constants/constants';

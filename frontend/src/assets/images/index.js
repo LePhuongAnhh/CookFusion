@@ -90,6 +90,7 @@ const images = {
     congraduate: require('~/assets/images/firework.png'),
     icon_calo: require('~/assets/images/calories.png'),
     ic_serving: require('~/assets/images/cloche.png'),
+    backgroundError: require('~/assets/images/backgroundError.png'),
 
 
 }
