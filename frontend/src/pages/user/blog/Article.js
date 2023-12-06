@@ -90,13 +90,7 @@ const Article = (props) => {
 
     //LOAD trang
     const fetchMoreData = async () => {
-        try {
-            const response = await axios.get(`/api/posts?page=${pageNumber}`); //api
-            setPosts((prevPosts) => [...prevPosts, ...response.data]);
-            setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        } catch (error) {
-            console.error("Error fetching more posts:", error);
-        }
+
     };
 
     const handleScroll = () => {
@@ -261,7 +255,7 @@ const Article = (props) => {
                                     </form>
                                 </div>
                             </div>
-                            
+
                             {/* Bai dang  */}
                             <div className={cx('post-status')}>
                                 <BlogForm isHome={isHome} fetchMoreData={fetchMoreData} />
