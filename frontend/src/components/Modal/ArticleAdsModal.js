@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { enUS } from 'date-fns/locale';
@@ -29,6 +29,7 @@ const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const ArticleAdsModal = () => {
+
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -41,11 +42,11 @@ const ArticleAdsModal = () => {
     const userId = profileInformation._id
     const authorIdToDisplay = profileInformation._id
     const location = useLocation();
+    const { id } = useParams();
 
     // Sử dụng hàm này khi người dùng click vào icon comment
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false)
-    const [listComment, setListComment] = useState(filteredArticles.comment)
     //setting comment
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filteredArticles, setFilteredArticles] = useState([]);
@@ -96,71 +97,72 @@ const ArticleAdsModal = () => {
         await fetchData(hashtag)
     }
 
-    //cmt
-    const handleGetNewComment = (comment) => {
-        socket.emit('add_article_comment', { _id: comment._id })
-    }
-    const [articleIdForComment, setArticleIdForComment] = useState(null);
-    const [commentData, setCommentData] = useState({
-        comment: '',
-        userId: userId,
-        Article_id: null,
-    });
-
-    //hiện cmt
-    useEffect(() => {
-        new Promise(() => fetchData())
-        socket.on('addcomment', (comment) => {
-            if (filteredArticles._id == comment.comment[0].Article_id) {
-                let cmt = comment.comment[0]
-                cmt.usercomment = cmt.usercomment[0]
-                const newComment = [...listComment, cmt]
-                console.log(newComment)
-                setListComment(newComment)
-            }
-        })
-        return () => {
-            socket.off('addcomment')
-        }
-    }, [listComment, changeArticle]);
-    //sort
-    const handleChangeComment = (e) => {
-        const { name, value } = e.target;
-        if (name === 'comment') {
-            setArticleIdForComment(e.target.form.elements['_id'].value);
-            setCommentData({
-                ...commentData,
-                [name]: value,
-                Article_id: e.target.form.elements['_id'].value,
-            });
-        }
-    };
-
-    const handleSubmitComment = async (e) => {
-        e.preventDefault();
+    const fetchData = async (hashtag) => {
         try {
-            const formData = new FormData();
-            formData.append('comment', commentData.comment);
-            formData.append('Article_id', articleIdForComment);
-            formData.append('userId', userId);
-            const response = await axios.post(`${apiUrl}/comment/addComment`, formData, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            if (response.data.success) {
-                handleGetNewComment(response.data.data);
+            if (hashtag) {
+                const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
+                var response = await axios.get(uri, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+            } else {
+                var response = await axios.get(`${apiUrl}/article/getonearticle/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("data:", response.data)
             }
-            // Clear the comment input after submitting
-            setCommentData({
-                comment: '',
-                userId: userId,
-                Article_id: null,
-            });
+
+
+            if (response) {
+                const articlesData = response.data.data.map(article => {
+                    const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
+                    const content = article.content;
+                    const regex = /#[^\s#]+/g;
+                    const hashtags = article.hashtag.match(regex) || [];
+                    const articleId = article._id;
+                    const comments = article.comments || [];
+                    return { ...article, timeUpload, hashtags, articleId, comments };
+                });
+                setFilteredArticles(articlesData);
+            }
+
         } catch (error) {
             console.log(error.response.data.message);
         }
     };
+
+    useEffect(() => {
+        fetchData();
+        socket.on('error', (message) => {
+            return
+        })
+        socket.on('addheart', (state) => {
+            setChangeArticle(true)
+        })
+        socket.on('deleteheart', (state) => {
+            setChangeArticle(true)
+        })
+        return () => {
+            socket.off('error')
+            socket.off('addheart')
+            socket.off('deleteheart')
+        }
+    }, [changeArticle]);
+
+
+
+    //detail
+    const [selectedArticle, setSelectedArticle] = useState(null);
+    const handleCommentClick = (content, contentType) => {
+        if (contentType === "article") {
+            setSelectedArticle(content);
+        }
+        setShowCommentBlogModal(true);
+    };
+
 
     //delete comment
     const handleDeleteComment = async (_id) => {
@@ -187,78 +189,12 @@ const ArticleAdsModal = () => {
                         comments: updatedComments,
                     };
                 });
-
                 return updatedArticles;
             });
         } catch (error) {
             console.error("Lỗi xóa bình luận:", error);
         }
     };
-
-    //Read data
-    useEffect(() => {
-        const handleNewArticleAdded = async () => {
-            await fetchData();
-        };
-
-        window.addEventListener('newArticleAdded', handleNewArticleAdded);
-
-        return () => {
-            window.removeEventListener('newArticleAdded', handleNewArticleAdded);
-        };
-    }, []);
-    const fetchData = async (hashtag) => {
-        try {
-            if (hashtag) {
-                const uri = `${apiUrl}/article/getlistwithhashtag/${encodeURIComponent(hashtag)}`
-                var response = await axios.get(uri, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-            } else {
-                var response = await axios.get(`${apiUrl}/article/getonearticle/653a334c5cbfecefa023e166`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-            }
-            if (response) {
-                const articlesData = response.data.data.map(article => {
-                    const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
-                    const content = article.content;
-                    const regex = /#[^\s#]+/g;
-                    const hashtags = article.hashtag.match(regex) || [];
-                    const articleId = article._id;
-                    const comments = article.comments || [];
-                    return { ...article, timeUpload, hashtags, articleId, comments };
-                });
-                setFilteredArticles(articlesData);
-            }
-
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-    };
-    useEffect(() => {
-
-        fetchData();
-        socket.on('error', (message) => {
-            return
-        })
-        socket.on('addheart', (state) => {
-            setChangeArticle(true)
-        })
-        socket.on('deleteheart', (state) => {
-            setChangeArticle(true)
-        })
-        return () => {
-            socket.off('error')
-            socket.off('addheart')
-            socket.off('deleteheart')
-        }
-    }, [changeArticle]);
-
 
     if (filteredArticles.length === 0) {
         return <p className={cx('loading')}> <Loading /></p>;
@@ -417,7 +353,9 @@ const ArticleAdsModal = () => {
                             </div>
 
                             <div className={cx('posts_footer')}>
-                                <form onSubmit={handleSubmitComment}>
+                                <form
+                                // onSubmit={handleSubmitComment}
+                                >
                                     <div className={cx('write_comment')}>
                                         <div className={cx('cmt_avt')}>
                                             <div className={cx('avatar_comment')}>
@@ -430,13 +368,13 @@ const ArticleAdsModal = () => {
                                             type='text'
                                             className={cx('input_cmt')}
                                             name="comment"
-                                            onChange={handleChangeComment}
-                                            value={commentData.comment}
+                                        // onChange={handleChangeComment}
+                                        // value={commentData.comment}
                                         />
                                     </div>
                                 </form>
                             </div>
-                            <div>
+                            {/* <div>
                                 {
                                     listComment && listComment.map((comment, index) => (
                                         (
@@ -488,7 +426,7 @@ const ArticleAdsModal = () => {
                                     ))
                                 }
 
-                            </div>
+                            </div> */}
                         </div>
                     </li>
                 ))}

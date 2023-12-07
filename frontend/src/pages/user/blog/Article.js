@@ -78,38 +78,12 @@ const Article = (props) => {
                     setFollowing(resFollowing.data.following.slice(0, 5))
                     setAds(listads.data.data)
                 }
-                console.log("data ads:", listads.data.data)
             } catch (error) {
                 console.log(error)
             }
         }
         )()
     }, [isHome])
-
-
-
-    //LOAD trang
-    const fetchMoreData = async () => {
-
-    };
-
-    const handleScroll = () => {
-        // Kiểm tra nếu cuộn đến cuối trang thì gọi fetchMoreData.
-        if (
-            window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight
-        ) {
-            fetchMoreData();
-        }
-    };
-    useEffect(() => {
-        // Lắng nghe sự kiện cuộn trang.
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            // Dọn dẹp listener khi component bị unmount.
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [fetchMoreData]);
 
 
 
@@ -258,7 +232,7 @@ const Article = (props) => {
 
                             {/* Bai dang  */}
                             <div className={cx('post-status')}>
-                                <BlogForm isHome={isHome} fetchMoreData={fetchMoreData} />
+                                <BlogForm isHome={isHome} />
                             </div>
                         </div>
 
@@ -269,16 +243,19 @@ const Article = (props) => {
                                 <div className={cx('header_annous')}>
                                     <h5 className={cx('header_add_fl')}> Advertisement</h5>
                                     {ads.length > 0 && ads.map((ad) => (
-                                        <Link key={ad.id} className={cx('ad-link')}>
-                                            <div className={cx('ad-container')} onClick={() => handleCommentClick(ad, "ad")}>
-                                                <p className={cx('ad-title')}>
-                                                    <div className={cx('sp-title')}>{ad.title[0]}</div>
-                                                    <div className={cx('sp-user')}> {ad.user[0]}</div>
-                                                </p>
-                                                {/* <p className={cx('ad-sponsor')}>Sponsored by {ad.user[0]}</p> */}
-                                                <img className={cx('show-imgage-sp')} src={ad.image} alt={ad.title[0]} />
-                                            </div>
-                                        </Link>
+                                        <div key={ad._id}>
+                                            <Link to={`/detailArticle/${ad._id}`} className={cx('ad-link')}>
+                                                <div className={cx('ad-container')} >
+                                                    <p className={cx('ad-title')}>
+                                                        <div className={cx('sp-title')}>{ad.title[0]}</div>
+                                                        <div className={cx('sp-user')}> {ad.user[0]}</div>
+                                                        <div className={cx('sp-user')}> {ad._id}</div>
+                                                    </p>
+                                                    {/* <p className={cx('ad-sponsor')}>Sponsored by {ad.user[0]}</p> */}
+                                                    <img className={cx('show-imgage-sp')} src={ad.image} alt={ad.title[0]} />
+                                                </div>
+                                            </Link>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
@@ -293,7 +270,6 @@ const Article = (props) => {
             {showCommentBlogModal && (
                 <CommentBlog
                     setShowCommentBlogModal={setShowCommentBlogModal}
-                    // selectedArticle={selectedArticle}
                     selectedContent={selectedAd}
                     contentType="ad"
                 />

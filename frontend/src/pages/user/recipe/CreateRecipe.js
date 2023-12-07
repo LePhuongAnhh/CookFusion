@@ -37,6 +37,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const [categorySelected, setCategorySelected] = useState(false);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
+    const [inputQuantitative, setInputQuantitative] = useState(1);
 
 
     //hiện placeholder
@@ -60,7 +61,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     };
 
     const handleCategorySelect = (category) => {
-        console.log('Selected Category:', category);
         setSelectedCategoryIngr(category);
         setCategorySelected(true);
         setSearchTerm('');
@@ -71,8 +71,10 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
 
     const handleIngredientSelect = (ingredient) => {
         console.log('Selected Ingredient:', ingredient);
-        console.log(ingredient)
-        let ingre = { name: ingredient.name, quantitative: 10, quantitativeUnit: 'grams' }
+        // const inputQuantitative = document.getElementById(`quantity-${ingredient.name}`).value;
+        console.log('Input Quantitative:', inputQuantitative);
+
+        let ingre = { name: ingredient.name, quantitative: inputQuantitative, quantitativeUnit: 'grams' };
         setSelectedIngredient(ingre);
         setSelectedIngredients([...selectedIngredients, ingre]);
         setSearchTerm('');
@@ -84,6 +86,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         setSelectedCategoryIngr(null);
         setCategorySelected(false);
     };
+
+
+
 
     const performIngredientSearch = (term, ingredients) => {
         return ingredients.filter(ingredient =>
@@ -277,8 +282,22 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         const nPerson = parseInt(recipeData.nPerson, 10);
         const timePrepare = parseInt(recipeData.timePrepare, 10);
         const timeCook = parseInt(recipeData.timeCook, 10);
+        // const updatedRecipeData = {
+        //     ...recipeData,
+        //     nPerson,
+        //     timePrepare,
+        //     timeCook,
+        // };
+        // Trích xuất số lượng từ mỗi nguyên liệu
+        const updatedIngredients = selectedIngredients.map((ingredient) => {
+            const inputQuantity = document.getElementById(`quantity-${ingredient.name}`);
+            const quantity = inputQuantity ? parseInt(inputQuantity.value, 10) : 1;
+            return { ...ingredient, quantitative: quantity };
+        });
+
         const updatedRecipeData = {
             ...recipeData,
+            ingredients: updatedIngredients,
             nPerson,
             timePrepare,
             timeCook,
@@ -426,7 +445,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                     type="search"
                                                     placeholder={inputPlaceholder}
                                                     className="form-control rounded"
-                                                    style={{ fontSize: '14px' }}
+                                                    style={{ fontSize: '15px', height: '40px' }}
                                                     aria-describedby="search-addon"
                                                     value={searchTerm}
                                                     onChange={handleSearchChange}
@@ -480,7 +499,16 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                                 <i className="bi bi-plus-circle" style={{ marginTop: '2px' }}></i>
                                                             </div>
                                                             <li className={cx('ingredient_line')}>
-                                                                <span className={cx('name_ingrs')}>{ingredient.name}</span> &nbsp;
+                                                                <span className={cx('name_ingrs')}>{ingredient.name} : </span> &nbsp;
+                                                                <input
+                                                                    type='number'
+                                                                    className={cx('input-quantity')}
+                                                                    value={inputQuantitative}
+                                                                    min={1}
+                                                                    onChange={(e) => setInputQuantitative(parseInt(e.target.value, 10))}
+                                                                />
+
+
                                                                 <span className={cx('amount_ingrs')}>
                                                                     <button onClick={() => handleRemoveIngredient(ingredient)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">

@@ -59,7 +59,7 @@ const publicRoutes = [
     { path: "/aboutus", component: AboutUs },
     { path: "/detail/:id", component: DetailRecipe },
     { path: "/article", component: Article },
-    { path: "/detailArticle", component: ArticleAdsModal },
+    { path: "/detailArticle/:id", component: ArticleAdsModal },
     { path: "/planmeal", component: PlanMeal },
     { path: "/autoplan", component: AutoPlan },
     { path: "/manualPlan", component: ManualPlan },
@@ -87,7 +87,7 @@ const publicRoutes = [
     { path: "/searchResult", component: SearchResults },
     { path: "/result", component: PlanmealForm },
     { path: "/detailPlan/:id", component: DetailPlan },
-    { path: "/detailCollection", component: DetailCollection },
+    { path: "/detailCollection/:id", component: DetailCollection },
     { path: "/errorpage", component: ErrorPage, layout: null },
 
 
