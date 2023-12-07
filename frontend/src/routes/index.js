@@ -42,6 +42,7 @@ import PlanmealForm from "~/pages/user/planmeal/PlanMealForm";
 import DetailPlan from "~/pages/user/planmeal/DetailPlan";
 import DetailCollection from "~/pages/user/profile/DetailCollection";
 import ErrorPage from "~/components/auth/error/ErrorPage";
+import ArticleAdsModal from "~/components/Modal/ArticleAdsModal";
 
 import BlogForm from "~/components/Modal/BlogForm";
 
@@ -58,6 +59,7 @@ const publicRoutes = [
     { path: "/aboutus", component: AboutUs },
     { path: "/detail/:id", component: DetailRecipe },
     { path: "/article", component: Article },
+    { path: "/detailArticle", component: ArticleAdsModal },
     { path: "/planmeal", component: PlanMeal },
     { path: "/autoplan", component: AutoPlan },
     { path: "/manualPlan", component: ManualPlan },

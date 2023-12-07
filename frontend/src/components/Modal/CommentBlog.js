@@ -169,21 +169,6 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType
     //article cho profile
     const [articleDataProfile, setArticleDataProfile] = useState('');
 
-    // comment reply
-    const [replyingToComment, setReplyingToComment] = useState(null);
-    const [replyText, setReplyText] = useState('');
-
-    const handleReplyClick = (commentId) => {
-        setReplyingToComment(commentId);
-    };
-
-    const handleChangeReply = (e) => {
-        setReplyText(e.target.value);
-    };
-
-    const handleSubmitReply = async (e) => {
-        e.preventDefault();
-    };
     //hiện cmt
     useEffect(() => {
         new Promise(() => fetchData())

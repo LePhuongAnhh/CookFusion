@@ -21,7 +21,6 @@ import images from '~/assets/images'
 import styles from './BlogForm.module.scss'
 import classNames from 'classnames/bind'
 import DeleteBlog from "./DeleteBlog"
-import CommentBlog from "./CommentBlog"
 import UpdateBlog from "./UpdateBlog";
 
 import Loading from "../Layout/Loading";
@@ -46,6 +45,7 @@ const ArticleAdsModal = () => {
     // Sử dụng hàm này khi người dùng click vào icon comment
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false)
+    const [listComment, setListComment] = useState(filteredArticles.comment)
     //setting comment
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filteredArticles, setFilteredArticles] = useState([]);
@@ -96,6 +96,105 @@ const ArticleAdsModal = () => {
         await fetchData(hashtag)
     }
 
+    //cmt
+    const handleGetNewComment = (comment) => {
+        socket.emit('add_article_comment', { _id: comment._id })
+    }
+    const [articleIdForComment, setArticleIdForComment] = useState(null);
+    const [commentData, setCommentData] = useState({
+        comment: '',
+        userId: userId,
+        Article_id: null,
+    });
+
+    //hiện cmt
+    useEffect(() => {
+        new Promise(() => fetchData())
+        socket.on('addcomment', (comment) => {
+            if (filteredArticles._id == comment.comment[0].Article_id) {
+                let cmt = comment.comment[0]
+                cmt.usercomment = cmt.usercomment[0]
+                const newComment = [...listComment, cmt]
+                console.log(newComment)
+                setListComment(newComment)
+            }
+        })
+        return () => {
+            socket.off('addcomment')
+        }
+    }, [listComment, changeArticle]);
+    //sort
+    const handleChangeComment = (e) => {
+        const { name, value } = e.target;
+        if (name === 'comment') {
+            setArticleIdForComment(e.target.form.elements['_id'].value);
+            setCommentData({
+                ...commentData,
+                [name]: value,
+                Article_id: e.target.form.elements['_id'].value,
+            });
+        }
+    };
+
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append('comment', commentData.comment);
+            formData.append('Article_id', articleIdForComment);
+            formData.append('userId', userId);
+            const response = await axios.post(`${apiUrl}/comment/addComment`, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.data.success) {
+                handleGetNewComment(response.data.data);
+            }
+            // Clear the comment input after submitting
+            setCommentData({
+                comment: '',
+                userId: userId,
+                Article_id: null,
+            });
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+    };
+
+    //delete comment
+    const handleDeleteComment = async (_id) => {
+        try {
+            await axios.delete(`${apiUrl}/comment/deleteComment`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                data: {
+                    _id: _id,
+                },
+            });
+
+            setFilteredArticles((prevArticles) => {
+                // Lọc bỏ comment đã bị xóa
+                const updatedArticles = prevArticles.map((article) => {
+                    // Kiểm tra xem bài viết có comment đang xóa không
+                    const updatedComments = article.comments.filter(
+                        (comment) => comment._id !== _id
+                    );
+                    // Trả về bài viết mới sau khi loại bỏ comment
+                    return {
+                        ...article,
+                        comments: updatedComments,
+                    };
+                });
+
+                return updatedArticles;
+            });
+        } catch (error) {
+            console.error("Lỗi xóa bình luận:", error);
+        }
+    };
+
     //Read data
     useEffect(() => {
         const handleNewArticleAdded = async () => {
@@ -118,7 +217,7 @@ const ArticleAdsModal = () => {
                     },
                 });
             } else {
-                var response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+                var response = await axios.get(`${apiUrl}/article/getonearticle/653a334c5cbfecefa023e166`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -161,49 +260,16 @@ const ArticleAdsModal = () => {
     }, [changeArticle]);
 
 
-    //delete comment
-    const handleDeleteComment = async (_id) => {
-        try {
-            await axios.delete(`${apiUrl}/comment/deleteComment`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                data: {
-                    _id: _id,
-                },
-            });
-
-            setFilteredArticles((prevArticles) => {
-                // Lọc bỏ comment đã bị xóa
-                const updatedArticles = prevArticles.map((article) => {
-                    // Kiểm tra xem bài viết có comment đang xóa không
-                    const updatedComments = article.comments.filter(
-                        (comment) => comment._id !== _id
-                    );
-                    // Trả về bài viết mới sau khi loại bỏ comment
-                    return {
-                        ...article,
-                        comments: updatedComments,
-                    };
-                });
-
-                return updatedArticles;
-            });
-        } catch (error) {
-            console.error("Lỗi xóa bình luận:", error);
-        }
-    };
-
     if (filteredArticles.length === 0) {
         return <p className={cx('loading')}> <Loading /></p>;
     }
 
     return (
         <>
-            <div className={cx('post_status')}>
+            <div className={cx('post_status_ads', 'box-shadow')}>
                 {filteredArticles.map((article) => (
                     <li className={cx("box-card")} key={article._id}>
-                        <div className={cx('post_status')}>
+                        <div style={{ marginTop: '90px' }} className={cx('post_status_ads')}>
                             <div className={cx('post_hearer')}>
                                 <div className={cx('post_hearer_between')}>
                                     <div className={cx('post_img_left')}>
@@ -350,10 +416,29 @@ const ArticleAdsModal = () => {
                                 </div>
                             </div>
 
+                            <div className={cx('posts_footer')}>
+                                <form onSubmit={handleSubmitComment}>
+                                    <div className={cx('write_comment')}>
+                                        <div className={cx('cmt_avt')}>
+                                            <div className={cx('avatar_comment')}>
+                                                <img className={cx('circle_avt')} src={filteredArticles.userUpload[0].avatar} />
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="_id" value={filteredArticles._id} />
+                                        <input
+                                            placeholder="Write a comment ..."
+                                            type='text'
+                                            className={cx('input_cmt')}
+                                            name="comment"
+                                            onChange={handleChangeComment}
+                                            value={commentData.comment}
+                                        />
+                                    </div>
+                                </form>
+                            </div>
                             <div>
                                 {
-                                    article.comment && article.comment.map((comment, index) => (
-                                        index < 3 &&
+                                    listComment && listComment.map((comment, index) => (
                                         (
                                             <div className={cx('read_comment')}>
                                                 <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`}>
@@ -361,45 +446,41 @@ const ArticleAdsModal = () => {
                                                         <img className={cx('circle_avt')} src={comment.usercomment.avatar} />
                                                     </div>
                                                 </Link>
-                                                <div style={{ display: 'flex' }} className={cx('read_cmt')}>
-                                                    <div style={{ flex: '1' }}>
-                                                        <p className={cx('content_cmt')}>
-                                                            <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`} className={cx('name_account_cmt')}>
-                                                                {comment.usercomment.name}
-                                                            </Link>
-                                                            <span className={cx('view_cmt')}>
-                                                                {comment.comment}
-                                                            </span>
-                                                        </p>
-                                                        <div className={cx('reply_comment')}>
-                                                            {formatTime(new Date(comment.timeComment))}
-                                                        </div>
+                                                <div className={cx('read_cmt')}>
+                                                    <p className={cx('content_cmt')}>
+                                                        <Link to={`/profile/${encodeURIComponent(comment.usercomment._id)}`} className={cx('name_account_cmt')}>
+                                                            {comment.usercomment.name}
+                                                        </Link>
+                                                        <span className={cx('view_cmt')}>
+                                                            {comment.comment}
+                                                        </span>
+                                                    </p>
+                                                    <div className={cx('reply_comment')}>
+                                                        {formatTime(new Date(comment.timeComment))}
                                                     </div>
-                                                    <div className={cx('setting-comment')}>
-                                                        <div className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                                                            <span className={cx('like_icon')}>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                                </svg>
-                                                            </span>
+                                                </div>
+                                                <div className={cx('setting-comment')}>
+                                                    <div className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                                        <span className={cx('like_icon')}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                            </svg>
+                                                        </span>
 
-                                                            {isDropdownOpen && (
-                                                                <div className={cx('dropdown-content')}>
-                                                                    {comment.usercomment._id === userId && (
-                                                                        <div className={cx('action-comment')}>
-                                                                            <div className={cx('edit')} onClick={() => handleDeleteComment(comment._id)}>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                                                </svg> &nbsp; Delete
-                                                                            </div>
+                                                        {isDropdownOpen && (
+                                                            <div className={cx('dropdown-content')}>
+                                                                {comment.usercomment._id === userId && (
+                                                                    <div className={cx('action-comment')}>
+                                                                        <div className={cx('edit')} onClick={() => handleDeleteComment(comment._id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                                                            </svg> &nbsp; Delete
                                                                         </div>
-                                                                    )}
-                                                                </div>
-                                                            )}
-
-
-                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
