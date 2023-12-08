@@ -76,7 +76,29 @@ const BlogForm = ({ idProfile }) => {
     //load trang
 
     const fetchMoreData = async () => {
-        //gọi api
+        try {
+            var response = await axios.get(`${apiUrl}/article/getlistforglobal/${(loadedPosts + 10) / 10}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response) {
+                const articlesData = response.data.data.map(article => {
+                    const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
+                    const content = article.content;
+                    const regex = /#[^\s#]+/g;
+                    const hashtags = article.hashtag.match(regex) || [];
+                    const articleId = article._id;
+                    const comments = article.comments || [];
+                    return { ...article, timeUpload, hashtags, articleId, comments };
+                });
+                console.log(articlesData)
+                setFilteredArticles(articlesData);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
     const handleScroll = async () => {
         const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -84,10 +106,13 @@ const BlogForm = ({ idProfile }) => {
         const html = document.documentElement;
         const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
         const windowBottom = windowHeight + window.pageYOffset;
-        if (windowBottom >= docHeight - 10 && loadedPosts % 10 === 0 && !loadingMore) {
+        if (windowBottom >= docHeight - 10 && loadedPosts % 10 === 0 && !loadingMore && !idProfile) {
             try {
                 setLoadingMore(true); // Bắt đầu quá trình fetch
                 await fetchMoreData();
+                // await fetchData()
+                // Tăng số lượng bài viết đã hiển thị
+                setLoadedPosts((prevPosts) => prevPosts + 10);
                 console.log('Cuộn đến bài thứ 10 và gọi API thành công!');
 
             } catch (error) {
@@ -96,8 +121,7 @@ const BlogForm = ({ idProfile }) => {
                 setLoadingMore(false); // Hoàn tất quá trình fetch
             }
 
-            // Tăng số lượng bài viết đã hiển thị
-            setLoadedPosts((prevPosts) => prevPosts + 10);
+
         }
     };
 
@@ -156,7 +180,7 @@ const BlogForm = ({ idProfile }) => {
                         },
                     });
                 } else {
-                    var response = await axios.get(`${apiUrl}/article/getlistforglobal`, {
+                    var response = await axios.get(`${apiUrl}/article/getlistforglobal/1`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -191,7 +215,7 @@ const BlogForm = ({ idProfile }) => {
         return () => {
             window.removeEventListener('newArticleAdded', handleNewArticleAdded);
         };
-    }, [fetchData]);
+    }, []);
 
     useEffect(() => {
         fetchData();
@@ -209,7 +233,7 @@ const BlogForm = ({ idProfile }) => {
             socket.off('addheart')
             socket.off('deleteheart')
         }
-    }, [changeArticle, fetchData]);
+    }, [changeArticle]);
 
 
     //detail
@@ -262,7 +286,7 @@ const BlogForm = ({ idProfile }) => {
     return (
         <>
             <div className={cx('post_status')}>
-                {filteredArticles.map((article) => (
+                {filteredArticles.length > 0 && filteredArticles.map((article) => (
                     // {filteredArticles.slice(0, loadedPosts).map((article) => (
                     <li className={cx("box-card")} key={article._id}>
                         <div className={cx('post_status')}>
@@ -270,6 +294,7 @@ const BlogForm = ({ idProfile }) => {
                                 <div className={cx('post_hearer_between')}>
                                     <div className={cx('post_img_left')}>
                                         <div className={cx('d_flex')}>
+
                                             <Link to={`/profile/${encodeURIComponent(article.userUpload[0]._id)}`} className={cx('d_flex')}>
                                                 <div className={cx('header_avatar')}>
                                                     <img
@@ -288,6 +313,7 @@ const BlogForm = ({ idProfile }) => {
                                                         {/* {article.userUpload[0]._id} */}
                                                     </span>
                                                 </p>
+
                                                 <p className={cx('date_time')}>
                                                     {article.timeUpload}
                                                 </p>

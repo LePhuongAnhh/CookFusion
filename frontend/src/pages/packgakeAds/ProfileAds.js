@@ -1,32 +1,205 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
+import { useNavigate, useNavigation, useParams, Link } from "react-router-dom"
 import EditProfile from "../user/profile/EditProfile";
 import BlogForm from "~/components/Modal/BlogForm";
+import { io } from 'socket.io-client'
 import styles from '../user/profile/Profile.module.scss'
 import classNames from 'classnames/bind'
 import images from "~/assets/images";
-import { Link } from "react-router-dom";
-import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from '~/constants/constants';
+import CreateBlog from "~/components/Modal/CreateBlog";
+import UpdateBlog from "~/components/Modal/UpdateBlog";
+import ChatModal from "~/components/Modal/ChatModal";
+import DeleteBlog from "~/components/Modal/DeleteBlog";
+import CommentBlog from "~/components/Modal/CommentBlog";
+import axios from "axios";
+import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN, ACCOUNT_ID } from '~/constants/constants';
+const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 function ProfileAds() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
+    const Account_id = profileInformation._id
+    const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
-    const [activeTab, setActiveTab] = useState('credit-card');
+    const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
+    const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false) // trạng thái của modal hiển thị form comment
+    const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
+    const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
+    const [events, setEvents] = useState([])
+    const { id } = useParams();
+    const accountId = localStorage.getItem(ACCOUNT_ID);
+    const [resultPlanData, setResultPlanData] = useState([]);
+    const [showCollectionData, setShowCollectionData] = useState([]);
+    const [notification, setNotification] = useState(null);
+    const updateNewArticle = (data) => {
+    }
+
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const handleMouseEnter = () => {
+        setDropdownOpen(true);
+    };
+    const handleMouseLeave = () => {
+        setDropdownOpen(false);
+    }
+    //Thêm một state để lưu trữ danh sách collection
+    const [collections, setCollections] = useState([]);
+
+    const [getAge, setGetAge] = useState({
+        dob: profileInformation.dob,
+    });
+
+    //CHUYEN CAC TAB
+    const [activeTab, setActiveTab] = useState('article');
     const handleTabChange = (tabId) => {
         setActiveTab(tabId);
     };
 
 
+    //SHOW CHAT
+    const [showMessage, setShowMessage] = useState(false);
+    const toggleMessage = () => {
+        setShowMessage(!showMessage);
+    };
+    const closeMessage = () => {
+        setShowMessage(false);
+    };
+
+    //Logic
+    const [chat, setChat] = useState([])
+    const [otherUser, setOtherUSer] = useState([])
+    const handleShowMessageModal = async (message, chating) => {
+        try {
+            if (!chating) setShowMessageModal(false)
+            await axios.get(`${apiUrl}/message/seen/${message._id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            const newlist = listMessage.map((messag) => {
+                if (messag._id === message._id) {
+                    return { ...messag, seen: true };
+                }
+                return messag;
+            })
+            setListMessage(newlist)
+            setOtherUSer((message.sender[0]._id == accountId) ? message.receiver[0] : message.sender[0])
+            var _id = (message.sender[0]._id == accountId) ? message.receiver[0]._id : message.sender[0]._id
+            const res = await axios.get(`${apiUrl}/message/getmessage/${_id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            if (res.data.success) {
+                setChat(res.data.data)
+            }
+        }
+        catch (error) {
+            console.log(error)
+        }
+        setShowMessageModal(true)
+    }
+    //modal chart
+    const [showMessageModal, setShowMessageModal] = useState(false);
+    const [listMessage, setListMessage] = useState([])
+    const [listNotifications, setListNotifications] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [message, notifications] = await Promise.all([
+                    axios.get(`${apiUrl}/message/getall`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    }),
+                    axios.get(`${apiUrl}/user/notification`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    })
+                ])
+
+                if (message.data.success && notifications.data.success) {
+                    setListMessage(message.data.data)
+                    setListNotifications(notifications.data.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)))
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+        socket.on('notification', (notification) => {
+            console.log(notification)
+            if (accountId == notification.userId) {
+                //push new notification
+                setListNotifications((prevList) => [notification, ...prevList])
+            }
+        })
+        return () => {
+            socket.off('notification')
+        }
+    }, [setListMessage])
+
+
+    //tinh tuoi
+    useEffect(() => {
+        // Tính tuổi từ ngày sinh
+        const calculateAge = (dob) => {
+            const today = new Date();
+            const birthDate = new Date(dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        };
+
+        // Cập nhật state với tuổi tính được
+        setGetAge((prevInfo) => ({
+            ...prevInfo,
+            age: calculateAge(prevInfo.dob),
+        }));
+    }, [getAge.dob]);
+
+
+
+
+    const gender = profileInformation.gender
+    // Hàm để chọn icon dựa trên giới tính
+    const getGenderIcon = (gender) => {
+        if (gender === 'Male' || gender === 'male') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gender-male" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M9.5 2a.5.5 0 0 1 0-1h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V2.707L9.871 6.836a5 5 0 1 1-.707-.707L13.293 2zM6 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8" />
+                </svg>
+            );
+        } else if (gender === 'female' || gender === 'Female') {
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-gender-female" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M8 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8M3 5a5 5 0 1 1 5.5 4.975V12h2a.5.5 0 0 1 0 1h-2v2.5a.5.5 0 0 1-1 0V13h-2a.5.5 0 0 1 0-1h2V9.975A5 5 0 0 1 3 5" />
+                </svg>
+            );
+        }
+        return null;
+    };
+
+    const [isBouncing, setIsBouncing] = useState(false);
+    const handleBounceButtonClick = () => {
+        setIsBouncing(true);
+        setTimeout(() => {
+            setIsBouncing(false);
+        }, 2000);
+    };
 
 
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>
-                <div className="w-full h-auto shadow rounded-md">
-                    <div className="max-w-6xl h-full mx-auto p-1">
-                        {/* PHAN DAU  */}
+                <div className="w-full h-auto shadow bg-white rounded-md">
+                    <div className="max-w-6xl h-full mx-auto bg-white p-1">
                         <div
-                            className="max-h-300 w-full rounded-lg relative"
+                            className="h-300 max-h-300 w-full rounded-lg relative"
                             style={{
                                 backgroundImage: `url('https://random.imagecdn.app/1920/1080')`,
                                 backgroundRepeat: 'no-repeat',
@@ -34,215 +207,174 @@ function ProfileAds() {
                                 backgroundPosition: 'center',
                                 borderRadius: '5px',
                                 height: '300px',
-                                marginTop: "55px",
                             }}
                         >
                             <div
                                 className="absolute  w-full flex items-center justify-center"
                                 style={{ bottom: '-15px' }}
                             >
-                                <div className="w-35 h-35 rounded-full bg-gray-300 border-4  d-flex align-items-center justify-content-center">
+                                <div className="w-35 h-35 rounded-full bg-gray-300 border-4 border-white d-flex align-items-center justify-content-center">
                                     <img
                                         className="rounded-circle img-fluid"
                                         src={profileInformation.avatar}
                                         alt="avatar "
-                                        style={{ marginTop: "18rem", width: "180px", height: "180px" }}
+                                        style={{ marginTop: "15rem", width: "190px", height: "190px" }}
                                     />
                                 </div>
                             </div>
-                        </div>
-                        <div className="max-w-5xl h-full mx-auto">
-                            <div className="flex flex-col space-y-2 mt-3 items-center justify-center pb-3 border-b-2">
-                                <p
-                                    onClick={() => setShowUpdateProfileModal(true)}
-                                    className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'edit-profile')}
-                                >
-                                    Edit Profile
-                                </p>
-                                <p className={cx("text-4xl", "font-bold", " d-flex", "align-items-center", "justify-content-center", 'name-account')}>{profileInformation.name}</p>
-                            </div>
-                            <div className="mt-1 flex items-center justify-between">
 
-                                <div className="flex items-center space-x-2">
-                                    <div className={cx("left")}>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-average")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> Average
-                                        </button>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-recipe")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> Like
-                                        </button>
+                            <div className={cx('message-bnt')}>
+                                <div className={cx('page-content', 'page-container')} id="page-content">
+                                    <div
+                                        className={cx('btn', 'color', 'animate__animated', {
+                                            'animate__bounce': isBouncing,
+                                        })}
+                                    >
+                                        <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                            <button type="submit" className={cx('text-color')}>Follow</button>
+                                        </div>
                                     </div>
-                                    <div className={cx("right")}>
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-blog")} >
-                                            <i className="fas fa-plus-circle  mr-2"></i>comment
-                                        </button>"
-                                        <button className={cx("px-3", "py-1.5", " bg-gray-200", "rounded-md", "btn-plan")} >
-                                            <i className="bi bi-pencil-square" title="Edit Profile"></i> share
-                                        </button>
+                                </div>
+                                <div className={cx('page-content', 'page-container')} id="page-content">
+                                    <div
+                                        className={cx('btn', 'color', 'animate__animated')}
+                                    >
+                                        <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                            <button type="submit" className={cx('text-color')}>Message</button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* BODY  */}
-                <div className={cx("profile-body")}>
-                    <div className={cx("body-right")}>
-                        {/* treen  */}
-                        <div className="card-top" style={{ marginTop: "30px" }}>
-                            <div className="card-header">
-                                {/* CLICK  */}
-                                <div className=" pt-4 pl-2 pr-2 pb-2">
-                                    <ul role="tablist" className="nav rounded mb-3">
-                                        <li className={cx("nav-item")}>
-                                            <div onClick={() => handleTabChange('credit-card')} className={`${activeTab === 'credit-card' ? 'active' : ''}`} >
-                                                <i className="fas fa-credit-card mr-2"></i> Article
-                                            </div>
-                                        </li>
-                                        <li className={cx("nav-item")} style={{ marginLeft: "40px" }}>
-                                            <div onClick={() => handleTabChange('paypal')} className={`${activeTab === 'paypal' ? 'active' : ''}`}>
-                                                <i className="fab fa-paypal mr-2"></i> Management
-                                            </div>
-                                        </li>
-                                        <li className={cx("nav-item")} style={{ marginLeft: "40px" }}>
-                                            <div onClick={() => handleTabChange('profile')} className={`${activeTab === 'paypal' ? 'active' : ''}`}>
-                                                <i className="fab fa-paypal mr-2"></i> Profile
-                                            </div>
-                                        </li>
-                                        <li className={cx("nav-item")} style={{ marginLeft: "40px" }}>
-                                            <div onClick={() => handleTabChange('setting')} className={`${activeTab === 'paypal' ? 'active' : ''}`}>
-                                                <i className="fab fa-paypal mr-2"></i> Setting
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="tab-content">
-                            {/* //Active */}
-                            <div id="credit-card" className={`tab-pane fade ${activeTab === 'credit-card' ? 'show active pt-3' : ''}`}>
-                                <div className="row d-flex justify-content-center mt-100 mb-100">
-                                    <div className="col-lg-6" style={{ width: "100%" }}>
-                                        <div className="card">
-                                            <BlogForm />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Managmnt */}
-                            <div id="paypal" className={`tab-pane fade ${activeTab === 'paypal' ? 'show active pt-3' : ''}`}>
-                                <div className="page-content page-container" id="page-content">
-                                    {/* <div className="card" style={{marginBottom:"20px"}}>
-                                        <div className="row d-flex justify-content-center mt-100 mb-100">
-                                            <ul className={cx("list-style")}>
-                                                <li className={cx("d-flex", "no-block", "card-body", "border-top")}>
-                                                    <input
-                                                    className={cx("input-check")}
-                                                        type="checkbox"
-                                                        checked={isChecked}
-                                                        onChange={handleCheckboxChange}
-                                                    />
-                                                    <div>
-                                                        <img
-                                                            src={selectedImage || images.Anh2}
-                                                            className={cx("border-round")}
-                                                            onClick={handleImageClick}
-                                                            title="Select photos to display when advertising"
-                                                        />
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={handleImageChange}
-                                                            style={{ display: 'none' }}
-                                                            ref={imageInputRef}
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <Link to="#" className={cx("title-choose")} data-abc="true">Congratulation to AAA For new investment</Link>
-                                                        <span style={{ display: "block" }}>AAA has invested $2M in MMM. we are happy to working forward with AAA.</span>
-                                                    </div>
-                                                </li><li className={cx("d-flex", "no-block", "card-body", "border-top")}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isChecked}
-                                                        onChange={handleCheckboxChange}
-                                                    />
-                                                    <div>
-                                                        <img
-                                                            src={selectedImage || images.Anh2}
-                                                            className={cx("border-round")}
-                                                            onClick={handleImageClick}
-                                                            title="Select photos to display when advertising"
-                                                        />
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={handleImageChange}
-                                                            style={{ display: 'none' }}
-                                                            ref={imageInputRef}
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <Link to="#" className={cx("title-choose")} data-abc="true">Congratulation to AAA For new investment</Link>
-                                                        <span style={{ display: "block" }}>AAA has invested $2M in MMM. we are happy to working forward with AAA.</span>
-                                                    </div>
-                                                </li><li className={cx("d-flex", "no-block", "card-body", "border-top")}>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={isChecked}
-                                                        onChange={handleCheckboxChange}
-                                                    />
-                                                    <div>
-                                                        <img
-                                                            src={selectedImage || images.Anh2}
-                                                            className={cx("border-round")}
-                                                            onClick={handleImageClick}
-                                                            title="Select photos to display when advertising"
-                                                        />
-                                                        <input
-                                                            type="file"
-                                                            accept="image/*"
-                                                            onChange={handleImageChange}
-                                                            style={{ display: 'none' }}
-                                                            ref={imageInputRef}
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <Link to="#" className="m-b-0 font-medium p-0" data-abc="true">Congratulation to AAA For new investment</Link>
-                                                        <span style={{ display: "block" }}>AAA has invested $2M in MMM. we are happy to working forward with AAA.</span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div> */}
-                                </div>
-                            </div>
-
-                            {/* Profile */}
-                            <div id="profile" className={`tab-pane fade ${activeTab === 'profile' ? 'show active pt-3' : ''}`}>
-                                <div className="page-content page-container" id="page-content">
-                                    <div className="card">
-                                        hko
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Setting */}
-                            <div id="setting" className={`tab-pane fade ${activeTab === 'setting' ? 'show active pt-3' : ''}`}>
-                                <div className="page-content page-container" id="page-content">
-                                    <div className="card">
-                                        hko cjsd
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
+            <div className={("row")} style={{ margin: ' 70px 90px 30px' }}>
+                {/* left  */}
+                <div className={cx('row-left')}>
+                    <div className={cx('row-gird', 'card')}>
+                        <div className="p-3 card">
+                            <div className={cx('header-show-info')}>
+                                <p>Information</p>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house-door-fill" viewBox="0 0 16 16">
+                                        <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2">  {profileInformation.address}</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    {getGenderIcon(profileInformation.gender)} &nbsp;
+                                    <span className="ml-2">{profileInformation.gender}</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cake" viewBox="0 0 16 16">
+                                        <path d="m7.994.013-.595.79a.747.747 0 0 0 .101 1.01V4H5a2 2 0 0 0-2 2v3H2a2 2 0 0 0-2 2v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a2 2 0 0 0-2-2h-1V6a2 2 0 0 0-2-2H8.5V1.806A.747.747 0 0 0 8.592.802l-.598-.79ZM4 6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.414a.911.911 0 0 1-.646-.268 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0A.911.911 0 0 1 4 6.414zm0 1.414c.49 0 .98-.187 1.354-.56a.914.914 0 0 1 1.292 0c.748.747 1.96.747 2.708 0a.914.914 0 0 1 1.292 0c.374.373.864.56 1.354.56V9H4zM1 11a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.793l-.354.354a.914.914 0 0 1-1.293 0 1.914 1.914 0 0 0-2.707 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0L1 11.793zm11.646 1.854a1.915 1.915 0 0 0 2.354.279V15H1v-1.867c.737.452 1.715.36 2.354-.28a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.708 0a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.707 0a.914.914 0 0 1 1.293 0Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2">  {getAge.age} years old</span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                                    </svg> &nbsp;
+                                    <span className="ml-2"> {profileInformation.email} </span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <i className="fa fa-music color"></i>
+                                    &nbsp; <span className="ml-2">Following 3 people  </span>
+                                </div>
+                            </div>
+                            <button className={cx("edit")} onClick={() => setShowUpdateProfileModal(true)}><p> Edit</p></button>
+                        </div>
+                    </div>
+                </div>
 
-            {showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />}
+
+                {/* right  */}
+                <div className={cx('row-right')}>
+                    <div className="mb-4">
+                        <div className="card-body">
+                            <div className={cx('header-right')}>
+                                <ul role="tablist" className="nav rounded mb-3">
+                                    <li className={cx("nav-item", { 'active': activeTab === 'article' })}>
+                                        <div onClick={() => handleTabChange('article')}>
+                                            Article
+                                        </div>
+                                    </li>
+                                    <li className={cx("nav-item", { 'active': activeTab === 'recipe' })} style={{ marginLeft: "40px" }}>
+                                        <div onClick={() => handleTabChange('recipe')}>
+                                            Recipe
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* HIỂN THỊ TƯƠNG ỨNG */}
+
+                            {/* <div className="max-w-6xl h-full mx-auto bg-white p-1"> */}
+                            <div className="tab-content">
+                                {/* BLOG  */}
+                                <div id="article" className={`tab-pane fade ${activeTab === 'article' ? 'show active pt-3' : ''}`}>
+                                    <div className={cx('post_status')}>
+                                        <div className={cx('post_hearer')}>
+                                            <div className={cx('header_item')}>
+                                                <div className={cx('header_avatar')}>
+                                                    <img className={cx('circle_avt')} src={images.Avt} />
+                                                </div>
+                                                <div className={cx('post_create')}>
+                                                    <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={cx('post_body')} >
+                                            <form onClick={() => setShowCreateBlogModal(true)}>
+                                                <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
+                                                </textarea>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('post_status')}>
+                                        <BlogForm idProfile={id} />
+                                    </div>
+                                </div>
+
+                                {/* RECIPE */}
+                                <div id="recipe" className={`tab-pane fade ${activeTab === 'recipe' ? 'show active pt-3' : ''}`}>
+                                    <div className={cx('header-recipe')}>
+                                        <span> Wow, you have created 43 recipes</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* {notification && <div className={cx('notification')}>{notification}</div>} */}
+            </div >
+
+            {showMessageModal && <ChatModal setShowMessageModal={setShowMessageModal}
+                chat={chat} receiver={otherUser} setListMessage={setListMessage} handleShowMessageModal={handleShowMessageModal} />
+            }
+
+            {
+                showUpdateProfileModal && < EditProfile setShowUpdateProfileModal={setShowUpdateProfileModal} />
+            }
+            {showCreateBlogModal && <CreateBlog setShowCreateBlogModal={setShowCreateBlogModal} />}
+            {showUpdateBlogModal && < UpdateBlog setShowUpdateBlogModal={setShowUpdateBlogModal} updateNewArticle={updateNewArticle} />}
+            {showDeleteModal && <DeleteBlog setShowDeleteModal={setShowDeleteModal} />}
+            {showCommentBlogModal && <CommentBlog setShowCommentBlogModal={setShowCommentBlogModal} />}
         </>
     );
 }

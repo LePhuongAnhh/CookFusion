@@ -23,6 +23,10 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
             setSelectedImage(URL.createObjectURL(selectedFile));
+            setUpdateProfileForm({
+                ...updateProfileForm,
+                avatar: selectedFile,
+            });
         }
     };
 
@@ -31,9 +35,10 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const { name, value } = event.target;
         setUpdateProfileForm({ ...updateProfileForm, [name]: value });
     };
+    console.log('thay doi nhap vao:', updateProfileForm)
+
 
     const updateProfile = async (event) => {
-        // Ngăn chặn sự kiện mặc định của form
         event.preventDefault();
         const formData = new FormData();
         formData.append('_id', updateProfileForm._id);
@@ -46,7 +51,9 @@ function EditProfile({ setShowUpdateProfileModal }) {
         formData.append('address', updateProfileForm.address);
         formData.append('avatar', updateProfileForm.avatar);
 
-        console.log(formData)
+        console.log(updateProfileForm.name)
+        console.log('Selected File:', updateProfileForm.avatar);
+
         try {
             const response = await axios.patch(`${apiUrl}/user/updateProfile`, formData,
                 {
@@ -55,8 +62,9 @@ function EditProfile({ setShowUpdateProfileModal }) {
                     },
                 }
             );
+            console.log('Response:', response);
+
             if (response.data.success) {
-                console.log('Profile updated successfully');
                 // Cập nhật profileInformation từ updateProfileForm
                 profileInformation._id = updateProfileForm._id;
                 profileInformation.name = updateProfileForm.name;
@@ -73,7 +81,7 @@ function EditProfile({ setShowUpdateProfileModal }) {
             }
         } catch (error) {
             if (error.response.statusCode === 401) {
-                alert('Unauthorized');
+
             }
             console.log(error.response.data.message)
         }

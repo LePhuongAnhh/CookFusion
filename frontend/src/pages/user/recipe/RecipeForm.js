@@ -15,9 +15,10 @@ import { Link } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 const RecipeForm = ({ idProfile }) => {
+
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const Account_id = profileInformation._id;
+    if (profileInformation) var Account_id = profileInformation._id;
     const [recipeAllData, setAllRecipeData] = useState([]);
     const [showUpdateRecipeModal, setShowUpdateRecipeModal] = useState(false)
     const [selectedUpdateRecipe, setSelectedUpdateRecipe] = useState(null);
@@ -86,19 +87,19 @@ const RecipeForm = ({ idProfile }) => {
                         },
                     });
                 } else {
-                    const [response, recommend] = await Promise.all([
-                        axios.get(`${apiUrl}/recipe/getall`, {
+                    const response = await axios.get(`${apiUrl}/recipe/getall`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    })
+                    if (profileInformation) {
+                        var recommend = await axios.get(`${apiUrl}/recommend/getListRecommend`, {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
-                        }),
-                        axios.get(`${apiUrl}/recommend/getListRecommend`, {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }),
-                    ]);
-                    console.log(recommend.data); // recommend data with 4 recipes => list recommend category
+                        })
+                    }
+
                     setAllRecipeData(response.data); // get first 4 recipes to display => list new category
 
                     // Lấy danh sách công thức đã lưu
@@ -160,6 +161,229 @@ const RecipeForm = ({ idProfile }) => {
 
     return (
         <>
+            {/* //Recomment  */}
+            <div className={cx('horizontal-scroll-container')} >
+                <div className={cx('category-container')}>
+                    <div className={cx('filter-cate')}>
+                        <div>Recommnet</div>
+                    </div>
+                    <div className={cx('recipe-list-horizontal')}>
+
+                        <div className={cx('recipe-item-horizontal')}>
+                            <div className={cx('blog_card')}>
+                                <Link
+                                    // to={`/detail/${recipe._id}`}
+                                    className={cx('recipe-item-horizontal')}
+                                >
+                                    <div className={cx('blog_img')}>
+                                        <img className={cx("blogImg")} />
+                                    </div>
+                                </Link>
+                                <div className={cx('blog_tag')}>
+                                    <Link to="#"
+                                        className={cx('recipe-item-horizontal')}
+                                    >
+                                        <div className={cx('blog_date')}>
+                                            <Link to="#" className={cx('recipe_rating')}>
+
+                                                {/* <span>{avg}</span> */}
+                                                {/* <span class={(recipe.avgRating >= 1) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == null) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 2) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 1 || recipe.avgRating < 1) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 3) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 2 || recipe.avgRating < 2) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 4) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 3 || recipe.avgRating < 3) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating == 5) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 4 || recipe.avgRating < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span> */}
+
+                                                &nbsp; <span className={cx('count_rating')}>
+                                                    {/* ({recipe.ratings}) */}
+                                                    rating
+                                                </span>
+                                            </Link>
+                                            <button onClick={(e) => handleButtonClick(
+                                                // e, recipe
+                                            )}>
+                                                {isSaved ? (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f46708" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                    </svg>
+                                                )}
+                                            </button>
+                                        </div>
+                                        <h3 className={cx('blog_heading')}>
+                                            {/* {recipe.name} */}
+                                            name
+                                        </h3>
+                                    </Link>
+                                    <hr />
+                                    <div className={cx('view_and_like')}>
+                                        <div className={cx('view')}>
+                                            {/* <p>15.3K Views</p> */}
+                                            <p className={cx('b_comm', "cursor")}>
+                                                {/* {recipe.comments} */}
+                                                comments</p>
+                                        </div>
+                                        <div className={cx('like')}>
+                                            {/* <p className={cx('count-save')}>{recipe.collections}</p> */}
+                                            {showCollections && currentRecipeId && (
+                                                <div className={cx('notification-popup')}>
+                                                    {/* Nội dung của dropdown */}
+                                                    <div className={cx('card-list')}>
+                                                        <div className={cx('card-item')}>
+                                                            <span>Add to a collection </span>
+                                                            {collectionData.map((collection) => (
+                                                                <div className={cx('list-item')} key={collection._id} onClick={(e) => handleCollectionClick(e, collection)}>
+                                                                    {collection.name}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                </svg>
+                                                {isDropdownOpen && (
+                                                    <div className={cx('dropdown-content')}>
+                                                        {/* Nội dung của dropdown */}
+
+                                                    </div>
+                                                )}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* </Slider> */}
+                    </div>
+                </div>
+            </div >
+
+            {/* //NEW  */}
+            <div className={cx('horizontal-scroll-container')} >
+                <div className={cx('category-container')}>
+                    <div className={cx('filter-cate')}>
+                        <div>New</div>
+                    </div>
+                    <div className={cx('recipe-list-horizontal')}>
+
+                        <div className={cx('recipe-item-horizontal')}>
+                            <div className={cx('blog_card')}>
+                                <Link
+                                    // to={`/detail/${recipe._id}`}
+                                    className={cx('recipe-item-horizontal')}
+                                >
+                                    <div className={cx('blog_img')}>
+                                        <img className={cx("blogImg")} />
+                                    </div>
+                                </Link>
+                                <div className={cx('blog_tag')}>
+                                    <Link to="#"
+                                        className={cx('recipe-item-horizontal')}
+                                    >
+                                        <div className={cx('blog_date')}>
+                                            <Link to="#" className={cx('recipe_rating')}>
+
+                                                {/* <span>{avg}</span> */}
+                                                {/* <span class={(recipe.avgRating >= 1) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == null) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 2) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 1 || recipe.avgRating < 1) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 3) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 2 || recipe.avgRating < 2) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating >= 4) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 3 || recipe.avgRating < 3) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                    &nbsp;<span class={(recipe.avgRating == 5) ?
+                                                        "bi bi-star-fill text-warning" : ((recipe.avgRating == 4 || recipe.avgRating < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span> */}
+
+                                                &nbsp; <span className={cx('count_rating')}>
+                                                    {/* ({recipe.ratings}) */}
+                                                    rating
+                                                </span>
+                                            </Link>
+                                            <button onClick={(e) => handleButtonClick(
+                                                // e, recipe
+                                            )}>
+                                                {isSaved ? (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f46708" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                                        <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098z" />
+                                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                                                    </svg>
+                                                )}
+                                            </button>
+                                        </div>
+                                        <h3 className={cx('blog_heading')}>
+                                            {/* {recipe.name} */}
+                                            name
+                                        </h3>
+                                    </Link>
+                                    <hr />
+                                    <div className={cx('view_and_like')}>
+                                        <div className={cx('view')}>
+                                            {/* <p>15.3K Views</p> */}
+                                            <p className={cx('b_comm', "cursor")}>
+                                                {/* {recipe.comments} */}
+                                                comments</p>
+                                        </div>
+                                        <div className={cx('like')}>
+                                            {/* <p className={cx('count-save')}>{recipe.collections}</p> */}
+                                            {showCollections && currentRecipeId && (
+                                                <div className={cx('notification-popup')}>
+                                                    {/* Nội dung của dropdown */}
+                                                    <div className={cx('card-list')}>
+                                                        <div className={cx('card-item')}>
+                                                            <span>Add to a collection </span>
+                                                            {collectionData.map((collection) => (
+                                                                <div className={cx('list-item')} key={collection._id} onClick={(e) => handleCollectionClick(e, collection)}>
+                                                                    {collection.name}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                </svg>
+                                                {isDropdownOpen && (
+                                                    <div className={cx('dropdown-content')}>
+                                                        {/* Nội dung của dropdown */}
+
+                                                    </div>
+                                                )}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* </Slider> */}
+                    </div>
+                </div>
+            </div >
+
+
             <div className={cx('horizontal-scroll-container')} >
                 {Object.entries(recipesByCategory).map(([category, recipes]) => (
                     <div key={category} className={cx('category-container')}>

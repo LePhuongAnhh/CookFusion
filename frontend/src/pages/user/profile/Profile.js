@@ -28,8 +28,59 @@ const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function Profile() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
-    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const Account_id = profileInformation._id
+    const default_profile = JSON.parse(localStorage.getItem(PROFILE_INFORMATION))
+
+    const { id } = useParams();
+    const [profileInformation, setProfile] = useState((default_profile && default_profile._id == id) ? default_profile : [])
+
+    const [isFollower, setIsFollower] = useState(false)
+    const [followData, setFollowData] = useState({ following: 0, follower: 0 })
+    useEffect(() => {
+        (async () => {
+            try {
+                let [profile, follow] = await Promise.all([
+                    axios.get(`${apiUrl}/user/getotherinformation/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        }
+                    }),
+                    axios.get(`${apiUrl}/user/getfollowInformation/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        }
+                    }),
+                ])
+                setFollowData({ following: follow.data.following.length, follower: follow.data.followers.length })
+                if (follow.data.followers.length > 0) {
+                    follow.data.followers.map((follower) => {
+                        if (follower.follower_id == accountId) setIsFollower(true)
+                    })
+                }
+                setProfile(profile.data.account)
+                setGetAge(profile.data.account)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+        socket.on('follow', (follow) => {
+            console.log(follow)
+            if (id == follow.following_id) profileInformation.followers += 1
+            else if (id == follow.follower_id) profileInformation.following += 1
+            setIsFollower(true)
+        })
+        socket.on('unfollow', (follow) => {
+            console.log(follow)
+            if (id == follow.following_id) profileInformation.followers -= 1
+            else if (id == follow.follower_id) profileInformation.following -= 1
+            setIsFollower(false)
+        })
+        return () => {
+            socket.off('unfollow')
+            socket.off('follow')
+        }
+    }, [setProfile]
+    )
+
     const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
@@ -37,7 +88,8 @@ function Profile() {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [events, setEvents] = useState([])
-    const { id } = useParams();
+
+    const Account_id = id
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const [resultPlanData, setResultPlanData] = useState([]);
     const [showCollectionData, setShowCollectionData] = useState([]);
@@ -56,7 +108,7 @@ function Profile() {
     const [collections, setCollections] = useState([]);
 
     const [getAge, setGetAge] = useState({
-        dob: profileInformation.dob,
+        dob: '',
     });
 
     //CHUYEN CAC TAB
@@ -171,28 +223,32 @@ function Profile() {
     const handleShowMessageModal = async (message, chating) => {
         try {
             if (!chating) setShowMessageModal(false)
-            await axios.get(`${apiUrl}/message/seen/${message._id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
+            if (message.length == 0) {
+                setOtherUSer(profileInformation)
+            } else {
+                const fetchListMessage = await axios.get(`${apiUrl}/message/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                const newlist = fetchListMessage.data.data.map((messag) => {
+                    if (messag._id === message._id) {
+                        return { ...messag, seen: true };
+                    }
+                    return messag;
+                })
+                setListMessage(newlist)
+                setOtherUSer(profileInformation)
+                const res = await axios.get(`${apiUrl}/message/getmessage/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                if (res.data.success) {
+                    setChat(res.data.data)
                 }
-            })
-            const newlist = listMessage.map((messag) => {
-                if (messag._id === message._id) {
-                    return { ...messag, seen: true };
-                }
-                return messag;
-            })
-            setListMessage(newlist)
-            setOtherUSer((message.sender[0]._id == accountId) ? message.receiver[0] : message.sender[0])
-            var _id = (message.sender[0]._id == accountId) ? message.receiver[0]._id : message.sender[0]._id
-            const res = await axios.get(`${apiUrl}/message/getmessage/${_id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            if (res.data.success) {
-                setChat(res.data.data)
             }
+
         }
         catch (error) {
             console.log(error)
@@ -268,24 +324,26 @@ function Profile() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/mealplan/getonebyuser`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setResultPlanData(response.data.data)
+                if (id === accountId) {
+                    const response = await axios.get(`${apiUrl}/mealplan/getonebyuser`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    setResultPlanData(response.data.data)
+                }
+
             } catch (error) {
                 console.error("Error fetching Meal Plans:", error);
             }
         };
         fetchData();
-    }, [accessToken]);
+    }, []);
     const filteredPlanMeals = resultPlanData.filter((plan) => plan.category.length > 0);
     // Đếm số lượng planmeal thỏa điều kiện
     const countPlanMealsWithCategory = filteredPlanMeals.length;
 
 
-    const gender = profileInformation.gender
     // Hàm để chọn icon dựa trên giới tính
     const getGenderIcon = (gender) => {
         if (gender === 'Male' || gender === 'male') {
@@ -306,11 +364,15 @@ function Profile() {
 
     const [isBouncing, setIsBouncing] = useState(false);
     const handleBounceButtonClick = () => {
+        const data = { following_id: id, follower_id: accountId }
+        console.log(data)
+        socket.emit('changeFollow', data)
         setIsBouncing(true);
         setTimeout(() => {
             setIsBouncing(false);
         }, 2000);
     };
+
 
 
 
@@ -334,39 +396,44 @@ function Profile() {
                                 className="absolute  w-full flex items-center justify-center"
                                 style={{ bottom: '-15px' }}
                             >
+
                                 <div className="w-35 h-35 rounded-full bg-gray-300 border-4 border-white d-flex align-items-center justify-content-center">
                                     <img
                                         className="rounded-circle img-fluid"
-                                        src={profileInformation.avatar}
+                                        src={(profileInformation.avatar) ? profileInformation.avatar : 'avt'}
                                         alt="avatar "
                                         style={{ marginTop: "15rem", width: "190px", height: "190px" }}
                                     />
                                 </div>
                             </div>
+                            {
+                                id != accountId && (
+                                    <div className={cx('message-bnt')}>
+                                        <div className={cx('page-content', 'page-container')} id="page-content">
+                                            <div
+                                                className={cx('btn', 'color', 'animate__animated', {
+                                                    'animate__bounce': isBouncing,
+                                                })}
+                                            >
+                                                <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                                    <button type="submit" className={cx('text-color')}>{isFollower ? 'Follow' : 'Unfollow'}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={cx('page-content', 'page-container')} id="page-content">
+                                            <div
+                                                className={cx('btn', 'color', 'animate__animated')}
+                                            >
+                                                <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                                    <button type="submit" className={cx('text-color')}>Message</button>
+                                                </div>
 
-                            <div className={cx('message-bnt')}>
-                                <div className={cx('page-content', 'page-container')} id="page-content">
-                                    <div
-                                        className={cx('btn', 'color', 'animate__animated', {
-                                            'animate__bounce': isBouncing,
-                                        })}
-                                    >
-                                        <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
-                                            <button type="submit" className={cx('text-color')}>Follow</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className={cx('page-content', 'page-container')} id="page-content">
-                                    <div
-                                        className={cx('btn', 'color', 'animate__animated')}
-                                    >
-                                        <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
-                                            <button type="submit" className={cx('text-color')}>Message</button>
-                                        </div>
+                                )
+                            }
 
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -386,13 +453,13 @@ function Profile() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-house-door-fill" viewBox="0 0 16 16">
                                         <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
                                     </svg> &nbsp;
-                                    <span className="ml-2">  {profileInformation.address}</span>
+                                    <span className="ml-2">  {(profileInformation.address) ? profileInformation.address : ''}</span>
                                 </div>
                             </div>
                             <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
                                 <div className="d-flex flex-row align-items-center">
-                                    {getGenderIcon(profileInformation.gender)} &nbsp;
-                                    <span className="ml-2">{profileInformation.gender}</span>
+                                    {getGenderIcon((profileInformation.gender) ? profileInformation.gender : '')} &nbsp;
+                                    <span className="ml-2">{(profileInformation.gender) ? profileInformation.gender : ''}</span>
                                 </div>
                             </div>
                             <div className={cx("d-flex", "justify-content-between", "align-items-center", "music")}>
@@ -408,16 +475,26 @@ function Profile() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
                                         <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
                                     </svg> &nbsp;
-                                    <span className="ml-2"> {profileInformation.email} </span>
+                                    <span className="ml-2"> {profileInformation.email ? profileInformation.email : ''} </span>
                                 </div>
                             </div>
                             <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
                                 <div className="d-flex flex-row align-items-center">
                                     <i className="fa fa-music color"></i>
-                                    &nbsp; <span className="ml-2">Following 3 people  </span>
+                                    &nbsp; <span className="ml-2">Following {followData.following} people  </span>
                                 </div>
                             </div>
-                            <button className={cx("edit")} onClick={() => setShowUpdateProfileModal(true)}><p> Edit</p></button>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <i className="fa fa-music color"></i>
+                                    &nbsp; <span className="ml-2">Followers: {followData.follower} </span>
+                                </div>
+                            </div>
+                            {
+                                id == accountId && (
+                                    <button className={cx("edit")} onClick={() => setShowUpdateProfileModal(true)}><p> Edit</p></button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -440,14 +517,19 @@ function Profile() {
                                         </div>
                                     </li>
                                     <li className={cx("nav-item", { 'active': activeTab === 'planmeal' })} style={{ marginLeft: "40px" }}>
-                                        <div onClick={() => handleTabChange('planmeal')}>
-                                            Plan meal
-                                        </div>
+                                        {id == accountId && (
+                                            <div onClick={() => handleTabChange('planmeal')}>
+                                                Plan meal
+                                            </div>
+                                        )}
                                     </li>
                                     <li className={cx("nav-item", { 'active': activeTab === 'collection' })} style={{ marginLeft: "40px" }}>
-                                        <div onClick={() => handleTabChange('collection')}>
-                                            Collection
-                                        </div>
+                                        {id == accountId && (
+                                            <div onClick={() => handleTabChange('collection')}>
+                                                Collection
+                                            </div>
+                                        )}
+
                                     </li>
                                 </ul>
                             </div>
@@ -457,24 +539,27 @@ function Profile() {
                             <div className="tab-content">
                                 {/* BLOG  */}
                                 <div id="article" className={`tab-pane fade ${activeTab === 'article' ? 'show active pt-3' : ''}`}>
-                                    <div className={cx('post_status')}>
-                                        <div className={cx('post_hearer')}>
-                                            <div className={cx('header_item')}>
-                                                <div className={cx('header_avatar')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                                <div className={cx('post_create')}>
-                                                    <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                    {id == accountId && (
+                                        <div className={cx('post_status')}>
+                                            <div className={cx('post_hearer')}>
+                                                <div className={cx('header_item')}>
+                                                    <div className={cx('header_avatar')}>
+                                                        <img className={cx('circle_avt')} src={images.Avt} />
+                                                    </div>
+                                                    <div className={cx('post_create')}>
+                                                        <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className={cx('post_body')} >
+                                                <form onClick={() => setShowCreateBlogModal(true)}>
+                                                    <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
+                                                    </textarea>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div className={cx('post_body')} >
-                                            <form onClick={() => setShowCreateBlogModal(true)}>
-                                                <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
-                                                </textarea>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    )}
+
 
                                     <div className={cx('post_status')}>
                                         <BlogForm idProfile={id} />

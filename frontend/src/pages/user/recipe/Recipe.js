@@ -73,17 +73,20 @@ const Recipe = () => {
             <div className={cx('browse')}>
                 <div className={cx('floating_button')}>
                     <div className={cx('tray_row')}>
-                        <div className={cx('save_button')}>
-                            <button
-                                aria-label='Save-recipe'
-                                className={cx('button_save_recipe')}
-                                onClick={() => setShowCreateRecipeModal(true)}
-                            >
-                                <span className={cx('icon_save')} title="Create Recipe">
-                                    <img className={cx('add-recipe-image')} src={images.add_recipe} />
-                                </span>
-                            </button>
-                        </div>
+                        {accessToken && (
+                            <div className={cx('save_button')}>
+                                <button
+                                    aria-label='Save-recipe'
+                                    className={cx('button_save_recipe')}
+                                    onClick={() => setShowCreateRecipeModal(true)}
+                                >
+                                    <span className={cx('icon_save')} title="Create Recipe">
+                                        <img className={cx('add-recipe-image')} src={images.add_recipe} />
+                                    </span>
+                                </button>
+                            </div>
+                        )}
+
                     </div>
                 </div>
                 <div className={cx('right')}>

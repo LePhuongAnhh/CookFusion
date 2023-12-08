@@ -16,6 +16,7 @@ const HomepageForm = () => {
     const [categoryRating, setRatingCategory] = useState([])
     const [topUser, setTopUser] = useState([])
     const [topCollections, setTopCollections] = useState([])
+    const [topTrendingCountry, setTopTrendingCountry] = useState([])
     const navigate = useNavigate()
     const handleLoadUser = (_id) => {
         navigate(`/profile/${_id}`)
@@ -23,9 +24,7 @@ const HomepageForm = () => {
     useEffect(() => {
         (async () => {
             try {
-                const [response] = await Promise.all([
-                    axios.get(`${apiUrl}/recipe/gettoptrendingrecipe`)
-                ])
+                const response = await axios.get(`${apiUrl}/recipe/gettoptrendingrecipe`)
                 if (response.data.success) {
                     setListCategories(response.data.listCategory)
                     setTopTrending(response.data.topTrending)
@@ -35,6 +34,8 @@ const HomepageForm = () => {
                             if (cate.category == categoryWithImg.name) cateRate[index] = { ...cate, image: categoryWithImg.image }
                         })
                     ))
+                    setTopTrendingCountry(response.data.trendingCountry)
+                    console.log(response.data.trendingCountry)
                     setTopUser(response.data.topUser)
                     setRatingCategory(cateRate)
                     setTopCollections(response.data.topCollections)
@@ -83,88 +84,28 @@ const HomepageForm = () => {
                             <div className={cx('recipe_contain')}>
                                 <div className={cx('recipe_card')}>
                                     <ul className={cx('img_carousel')}>
-                                        <li className={cx('img_carousel_item_first')}>
-                                            <div className={cx('card_in')}>
-                                                <Link className={cx('card_')} to="#">
-                                                    <div className={cx('card_box_in')}>
-                                                        <div className={cx('recipe_card_img')}>
-                                                            <img src={images.t1} />
-                                                        </div>
-                                                    </div>
-                                                </Link>
-                                                <div className={cx('card_info_wrapper')}>
-                                                    <div className={cx('card_name')}>
-                                                        <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                        <span className={cx('card_source')}>
-                                                            <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className={cx('img_carousel_item_first')}>
-                                            <div className={cx('recipe_card_info')}>
+                                        {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
+                                            <li className={cx('img_carousel_item_first')}>
                                                 <div className={cx('card_in')}>
                                                     <Link className={cx('card_')} to="#">
                                                         <div className={cx('card_box_in')}>
                                                             <div className={cx('recipe_card_img')}>
-                                                                <img src={images.t2} />
+                                                                <img src={category._id.category_detail[0].image} />
                                                             </div>
                                                         </div>
                                                     </Link>
                                                     <div className={cx('card_info_wrapper')}>
                                                         <div className={cx('card_name')}>
-                                                            <Link className={cx('card_title')} to="#">Asian Recipe</Link>
+                                                            <Link className={cx('card_title')} to="#">{category._id.category.toUpperCase()}</Link>
                                                             <span className={cx('card_source')}>
-                                                                <Link className={cx('card_source_link')} to="#">VietNam</Link>
+                                                                <Link className={cx('card_source_link')} to="#">{category._id.national[0].toUpperCase()}</Link>
                                                             </span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li className={cx('img_carousel_item_first')}>
-                                            <div className={cx('recipe_card_info')}>
-                                                <div className={cx('card_in')}>
-                                                    <Link className={cx('card_')} to="#">
-                                                        <div className={cx('card_box_in')}>
-                                                            <div className={cx('recipe_card_img')}>
-                                                                <img src={images.t3} />
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                    <div className={cx('card_info_wrapper')}>
-                                                        <div className={cx('card_name')}>
-                                                            <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                            <span className={cx('card_source')}>
-                                                                <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li className={cx('img_carousel_item_first')}>
-                                            <div className={cx('recipe_card_info')}>
-                                                <div className={cx('card_in')}>
-                                                    <Link className={cx('card_')} to="#">
-                                                        <div className={cx('card_box_in')}>
-                                                            <div className={cx('recipe_card_img')}>
-                                                                <img src={images.t4} />
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                    <div className={cx('card_info_wrapper')}>
-                                                        <div className={cx('card_name')}>
-                                                            <Link className={cx('card_title')} to="#">Asian Recipe</Link>
-                                                            <span className={cx('card_source')}>
-                                                                <Link className={cx('card_source_link')} to="#">VietNam</Link>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        ))}
+
                                     </ul>
                                 </div>
                             </div>

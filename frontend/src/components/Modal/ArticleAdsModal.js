@@ -29,7 +29,6 @@ const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const ArticleAdsModal = () => {
-
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -97,6 +96,21 @@ const ArticleAdsModal = () => {
         await fetchData(hashtag)
     }
 
+
+    const handleGetdata = async () => {
+        try {
+            const response = await axios.get(`${apiUrl}/article/getonearticle/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log("data nay:", response.data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+
     const fetchData = async (hashtag) => {
         try {
             if (hashtag) {
@@ -112,11 +126,11 @@ const ArticleAdsModal = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("data:", response.data)
+                // console.log("data nay:", response.data)
             }
 
 
-            if (response) {
+            if (response.data.sucess) {
                 const articlesData = response.data.data.map(article => {
                     const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
                     const content = article.content;
@@ -134,6 +148,17 @@ const ArticleAdsModal = () => {
         }
     };
 
+
+    useEffect(() => {
+        const handleNewArticleAdded = async () => {
+            await fetchData();
+        };
+        window.addEventListener('newArticleAdded', handleNewArticleAdded);
+        return () => {
+            window.removeEventListener('newArticleAdded', handleNewArticleAdded);
+        };
+    }, [fetchData]);
+
     useEffect(() => {
         fetchData();
         socket.on('error', (message) => {
@@ -144,7 +169,7 @@ const ArticleAdsModal = () => {
         })
         socket.on('deleteheart', (state) => {
             setChangeArticle(true)
-        })
+        })  
         return () => {
             socket.off('error')
             socket.off('addheart')
@@ -195,7 +220,7 @@ const ArticleAdsModal = () => {
             console.error("Lỗi xóa bình luận:", error);
         }
     };
-
+    console.log("Lỗi xóa bình luận:", filteredArticles.content);
     if (filteredArticles.length === 0) {
         return <p className={cx('loading')}> <Loading /></p>;
     }
@@ -204,32 +229,32 @@ const ArticleAdsModal = () => {
         <>
             <div className={cx('post_status_ads', 'box-shadow')}>
                 {filteredArticles.map((article) => (
-                    <li className={cx("box-card")} key={article._id}>
+                    <li className={cx("box-card")} key={filteredArticles._id}>
                         <div style={{ marginTop: '90px' }} className={cx('post_status_ads')}>
                             <div className={cx('post_hearer')}>
                                 <div className={cx('post_hearer_between')}>
                                     <div className={cx('post_img_left')}>
                                         <div className={cx('d_flex')}>
-                                            <Link to={`/profile/${encodeURIComponent(article.userUpload[0]._id)}`} className={cx('d_flex')}>
+                                            <Link to={`/profile/${encodeURIComponent(filteredArticles.userUpload[0]._id)}`} className={cx('d_flex')}>
                                                 <div className={cx('header_avatar')}>
                                                     <img
                                                         className={cx('circle_avt1')}
-                                                        src={article.userUpload[0].avatar}
+                                                        src={filteredArticles.userUpload[0].avatar}
                                                     />
                                                 </div>
                                             </Link>
                                             <div className={cx('name_account')}>
                                                 <p className={cx('name_user')}>
-                                                    <Link to={`/profile/${encodeURIComponent(article.userUpload[0]._id)}`} className={cx('post_name_account')}>
-                                                        {article.userUpload[0].name}&nbsp;
+                                                    <Link to={`/profile/${encodeURIComponent(filteredArticles.userUpload[0]._id)}`} className={cx('post_name_account')}>
+                                                        {filteredArticles.userUpload[0].name}&nbsp;
                                                     </Link>
                                                     <span className={cx('share_album')}>
-                                                        share post {article.title}
-                                                        {/* {article.userUpload[0]._id} */}
+                                                        share post {filteredArticles.title}
+                                                        {/* {filteredArticles.userUpload[0]._id} */}
                                                     </span>
                                                 </p>
                                                 <p className={cx('date_time')}>
-                                                    {article.timeUpload}
+                                                    {filteredArticles.timeUpload}
                                                 </p>
                                             </div>
                                         </div>
@@ -243,13 +268,13 @@ const ArticleAdsModal = () => {
                                                             <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
                                                         </svg>
                                                     </button>
-                                                    {(article.userUpload[0]._id === profileInformation._id) ? (
+                                                    {(filteredArticles.userUpload[0]._id === profileInformation._id) ? (
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
-                                                            <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
+                                                            <Link to="#" onClick={() => handleDeleteIconClick(filteredArticles._id)}>Delete</Link>
                                                         </div>
                                                     ) : <div className={cx('dropdown_content')}>
-                                                        <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
+                                                        <Link to="#" onClick={() => handleReport(filteredArticles._id)}>Report</Link>
                                                     </div>
                                                     }
                                                 </div>
@@ -260,10 +285,10 @@ const ArticleAdsModal = () => {
                             </div>
                             <div className={cx('posts_body')}>
                                 <p>
-                                    {article.content}
+                                    {filteredArticles.content}
                                     <div>
                                         {
-                                            article.hashtags.length > 0 && article.hashtags.map((hashtag) => (
+                                            filteredArticles.hashtags.length > 0 && filteredArticles.hashtags.map((hashtag) => (
                                                 <a style={{ color: "blue" }} onClick={() => handleSearchHashtag(hashtag)}>{hashtag}</a>
                                             ))
 
@@ -274,7 +299,7 @@ const ArticleAdsModal = () => {
                                 <div className={cx('body_img')}>
                                     <div className={cx('show_img_6')}>
                                         <Slider {...sliderSettings}>
-                                            {article.files[0] && article.files[0].files.map((fileInfor, index) => {
+                                            {filteredArticles.files[0] && filteredArticles.files[0].files.map((fileInfor, index) => {
                                                 if (fileInfor.isImage == false) {
                                                     // Hiển thị video
                                                     return (
@@ -294,7 +319,7 @@ const ArticleAdsModal = () => {
                                                                         <i class="bi bi-chevron-compact-left"></i>
                                                                     </button>
                                                                 )}
-                                                                {index < article.files[0].files.length - 1 && ( // Hiển thị button chuyển đến ảnh tiếp theo nếu không phải ảnh cuối cùng
+                                                                {index < filteredArticles.files[0].files.length - 1 && ( // Hiển thị button chuyển đến ảnh tiếp theo nếu không phải ảnh cuối cùng
                                                                     <button className={cx('next-button')} onClick={() => this.slider.slickNext()}>
                                                                         <i class="bi bi-chevron-compact-right"></i>
                                                                     </button>
@@ -316,9 +341,9 @@ const ArticleAdsModal = () => {
                             <div className={cx('emotion')}>
                                 <div style={{ display: "flex" }}>
                                     <div className={cx('emotion_item')}>
-                                        {article.states && (
-                                            (article.states.find(state => state.Account_id === authorIdToDisplay)) ? (
-                                                article.states.map((state) => (
+                                        {filteredArticles.states && (
+                                            (filteredArticles.states.find(state => state.Account_id === authorIdToDisplay)) ? (
+                                                filteredArticles.states.map((state) => (
                                                     state.Account_id == authorIdToDisplay && (
                                                         <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
                                                             <img className={cx('ing-emotion')} src={images.afterLike} />
@@ -326,7 +351,7 @@ const ArticleAdsModal = () => {
                                                         </div>
                                                     )
                                                 ))
-                                            ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(article._id)}>
+                                            ) : <div className={cx('emotion_gird')} onClick={() => handleAddState(filteredArticles._id)}>
                                                 <img className={cx('ing-emotion')} src={images.beforeLike} />
                                                 <span className={cx('like_icon')}></span>
                                             </div>
@@ -344,10 +369,10 @@ const ArticleAdsModal = () => {
                                 </div>
                                 <div className={cx('total_like')}>
                                     <Link to="#" className={cx('count_like')}>
-                                        {article.states.length} <span> loves  </span>
+                                        {filteredArticles.states.length} <span> loves  </span>
                                     </Link>
                                     <Link to="#" className={cx('count_like')}>
-                                        {article.comment.length} <span> comments </span>
+                                        {filteredArticles.comment.length} <span> comments </span>
                                     </Link>
                                 </div>
                             </div>

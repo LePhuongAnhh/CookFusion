@@ -169,6 +169,21 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType
     //article cho profile
     const [articleDataProfile, setArticleDataProfile] = useState('');
 
+    // comment reply
+    const [replyingToComment, setReplyingToComment] = useState(null);
+    const [replyText, setReplyText] = useState('');
+
+    const handleReplyClick = (commentId) => {
+        setReplyingToComment(commentId);
+    };
+
+    const handleChangeReply = (e) => {
+        setReplyText(e.target.value);
+    };
+
+    const handleSubmitReply = async (e) => {
+        e.preventDefault();
+    };
     //hiện cmt
     useEffect(() => {
         new Promise(() => fetchData())
@@ -350,7 +365,10 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType
                         </div>
                         <div className={cx('emotion_item')}>
                             <div className={cx('emotion_gird')}>
-                                <span className={cx('like_icon')}></span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
+                                </svg>
+                                <span className={cx('like_icon')}>Share</span>
                             </div>
                         </div>
                     </div>
@@ -359,7 +377,7 @@ const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType
                             <div className={cx('write_comment')}>
                                 <div className={cx('cmt_avt')}>
                                     <div className={cx('avatar_comment')}>
-                                        <img className={cx('circle_avt')} src={selectedContent.userUpload[0].avatar} />
+                                        <img className={cx('circle_avt')} src={profileInformation.avatar} />
                                     </div>
                                 </div>
                                 <input type="hidden" name="_id" value={selectedContent._id} />

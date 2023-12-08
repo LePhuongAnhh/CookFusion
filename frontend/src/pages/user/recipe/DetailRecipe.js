@@ -88,7 +88,7 @@ const EditComment = ({ comment, onSave, onCancel, recipeData }) => {
 function DetailRecipe() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const Account_id = profileInformation._id
+    if (profileInformation) var Account_id = profileInformation._id
     const { id } = useParams();
     const scrollingImage = document.querySelector('.detail_left_gird');
     const [avg, setAvg] = useState(0)
@@ -260,7 +260,7 @@ function DetailRecipe() {
                 `${apiUrl}/comment/deleteRecipeComment`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,                        
+                        Authorization: `Bearer ${accessToken}`,
                     },
                     data: {
                         _id: _id,
@@ -320,7 +320,7 @@ function DetailRecipe() {
                     <div className={cx('detail_content')}>
                         <nav className={cx('breadcrumb')}>
                             <span className={cx('breadcrumb_link')}>
-                                <Link to="/homepage">Home</Link>
+                                <Link to="/">Home</Link>
                             </span>
                             {/* <span className={cx('breadcrumb_separator')} onClick={handleBack}>/ &nbsp;  &nbsp; Back</span> */}
                             <span className={cx('breadcrumb_separator')}> /</span>
@@ -506,25 +506,28 @@ function DetailRecipe() {
                         </div>
 
                         {/* //COLEXTION  */}
-                        <div className={cx('save_collection')}>
-                            <div className={cx('save_btn')}>
-                                <span className={cx('icon_save')}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
-                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                    </svg>
-                                </span>
-                                <span className={cx('save')}>Save this recipe</span>
+                        {profileInformation && (
+                            <div className={cx('save_collection')}>
+                                <div className={cx('save_btn')}>
+                                    <span className={cx('icon_save')}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                        </svg>
+                                    </span>
+                                    <span className={cx('save')}>Save this recipe</span>
+                                </div>
+                                <div className={cx('add_planmeal')}>
+                                    <span className={cx('icon_save')}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-flower2" viewBox="0 0 16 16">
+                                            <path d="M8 16a4 4 0 0 0 4-4 4 4 0 0 0 0-8 4 4 0 0 0-8 0 4 4 0 1 0 0 8 4 4 0 0 0 4 4zm3-12c0 .073-.01.155-.03.247-.544.241-1.091.638-1.598 1.084A2.987 2.987 0 0 0 8 5c-.494 0-.96.12-1.372.331-.507-.446-1.054-.843-1.597-1.084A1.117 1.117 0 0 1 5 4a3 3 0 0 1 6 0zm-.812 6.052A2.99 2.99 0 0 0 11 8a2.99 2.99 0 0 0-.812-2.052c.215-.18.432-.346.647-.487C11.34 5.131 11.732 5 12 5a3 3 0 1 1 0 6c-.268 0-.66-.13-1.165-.461a6.833 6.833 0 0 1-.647-.487zm-3.56.617a3.001 3.001 0 0 0 2.744 0c.507.446 1.054.842 1.598 1.084.02.091.03.174.03.247a3 3 0 1 1-6 0c0-.073.01-.155.03-.247.544-.242 1.091-.638 1.598-1.084zm-.816-4.721A2.99 2.99 0 0 0 5 8c0 .794.308 1.516.812 2.052a6.83 6.83 0 0 1-.647.487C4.66 10.869 4.268 11 4 11a3 3 0 0 1 0-6c.268 0 .66.13 1.165.461.215.141.432.306.647.487zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                                        </svg>
+                                    </span>
+                                    <span className={cx('save')}>Add to Meal Plan</span>
+                                </div>
                             </div>
-                            <div className={cx('add_planmeal')}>
-                                <span className={cx('icon_save')}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-flower2" viewBox="0 0 16 16">
-                                        <path d="M8 16a4 4 0 0 0 4-4 4 4 0 0 0 0-8 4 4 0 0 0-8 0 4 4 0 1 0 0 8 4 4 0 0 0 4 4zm3-12c0 .073-.01.155-.03.247-.544.241-1.091.638-1.598 1.084A2.987 2.987 0 0 0 8 5c-.494 0-.96.12-1.372.331-.507-.446-1.054-.843-1.597-1.084A1.117 1.117 0 0 1 5 4a3 3 0 0 1 6 0zm-.812 6.052A2.99 2.99 0 0 0 11 8a2.99 2.99 0 0 0-.812-2.052c.215-.18.432-.346.647-.487C11.34 5.131 11.732 5 12 5a3 3 0 1 1 0 6c-.268 0-.66-.13-1.165-.461a6.833 6.833 0 0 1-.647-.487zm-3.56.617a3.001 3.001 0 0 0 2.744 0c.507.446 1.054.842 1.598 1.084.02.091.03.174.03.247a3 3 0 1 1-6 0c0-.073.01-.155.03-.247.544-.242 1.091-.638 1.598-1.084zm-.816-4.721A2.99 2.99 0 0 0 5 8c0 .794.308 1.516.812 2.052a6.83 6.83 0 0 1-.647.487C4.66 10.869 4.268 11 4 11a3 3 0 0 1 0-6c.268 0 .66.13 1.165.461.215.141.432.306.647.487zM8 9a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-                                    </svg>
-                                </span>
-                                <span className={cx('save')}>Add to Meal Plan</span>
-                            </div>
-                        </div>
+                        )}
+
                         {/* REVIEW  */}
                         <div className={cx('review_wrapper')}>
                             <h3 className={cx('review_h3')}>Reviews
@@ -549,51 +552,56 @@ function DetailRecipe() {
                             </div>
 
                             {/* comment  */}
-                            <div className={cx('write_reviews')}>
-                                <form onSubmit={handleSubmitComment}>
-                                    <img src={profileInformation.avatar} />
-                                    <div className={cx('write_content')}>
-                                        <input type="hidden" name="_id" value={recipeData.data[0]._id} />
-                                        <input
-                                            value={commentData.comment}
-                                            onChange={handleChangeComment}
-                                            name="comment"
-                                            // rows="6"
-                                            className={cx('review_text')}
-                                            placeholder="Write your comment or review here..."
-                                        />
+                            {profileInformation && (
+                                <div>
+                                    <div className={cx('write_reviews')}>
+                                        <form onSubmit={handleSubmitComment}>
+                                            <img src={profileInformation.avatar} />
+                                            <div className={cx('write_content')}>
+                                                <input type="hidden" name="_id" value={recipeData.data[0]._id} />
+                                                <input
+                                                    value={commentData.comment}
+                                                    onChange={handleChangeComment}
+                                                    name="comment"
+                                                    // rows="6"
+                                                    className={cx('review_text')}
+                                                    placeholder="Write your comment or review here..."
+                                                />
+                                            </div>
+                                        </form>
                                     </div>
-                                </form>
-                            </div>
 
-                            {/* đánh giá  */}
-                            <div className={cx('rating-card')}>
-                                <Box
-                                    sx={{
-                                        width: 200,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        fontSize: '36px',
-                                    }}
-                                >
-                                    <Rating
-                                        name="hover-feedback"
-                                        value={value}
-                                        precision={1}
-                                        getLabelText={getLabelText}
-                                        onChange={(event, newValue) => {
-                                            handleRate(newValue);
-                                        }}
-                                        onChangeActive={(event, newHover) => {
-                                            setHover(newHover);
-                                        }}
-                                        emptyIcon={<CustomStarIcon />}
-                                    />
-                                    {value !== null && (
-                                        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-                                    )}
-                                </Box>
-                            </div>
+                                    {/* đánh giá  */}
+                                    <div className={cx('rating-card')}>
+                                        <Box
+                                            sx={{
+                                                width: 200,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                fontSize: '36px',
+                                            }}
+                                        >
+                                            <Rating
+                                                name="hover-feedback"
+                                                value={value}
+                                                precision={1}
+                                                getLabelText={getLabelText}
+                                                onChange={(event, newValue) => {
+                                                    handleRate(newValue);
+                                                }}
+                                                onChangeActive={(event, newHover) => {
+                                                    setHover(newHover);
+                                                }}
+                                                emptyIcon={<CustomStarIcon />}
+                                            />
+                                            {value !== null && (
+                                                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                                            )}
+                                        </Box>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* HIEN COMMENT  */}
                             {
                                 recipeData.data[0].comments.length > 0 && recipeData.data[0].comments.map((comment) => (
