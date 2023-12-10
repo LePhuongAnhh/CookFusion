@@ -17,8 +17,58 @@ const socket = io('http://localhost:9996/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 function ProfileAds() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)
-    const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    const Account_id = profileInformation._id
+    const default_profile = JSON.parse(localStorage.getItem(PROFILE_INFORMATION))
+
+    const { id } = useParams();
+    const [profileInformation, setProfile] = useState((default_profile && default_profile._id == id) ? default_profile : [])
+
+    const [isFollower, setIsFollower] = useState(false)
+    const [followData, setFollowData] = useState({ following: 0, follower: 0 })
+    useEffect(() => {
+        (async () => {
+            try {
+                let [profile, follow] = await Promise.all([
+                    axios.get(`${apiUrl}/user/getotherinformation/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        }
+                    }),
+                    axios.get(`${apiUrl}/user/getfollowInformation/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        }
+                    }),
+                ])
+                setFollowData({ following: follow.data.following.length, follower: follow.data.followers.length })
+                if (follow.data.followers.length > 0) {
+                    follow.data.followers.map((follower) => {
+                        if (follower.follower_id == accountId) setIsFollower(true)
+                    })
+                }
+                setProfile(profile.data.account)
+                setGetAge(profile.data.account)
+            } catch (error) {
+                console.log(error)
+            }
+        })()
+        socket.on('follow', (follow) => {
+            console.log(follow)
+            if (id == follow.following_id) profileInformation.followers += 1
+            else if (id == follow.follower_id) profileInformation.following += 1
+            setIsFollower(true)
+        })
+        socket.on('unfollow', (follow) => {
+            console.log(follow)
+            if (id == follow.following_id) profileInformation.followers -= 1
+            else if (id == follow.follower_id) profileInformation.following -= 1
+            setIsFollower(false)
+        })
+        return () => {
+            socket.off('unfollow')
+            socket.off('follow')
+        }
+    }, [setProfile]
+    )
     const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
@@ -26,7 +76,6 @@ function ProfileAds() {
     const [showDeleteModal, setShowDeleteModal] = useState(false)// trạng thái của modal hiển thị xác nhận xóa
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)// trạng thái của modal hiển baif cmt
     const [events, setEvents] = useState([])
-    const { id } = useParams();
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const [resultPlanData, setResultPlanData] = useState([]);
     const [showCollectionData, setShowCollectionData] = useState([]);
@@ -70,28 +119,32 @@ function ProfileAds() {
     const handleShowMessageModal = async (message, chating) => {
         try {
             if (!chating) setShowMessageModal(false)
-            await axios.get(`${apiUrl}/message/seen/${message._id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
+            if (message.length == 0) {
+                setOtherUSer(profileInformation)
+            } else {
+                const fetchListMessage = await axios.get(`${apiUrl}/message/getall`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                const newlist = fetchListMessage.data.data.map((messag) => {
+                    if (messag._id === message._id) {
+                        return { ...messag, seen: true };
+                    }
+                    return messag;
+                })
+                setListMessage(newlist)
+                setOtherUSer(profileInformation)
+                const res = await axios.get(`${apiUrl}/message/getmessage/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+                if (res.data.success) {
+                    setChat(res.data.data)
                 }
-            })
-            const newlist = listMessage.map((messag) => {
-                if (messag._id === message._id) {
-                    return { ...messag, seen: true };
-                }
-                return messag;
-            })
-            setListMessage(newlist)
-            setOtherUSer((message.sender[0]._id == accountId) ? message.receiver[0] : message.sender[0])
-            var _id = (message.sender[0]._id == accountId) ? message.receiver[0]._id : message.sender[0]._id
-            const res = await axios.get(`${apiUrl}/message/getmessage/${_id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            if (res.data.success) {
-                setChat(res.data.data)
             }
+
         }
         catch (error) {
             console.log(error)
@@ -218,28 +271,31 @@ function ProfileAds() {
                                     />
                                 </div>
                             </div>
-                            <div className={cx('message-bnt')}>
-                                <div className={cx('page-content', 'page-container')} id="page-content">
-                                    <div
-                                        className={cx('btn', 'color', 'animate__animated', {
-                                            'animate__bounce': isBouncing,
-                                        })}
-                                    >
-                                        <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
-                                            <button type="submit" className={cx('text-color')}>Follow</button>
+                            {id != accountId && (
+                                <div className={cx('message-bnt')}>
+                                    <div className={cx('page-content', 'page-container')} id="page-content">
+                                        <div
+                                            className={cx('btn', 'color', 'animate__animated', {
+                                                'animate__bounce': isBouncing,
+                                            })}
+                                        >
+                                            <div onClick={handleBounceButtonClick} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                                <button type="submit" className={cx('text-color')}>Follow</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={cx('page-content', 'page-container')} id="page-content">
+                                        <div
+                                            className={cx('btn', 'color', 'animate__animated')}
+                                        >
+                                            <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
+                                                <button type="submit" className={cx('text-color')}>Message</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className={cx('page-content', 'page-container')} id="page-content">
-                                    <div
-                                        className={cx('btn', 'color', 'animate__animated')}
-                                    >
-                                        <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
-                                            <button type="submit" className={cx('text-color')}>Message</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            )}
+
                         </div>
                     </div>
                 </div>
@@ -285,7 +341,13 @@ function ProfileAds() {
                             <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
                                 <div className="d-flex flex-row align-items-center">
                                     <i className="fa fa-music color"></i>
-                                    &nbsp; <span className="ml-2">Following 3 people  </span>
+                                    &nbsp; <span className="ml-2">Following {followData.following} people  </span>
+                                </div>
+                            </div>
+                            <div className={cx("d-flex", "justify-content-between", "align-items-center", "p-3", "music")} style={{ marginBottom: "10px" }}>
+                                <div className="d-flex flex-row align-items-center">
+                                    <i className="fa fa-music color"></i>
+                                    &nbsp; <span className="ml-2">{followData.follower} followers  </span>
                                 </div>
                             </div>
                             <button className={cx("edit")} onClick={() => setShowUpdateProfileModal(true)}><p> Edit</p></button>
@@ -313,24 +375,27 @@ function ProfileAds() {
                             <div className="tab-content">
                                 {/* BLOG  */}
                                 <div id="article" className={`tab-pane fade ${activeTab === 'article' ? 'show active pt-3' : ''}`}>
-                                    <div className={cx('post_status')}>
-                                        <div className={cx('post_hearer')}>
-                                            <div className={cx('header_item')}>
-                                                <div className={cx('header_avatar')}>
-                                                    <img className={cx('circle_avt')} src={images.Avt} />
-                                                </div>
-                                                <div className={cx('post_create')}>
-                                                    <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                    {id == accountId && (
+                                        <div className={cx('post_status')}>
+                                            <div className={cx('post_hearer')}>
+                                                <div className={cx('header_item')}>
+                                                    <div className={cx('header_avatar')}>
+                                                        <img className={cx('circle_avt')} src={profileInformation.avatar} />
+                                                    </div>
+                                                    <div className={cx('post_create')}>
+                                                        <h5 className={cx('create_post')}>{profileInformation.name}</h5>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className={cx('post_body')} >
+                                                <form onClick={() => setShowCreateBlogModal(true)}>
+                                                    <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
+                                                    </textarea>
+                                                </form>
+                                            </div>
                                         </div>
-                                        <div className={cx('post_body')} >
-                                            <form onClick={() => setShowCreateBlogModal(true)}>
-                                                <textarea rows="2" placeholder='What do you want to talk about?' className={cx('textarea_post')} >
-                                                </textarea>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    )}
+
 
                                     <div className={cx('post_status')}>
                                         <BlogForm idProfile={id} />

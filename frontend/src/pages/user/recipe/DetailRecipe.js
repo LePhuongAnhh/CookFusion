@@ -278,7 +278,7 @@ function DetailRecipe() {
         try {
             console.log("Before axios.patch");
             const response = await axios.patch(
-                `${apiUrl}/comment/updateRecipeComment`,
+                `${apiUrl}/comment/updateRecipeComment `,
                 {
                     _id: comment._id,
                     Account_id: profileInformation._id,

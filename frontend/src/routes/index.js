@@ -56,6 +56,7 @@ const publicRoutes = [
     { path: "/forgotpassword3", component: ForgotPassForm3, layout: null },
     { path: "/", component: HomepageForm },
     { path: "/recipe", component: Recipe },
+    { path: "/recipe/:id", component: Recipe },
     { path: "/aboutus", component: AboutUs },
     { path: "/detail/:id", component: DetailRecipe },
     { path: "/article", component: Article },

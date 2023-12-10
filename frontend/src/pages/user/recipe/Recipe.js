@@ -1,6 +1,6 @@
 import styles from './Recipe.module.scss'
 import classNames from 'classnames/bind'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import RecipeForm from './RecipeForm'
 import CreateRecipe from './CreateRecipe'
 import images from '~/assets/images'
@@ -21,7 +21,7 @@ const Recipe = () => {
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const [showCreateRecipeModal, setShowCreateRecipeModal] = useState(false);
-
+    const { id } = useParams();
     //CHINH SLIDER
     const NextArrow = (props) => (
         <div {...props} className={cx('custom-arrow next-arrow')}>
@@ -52,6 +52,7 @@ const Recipe = () => {
         ),
     };
     const [topTrending, setTopTrending] = useState([])
+    const [rcm, setRcm] = useState([])
     useEffect(() => {
         (async () => {
             try {
@@ -60,7 +61,6 @@ const Recipe = () => {
                 ])
                 if (response.data.success) {
                     setTopTrending(response.data.topTrending)
-                    console.log(response.data.topTrending)
                 }
             } catch (error) {
                 console.log(error)
@@ -177,7 +177,7 @@ const Recipe = () => {
                     <div className={cx('blog')}>
                         <h1>Our<span>Recipe</span></h1>
                         <div className={cx('blog_box')}>
-                            <RecipeForm isProfile={false} />
+                            <RecipeForm isProfile={false} category={id} />
                         </div>
                     </div>
                 </div>

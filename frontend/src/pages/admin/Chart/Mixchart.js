@@ -10,7 +10,7 @@ const MixChart = ({ ratingCategory }) => {
         datasets: [
             {
                 type: 'line', // Loại biểu đồ đường
-                label: 'Số Lượng Công Thức',
+                label: 'Quantity recipes',
                 borderColor: 'red',
                 borderWidth: 2,
                 fill: false,
@@ -26,7 +26,7 @@ const MixChart = ({ ratingCategory }) => {
             },
             {
                 type: 'bar', // Loại biểu đồ cột
-                label: 'Số Lượng Đánh Giá',
+                label: 'Quantity reviews',
                 backgroundColor: 'orange',
                 data: ratingCategory.rating,
             },

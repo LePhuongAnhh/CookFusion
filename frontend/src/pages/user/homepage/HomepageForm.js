@@ -12,7 +12,8 @@ import SurveyUSer from '~/components/Modal/SurveyUser';
 const cx = classNames.bind(styles)
 const HomepageForm = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const role = localStorage.getIt
+    const role = localStorage.getItem(ROLE);
+    console.log('role:', role)
     const [listCategories, setListCategories] = useState([])
     const [topTrending, setTopTrending] = useState([])
     const [categoryRating, setRatingCategory] = useState([])
@@ -70,6 +71,8 @@ const HomepageForm = () => {
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
                     console.log(response.data.trendingCountry)
+                    console.log("baner ne:", response.data.trendingCountry)
+
                     setTopUser(response.data.topUser)
                     setRatingCategory(cateRate)
                     setTopCollections(response.data.topCollections)
@@ -83,6 +86,8 @@ const HomepageForm = () => {
         }
         )()
     }, [])
+
+
     useEffect(() => {
         (async () => {
             try {
@@ -150,7 +155,8 @@ const HomepageForm = () => {
                                         {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
                                             <li className={cx('img_carousel_item_first')}>
                                                 <div className={cx('card_in')}>
-                                                    <Link className={cx('card_')} to="#">
+                                                    <Link className={cx('card_')} to={`/recipe/${category._id.category_detail[0]._id}`}>
+                                                        {console.log(category._id.category_detail)}
                                                         <div className={cx('card_box_in')}>
                                                             <div className={cx('recipe_card_img')}>
                                                                 <img src={category._id.category_detail[0].image} />
@@ -260,10 +266,10 @@ const HomepageForm = () => {
                                     {listCategories.length > 0 && listCategories.map((category, index) => (
                                         index < 5 && (
                                             <div className={cx('cate_img_block')}>
-                                                <Link to="#" className={cx('cate_img')}>
+                                                <Link to={`/recipe/${category._id}`} className={cx('cate_img')}>
                                                     <img src={category.image} />
                                                 </Link>
-                                                <Link to="#" className={cx('cate_title')}>{category.name}</Link>
+                                                <Link to={`/recipe/${category._id}`} className={cx('cate_title')}>{category.name}</Link>
                                             </div>
                                         )
                                     ))}
@@ -279,11 +285,11 @@ const HomepageForm = () => {
                                             {/* <img src={Background_slide} /> */}
                                         </div>
                                         <div className={cx('advertisement_box')}>
-                                            <span>Introduction</span>
+                                            {/* <span>Introduction</span>
                                             <h3 className={cx('name_h1')}> Quang cao </h3>
                                             <span>
                                                 <Link to="#" className={cx('show_more')}> Show more</Link>
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +305,7 @@ const HomepageForm = () => {
                                                 <li className={cx('img_carousel_item')}>
                                                     <div className={cx('recipe_card_info')}>
                                                         <div className={cx('card_in')}>
-                                                            <Link className={cx('card_')} to="#">
+                                                            <Link className={cx('card_')} >
                                                                 <div className={cx('card_box_in')}>
                                                                     <div className={cx('recipe_card_top')}>
                                                                         <img src={category.image} />
@@ -308,9 +314,9 @@ const HomepageForm = () => {
                                                             </Link>
                                                             <div className={cx('card_info_wrapper')}>
                                                                 <div className={cx('card_name_cate')}>
-                                                                    <Link className={cx('card_title_cate')} to="#">{category.category.toUpperCase()}</Link>
+                                                                    <Link className={cx('card_title_cate')} >{category.category.toUpperCase()}</Link>
                                                                     <span className={cx('card_source')}>
-                                                                        <Link className={cx('card_source_link')} to="#"></Link>
+                                                                        <Link className={cx('card_source_link')} ></Link>
                                                                     </span>
                                                                     <Link to="#" className={cx('review_stars')}>
                                                                         <span className={cx('icon_stars')}>

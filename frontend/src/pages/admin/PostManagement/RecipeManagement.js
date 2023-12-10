@@ -120,7 +120,7 @@ function RecipeManagement() {
             </div>
 
             {/* Quản lý bài bị báo cáo  */}
-            <div className={cx('row')}>
+            {/* <div className={cx('row')}>
                 <div className={cx('col_12')}>
                     <div className={cx('page_title_box')}>
                         <h4 className={cx('page_title')}>Reported recipes are reported</h4>
@@ -174,7 +174,7 @@ function RecipeManagement() {
                         </tbody>
                     </Table>
                 </div>
-            </div>
+            </div> */}
             {showDeletePostModal && <DeletePost
                 setShowDeletePostModal={setShowDeletePostModal}
                 postId={postId}

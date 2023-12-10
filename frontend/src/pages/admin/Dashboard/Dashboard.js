@@ -16,7 +16,6 @@ import {
     ACCESS_TOKEN,
     PROFILE_INFORMATION
 } from "~/constants/constants"
-const accessToken = localStorage.getItem(ACCESS_TOKEN);
 
 const cx = classNames.bind(styles)
 const Dashboard = () => {

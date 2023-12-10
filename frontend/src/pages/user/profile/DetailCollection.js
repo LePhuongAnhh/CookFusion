@@ -61,6 +61,7 @@ function DetailCollection() {
                     Authorization: `Bearer ${accessToken}`
                 }
             });
+            console.log("Token", accessToken)
         } catch (error) {
             console.error("Lỗi xóa bài viết:", error);
         }
