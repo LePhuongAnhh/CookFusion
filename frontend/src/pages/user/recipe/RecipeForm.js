@@ -111,20 +111,6 @@ const RecipeForm = ({ isProfile, category }) => {
                             setRcm(recommend.data.data)
                         }
                     }
-
-                    // get first 4 recipes to display => list new category
-
-                    // Lấy danh sách công thức đã lưu
-                    // const savedRecipes = response.data.savedRecipes;
-
-                    // // Cập nhật trạng thái lưu cho từng công thức
-                    // const updatedRecipes = response.data.map((recipe) => {
-                    //     return {
-                    //         ...recipe,
-                    //         isSaved: savedRecipes.includes(recipe._id),
-                    //     };
-                    // });
-
                     setAllRecipeData(response.data);
                 }
             } catch (error) {

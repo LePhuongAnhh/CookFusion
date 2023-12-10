@@ -67,9 +67,9 @@ const HomepageForm = () => {
                         })
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
-                    console.log(response.data.trendingCountry)
+                    console.log("log ne", response.data.trendingCountry)
 
-                    console.log("baner ne:", response.data.trendingCountry)
+
 
                     setTopUser(response.data.topUser)
                     setRatingCategory(cateRate)
@@ -84,6 +84,7 @@ const HomepageForm = () => {
         }
         )()
     }, [])
+    console.log(" anh banner ne:", listbanner)
 
 
     useEffect(() => {
@@ -100,7 +101,7 @@ const HomepageForm = () => {
                         })
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
-                    console.log(response.data.trendingCountry)
+                    console.log("helo", response.data.trendingCountry)
                     setTopUser(response.data.topUser)
                     setRatingCategory(cateRate)
                     setTopCollections(response.data.topCollections)
@@ -154,7 +155,7 @@ const HomepageForm = () => {
                                             <li className={cx('img_carousel_item_first')}>
                                                 <div className={cx('card_in')}>
                                                     <Link className={cx('card_')} to={`/recipe/${category._id.category_detail[0]._id}`}>
-                                                        {console.log(category._id.category_detail)}
+
                                                         <div className={cx('card_box_in')}>
                                                             <div className={cx('recipe_card_img')}>
                                                                 <img src={category._id.category_detail[0].image} />
@@ -279,10 +280,13 @@ const HomepageForm = () => {
                             <div className={cx('advertisement')}>
                                 <div className={cx('advertisement_container')}>
                                     <div className={cx('advertisement_gird')}>
-                                        {topTrendingCountry.map((banerImage) => (
-                                            <div key={banerImage._id} className={cx('advertisement_carousel')}>
-                                                <img src={banerImage.image} />
-                                            </div>
+
+                                        {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
+                                            <>
+
+                                                <img src={listbanner[0].image} />
+
+                                            </>
                                         ))}
 
                                         <div className={cx('advertisement_box')}>

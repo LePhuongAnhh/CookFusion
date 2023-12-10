@@ -165,37 +165,6 @@ function SurveyUSer({ setShowSurveyUserModal }) {
                                                 ))}
                                             </select>
                                         </div>
-                                        <div className={cx('while_block')}>
-                                            <div className={cx('block_title')}>Your weight</div>
-                                            <div className={cx('while_block_wrapper')}>
-                                                <input
-                                                    placeholder="Enter your weight"
-                                                    min="1"
-                                                    type='number'
-                                                    name='weight'
-                                                    // value={userInput.weight}
-                                                    // onChange={handleInputChange}
-                                                    className={cx('input_text')}
-                                                /> &nbsp; kg
-                                            </div>
-                                        </div>
-
-                                        <div className={cx('while_block')}>
-                                            <div className={cx('block_title')}>Your high</div>
-                                            <div className={cx('while_block_wrapper')}>
-                                                <input
-                                                    required
-                                                    min="1"
-                                                    type='number'
-                                                    name='high'
-                                                    // value={userInput.high}
-                                                    // onChange={handleInputChange}
-                                                    className={cx('input_text')}
-                                                    placeholder="Enter your height"
-                                                />
-                                                &nbsp; cm
-                                            </div>
-                                        </div>
                                     </div>
                                     <div>
                                         <button onClick={handleSubmitSurvey} type='submit' > Submit</button>
