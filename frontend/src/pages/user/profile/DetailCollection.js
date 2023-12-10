@@ -43,7 +43,6 @@ function DetailCollection() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("data one collection nay:", response.data)
                 setCollectionData(response.data);
             } catch (error) {
                 console.error(error);
@@ -51,8 +50,25 @@ function DetailCollection() {
         };
         fetchData();
     }, []);
-    // console.log("Fetching data for id:", collectionData.collections.name);
-    // console.log("data one name:", collectionData.collections[0].name)
+
+    //delete save collection
+    const handleDeleteSave = async (_id, Collection_id) => {
+        try {
+            console.log("_id", _id)
+            console.log("Collection_id", Collection_id)
+            const response = await axios.delete(`${apiUrl}/collection/deleteSaveRecipe`, { _id, Collection_id }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+        } catch (error) {
+            console.error("Lỗi xóa bài viết:", error);
+        }
+    };
+    console.log("one collection id", collectionData?.collections[0]._id)
+    console.log("one collection", collectionData)
+
+
     return (
         <>
             <div className={cx('detail')}>
@@ -97,7 +113,7 @@ function DetailCollection() {
                                                         </Link>
                                                     </div>
                                                     <h3 className={cx('blog_heading')}>
-                                                        {recipe.name} 
+                                                        {recipe.name}
                                                     </h3>
                                                 </Link>
                                                 <hr />
@@ -107,61 +123,19 @@ function DetailCollection() {
                                                         <p className={cx('b_comm', "cursor")}> {recipe.comments} comments</p>
                                                     </div>
                                                     <div className={cx('like')}>
-
-                                                        <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                        <span onClick={() => handleDeleteSave(recipe._id, collectionData?.collections[0]._id)}  >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                                             </svg>
-                                                            {isDropdownOpen && (
-                                                                <div className={cx('dropdown-content')}>
-                                                                    {/* Nội dung của dropdown */}
-                                                                    <div className={cx('action-comment')}>
-                                                                        {/* {recipe.User_id === Account_id && (
-                                                                            <div className={cx('edit')} onClick={() => handleDeleteIconClick(recipe._id)} >
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                                                </svg> &nbsp; Delete
-                                                                            </div>
-                                                                        )} */}
-
-                                                                        {/* {recipe.User_id !== Account_id && (
-                                                                            <div style={{ display: "none" }} className={cx('dropdown', 'review_action')}>
-                                                                                <span className={cx('like_icon')}>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                                {isDropdownOpen && (
-                                                                                    <div className={cx('dropdown-content')}>
-                                                                                        <div className={cx('action-comment')}>
-                                                                                            <div className={cx('edit')} >
-                                                                                                <span>
-                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
-                                                                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                                                                                                    </svg>
-                                                                                                </span>
-                                                                                                <span> Delete</span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                )}
-                                                                            </div>
-                                                                        )} */}
-                                                                    </div>
-                                                                </div>
-                                                            )}
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     {/* </Slider> */}
                                 </div>
-
                                 {showDeleteRecipeModal && (
                                     <DeleteRecipe
                                         setShowDeleteRecipeModal={setShowDeleteRecipeModal}

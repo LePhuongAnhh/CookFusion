@@ -6,21 +6,84 @@ import styles from './HomepageForm.module.scss'
 import classNames from 'classnames/bind'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { ACCESS_TOKEN, apiUrl } from '~/constants/constants';
+import { ACCESS_TOKEN, apiUrl, ROLE } from '~/constants/constants';
+import SurveyUSer from '~/components/Modal/SurveyUser';
 
 const cx = classNames.bind(styles)
 const HomepageForm = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const role = localStorage.getItem(ROLE);
+    console.log('role:', role)
     const [listCategories, setListCategories] = useState([])
     const [topTrending, setTopTrending] = useState([])
     const [categoryRating, setRatingCategory] = useState([])
     const [topUser, setTopUser] = useState([])
     const [topCollections, setTopCollections] = useState([])
     const [topTrendingCountry, setTopTrendingCountry] = useState([])
+    const [isFirstLogin, setIsFirstLogin] = useState(false);
+    const [showSurveyUserModal, setShowSurveyUserModal] = useState(false);
+    const [completedSurvey, setCompletedSurvey] = useState(false);
     const navigate = useNavigate()
     const handleLoadUser = (_id) => {
         navigate(`/profile/${_id}`)
     }
+
+
+    // useEffect(() => {
+    //     const firstLoginStatus = localStorage.getItem('firstLogin');
+    //     console.log('First Login Status:', firstLoginStatus);
+    //     if (firstLoginStatus === 'true' && role === '653b77c56139d7a2604cedb9') {
+    //         console.log('This is the first login!');
+    //         setIsFirstLogin(true);
+    //         setShowSurveyUserModal(true);
+    //     } else {
+    //         console.log('This is NOT the first login!');
+    //     }
+    // }, []);
+
+    // const closeModal = () => {
+    //     setIsFirstLogin(false);
+    //     setShowSurveyUserModal(false);
+    //     // Cập nhật localStorage để không hiển thị modal lần tiếp theo
+    //     localStorage.setItem('firstLogin', 'false');
+    //     // Đánh dấu rằng người dùng đã hoàn thành khảo sát
+    //     setCompletedSurvey(true);
+
+
+
+
+    const [listbanner, setListBanner] = useState([])
+    useEffect(() => {
+        (async () => {
+            try {
+                const [response, banner] = await Promise.all([
+                    axios.get(`${apiUrl}/recipe/gettoptrendingrecipe`),
+                    axios.get(`${apiUrl}/userpackage/getBanner`),
+                ])
+                if (response.data.success) {
+                    setListCategories(response.data.listCategory)
+                    setTopTrending(response.data.topTrending)
+                    const cateRate = response.data.categoryRating
+                    response.data.categoryRating.map((cate, index) => (
+                        response.data.listCategory.map((categoryWithImg) => {
+                            if (cate.category == categoryWithImg.name) cateRate[index] = { ...cate, image: categoryWithImg.image }
+                        })
+                    ))
+                    setTopTrendingCountry(response.data.trendingCountry)
+                    console.log(response.data.trendingCountry)
+                    setTopUser(response.data.topUser)
+                    setRatingCategory(cateRate)
+                    setTopCollections(response.data.topCollections)
+                }
+                if (banner.data.success && banner.data.data.length > 0) {
+                    setListBanner(banner.data.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        )()
+    }, [])
     useEffect(() => {
         (async () => {
             try {
@@ -46,6 +109,7 @@ const HomepageForm = () => {
         }
         )()
     }, [])
+
     return (
         <body>
             <div>
@@ -109,6 +173,14 @@ const HomepageForm = () => {
                                     </ul>
                                 </div>
                             </div>
+
+                            <div>
+                                <button onClick={() => {
+                                    setShowSurveyUserModal(true);
+                                }}>hello</button>
+                            </div>
+
+
 
                             {/* WHAT'S NEW - top article có lượt đánh giá cao nhất */}
                             <div className={cx('home_wrapper')}>
@@ -309,6 +381,12 @@ const HomepageForm = () => {
                 </div >
                 {/* <FooterForm /> */}
             </div >
+            {showSurveyUserModal && (
+                <SurveyUSer
+                    setShowSurveyUserModal={setShowSurveyUserModal}
+                // onComplete={closeModal} 
+                />
+            )}
         </body >
     )
 }

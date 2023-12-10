@@ -308,6 +308,8 @@
 .right_column b {
   font-weight: bolder;
   color: #1b1e35;
+  justify-content: center;
+  display: flex;
   input {
     margin-left: 12px;
     width: 102px;
@@ -332,9 +334,11 @@
 .selected-file {
   img,
   video {
-    max-width: 355px;
-    height: 225px;
+    display: flex;
+    width: 400px;
+    height: 283px;
     border-radius: 8px;
+    margin: 0 auto;
   }
   .remove-file {
     cursor: pointer;

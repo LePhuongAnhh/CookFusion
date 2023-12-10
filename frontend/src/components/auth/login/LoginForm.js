@@ -80,6 +80,8 @@ const LoginForm = () => {
                 localStorage.setItem(ACCESS_TOKEN, response.data.token);
                 localStorage.setItem(PROFILE_INFORMATION, JSON.stringify(response.data.account))
                 localStorage.setItem(ROLE, response.data.account.role);
+
+
                 const role = response.data.account.role
                 if (role === "653b77c46139d7a2604cedb5") { //role admin
                     navigate("/dashboard");
@@ -87,7 +89,10 @@ const LoginForm = () => {
                     navigate('/');
                 } else {
                     navigate('/')
+                    localStorage.setItem('firstLogin', 'true');
                 }
+
+
             }
         } catch (error) {
             setError(error.response.data.message);

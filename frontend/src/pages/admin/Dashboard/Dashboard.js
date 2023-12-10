@@ -47,8 +47,6 @@ const Dashboard = () => {
                     setRatingDev(data)
                     setRatingCategory(response.data.rating)
                     setTopTrending(response.data.recipes)
-
-
                 }
             } catch (error) {
                 console.log(error)

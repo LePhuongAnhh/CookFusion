@@ -11,7 +11,7 @@
 
 .modalContentDeleteIdea {
   width: 710px;
-  height: 500px;
+  height: 535px;
   background-color: white;
   margin: auto;
   z-index: 1;
@@ -151,7 +151,7 @@
     color: var(--main-text-website);
     font-weight: 600;
     background-color: var(--main-background-website);
-    margin-left: 216px;
+    margin-left: 224px;
     border-radius: 5px;
   }
 }
@@ -290,5 +290,22 @@ ul.list-style-none li a {
   &:hover {
     color: #ffffff;
     background-color: var(--main-text-website);
+  }
+}
+
+.update-active {
+  margin: 0px 76px 20px;
+  display: flex;
+  justify-content: end;
+  .btn-update {
+    background: #f9fafd;
+    width: 225px;
+    border-radius: 5px;
+    color: #292e32;
+    font-weight: 500;
+    &:hover {
+      color: #ffffff;
+      background-color: var(--main-text-website);
+    }
   }
 }

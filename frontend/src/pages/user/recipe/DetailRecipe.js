@@ -320,7 +320,7 @@ function DetailRecipe() {
                     <div className={cx('detail_content')}>
                         <nav className={cx('breadcrumb')}>
                             <span className={cx('breadcrumb_link')}>
-                                <Link to="/">Home</Link>
+                                <Link to="/recipe">Recipe</Link>
                             </span>
                             {/* <span className={cx('breadcrumb_separator')} onClick={handleBack}>/ &nbsp;  &nbsp; Back</span> */}
                             <span className={cx('breadcrumb_separator')}> /</span>
@@ -367,15 +367,14 @@ function DetailRecipe() {
 
                                     <div className={cx('note')}>
                                         <p><b>Note:</b>
-                                            <span> Suitable for children aged {recipeData.data[0].minAge} years and up</span>
+                                            <span> Suitable for all people</span>
                                         </p>
                                     </div>
                                 </div>
-                                {/* <div className={cx('line_right')}><hr /></div> */}
                             </div>
                             <div className={cx('detail_left')}>
                                 <div className={cx('detail_left_gird')}>
-                                    <img src={images.img_article} />
+                                    <img width='611' height='433' src={recipeData.data[0].image} />
                                 </div>
                             </div>
                         </div>
@@ -466,7 +465,8 @@ function DetailRecipe() {
                                         <span> {recipeData.data[0].timePrepare} minutes</span>
                                     </div>
                                     <div>
-                                        <p>{recipeData.data[0].prepare}</p>
+                                        <p>{recipeData.data[0].prepare}
+                                            This step is an important stage in every cooking process. In this step, we focus on arranging, checking and preparing all that is necessary to carry out the job smoothly. First, we determine the list of necessary ingredients and tools, check the quality and adjust the quantity if necessary. Next, we arrange the ingredients in an organized manner and label them for easy identification. Careful preparation at this step is the key to achieving success in any mission.</p>
                                     </div>
                                 </div>
                                 <div className={cx('space')}></div>

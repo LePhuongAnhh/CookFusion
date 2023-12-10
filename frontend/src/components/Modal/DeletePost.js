@@ -13,9 +13,7 @@ function DeletePost({ setShowDeletePostModal, postId, setListPost, setTotalPost,
                     Authorization: `Bearer ${accessToken}`
                 }
             });
-
             if (response.data) {
-                console.log("Bài viết đã được xóa");
                 const updatedPosts = listPost.filter(article => article._id !== postId);
                 setTotalPost(updatedPosts.length)
                 setListPost(updatedPosts);

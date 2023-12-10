@@ -12,32 +12,37 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const Account_id = profileInformation._id;
-    const [selectedImage, setSelectedImage] = useState(null);
-    console.log(filteredArticles)
-
-    console.log('id', _id)
+    //thêm state lưu ảnh
     const fileInputRef = useRef(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isNewImageSelected, setIsNewImageSelected] = useState(false);
 
-    const handleUpdateImage = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
-
-    const handleFileInputChange = (event) => {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
             const reader = new FileReader();
-            reader.onload = () => {
-                // Cập nhật ảnh đã chọn
+            reader.onloadend = () => {
                 setSelectedImage(reader.result);
+                setIsNewImageSelected(true);
+                console.log('Selected image:', reader.result);
             };
-            reader.readAsDataURL(selectedFile);
-        }
-        if (fileInputRef.current) {
-            fileInputRef.current.value = null;
+            reader.readAsDataURL(file);
         }
     };
+
+    const handleImageClick = () => {
+        const fileInput = document.getElementById('fileInput');
+        fileInput.click();
+    };
+    const handleImageUpload = (event) => {
+        const selectedFiles = event.target.files;
+        const filesArray = Array.from(selectedFiles);
+        setSelectedImage(filesArray);
+
+        // Update articleData with files
+
+    };
+
 
     const handleActivePost = async (event) => {
         event.preventDefault();
@@ -56,7 +61,8 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
         }
     };
 
-    const handleActiveBanner = async () => {
+    const handleActiveBanner = async (event) => {
+        event.preventDefault();
         try {
             const response = await axios.patch(`${apiUrl}/ads/activeBanner`, { _id: _id },
                 {
@@ -67,6 +73,26 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
             );
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    const handleUpdateImage = async (e) => {
+        e.preventDefault();
+        try {
+            if (!isNewImageSelected) {
+                console.log('No new image selected.');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('image', selectedImage);
+            const response = await axios.patch(`${apiUrl}/ads/update`, _id, formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log('Image uploaded successfully:', response.data);
+        } catch (error) {
+            console.error('Error uploading image:', error);
         }
     };
 
@@ -86,16 +112,18 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                         <div>
                             Choose a photo for the ads
                         </div>
-
                         <div className={cx('upload-file')}>
-                            <label htmlFor="imageInput">Choose Image</label>
                             <input
                                 type="file"
                                 id="imageInput"
                                 accept="image/*"
-                                onChange={handleUpdateImage}
+                                onChange={handleImageChange}
                                 style={{ display: 'none' }}
+                                ref={fileInputRef}
                             />
+                            <label htmlFor="imageInput" className={cx('choose-img-label')}>
+                                Choose Image
+                            </label>
                         </div>
 
                     </div>
@@ -104,7 +132,6 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                             <div className={cx('choose-img')}>
                                 {selectedImage ? (
                                     <div style={{ marginTop: '-74px' }}>
-                                        {/* Display the selected image */}
                                         <img
                                             src={selectedImage}
                                             alt="Selected Image"
@@ -114,8 +141,7 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                                     filteredArticles.map((article, index) => (
                                         <div key={index}>
                                             {article.ads.map((ads) => (
-                                                <div style={{ marginTop: '-74px' }} key={ads._id}>
-
+                                                <div style={{ marginTop: '-95px' }} key={ads._id}>
                                                     <img
                                                         src={ads.image}
                                                         alt={`Ads ${ads._id}`}
@@ -125,11 +151,15 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                                         </div>
                                     ))
                                 )}
+
                             </div>
                         </div>
                     </div>
-
-
+                </div>
+                <div className={cx('update-active')}>
+                    <button type="button" onClick={handleUpdateImage} className={cx('btn-update')}>
+                        Update Image
+                    </button>
                 </div>
                 <div className={cx('active')}>
                     <div>
@@ -144,7 +174,7 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

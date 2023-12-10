@@ -10,7 +10,7 @@ const DeleteRecipe = ({ setShowDeleteRecipeModal, itemId, itemType, setFilteredI
 
     const handleDeleteItem = async () => {
         try {
-            const response = await axios.delete(`${apiUrl}/article/delete/${itemId}`, {
+            const response = await axios.delete(`${apiUrl}/recipe/delete/${itemId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

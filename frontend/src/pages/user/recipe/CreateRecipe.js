@@ -238,8 +238,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     console.log(ingredientsAfterChoosingAIngredient)
 
     const handleIngredientSelect = (ingredient) => {
-        console.log('Selected Ingredients:', selectedIngredients);
-        // let ingre = { name: ingredient.name, quantitative: inputQuantitative, quantitativeUnit: 'grams' };
         const defaultUnit = 'grams';
         let ingre = {
             name: ingredient.name,
@@ -291,6 +289,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         User_id: User_id,
         name: '',
         description: '',
+        prepare: '',
         timeCook: '',
         timePrepare: '',
         nPerson: '',
@@ -299,9 +298,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         ingredients: [],
         steps: [],
     });
-
-    console.log('du lieu nhap vao:', recipeData)
-
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -328,6 +324,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         formData.append('timeCook', updatedRecipeData.timeCook);
         formData.append('timePrepare', updatedRecipeData.timePrepare);
         formData.append('description', updatedRecipeData.description);
+        formData.append('prepare', updatedRecipeData.prepare);
         formData.append('nPerson', updatedRecipeData.nPerson);
         formData.append('Category', selectedCategory);
         formData.append('ingredientsString', JSON.stringify(selectedIngredients))
@@ -582,7 +579,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 <br />
                                             </b>
                                             <textarea
-
+                                                name='prepare'
+                                                onChange={handleInputChange}
+                                                value={recipeData.prepare}
                                                 type="text"
                                                 rows={5}
                                                 placeholder="Input preparations .... "
