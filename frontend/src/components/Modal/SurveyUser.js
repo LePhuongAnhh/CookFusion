@@ -18,7 +18,6 @@ function SurveyUSer({ setShowSurveyModal }) {
 
     // DROPDOWN 
     const [selectedValue, setSelectedValue] = useState('I am healthy');
-
     const handleSelect = (eventKey) => {
         setSelectedValue(eventKey);
     };

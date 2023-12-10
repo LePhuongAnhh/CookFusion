@@ -94,6 +94,7 @@ const HomepageForm = () => {
                                                             </div>
                                                         </div>
                                                     </Link>
+
                                                     <div className={cx('card_info_wrapper')}>
                                                         <div className={cx('card_name')}>
                                                             <Link className={cx('card_title')} to="#">{category._id.category.toUpperCase()}</Link>
@@ -105,7 +106,6 @@ const HomepageForm = () => {
                                                 </div>
                                             </li>
                                         ))}
-
                                     </ul>
                                 </div>
                             </div>

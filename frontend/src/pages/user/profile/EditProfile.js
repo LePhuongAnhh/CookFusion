@@ -23,10 +23,10 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
             setSelectedImage(URL.createObjectURL(selectedFile));
-            setUpdateProfileForm({
-                ...updateProfileForm,
-                avatar: selectedFile,
-            });
+            // setUpdateProfileForm({
+            //     ...updateProfileForm,
+            //     avatar: selectedFile,
+            // });
         }
     };
 

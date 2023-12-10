@@ -163,8 +163,6 @@ function ProfileAds() {
     }, [getAge.dob]);
 
 
-
-
     const gender = profileInformation.gender
     // Hàm để chọn icon dựa trên giới tính
     const getGenderIcon = (gender) => {
@@ -191,8 +189,6 @@ function ProfileAds() {
             setIsBouncing(false);
         }, 2000);
     };
-
-
     return (
         <>
             <div className={cx("w-full", "h-full", "container-profile")}>
@@ -222,7 +218,6 @@ function ProfileAds() {
                                     />
                                 </div>
                             </div>
-
                             <div className={cx('message-bnt')}>
                                 <div className={cx('page-content', 'page-container')} id="page-content">
                                     <div
@@ -242,16 +237,13 @@ function ProfileAds() {
                                         <div onClick={() => handleShowMessageModal(listMessage)} className={cx("toast", "fade-show", "animate__animated", " animate__fadeIn")}>
                                             <button type="submit" className={cx('text-color')}>Message</button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div className={("row")} style={{ margin: ' 70px 90px 30px' }}>
                 {/* left  */}
                 <div className={cx('row-left')}>
@@ -313,11 +305,6 @@ function ProfileAds() {
                                             Article
                                         </div>
                                     </li>
-                                    <li className={cx("nav-item", { 'active': activeTab === 'recipe' })} style={{ marginLeft: "40px" }}>
-                                        <div onClick={() => handleTabChange('recipe')}>
-                                            Recipe
-                                        </div>
-                                    </li>
                                 </ul>
                             </div>
                             {/* HIỂN THỊ TƯƠNG ỨNG */}
@@ -348,14 +335,6 @@ function ProfileAds() {
                                     <div className={cx('post_status')}>
                                         <BlogForm idProfile={id} />
                                     </div>
-                                </div>
-
-                                {/* RECIPE */}
-                                <div id="recipe" className={`tab-pane fade ${activeTab === 'recipe' ? 'show active pt-3' : ''}`}>
-                                    <div className={cx('header-recipe')}>
-                                        <span> Wow, you have created 43 recipes</span>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

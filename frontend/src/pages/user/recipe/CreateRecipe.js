@@ -29,22 +29,23 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const searchInputRef = useRef(null);
     const [categoriesData, setCategoriesData] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-
-
     const [searchTerm, setSearchTerm] = useState('');
 
     const [selectedCategoryIngr, setSelectedCategoryIngr] = useState(null);
     const [categorySelected, setCategorySelected] = useState(false);
     const [selectedIngredient, setSelectedIngredient] = useState(null);
     const [selectedIngredients, setSelectedIngredients] = useState([]);
-    const [inputQuantitative, setInputQuantitative] = useState(1);
+
+
+    const [ingredientsAfterChoosingAIngredient, setIngredientsAfterChoosingAIngredient] = useState([])
+
 
 
     //hiện placeholder
     const [inputPlaceholder, setInputPlaceholder] = useState("Search category of ingredient");
     useEffect(() => {
         if (categorySelected) {
-            setInputPlaceholder(`Search ingredients of ${selectedCategoryIngr}...`);
+            setInputPlaceholder(`Search ingredients of ${selectedCategoryIngr}`);
         } else {
             setInputPlaceholder("Search category of ingredient");
         }
@@ -69,26 +70,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         searchInputRef.current.focus();
     };
 
-    const handleIngredientSelect = (ingredient) => {
-        console.log('Selected Ingredient:', ingredient);
-        // const inputQuantitative = document.getElementById(`quantity-${ingredient.name}`).value;
-        console.log('Input Quantitative:', inputQuantitative);
-
-        let ingre = { name: ingredient.name, quantitative: inputQuantitative, quantitativeUnit: 'grams' };
-        setSelectedIngredient(ingre);
-        setSelectedIngredients([...selectedIngredients, ingre]);
-        setSearchTerm('');
-        setSearchResults([]);
-
-        // Reset state để kết thúc quá trình tìm kiếm và bắt đầu một tìm kiếm mới
-        setSearchTerm('');
-        setSearchResults([]);
-        setSelectedCategoryIngr(null);
-        setCategorySelected(false);
-    };
-
-
-
 
     const performIngredientSearch = (term, ingredients) => {
         return ingredients.filter(ingredient =>
@@ -104,6 +85,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         : [];
 
     const limitedIngredientResults = (searchResults.length > 5) ? searchResults.slice(0, 5) : searchResults;
+    console.log('...', limitedIngredientResults)
 
 
     //xóa ingredient đc chọn
@@ -113,7 +95,6 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         );
         setSelectedIngredients(updatedIngredients);
     };
-
     //hết
 
 
@@ -245,6 +226,8 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         socket.on('searchfood', (data) => {
             if (data.success && data._id == User_id) {
                 console.log(data.data)
+                //them
+                setIngredientsAfterChoosingAIngredient(prevState => prevState.concat(data.data))
                 setSearchResults(data.data)
             }
         })
@@ -252,8 +235,57 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
             socket.off('categories')
         }
     }, []);
+    console.log(ingredientsAfterChoosingAIngredient)
+
+    const handleIngredientSelect = (ingredient) => {
+        console.log('Selected Ingredients:', selectedIngredients);
+        // let ingre = { name: ingredient.name, quantitative: inputQuantitative, quantitativeUnit: 'grams' };
+        const defaultUnit = 'grams';
+        let ingre = {
+            name: ingredient.name,
+            quantitative: 1,
+            quantitativeUnit: defaultUnit
+        };
+        // Update the selected ingredient state
+        setSelectedIngredient(ingre);
+        // Update the selected ingredients list
+        const updatedIngredients = [...selectedIngredients, ingre];
+        setSelectedIngredients(updatedIngredients);
+
+        // Reset state để kết thúc quá trình tìm kiếm và bắt đầu một tìm kiếm mới
+        setSearchTerm('');
+        setSearchResults([]);
+        setSelectedCategoryIngr(null);
+        setCategorySelected(false);
+    };
 
 
+    // lấy số lượng 
+    const handleInputQuantitative = (ingredient, value) => {
+        const updatedIngredient = {
+            ...ingredient,
+            quantitative: value
+        };
+        const updatedIngredients = selectedIngredients.map((item) =>
+            item.name === ingredient.name ? updatedIngredient : item
+        );
+        setSelectedIngredients(updatedIngredients);
+    };
+
+    //lấy đơn vị
+    const handleUnitChange = (ingredient, unit) => {
+        // Update the selected unit for the ingredient
+        const updatedIngredient = {
+            ...ingredient,
+            quantitativeUnit: unit
+        };
+        // Find the selected ingredient in the list and update it
+        const updatedIngredients = selectedIngredients.map((item) =>
+            item.name === ingredient.name ? updatedIngredient : item
+        );
+
+        setSelectedIngredients(updatedIngredients);
+    };
     //ADDRecipe
     const [recipeData, setRecipeData] = useState({
         User_id: User_id,
@@ -268,36 +300,25 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         steps: [],
     });
 
+    console.log('du lieu nhap vao:', recipeData)
+
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setRecipeData({
             ...recipeData,
             [name]: value,
         });
-    };
 
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const nPerson = parseInt(recipeData.nPerson, 10);
         const timePrepare = parseInt(recipeData.timePrepare, 10);
         const timeCook = parseInt(recipeData.timeCook, 10);
-        // const updatedRecipeData = {
-        //     ...recipeData,
-        //     nPerson,
-        //     timePrepare,
-        //     timeCook,
-        // };
-        // Trích xuất số lượng từ mỗi nguyên liệu
-        const updatedIngredients = selectedIngredients.map((ingredient) => {
-            const inputQuantity = document.getElementById(`quantity-${ingredient.name}`);
-            const quantity = inputQuantity ? parseInt(inputQuantity.value, 10) : 1;
-            return { ...ingredient, quantitative: quantity };
-        });
-
         const updatedRecipeData = {
             ...recipeData,
-            ingredients: updatedIngredients,
             nPerson,
             timePrepare,
             timeCook,
@@ -330,6 +351,9 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
         }
     }
 
+    // useEffect(() => { console.log(limitedIngredientResults) }, [limitedIngredientResults])
+
+    console.log(selectedIngredients)
     return (
         <div className={cx('modalDeleteIdea')}>
             <form
@@ -371,8 +395,11 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 <span className={cx('value_time')}>Category</span>
                                             </div>
                                             <select
+                                                name="Category"
+                                                // value={recipeData.Category}
                                                 value={selectedCategory}
                                                 onChange={(e) => setSelectedCategory(e.target.value)}
+                                            // onChange={handleInputChange}
                                             >
                                                 <option value="">Select a category</option>
                                                 {categories.map((category) => (
@@ -500,15 +527,29 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                             </div>
                                                             <li className={cx('ingredient_line')}>
                                                                 <span className={cx('name_ingrs')}>{ingredient.name} : </span> &nbsp;
+                                                                {/* /thêm so lượng và nguyên liệu */}
                                                                 <input
                                                                     type='number'
                                                                     className={cx('input-quantity')}
-                                                                    value={inputQuantitative}
+                                                                    value={ingredient.quantitative}
                                                                     min={1}
-                                                                    onChange={(e) => setInputQuantitative(parseInt(e.target.value, 10))}
+                                                                    onChange={(e) => handleInputQuantitative(ingredient, parseInt(e.target.value, 10))}
                                                                 />
+                                                                <select
+                                                                    value={ingredient.selectedUnit}
+                                                                    onChange={(e) => handleUnitChange(ingredient, e.target.value)}
+                                                                >
+                                                                    {ingredientsAfterChoosingAIngredient.length > 0 && ingredientsAfterChoosingAIngredient.map((result, index) => (
+                                                                        <>
+                                                                            {result.name === ingredient.name && result.units.map((unit, unitIndex) => (
+                                                                                <option value={unit.unit}>
+                                                                                    {unit.unit}
+                                                                                </option>
+                                                                            ))}
 
-
+                                                                        </>
+                                                                    ))}
+                                                                </select>
                                                                 <span className={cx('amount_ingrs')}>
                                                                     <button onClick={() => handleRemoveIngredient(ingredient)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -541,6 +582,7 @@ const CreateRecipe = ({ setShowCreateRecipeModal }) => {
                                                 <br />
                                             </b>
                                             <textarea
+
                                                 type="text"
                                                 rows={5}
                                                 placeholder="Input preparations .... "

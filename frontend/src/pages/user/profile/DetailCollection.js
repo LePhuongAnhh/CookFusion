@@ -46,79 +46,77 @@ function DetailCollection() {
                 console.log("data one collection nay:", response.data)
                 setCollectionData(response.data);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         };
         fetchData();
     }, []);
     // console.log("Fetching data for id:", collectionData.collections.name);
-    console.log("data one name:", collectionData.collections[0].name)
+    // console.log("data one name:", collectionData.collections[0].name)
     return (
         <>
             <div className={cx('detail')}>
                 <div className={cx('header-card', 'header_wrapper', 'list-item')}>
-                    <img className={cx('img-avatar')} src={images.header_planmeal} />
+                    <img className={cx('img-avatar')} src={images?.header_planmeal} />
                 </div>
-                {collectionData.collections[0].name}
+                {collectionData?.collections[0].name}
                 <div className={cx('collection-body')}>
                     <div className={cx('horizontal-scroll-container')} >
-                        {/* {collectionData.collections[0].listRecipe.map((recipe) => ( */}
-                        <div className={cx('category-container')}>
-                            <div className={cx('recipe-list-horizontal')}>
+                        {collectionData?.collections[0].listRecipes.map((recipe) => (
+                            <div key={recipe._id} className={cx('category-container')}>
+                                <div className={cx('recipe-list-horizontal')}>
 
-                                <div className={cx('recipe-item-horizontal')}>
-                                    <div className={cx('blog_card')}>
-                                        <Link
-                                            // to={`/detail/${recipe._id}`}
-                                            className={cx('recipe-item-horizontal')}
-                                        >
-                                            <div className={cx('blog_img')}>
-                                                <img className={cx("blogImg")} src={images.Anh2} />
-                                            </div>
-                                        </Link>
-                                        <div className={cx('blog_tag')}>
-                                            <Link to="#"
+                                    <div className={cx('recipe-item-horizontal')}>
+                                        <div className={cx('blog_card')}>
+                                            <Link
+                                                to={`/detail/${recipe._id}`}
                                                 className={cx('recipe-item-horizontal')}
                                             >
-                                                <div className={cx('blog_date')}>
-                                                    <Link to="#" className={cx('recipe_rating')}>
-
-                                                        {/* <span>{avg}</span> */}
-                                                        {/* <span class={(recipe.avgRating >= 1) ?
-                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == null) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
-                                                            &nbsp;<span class={(recipe.avgRating >= 2) ?
-                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 1 || recipe.avgRating < 1) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
-                                                            &nbsp;<span class={(recipe.avgRating >= 3) ?
-                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 2 || recipe.avgRating < 2) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
-                                                            &nbsp;<span class={(recipe.avgRating >= 4) ?
-                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 3 || recipe.avgRating < 3) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
-                                                            &nbsp;<span class={(recipe.avgRating == 5) ?
-                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 4 || recipe.avgRating < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span> */}
-
-                                                        &nbsp; <span className={cx('count_rating')}> rating</span>
-                                                    </Link>
+                                                <div className={cx('blog_img')}>
+                                                    <img className={cx("blogImg")} src={recipe.image} />
                                                 </div>
-                                                <h3 className={cx('blog_heading')}>
-                                                    {/* {recipe.name} */} name
-                                                </h3>
                                             </Link>
-                                            <hr />
-                                            <div className={cx('view_and_like')}>
-                                                <div className={cx('view')}>
-                                                    {/* <p>15.3K Views</p> */}
-                                                    <p className={cx('b_comm', "cursor")}> comments</p>
-                                                </div>
-                                                <div className={cx('like')}>
+                                            <div className={cx('blog_tag')}>
+                                                <Link to="#"
+                                                    className={cx('recipe-item-horizontal')}
+                                                >
+                                                    <div className={cx('blog_date')}>
+                                                        <Link to="#" className={cx('recipe_rating')}>
+                                                            <span className={(recipe.avgRating >= 1) ?
+                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == null) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                            &nbsp;<span className={(recipe.avgRating >= 2) ?
+                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 1 || recipe.avgRating < 1) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                            &nbsp;<span className={(recipe.avgRating >= 3) ?
+                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 2 || recipe.avgRating < 2) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                            &nbsp;<span className={(recipe.avgRating >= 4) ?
+                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 3 || recipe.avgRating < 3) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
+                                                            &nbsp;<span className={(recipe.avgRating == 5) ?
+                                                                "bi bi-star-fill text-warning" : ((recipe.avgRating == 4 || recipe.avgRating < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
 
-                                                    <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                        </svg>
-                                                        {isDropdownOpen && (
-                                                            <div className={cx('dropdown-content')}>
-                                                                {/* Nội dung của dropdown */}
-                                                                <div className={cx('action-comment')}>
-                                                                    {/* {recipe.User_id === Account_id && (
+                                                            &nbsp; <span className={cx('count_rating')}> ({recipe.ratings})</span>
+                                                        </Link>
+                                                    </div>
+                                                    <h3 className={cx('blog_heading')}>
+                                                        {recipe.name} 
+                                                    </h3>
+                                                </Link>
+                                                <hr />
+                                                <div className={cx('view_and_like')}>
+                                                    <div className={cx('view')}>
+                                                        {/* <p>15.3K Views</p> */}
+                                                        <p className={cx('b_comm', "cursor")}> {recipe.comments} comments</p>
+                                                    </div>
+                                                    <div className={cx('like')}>
+
+                                                        <span className={cx('dropdown', 'review_action')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}  >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                                                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                                            </svg>
+                                                            {isDropdownOpen && (
+                                                                <div className={cx('dropdown-content')}>
+                                                                    {/* Nội dung của dropdown */}
+                                                                    <div className={cx('action-comment')}>
+                                                                        {/* {recipe.User_id === Account_id && (
                                                                             <div className={cx('edit')} onClick={() => handleDeleteIconClick(recipe._id)} >
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
@@ -127,7 +125,7 @@ function DetailCollection() {
                                                                             </div>
                                                                         )} */}
 
-                                                                    {/* {recipe.User_id !== Account_id && (
+                                                                        {/* {recipe.User_id !== Account_id && (
                                                                             <div style={{ display: "none" }} className={cx('dropdown', 'review_action')}>
                                                                                 <span className={cx('like_icon')}>
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -151,30 +149,30 @@ function DetailCollection() {
                                                                                 )}
                                                                             </div>
                                                                         )} */}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        )}
-                                                    </span>
+                                                            )}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* </Slider> */}
                                 </div>
 
-                                {/* </Slider> */}
+                                {showDeleteRecipeModal && (
+                                    <DeleteRecipe
+                                        setShowDeleteRecipeModal={setShowDeleteRecipeModal}
+                                        itemId={recipeIdToDelete}
+                                        itemType="recipe"
+                                        setFilteredItems={setFilteredRecipes}
+                                        filteredItems={filteredRecipes}
+                                    />
+                                )}
                             </div>
-
-                            {showDeleteRecipeModal && (
-                                <DeleteRecipe
-                                    setShowDeleteRecipeModal={setShowDeleteRecipeModal}
-                                    itemId={recipeIdToDelete}
-                                    itemType="recipe"
-                                    setFilteredItems={setFilteredRecipes}
-                                    filteredItems={filteredRecipes}
-                                />
-                            )}
-                        </div>
-                        {/* ))} */}
+                        ))}
                     </div >
                 </div>
             </div>

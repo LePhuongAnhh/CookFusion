@@ -74,8 +74,8 @@ const Article = (props) => {
                     }),
                 ])
                 if (resNotification.data.success && resFollowing.data.success && listads.data.success) {
-                    setNotification(resNotification.data.notifications.slice(0, 5))
-                    setFollowing(resFollowing.data.following.slice(0, 5))
+                    if (resNotification.data.notifications) setNotification(resNotification.data.notifications.slice(0, 5))
+                    if (resFollowing.data.following) setFollowing(resFollowing.data.following.slice(0, 5))
                     setAds(listads.data.data)
                 }
             } catch (error) {

@@ -81,6 +81,7 @@ function Profile() {
     }, [setProfile]
     )
 
+
     const navigate = useNavigate()
     const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false)
     const [showCreateBlogModal, setShowCreateBlogModal] = useState(false)
@@ -93,7 +94,7 @@ function Profile() {
     const accountId = localStorage.getItem(ACCOUNT_ID);
     const [resultPlanData, setResultPlanData] = useState([]);
     const [showCollectionData, setShowCollectionData] = useState([]);
-    const [notification, setNotification] = useState(null);
+    const [isProfile, setIsProfile] = useState(false);
     const updateNewArticle = (data) => {
     }
 
@@ -114,6 +115,7 @@ function Profile() {
     //CHUYEN CAC TAB
     const [activeTab, setActiveTab] = useState('article');
     const handleTabChange = (tabId) => {
+        if (tabId == 'recipe') setIsProfile(true)
         setActiveTab(tabId);
     };
 
@@ -145,8 +147,8 @@ function Profile() {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            console.log("tat ca Dữ liệu từ userCollections: ", response.data);
             const userCollections = response.data.collections.filter(collection => collection.Account_id === Account_id);
-            console.log("Dữ liệu từ userCollections: ", userCollections);
             setShowCollectionData(userCollections);
         } catch (error) {
             console.error("Error fetching collections:", error);
@@ -188,6 +190,7 @@ function Profile() {
     // Delete collection
     const handleDeleteCollection = async (_id, Account_id) => {
         try {
+            console.log(_id)
             const response = await axios.delete(
                 `${apiUrl}/collection/deletecollection`,
                 {
@@ -319,6 +322,7 @@ function Profile() {
         }));
     }, [getAge.dob]);
 
+    //recipe
 
     //PLAN MEAL
     useEffect(() => {
@@ -572,13 +576,12 @@ function Profile() {
                                         <span> Wow, you have created 43 recipes</span>
                                     </div>
                                     <div className={cx('body-recipe')}>
-                                        <RecipeForm idProfile={id} />
+                                        <RecipeForm isProfile={isProfile} />
                                     </div>
                                 </div>
 
                                 {/* PLAN MEAL  */}
                                 <div id="planmeal" className={`tab-pane fade ${activeTab === 'planmeal' ? 'show active pt-3' : ''}`}>
-
                                     <div className={cx('planMeal-text-header')}>
                                         {profileInformation.name} has created {countPlanMealsWithCategory} plans meal &nbsp;
                                         <img width='20px' height='21px' style={{ marginTop: '-5px' }} src={images.congraduate} /> &nbsp;
@@ -601,9 +604,6 @@ function Profile() {
                                                         </div>
                                                         <div className={cx("no-wrap")}>
                                                             <div className={("item-date", "text-muted", "text-sm", "d-none", "d-md-block")}>{format(new Date(plan.createAt), 'MM/dd/yyyy')}
-                                                                {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                                                                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                                                    </svg> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -659,8 +659,8 @@ function Profile() {
                                                         <img className={cx('image-collection')} src={images.Background} />
                                                     </div>
                                                     <div className={cx('name-collection')}>
-                                                        {/* <Link to={`/detailCollection/${collection._id}`}> */}
-                                                        <Link to='/detailCollection'>
+                                                        <Link to={`/detailCollection/${collection._id}`}>
+                                                            {/* <Link to='/detailCollection'> */}
                                                             <div className={cx('name-text', 'name')}>{collection.name}</div>
                                                         </Link>
                                                         <div className={cx('dropdown', 'review_action', 'number-recipe')} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
