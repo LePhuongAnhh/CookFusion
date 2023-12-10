@@ -11,7 +11,15 @@ const cx = classNames.bind(styles)
 function EditProfile({ setShowUpdateProfileModal }) {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
-    profileInformation.dob = new Date(profileInformation.dob).toISOString().substr(0, 10);
+    // profileInformation.dob = new Date(profileInformation.dob).toISOString().substr(0, 10);
+    const dob = profileInformation.dob;
+
+    if (dob && !isNaN(new Date(dob))) {
+        profileInformation.dob = new Date(dob).toISOString().substr(0, 10);
+    } else {
+        // Xử lý trường hợp `dob` không hợp lệ (có thể đặt một giá trị mặc định hoặc thông báo lỗi)
+        console.error('Invalid date of birth:', dob);
+    }
 
     //chọn và hiển thị ảnh
     const [selectedImage, setSelectedImage] = useState(null);
@@ -19,14 +27,15 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const fileInput = document.getElementById('fileInput');
         fileInput.click();
     };
+
     const handleImageUpload = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
             setSelectedImage(URL.createObjectURL(selectedFile));
-            // setUpdateProfileForm({
-            //     ...updateProfileForm,
-            //     avatar: selectedFile,
-            // });
+            setUpdateProfileForm({
+                ...updateProfileForm,
+                avatar: selectedFile,
+            });
         }
     };
 
@@ -35,8 +44,6 @@ function EditProfile({ setShowUpdateProfileModal }) {
         const { name, value } = event.target;
         setUpdateProfileForm({ ...updateProfileForm, [name]: value });
     };
-    console.log('thay doi nhap vao:', updateProfileForm)
-
 
     const updateProfile = async (event) => {
         event.preventDefault();
@@ -49,9 +56,8 @@ function EditProfile({ setShowUpdateProfileModal }) {
         formData.append('gender', updateProfileForm.gender);
         formData.append('country', updateProfileForm.country);
         formData.append('address', updateProfileForm.address);
-        formData.append('avatar', updateProfileForm.avatar);
+        formData.append('file', updateProfileForm.avatar);
 
-        console.log(updateProfileForm.name)
         console.log('Selected File:', updateProfileForm.avatar);
 
         try {

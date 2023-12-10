@@ -573,7 +573,7 @@ function Profile() {
                                 {/* RECIPE */}
                                 <div id="recipe" className={`tab-pane fade ${activeTab === 'recipe' ? 'show active pt-3' : ''}`}>
                                     <div className={cx('header-recipe')}>
-                                        <span> Wow, you have created 43 recipes</span>
+                                        <span> </span>
                                     </div>
                                     <div className={cx('body-recipe')}>
                                         <RecipeForm isProfile={isProfile} />

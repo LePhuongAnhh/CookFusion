@@ -7,7 +7,6 @@ import { io } from 'socket.io-client'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { enUS } from 'date-fns/locale';
 import Slider from "react-slick";
-import ActivePostModal from "./ActivePostModal"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -16,8 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 import {
     apiUrl,
     ACCESS_TOKEN,
-    PROFILE_INFORMATION,
-    ROLE
+    PROFILE_INFORMATION
 } from "~/constants/constants"
 import images from '~/assets/images'
 import styles from './BlogForm.module.scss'
@@ -40,7 +38,6 @@ const BlogForm = ({ idProfile }) => {
         slidesToScroll: 1
     };
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const role = localStorage.getItem(ROLE);
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
     const userId = profileInformation._id
     const authorIdToDisplay = profileInformation._id
@@ -67,19 +64,12 @@ const BlogForm = ({ idProfile }) => {
         return formatDistanceToNow(date, { addSuffix: true, locale: enUS });
     };
 
-    const [showActivePostModal, setShowActivePostModal] = useState(false);
-
     //DELETE IDEA
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [articleIdToDelete, setArticleIdToDelete] = useState(null);
     const handleDeleteIconClick = (articleId) => {
         setArticleIdToDelete(articleId);
         setShowDeleteModal(true);
-    };
-    const [articleIdToActiveAds, setArticleIdToActiveAds] = useState(null)
-    const handleActiveAds = (_id) => {
-        setArticleIdToActiveAds(_id);
-        setShowActivePostModal(true);
     };
     const [changeArticle, setChangeArticle] = useState(null)
 
@@ -104,6 +94,9 @@ const BlogForm = ({ idProfile }) => {
                 });
                 console.log(articlesData)
                 setFilteredArticles(articlesData);
+            }
+            if (filteredArticles.length === 0) {
+                return <p className={cx('loading')}> <Loading /></p>;
             }
 
         } catch (error) {
@@ -141,7 +134,7 @@ const BlogForm = ({ idProfile }) => {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [loadedPosts, loadingMore]);
+    }, [loadedPosts, fetchMoreData, loadingMore]);
 
 
 
@@ -289,11 +282,7 @@ const BlogForm = ({ idProfile }) => {
         }
     };
 
-    if (filteredArticles.length === 0) {
-        return <p className={cx('loading')}> <Loading /></p>;
-    }
 
-    //
 
     return (
         <>
@@ -345,12 +334,6 @@ const BlogForm = ({ idProfile }) => {
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                             <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
-                                                            {article.ads.length > 0 && (
-                                                                <>
-                                                                    <Link to="#" onClick={() => handleActiveAds(article.ads[0]._id)}>Active ads</Link>
-
-                                                                </>
-                                                            )}
                                                         </div>
                                                     ) : <div className={cx('dropdown_content')}>
                                                         <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
@@ -424,7 +407,7 @@ const BlogForm = ({ idProfile }) => {
                                             (article.states.find(state => state.Account_id === authorIdToDisplay)) ? (
                                                 article.states.map((state) => (
                                                     state.Account_id == authorIdToDisplay && (
-                                                        <div key={state._id} className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
+                                                        <div className={cx('emotion_gird')} onClick={() => handleUnState(state)}>
                                                             <img className={cx('ing-emotion')} src={images.afterLike} />
                                                             <span className={cx('like_icon')}></span>
                                                         </div>
@@ -538,15 +521,6 @@ const BlogForm = ({ idProfile }) => {
                     // selectedArticle={selectedArticle}
                     selectedContent={selectedArticle}
                     contentType="article"
-                />
-            )}
-
-            {showActivePostModal && (
-                <ActivePostModal
-                    _id={articleIdToActiveAds}
-                    setShowActivePostModal={setShowActivePostModal}
-                    filteredArticles={filteredArticles}
-
                 />
             )}
 

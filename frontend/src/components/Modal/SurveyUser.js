@@ -20,24 +20,29 @@ function SurveyUSer({ setShowSurveyUserModal }) {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     // DROPDOWN 
-    const [selectedValue, setSelectedValue] = useState('I am healthy');
-    const handleSelect = (eventKey) => {
-        setSelectedValue(eventKey);
-    };
+    const [selectedDisease, setSelectedDisease] = useState({ value: 'Bth', label: 'Toi khoe manh' });
+    const [diseaseOptions, setDisease] = useState([
+    ])
 
+    const [userInput, setUserInput] = useState({
+        User_id: User_id,
+        high: '',
+        weight: '',
+        Disease_id: selectedDisease.value,
+    });
+    console.log(userInput);
 
-    //button
-    const handleBounceClick = () => {
-        const element = document.querySelector('.bouncebutton');
-        element.classList.add('animated', 'bounce');
-        setTimeout(() => {
-            element.classList.remove('bounce');
-        }, 2000);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const numericValue = name === 'high' || name === 'weight' ? parseFloat(value) : value;
+        setUserInput((prevUserInput) => ({
+            ...prevUserInput,
+            [name]: numericValue,
+        }));
     };
 
     //selet DESEASE
-    const [selectedDisease, setSelectedDisease] = useState({ value: 'Bth', label: 'Toi khoe manh' });
-    const [diseaseOptions, setDisease] = useState([])
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -84,6 +89,23 @@ function SurveyUSer({ setShowSurveyUserModal }) {
         fetchData();
     }, [accessToken, User_id, socket]);
 
+    const handleSubmitSurvey = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${apiUrl}/userhealth/addnewafterregister`, userInput,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            console.log('Response:', response);
+        } catch (error) {
+
+        }
+    }
+
+
 
 
 
@@ -107,39 +129,80 @@ function SurveyUSer({ setShowSurveyUserModal }) {
                     <div className={cx('post_status')}>
                         <div className="container-fluid" id="grad1">
                             <div className="row justify-content-center mt-0">
-                                <div className="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
-                                    <div className="px-0 pt-3 pb-0 mb-3">
-                                        <p className={cx('back-food')}>You like</p>
-                                        <div className={cx("wrap-input100 validate-input")}>
-                                            <select
-                                                name="Category"
+                                <form onClick={handleSubmitSurvey}>
+                                    <div className="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+                                        <div className="px-0 pt-3 pb-0 mb-3">
+                                            <p className={cx('back-food')}>You like</p>
+                                            <div className={cx("wrap-input100 validate-input")}>
+                                                <select
+                                                    name="category"
+                                                    value={userInput.category}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                >
+                                                    {/* <option value="">Select a category</option> */}
+                                                    {categories.map((category) => (
+                                                        <option key={category.id} value={category.id}>
+                                                            {category.name}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
 
-                                            >
-                                                <option value="">Select a category</option>
-                                                {categories.map((category) => (
-                                                    <option key={category.id} value={category.id}>
-                                                        {category.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <p className={cx('beenh')}>Do you have any disease?</p>
+                                            <div className={cx('allergy_card')}>
+                                                <select
+                                                    name='Disease_id'
+                                                    value={userInput.Disease_id}
+                                                    onChange={handleInputChange}
+                                                    className={cx('input_allergy')}
+                                                >
+                                                    <option value={selectedDisease.value}>{selectedDisease.label}</option>
+                                                    {diseaseOptions.map((option) => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div className={cx('while_block')}>
+                                                <div className={cx('block_title')}>Your weight</div>
+                                                <div className={cx('while_block_wrapper')}>
+                                                    <input
+                                                        placeholder="Enter your weight"
+                                                        min="1"
+                                                        type='number'
+                                                        name='weight'
+                                                        value={userInput.weight}
+                                                        onChange={handleInputChange}
+                                                        className={cx('input_text')}
+                                                    /> &nbsp; kg
+                                                </div>
+                                            </div>
+
+                                            <div className={cx('while_block')}>
+                                                <div className={cx('block_title')}>Your high</div>
+                                                <div className={cx('while_block_wrapper')}>
+                                                    <input
+                                                        required
+                                                        min="1"
+                                                        type='number'
+                                                        name='high'
+                                                        value={userInput.high}
+                                                        onChange={handleInputChange}
+                                                        className={cx('input_text')}
+                                                        placeholder="Enter your height"
+                                                    />
+                                                    &nbsp; cm
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div>
+                                            <button type='submit' > helo</button>
 
-                                        <p className={cx('beenh')}>Do you have any disease?</p>
-                                        <div className={cx('allergy_card')}>
-                                            <select
-                                                name='disease'
-                                                className={cx('input_allergy')}
-                                            >
-                                                <option value={selectedDisease.value}>{selectedDisease.label}</option>
-                                                {diseaseOptions.map((option) => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
-                                            </select>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div >
