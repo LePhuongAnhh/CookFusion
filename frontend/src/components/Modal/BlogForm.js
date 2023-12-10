@@ -9,6 +9,7 @@ import { enUS } from 'date-fns/locale';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ActivePostModal from "./ActivePostModal"
 
 
 
@@ -46,12 +47,17 @@ const BlogForm = ({ idProfile }) => {
     // Sử dụng hàm này khi người dùng click vào icon comment
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
     const [showUpdateBlogModal, setShowUpdateBlogModal] = useState(false)
+    const [showActivePostModal, setShowActivePostModal] = useState(false);
     //setting comment
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filteredArticles, setFilteredArticles] = useState([]);
     const [loadingMore, setLoadingMore] = useState(false); // State để kiểm tra xem đang fetch thêm dữ liệu hay không
     const [loadedPosts, setLoadedPosts] = useState(10); // Số lượng bài viết đã hiển thị
-
+    const [articleIdToActiveAds, setArticleIdToActiveAds] = useState(null)
+    const handleActiveAds = (_id) => {
+        setArticleIdToActiveAds(_id);
+        setShowActivePostModal(true);
+    };
     const handleMouseEnter = () => {
         setIsDropdownOpen(true);
     };
@@ -334,6 +340,11 @@ const BlogForm = ({ idProfile }) => {
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                             <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
+                                                            {article.ads.length > 0 && (
+                                                                <>
+                                                                    <Link to="#" onClick={() => handleActiveAds(article.ads[0]._id)}>Active ads</Link>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     ) : <div className={cx('dropdown_content')}>
                                                         <Link to="#" onClick={() => handleReport(article._id)}>Report</Link>
@@ -521,6 +532,13 @@ const BlogForm = ({ idProfile }) => {
                     // selectedArticle={selectedArticle}
                     selectedContent={selectedArticle}
                     contentType="article"
+                />
+            )}
+            {showActivePostModal && (
+                <ActivePostModal
+                    _id={articleIdToActiveAds}
+                    setShowActivePostModal={setShowActivePostModal}
+                    filteredArticles={filteredArticles}
                 />
             )}
 

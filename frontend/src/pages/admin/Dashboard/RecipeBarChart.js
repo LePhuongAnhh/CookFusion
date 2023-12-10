@@ -6,7 +6,7 @@ import {
     ACCESS_TOKEN,
     PROFILE_INFORMATION
 } from "~/constants/constants"
-const accessToken = localStorage.getItem(ACCESS_TOKEN);
+
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December']
 const datasets = [
@@ -19,6 +19,7 @@ const datasets = [
     }
 ]
 const RecipeBarChart = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     useEffect(() => {
         (async () => {
             try {

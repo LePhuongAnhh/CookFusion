@@ -163,7 +163,7 @@ const Dashboard = () => {
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')} style={{ margin: "0 20px 0 39px" }}>
-                                    <h6 className={cx('mb-0')}>The chart shows the growth of the account</h6>
+                                    <h6 className={cx('mb-0')}>The chart shows revenue by month</h6>
                                 </div>
                             </div>
                             <div className={cx('card-body')} style={{ padding: "0 120px " }}>
@@ -229,7 +229,7 @@ const Dashboard = () => {
                         <div className={cx('h-100', 'card')} style={{ width: " 330p", marginLeft: "12px" }}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
-                                    <h6 className={cx('mb-0')}>Rating Recipe</h6>
+                                    <h6 className={cx('mb-0')}>Rating of ads package</h6>
                                 </div>
                             </div>
                             <div className={cx('card-body-chart')}>
@@ -243,7 +243,7 @@ const Dashboard = () => {
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
-                                    <h6 className={cx('mb-0')}>Chart showing Ad Pack Delivery</h6>
+                                    <h6 className={cx('mb-0')}>Meal plan by category</h6>
                                 </div>
                             </div>
                             <div className={cx('card-body-piechart')}>

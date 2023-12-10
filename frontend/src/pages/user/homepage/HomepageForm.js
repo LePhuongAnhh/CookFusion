@@ -49,9 +49,6 @@ const HomepageForm = () => {
     //     // Đánh dấu rằng người dùng đã hoàn thành khảo sát
     //     setCompletedSurvey(true);
 
-
-
-
     const [listbanner, setListBanner] = useState([])
     useEffect(() => {
         (async () => {
@@ -71,6 +68,7 @@ const HomepageForm = () => {
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
                     console.log(response.data.trendingCountry)
+
                     console.log("baner ne:", response.data.trendingCountry)
 
                     setTopUser(response.data.topUser)
@@ -281,9 +279,12 @@ const HomepageForm = () => {
                             <div className={cx('advertisement')}>
                                 <div className={cx('advertisement_container')}>
                                     <div className={cx('advertisement_gird')}>
-                                        <div className={cx('advertisement_carousel')}>
-                                            {/* <img src={Background_slide} /> */}
-                                        </div>
+                                        {topTrendingCountry.map((banerImage) => (
+                                            <div key={banerImage._id} className={cx('advertisement_carousel')}>
+                                                <img src={banerImage.image} />
+                                            </div>
+                                        ))}
+
                                         <div className={cx('advertisement_box')}>
                                             {/* <span>Introduction</span>
                                             <h3 className={cx('name_h1')}> Quang cao </h3>
