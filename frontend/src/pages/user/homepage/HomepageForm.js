@@ -12,8 +12,7 @@ import SurveyUSer from '~/components/Modal/SurveyUser';
 const cx = classNames.bind(styles)
 const HomepageForm = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    const role = localStorage.getItem(ROLE);
-    console.log('role:', role)
+    const role = localStorage.getIt
     const [listCategories, setListCategories] = useState([])
     const [topTrending, setTopTrending] = useState([])
     const [categoryRating, setRatingCategory] = useState([])
