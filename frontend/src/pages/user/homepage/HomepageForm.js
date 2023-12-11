@@ -281,7 +281,7 @@ const HomepageForm = () => {
                                     <div className={cx('advertisement_gird')}>
 
 
-                                        <img className={cx('img-banner')} src={listbanner.length > 0 ? listbanner[0].image : ''} />
+                                        <img  className={cx('img-banner')} src={listbanner.length > 0 ? listbanner[0].image : ''} />
 
 
 
