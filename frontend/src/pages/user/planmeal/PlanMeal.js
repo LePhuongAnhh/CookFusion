@@ -42,23 +42,6 @@ const PlanMeal = () => {
                     </div>
                 </div>
 
-                {/* BANNER  */}
-                <div className={cx('advertisement')}>
-                    <div className={cx('advertisement_container')}>
-                        <div className={cx('advertisement_gird')}>
-                            <div className={cx('advertisement_carousel')}>
-                                {/* <img src={Background_slide} /> */}
-                            </div>
-                            <div className={cx('advertisement_box')}>
-                                <span>Introduction</span>
-                                <h3 className={cx('name_h1')}> Quang cao </h3>
-                                <span>
-                                    <Link to="#" className={cx('show_more')}> Show more</Link>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 {/* CHOOSE CATE  */}
                 <div className={cx('create_auto_plan')}>
@@ -81,7 +64,7 @@ const PlanMeal = () => {
                                 </div>
                                 <span className={cx('choose_btn')}>Get Started</span>
                             </Link >
-                            <Link to='/manualPlan' className={cx('automatic_plan')}>
+                            {/* <Link to='/manualPlan' className={cx('automatic_plan')}>
                                 <div className={cx('title_wrapper')}>
                                     <div className={cx('img_plan')}>
                                         <img src={images.manual} />
@@ -98,7 +81,7 @@ const PlanMeal = () => {
                                 </div>
                                 <span className={cx('choose_btn1')}>Get Started</span>
 
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
 

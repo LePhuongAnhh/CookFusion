@@ -121,6 +121,10 @@ const LoginForm = () => {
                         navigate('/');
                     } else {
                         navigate('/')
+                        const firstLoginStatus = localStorage.getItem('firstLogin');
+                        if (firstLoginStatus !== 'false') {
+                            localStorage.setItem('firstLogin', 'false');
+                        }
                     }
                 }
             } catch (error) {

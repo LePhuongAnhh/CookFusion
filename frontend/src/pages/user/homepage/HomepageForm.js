@@ -20,34 +20,33 @@ const HomepageForm = () => {
     const [topUser, setTopUser] = useState([])
     const [topCollections, setTopCollections] = useState([])
     const [topTrendingCountry, setTopTrendingCountry] = useState([])
-    const [isFirstLogin, setIsFirstLogin] = useState(false);
-    const [showSurveyUserModal, setShowSurveyUserModal] = useState(false);
-    const [completedSurvey, setCompletedSurvey] = useState(false);
     const navigate = useNavigate()
     const handleLoadUser = (_id) => {
         navigate(`/profile/${_id}`)
     }
 
+    const [isFirstLogin, setIsFirstLogin] = useState(false);
+    const [showSurveyUserModal, setShowSurveyUserModal] = useState(false);
+    const [completedSurvey, setCompletedSurvey] = useState(false);
+    useEffect(() => {
+        const firstLoginStatus = localStorage.getItem('firstLogin');
+        console.log('First Login Status:', firstLoginStatus);
 
-    // useEffect(() => {
-    //     const firstLoginStatus = localStorage.getItem('firstLogin');
-    //     console.log('First Login Status:', firstLoginStatus);
-    //     if (firstLoginStatus === 'true' && role === '653b77c56139d7a2604cedb9') {
-    //         console.log('This is the first login!');
-    //         setIsFirstLogin(true);
-    //         setShowSurveyUserModal(true);
-    //     } else {
-    //         console.log('This is NOT the first login!');
-    //     }
-    // }, []);
+        if (firstLoginStatus === 'true' && role === '653b77c56139d7a2604cedb9') {
+            console.log('This is the first login!');
+            setIsFirstLogin(true);
+            setShowSurveyUserModal(true);
+        } else {
+            console.log('This is NOT the first login!');
+        }
+    }, []);
 
-    // const closeModal = () => {
-    //     setIsFirstLogin(false);
-    //     setShowSurveyUserModal(false);
-    //     // Cập nhật localStorage để không hiển thị modal lần tiếp theo
-    //     localStorage.setItem('firstLogin', 'false');
-    //     // Đánh dấu rằng người dùng đã hoàn thành khảo sát
-    //     setCompletedSurvey(true);
+    const closeModal = () => {
+        setIsFirstLogin(false);
+        setShowSurveyUserModal(false);
+        localStorage.setItem('firstLogin', 'false');
+        setCompletedSurvey(true);
+    };
 
     const [listbanner, setListBanner] = useState([])
     useEffect(() => {
@@ -67,7 +66,7 @@ const HomepageForm = () => {
                         })
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
-                    console.log("log ne", response.data.trendingCountry)
+                    // console.log("log ne", response.data.trendingCountry)
 
 
 
@@ -84,7 +83,7 @@ const HomepageForm = () => {
         }
         )()
     }, [])
-    console.log(" anh banner ne:", listbanner)
+
 
 
     useEffect(() => {
@@ -101,7 +100,7 @@ const HomepageForm = () => {
                         })
                     ))
                     setTopTrendingCountry(response.data.trendingCountry)
-                    console.log("helo", response.data.trendingCountry)
+                    // console.log("helo", response.data.trendingCountry)
                     setTopUser(response.data.topUser)
                     setRatingCategory(cateRate)
                     setTopCollections(response.data.topCollections)
@@ -146,7 +145,6 @@ const HomepageForm = () => {
                                     </Carousel.Item>
                                 </Carousel>
                             </div>
-
                             {/* TOP RECIPE có lượt đánh giá tốt nhất  */}
                             <div className={cx('recipe_contain')}>
                                 <div className={cx('recipe_card')}>
@@ -155,14 +153,12 @@ const HomepageForm = () => {
                                             <li className={cx('img_carousel_item_first')}>
                                                 <div className={cx('card_in')}>
                                                     <Link className={cx('card_')} to={`/recipe/${category._id.category_detail[0]._id}`}>
-
                                                         <div className={cx('card_box_in')}>
                                                             <div className={cx('recipe_card_img')}>
                                                                 <img src={category._id.category_detail[0].image} />
                                                             </div>
                                                         </div>
                                                     </Link>
-
                                                     <div className={cx('card_info_wrapper')}>
                                                         <div className={cx('card_name')}>
                                                             <Link className={cx('card_title')} to="#">{category._id.category.toUpperCase()}</Link>
@@ -178,14 +174,11 @@ const HomepageForm = () => {
                                 </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <button onClick={() => {
                                     setShowSurveyUserModal(true);
                                 }}>hello</button>
-                            </div>
-
-
-
+                            </div> */}
                             {/* WHAT'S NEW - top article có lượt đánh giá cao nhất */}
                             <div className={cx('home_wrapper')}>
                                 <div className={cx('home_article')}>
@@ -284,17 +277,12 @@ const HomepageForm = () => {
                                         {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
                                             <>
 
-                                                <img src={listbanner[0].image} />
+                                                <img className={cx('img-banner')} src={listbanner[0].image} />
 
                                             </>
                                         ))}
 
                                         <div className={cx('advertisement_box')}>
-                                            {/* <span>Introduction</span>
-                                            <h3 className={cx('name_h1')}> Quang cao </h3>
-                                            <span>
-                                                <Link to="#" className={cx('show_more')}> Show more</Link>
-                                            </span> */}
                                         </div>
                                     </div>
                                 </div>
@@ -394,7 +382,7 @@ const HomepageForm = () => {
             {showSurveyUserModal && (
                 <SurveyUSer
                     setShowSurveyUserModal={setShowSurveyUserModal}
-                // onComplete={closeModal} 
+                    onComplete={closeModal}
                 />
             )}
         </body >

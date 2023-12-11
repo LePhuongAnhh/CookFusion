@@ -29,6 +29,7 @@ function DefaultLayout({ children }) {
     const role = localStorage.getItem(ROLE);
     const [isLoggedIn, setIsLoggedIn] = useState(!!profileInformation);
     const [showChangePassWordModal, setShowChangePassWordModal] = useState(false);
+    const [userRole, setUserRole] = useState('');
     //Lấy thời gian
 
     //logout
@@ -288,15 +289,15 @@ function DefaultLayout({ children }) {
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 d-none d-lg-block d-md-block-d-sm-block d-xs-none text-end">
                                     <span className="me-3">
                                         <Link to="#" className={cx('nav_link')} onClick={handleModeChange}>
-                                            {isDarkMode ? (
+                                            {/* {isDarkMode ? (
                                                 <i className="bi bi-moon-fill"></i>
                                             ) : (
                                                 <i className="bi bi-brightness-high-fill"></i>
-                                            )}
+                                            )} */}
                                         </Link>
                                     </span>
                                     <span className="me-3">
-                                        <i className="fa-solid fa-file  text-muted me-2"></i><Link className="text-muted" to="#">Policy</Link>
+                                        <i className="fa-solid fa-file  text-muted me-2"></i><Link className="text-muted" to="#"></Link>
                                     </span>
                                 </div>
                             </div>
@@ -346,13 +347,60 @@ function DefaultLayout({ children }) {
                                         </div>
                                     </li>
 
-                                    {!isLoggedIn && (
-                                        <li className={cx("nav-item")}>
-                                            <Link className="nav-link mx-2" to="/login">
-                                                Login
-                                            </Link>
-                                        </li>
-                                    )}
+
+                                    {!isLoggedIn ? (
+                                        <>
+                                            <li className="nav-item">
+                                                <a className="nav-link mx-2 active" href="/">
+                                                    Home
+                                                </a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link mx-2 active" href="/recipe">
+                                                    Recipe
+                                                </a>
+                                            </li>
+                                            <li className={cx("nav-item")}>
+                                                <Link className="nav-link mx-2" to="/login">
+                                                    Login
+                                                </Link>
+                                            </li>
+
+                                        </>
+                                        // ) : userRole === '653b77c46139d7a2604cedb7' ? (
+                                        //     <>
+                                        //         <li className="nav-item">
+                                        //             <a className="nav-link mx-2 active" href="/">
+                                        //                 Home
+                                        //             </a>
+                                        //         </li>
+                                        //         <li className="nav-item">
+                                        //             <Link className="nav-link mx-2" to="/login">
+                                        //                 Login
+                                        //             </Link>
+                                        //         </li>
+                                        //     </>
+                                        // ) : userRole === '653b77c56139d7a2604cedb9' ? (
+                                        //     <>
+                                        //         <li className={cx("nav-item")}>
+                                        //             <Link className="nav-link mx-2" to="/login">
+                                        //                 Login
+                                        //             </Link>
+                                        //         </li>
+                                        //         <li className="nav-item">
+                                        //             <a className="nav-link mx-2 active" href="/">
+                                        //                 Home
+                                        //             </a>
+                                        //         </li>
+                                        //         <li className="nav-item">
+                                        //             <a className="nav-link mx-2 active" href="/recipe">
+                                        //                 Recipe
+                                        //             </a>
+                                        //         </li>
+                                        //     </>
+                                    ) : null}
+
+
 
                                     {isLoggedIn && (
                                         <>

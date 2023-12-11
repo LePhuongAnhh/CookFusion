@@ -16,9 +16,10 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
     const fileInputRef = useRef(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isNewImageSelected, setIsNewImageSelected] = useState(false);
-
+    const [fileSend, setFile] = useState(null)
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        setFile(file)
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -84,8 +85,9 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                 return;
             }
             const formData = new FormData();
-            formData.append('image', selectedImage);
-            const response = await axios.patch(`${apiUrl}/ads/update`, _id, formData, {
+            formData.append('file', fileSend);
+            formData.append('_id', _id)
+            const response = await axios.patch(`${apiUrl}/ads/update`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -141,11 +143,14 @@ function ActivePostModal({ setShowActivePostModal, filteredArticles, _id }) {
                                     filteredArticles.map((article, index) => (
                                         <div key={index}>
                                             {article.ads.map((ads) => (
+
                                                 <div style={{ marginTop: '-95px' }} key={ads._id}>
-                                                    <img
-                                                        src={ads.image}
-                                                        alt={`Ads ${ads._id}`}
-                                                    />
+                                                    {ads._id == _id && ads.image != null && (
+                                                        <img
+                                                            src={ads.image}
+                                                            alt={`Ads ${ads._id}`}
+                                                        />
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>

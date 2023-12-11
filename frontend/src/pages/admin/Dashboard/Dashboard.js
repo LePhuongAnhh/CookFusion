@@ -146,7 +146,7 @@ const Dashboard = () => {
 
                 {/* hai chart  */}
                 <div className={cx('g-3', 'mb-3', 'row')}>
-                    <div className={cx('col-lg-6')}>
+                    <div style={{ marginTop: "25px" }} className={cx('col-lg-6')}>
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
@@ -159,7 +159,7 @@ const Dashboard = () => {
 
                         </div>
                     </div>
-                    <div className={cx('col-lg-6')}>
+                    <div style={{ marginTop: "22px" }} className={cx('col-lg-6')}>
                         <div className={cx('h-100', 'card')}>
                             <div className={cx('pd-0', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')} style={{ margin: "0 20px 0 39px" }}>
@@ -174,7 +174,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* top trending recipe  */}
-                <div className={cx('g-3', 'mb-3', 'row')}>
+                <div style={{ marginLeft: "31px", marginTop: "8px" }} className={cx('g-3', 'mb-3', 'row')} >
                     <div className={cx('col-xl-8', 'col-lg-7')}>
                         <div className={cx('h-lg-100', 'overflow-hidden', 'card')} style={{ height: "450px" }}>
                             <div className={cx('pd-0', 'card-header')}>
@@ -188,7 +188,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('col-xl-4', 'col-lg-4')}>
+                    <div className={cx('col-xl-4', 'col-lg-4')} style={{ marginLeft: "8px" }} >
                         <div className={cx('h-lg-100', 'card', "card-gird")}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>
@@ -223,9 +223,9 @@ const Dashboard = () => {
                 </div>
 
                 {/* ******  */}
-                <div className={cx('g-3', 'row')}>
+                <div className={cx('g-3', 'row')} style={{ margin: '40px 24px 0 31px' }}>
                     {/* phai  */}
-                    <div className={cx('order-xxl-1', 'col-xxl-3', 'col-sm-6')}>
+                    <div style={{ width: "39%", marginLeft: '9px' }} className={cx('order-xxl-1', 'col-xxl-3', 'col-sm-6')}>
                         <div className={cx('h-100', 'card')} style={{ width: " 330p", marginLeft: "12px" }}>
                             <div className={cx('py-2', 'bg-light', 'card-header')}>
                                 <div className={cx('align-items-center', 'row')}>

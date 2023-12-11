@@ -147,15 +147,6 @@ const Recipe = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className={cx('gallery_text')}>
-                                <div className={cx('text')}>
-                                    <h2> Breakfast on the go</h2>
-
-                                </div>
-                                <p>
-                                    Check out one of my absolute favorite recipes right now! Full recipe on the blog.
-                                </p>
-                            </div>
                         </div>
                     )}
 

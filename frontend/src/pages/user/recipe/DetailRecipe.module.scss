@@ -225,7 +225,7 @@
 .bottom_recipe,
 .step_recipe_wrapper {
   display: flex;
-  margin: 32px 105px;
+  margin: 24px 117px;
 }
 .recipe_ingredient_wrapper,
 .step_1,
@@ -659,7 +659,7 @@ bi-star-fill {
 /* READ review  */
 .read_review {
   position: relative;
-  margin: 2em 0;
+  margin: 1em 0;
   padding: 1em 0;
   transition: all 400ms ease;
 }
@@ -752,6 +752,7 @@ bi-star-fill {
 
 .show_review {
   margin-top: 14px;
+  margin-left: 50px;
   display: inline-block;
   width: 90%;
   min-height: 2em;

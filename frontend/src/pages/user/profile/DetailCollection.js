@@ -98,7 +98,7 @@ function DetailCollection() {
                                                     className={cx('recipe-item-horizontal')}
                                                 >
                                                     <div className={cx('blog_date')}>
-                                                        <Link to="#" className={cx('recipe_rating')}>
+                                                        {/* <Link to="#" className={cx('recipe_rating')}>
                                                             <span className={(recipe.avgRating >= 1) ?
                                                                 "bi bi-star-fill text-warning" : ((recipe.avgRating == null) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
                                                             &nbsp;<span className={(recipe.avgRating >= 2) ?
@@ -111,7 +111,7 @@ function DetailCollection() {
                                                                 "bi bi-star-fill text-warning" : ((recipe.avgRating == 4 || recipe.avgRating < 4) ? "bi bi-star" : "bi bi-star-half text-warning")}></span>
 
                                                             &nbsp; <span className={cx('count_rating')}> ({recipe.ratings})</span>
-                                                        </Link>
+                                                        </Link> */}
                                                     </div>
                                                     <h3 className={cx('blog_heading')}>
                                                         {recipe.name}
