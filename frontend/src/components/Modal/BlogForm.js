@@ -43,6 +43,7 @@ const BlogForm = ({ idProfile }) => {
     const userId = profileInformation._id
     const authorIdToDisplay = profileInformation._id
     const location = useLocation();
+    const [role, setRole] = useState('');
 
     // Sử dụng hàm này khi người dùng click vào icon comment
     const [showCommentBlogModal, setShowCommentBlogModal] = useState(false)
@@ -340,7 +341,7 @@ const BlogForm = ({ idProfile }) => {
                                                         <div className={cx('dropdown_content')}>
                                                             <Link to="#" onClick={() => setShowUpdateBlogModal(true)}>Update</Link>
                                                             <Link to="#" onClick={() => handleDeleteIconClick(article._id)}>Delete</Link>
-                                                            {article.ads.length > 0 && (
+                                                            {role === "653b77c46139d7a2604cedb7" && article.ads.length > 0(
                                                                 <>
                                                                     <Link to="#" onClick={() => handleActiveAds(article.ads[0]._id)}>Active ads</Link>
                                                                 </>

@@ -47,18 +47,18 @@
 
 /* LEFT  */
 .detail_left {
-  width: 575px;
-  height: 400px;
-  margin-right: 42px;
 }
 .detail_left_gird {
   position: relative;
 }
 
 .detail_left_gird img {
-  width: 100%;
-  border-radius: 5px;
+  width: 500px;
+  height: 400px;
   object-fit: cover;
+  margin: 0 auto;
+  justify-content: center;
+  display: flex;
 }
 
 /* RIGHT  */
