@@ -111,6 +111,7 @@ const HomepageForm = () => {
         }
         )()
     }, [])
+    console.log(listbanner)
 
     return (
         <body>
@@ -151,23 +152,28 @@ const HomepageForm = () => {
                                     <ul className={cx('img_carousel')}>
                                         {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
                                             <li className={cx('img_carousel_item_first')}>
-                                                <div className={cx('card_in')}>
-                                                    <Link className={cx('card_')} to={`/recipe/${category._id.category_detail[0]._id}`}>
-                                                        <div className={cx('card_box_in')}>
-                                                            <div className={cx('recipe_card_img')}>
-                                                                <img src={category._id.category_detail[0].image} />
+                                                {category._id && category._id.national.length > 0 && (
+                                                    <div className={cx('card_in')}>
+                                                        <Link className={cx('card_')} to={`/recipe/${category._id.category_detail[0]._id}`}>
+                                                            {console.log(category._id.category_detail)}
+                                                            <div className={cx('card_box_in')}>
+                                                                <div className={cx('recipe_card_img')}>
+                                                                    <img src={category._id.category_detail[0].image} />
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+
+                                                        <div className={cx('card_info_wrapper')}>
+                                                            <div className={cx('card_name')}>
+                                                                <Link className={cx('card_title')} to="#">{category._id.category.toUpperCase()}</Link>
+                                                                <span className={cx('card_source')}>
+                                                                    <Link className={cx('card_source_link')} to="#">{category._id.national[0].toUpperCase()}</Link>
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                    </Link>
-                                                    <div className={cx('card_info_wrapper')}>
-                                                        <div className={cx('card_name')}>
-                                                            <Link className={cx('card_title')} to="#">{category._id.category.toUpperCase()}</Link>
-                                                            <span className={cx('card_source')}>
-                                                                <Link className={cx('card_source_link')} to="#">{category._id.national[0].toUpperCase()}</Link>
-                                                            </span>
-                                                        </div>
                                                     </div>
-                                                </div>
+                                                )}
+
                                             </li>
                                         ))}
                                     </ul>
@@ -274,13 +280,11 @@ const HomepageForm = () => {
                                 <div className={cx('advertisement_container')}>
                                     <div className={cx('advertisement_gird')}>
 
-                                        {topTrendingCountry.length > 0 && topTrendingCountry.map((category) => (
-                                            <>
 
-                                                <img className={cx('img-banner')} src={listbanner[0].image} />
+                                        <img className={cx('img-banner')} src={listbanner.length > 0 ? listbanner[0].image : ''} />
 
-                                            </>
-                                        ))}
+
+
 
                                         <div className={cx('advertisement_box')}>
                                         </div>
