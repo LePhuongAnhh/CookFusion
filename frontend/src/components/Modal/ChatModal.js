@@ -23,7 +23,7 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
     const handleSendMessage = () => {
         if (sendMessage.trim() != "") {
             //send message
-            const data = {sendMessage,receiver_id:receiver._id}
+            const data = {sender_id:accountId,content:sjcl.encrypt(accountId+receiver._id, sendMessage),receiver_id:receiver._id}
             setSendMessage("")
             socket.emit('sendMessage', data)
         }
@@ -78,8 +78,8 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
 
                                         <div style={{ marginRight: "20px" }}>
                                             <p className={cx("content-chart", 'color')}>
-                                                {/* { sjcl.decrypt(message.sender_id+message.receiver_id,message.content )} */}
-                                                {message.content }
+                                                {sjcl.decrypt(message.sender_id+message.receiver_id,message.content )}
+                                                
                                                 </p>
                                             {
                                                 (index == list.length - 1 || list[index + 1].sender_id !== message.sender_id) && (
@@ -92,8 +92,8 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
                                 ) :
                                     <div className={cx("d-flex", "flex-row", "justify-content-end", "chat-box-right")}>
                                         <div style={{ marginLeft: "20px" }}>
-                                            <p className={cx('content-chat-right', 'background')}>{ message.content 
-                                            // sjcl.decrypt(message.sender_id+message.receiver_id,message.content )
+                                            <p className={cx('content-chat-right', 'background')}>{ 
+                                            sjcl.decrypt(message.sender_id+message.receiver_id,message.content )
                                             }</p>
                                             {
                                                 (index == list.length - 1 || list[index + 1].sender_id !== message.sender_id) && (
