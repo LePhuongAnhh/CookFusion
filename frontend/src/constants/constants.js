@@ -1,4 +1,4 @@
-export const apiUrl = 'http://localhost:9996/api'
+export const apiUrl = 'https://main-service-7gt9.onrender.com/api'
 export const ACCOUNT_ID = 'accountId'
 export const ROLE = 'role'
 export const ACCESS_TOKEN = 'accessToken'

@@ -88,7 +88,8 @@ const AutoPlan = () => {
                     oldUser.weight = getuserHealth.data.data.data.weight
                     setUserInput(oldUser)
                     setSelectedOptionMeal(getuserHealth.data.data.data.meal)
-                    setSelectedActivity(getuserHealth.data.data.data.ActivityMode_id)
+                    console.log(getuserHealth.data.data.data.ActivityMode_id)
+                    if(getuserHealth.data.data.data.ActivityMode_id)setSelectedActivity(getuserHealth.data.data.data.ActivityMode_id)
                 }
             } catch (error) {
                 console.log(error)

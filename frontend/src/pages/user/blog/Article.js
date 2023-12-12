@@ -244,7 +244,8 @@ const Article = (props) => {
                                     <h5 className={cx('header_add_fl')}> Advertisement</h5>
                                     {ads.length > 0 && ads.map((ad) => (
                                         <div key={ad._id}>
-                                            <Link to={`/detailArticle/${ad._id}`} className={cx('ad-link')}>
+                                            {console.log(ad)}
+                                            <Link to={`/detailArticle/${ad.Article_id}`} className={cx('ad-link')}>
                                                 <div className={cx('ad-container')} >
                                                     <p className={cx('ad-title')}>
                                                         <div className={cx('sp-title')}>{ad.title[0]}</div>

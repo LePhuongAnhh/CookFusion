@@ -126,11 +126,8 @@ const ArticleAdsModal = () => {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                // console.log("data nay:", response.data)
             }
-
-
-            if (response.data.sucess) {
+            if (response) {
                 const articlesData = response.data.data.map(article => {
                     const timeUpload = formatDistanceToNow(new Date(article.timeUpload), { addSuffix: true, locale: enUS });
                     const content = article.content;
@@ -220,10 +217,10 @@ const ArticleAdsModal = () => {
             console.error("Lỗi xóa bình luận:", error);
         }
     };
-    console.log("Lỗi xóa bình luận:", filteredArticles.content);
-    if (filteredArticles.length === 0) {
-        return <p className={cx('loading')}> <Loading /></p>;
-    }
+    // console.log("Lỗi xóa bình luận:", filteredArticles.content);
+    // if (filteredArticles.length === 0) {
+    //     return <p className={cx('loading')}> <Loading /></p>;
+    // }
 
     return (
         <>
