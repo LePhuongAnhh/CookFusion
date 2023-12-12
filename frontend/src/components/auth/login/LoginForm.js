@@ -20,7 +20,7 @@ import images from '~/assets/images'
 import { Link } from 'react-router-dom'
 import { io } from 'socket.io-client'
 
-const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 
 const LoginForm = () => {

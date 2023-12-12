@@ -13,7 +13,7 @@ import DeleteBlog from "~/components/Modal/DeleteBlog";
 import CommentBlog from "~/components/Modal/CommentBlog";
 import axios from "axios";
 import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN, ACCOUNT_ID } from '~/constants/constants';
-const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 function ProfileAds() {
     const accessToken = localStorage.getItem(ACCESS_TOKEN)

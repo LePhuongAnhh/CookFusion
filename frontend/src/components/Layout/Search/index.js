@@ -12,7 +12,7 @@ import {
     PROFILE_INFORMATION
 } from "~/constants/constants"
 
-const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 function Search() {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));

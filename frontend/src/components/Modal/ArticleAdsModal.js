@@ -25,7 +25,7 @@ import UpdateBlog from "./UpdateBlog";
 
 import Loading from "../Layout/Loading";
 
-const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const ArticleAdsModal = () => {

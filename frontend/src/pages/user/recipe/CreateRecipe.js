@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet"
 import { io } from 'socket.io-client'
 import axios from "axios";
 
-const socket = io('http://localhost:9996/', { transports: ['websocket'] })
+const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
 const cx = classNames.bind(styles)
 const CreateRecipe = ({ setShowCreateRecipeModal }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
