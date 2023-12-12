@@ -23,7 +23,7 @@ function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handle
     const handleSendMessage = () => {
         if (sendMessage.trim() != "") {
             //send message
-            // const data = {sender_id:accountId,content:sjcl.encrypt(accountId+receiver._id, sendMessage),receiver_id:receiver._id}
+            const data = {sendMessage,receiver_id:receiver._id}
             setSendMessage("")
             socket.emit('sendMessage', data)
         }
