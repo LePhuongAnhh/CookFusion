@@ -17,7 +17,7 @@ import { apiUrl, PROFILE_INFORMATION, ACCESS_TOKEN } from "~/constants/constants
 import DeleteBlog from "./DeleteBlog"
 import UpdateBlog from "./UpdateBlog"
 
-const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
+const socket = io('https://gourmetfoodie.onrender.com/', { transports: ['websocket'] })
 
 const cx = classNames.bind(styles)
 const CommentBlog = ({ id, setShowCommentBlogModal, selectedContent, contentType }) => {

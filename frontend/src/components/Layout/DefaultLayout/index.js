@@ -19,7 +19,7 @@ import Search from '../Search';
 import images from '~/assets/images';
 import ChangePassWord from '~/components/Modal/ChangePassword';
 
-const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
+const socket = io('https://gourmetfoodie.onrender.com/', { transports: ['websocket'] })
 const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function DefaultLayout({ children }) {

@@ -9,7 +9,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client'
 
 const cx = classNames.bind(styles)
-const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
+const socket = io('https://gourmetfoodie.onrender.com/', { transports: ['websocket'] })
 function SurveyUSer({ setShowSurveyUserModal, onComplete }) {
 
     const accessToken = localStorage.getItem(ACCESS_TOKEN);

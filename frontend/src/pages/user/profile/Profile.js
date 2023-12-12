@@ -23,7 +23,7 @@ import RecipeForm from "../recipe/RecipeForm"
 import ChatModal from "~/components/Modal/ChatModal"
 
 
-const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
+const socket = io('https://gourmetfoodie.onrender.com/', { transports: ['websocket'] })
 const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function Profile() {
