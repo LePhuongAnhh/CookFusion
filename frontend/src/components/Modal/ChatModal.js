@@ -11,7 +11,7 @@ import axios from "axios"
 import { apiUrl, ACCOUNT_ID, ACCESS_TOKEN, PROFILE_INFORMATION } from "~/constants/constants";
 
 const socket = io('https://main-service-7gt9.onrender.com/', { transports: ['websocket'] })
-// const sjcl = require('sjcl');
+const sjcl = require('sjcl');
 const cx = classNames.bind(styles)
 function ChatModal({ setShowMessageModal, chat, receiver, setListMessage, handleShowMessageModal }) {
     const profileInformation = JSON.parse(localStorage.getItem(PROFILE_INFORMATION));
