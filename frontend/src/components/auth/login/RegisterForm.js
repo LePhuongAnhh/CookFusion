@@ -98,7 +98,7 @@ const RegisterForm = () => {
         if (password == "" || password == null) {
             check_error_password.innerHTML = "Password cannot be left blank";
         } else if (!regexPassword.test(password)) {
-            check_error_password.innerHTML = "Password must have at least 8 characters, at least 1 capital letter, 1 number and 1 special character";
+            check_error_password.innerHTML = "Must have at least 8 characters, at least 1 capital letter, 1 number and 1 special character";
         } else {
             check_error_password.innerHTML = "";
             return password;
@@ -109,9 +109,9 @@ const RegisterForm = () => {
         var check_error_confirm_password = document.getElementById('error-confirm-password');
         var password = checkPassword();
         if (confirm_password == "" || confirm_password == null) {
-            check_error_confirm_password.innerHTML = "Confirmation password cannot be left blank";
+            check_error_confirm_password.innerHTML = "Confirm Password cannot be left blank";
         } else if (confirm_password != password) {
-            alert('Confirmation password does not match! Please re-enter')
+            check_error_confirm_password.innerHTML = "Confirm Password does not match! Please re-enter";
         } else {
             check_error_confirm_password.innerHTML = "";
             return password;
@@ -201,8 +201,8 @@ const RegisterForm = () => {
                                 onBlur={checkPassword}
                                 onChange={(event) => { handleOnChangeInput(event, "password") }}
                             />
-                            <label>Password *  </label>
-                            <span className={cx('txt-red-password')} id='error-password'></span>
+                            <label>Password *    <span className={cx('txt-red-password')} id='error-password'></span>  </label>
+                            {/* <span className={cx('txt-red-password')} id='error?-password'></span> */}
 
                         </div>
 
@@ -215,7 +215,7 @@ const RegisterForm = () => {
                                 onBlur={checkConfirmPassword}
                                 onChange={(event) => { handleOnChangeInput(event, "rePassword") }}
                             />
-                            <label>Confirm Password  <span className={cx('txt-red')} id='error-confirm-password'></span> *</label>
+                            <label>Confirm Password * <span className={cx('txt-red')} id='error-confirm-password'></span> </label>
 
                         </div>
 
