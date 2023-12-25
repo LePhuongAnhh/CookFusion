@@ -296,7 +296,7 @@ const RecipeForm = ({ isProfile, category }) => {
                                                                 )}
                                                             </button>
                                                         </div>
-                                                        <h3 className={cx('blog_heading')}>
+                                                        <h3 style={{ height: '43px' }} className={cx('blog_heading')}>
                                                             {recipe.name}
 
                                                         </h3>
